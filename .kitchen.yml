@@ -1,0 +1,29 @@
+---
+driver:
+  name: vagrant
+  provider: <%= ENV['KITCHEN_PROVIDER'] || 'virtualbox' %>
+
+provisioner:
+  name: ansible_playbook
+  roles_path: ../../roles
+  hosts: test-kitchen
+#  ansible_verbose: true
+  ansible_verbose: false
+  ansible_verbosity: 3
+  ansible_extra_flags: <%= ENV['ANSIBLE_EXTRA_FLAGS'] %>
+
+platforms:
+### http://kitchen.ci/blog/test-kitchen-windows-test-flight-with-vagrant/
+### FIXME! https://github.com/neillturner/kitchen-ansible/issues/131
+  - name: windows-2012r2
+    transport:
+      name: winrm
+    driver:
+      gui: false
+#      gui: true
+
+suites:
+  - name: default
+    run_list:
+    attributes:
+

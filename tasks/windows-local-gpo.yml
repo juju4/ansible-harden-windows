@@ -1,0 +1,18 @@
+---
+
+## Windows Server 2003, Windows Server 2003 R2, Windows Server 2003 with SP1, Windows Server 2003 with SP2
+## https://technet.microsoft.com/en-ca/library/cc776625%28v=ws.10%29.aspx
+- name: load gpo configuration locally
+  raw: "secedit /configure /cfg {{ harden_win_gpo_inf }} /db {{ harden_win_gpo_db }} /log {{ harden_win_gpo_log }} /quiet"
+## require Windows Script Host
+#  raw: "msiexec /qb /i c:\Program Files (x86)\Microsoft Security Compliance Manager\LGPO\LocalGPO.msi"
+#  raw: "csript c:\Program Files (x86)\LocalGPO\LocalGPO.wsf"
+
+## Microsoft Security Compliance Manager, https://technet.microsoft.com/library/cc677002.aspx
+## https://technet.microsoft.com/en-us/library/jj966254%28v=ws.11%29.aspx
+
+## Administrative Templates for Windows PowerShell (msi)
+## https://www.microsoft.com/en-us/download/details.aspx?id=25119
+
+## Configure Network Level Authentication for Remote Desktop Services Connections, win2008r2+
+## https://technet.microsoft.com/en-us/library/cc732713%28v=ws.11%29.aspx

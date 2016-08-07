@@ -1,0 +1,220 @@
+---
+# Review evt/log files to 100-500M + corresponding GPO
+# https://dfirblog.wordpress.com/2015/10/11/protecting-windows-networks-essential-logging/
+# https://logrhythm.com/fr/blog/powershell-command-line-logging/
+# https://malwarearchaeology.squarespace.com/cheat-sheets/
+# https://support.microsoft.com/en-us/kb/957662
+# https://technet.microsoft.com/en-us/library/cc748849.aspx
+# http://lifeofageekadmin.com/changing-windows-20032008-eventlog-size/
+## FIXME! does not seem to work??? valid in registry but not in computer management (compmgmt.msc)
+- name: Event Log size review - Security
+  win_regedit:
+    key: HKLM:\SYSTEM\CurrentControlSet\Services\EventLog\Security
+    value: MaxSize
+    data: "{{ harden_win_eventlogs_maxsize }}"
+- name: Event Log retention review - Security
+  win_regedit:
+    key: HKLM:\SYSTEM\CurrentControlSet\Services\EventLog\Security
+    value: Retention
+    data: 0
+- name: Event Log size review - System
+  win_regedit:
+    key: HKLM:\SYSTEM\CurrentControlSet\Services\EventLog\System
+    value: MaxSize
+    data: "{{ harden_win_eventlogs_maxsize }}"
+- name: Event Log retention review - System
+  win_regedit:
+    key: HKLM:\SYSTEM\CurrentControlSet\Services\EventLog\System
+    value: Retention
+    data: 0
+- name: Event Log size review - Application
+  win_regedit:
+    key: HKLM:\SYSTEM\CurrentControlSet\Services\EventLog\Application
+    value: MaxSize
+    data: "{{ harden_win_eventlogs_maxsize }}"
+- name: Event Log retention review - Application
+  win_regedit:
+    key: HKLM:\SYSTEM\CurrentControlSet\Services\EventLog\Application
+    value: Retention
+    data: 0
+- name: Event Log size review - Powershell1
+  win_regedit:
+    key: HKLM:\SYSTEM\CurrentControlSet\Services\EventLog\Windows PowerShell
+    value: MaxSize
+    data: "{{ harden_win_eventlogs_maxsize }}"
+- name: Event Log retention review - Powershell1
+  win_regedit:
+    key: HKLM:\SYSTEM\CurrentControlSet\Services\EventLog\Windows PowerShell
+    value: Retention
+    data: 0
+- name: Event Log size review - Powershell2
+  win_regedit:
+    key: HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\WINEVT\Channels\Microsoft-Windows-PowerShell/Operational
+    value: MaxSize
+    data: "{{ harden_win_eventlogs_maxsize }}"
+- name: Event Log retention review - Powershell2
+  win_regedit:
+    key: HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\WINEVT\Channels\Microsoft-Windows-PowerShell/Operational
+    value: Retention
+    data: 0
+- name: Event Log size review - WMI
+  win_regedit:
+    key: HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\WINEVT\Channels\Microsoft-Windows-WMI-Activity/Operational
+    value: MaxSize
+    data: "{{ harden_win_eventlogs_maxsize }}"
+- name: Event Log retention review - WMI
+  win_regedit:
+    key: HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\WINEVT\Channels\Microsoft-Windows-WMI-Activity/Operational
+    value: Retention
+    data: 0
+- name: Event Log size review - Sysmon
+  win_regedit:
+    key: HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\WINEVT\Channels\Microsoft-Windows-Sysmon/Operational
+    value: MaxSize
+    data: "{{ harden_win_eventlogs_maxsize }}"
+- name: Event Log retention review - Sysmon
+  win_regedit:
+    key: HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\WINEVT\Channels\Microsoft-Windows-Sysmon/Operational
+    value: Retention
+    data: 0
+## https://technet.microsoft.com/en-ca/library/dn535776.aspx
+- name: Enable ProcessCreationIncludeCmdLine_Enabled audit
+  win_regedit:
+    key: HKLM:\Software\Microsoft\Windows\CurrentVersion\Policies\System\Audit
+    value: ProcessCreationIncludeCmdLine_Enabled
+    data: 1
+
+# http://blogs.technet.com/b/kfalde/archive/2015/10/02/emet-reporting.aspx
+# https://github.com/kurtfalde/EMET-Reporting
+
+## https://jimshaver.net/2016/02/14/defending-against-mimikatz/
+- name: Enable ProcessCreationIncludeCmdLine_Enabled audit
+  win_regedit:
+    key: HKLM:\System\CurrentControlSet\Control\SecurityProviders\WDigest
+    value: UseLogonCredential
+    data: 0
+
+## PowerShell5, WMF5. regedit or GPO. https://www.fireeye.com/blog/threat-research/2016/02/greater_visibilityt.html
+##      https://blogs.msdn.microsoft.com/powershell/2015/06/09/powershell-the-blue-team/
+##      https://www.blackhat.com/docs/us-14/materials/us-14-Kazanciyan-Investigating-Powershell-Attacks-WP.pdf
+##      http://fr.slideshare.net/Hackerhurricane/ask-aalware-archaeologist/25
+## 	http://www.asd.gov.au/publications/protect/securing-powershell.htm
+## Forward EID 4104 to SIEM at least. https://msdn.microsoft.com/en-us/library/cc748890.aspx
+- name: enable module logging - PowerShell5
+  win_regedit:
+    key: HKLM:\SOFTWARE\Wow6432Node\Policies\Microsoft\Windows\PowerShell\ModuleLogging
+    value: EnableModuleLogging
+    data: 1
+### FIXME! why need to ignore errors???
+- name: enable module logging - PowerShell5 (2)
+  win_regedit:
+    key: 'HKLM:\SOFTWARE\Wow6432Node\Policies\Microsoft\Windows\PowerShell\ModuleLogging \ModuleNames'
+    value: "*"
+    data: "*"
+  ignore_errors: true
+- name: enable script block logging - PowerShell5
+  win_regedit:
+    key: HKLM:\SOFTWARE\Wow6432Node\Policies\Microsoft\Windows\PowerShell\ScriptBlockLogging
+    value: EnableScriptBlockLogging
+    data: 1
+- name: enable transcription - PowerShell5
+  win_regedit:
+    key: HKLM:\SOFTWARE\Wow6432Node\Policies\Microsoft\Windows\PowerShell\Transcription
+    value: EnableTranscripting
+    data: 1
+- name: enable transcription - PowerShell5 (2)
+  win_regedit:
+    key: HKLM:\SOFTWARE\Wow6432Node\Policies\Microsoft\Windows\PowerShell\Transcription
+    value: EnableInvocationHeader
+    data: 1
+- name: enable transcription - PowerShell5 (3)
+  win_regedit:
+    key: HKLM:\SOFTWARE\Wow6432Node\Policies\Microsoft\Windows\PowerShell\Transcription
+    value: OutputDirectory
+## default is %USERPROFILE%\Documents, can be UNC path
+## Dont forget to set appropriate permission, script attached
+    data: ""
+## FIXME! Not recorded
+#    data: "%USERPROFILE%\\AppData\\Roaming\\PowershellTranscripts"
+
+## LSA hardening: Monitor: Operational log under Applications and Services Logs\Microsoft\Windows\CodeIntegrity, ID 3065, 3066, failure: 3033, 3063
+## https://technet.microsoft.com/en-us/security/dn920237.aspx
+## https://technet.microsoft.com/library/dn408187.aspx
+- block:
+    - name: LSA hardening (1)
+      win_regedit:
+        key: HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Image File Execution Options\LSASS.exe
+        value: AuditLevel
+        data: 8
+    - name: LSA hardening (2) - On x86-based or x64-based devices using Secure Boot and UEFI or not
+      win_regedit:
+        key: HKLM:\SYSTEM\CurrentControlSet\Control\Lsa
+        value: RunAsPPL
+        data: 1
+  when: harden_win_lsa_harden is defined and harden_win_lsa_harden
+
+## https://www.sternsecurity.com/blog/local-network-attacks-llmnr-and-nbt-ns-poisoning
+## https://www.tagi.wiki/advisories/smb-relay-how-we-leverage-it-and-how-you-can-stop-us
+## http://windowsitpro.com/networking/q-how-can-i-disable-netbios-over-tcpip-windows-server-core-installations
+## https://technet.microsoft.com/en-us/library/cc775874%28v=ws.10%29.aspx
+- name: Disable Windows Link-Local Multicast Name Resolution (LLMNR)
+  win_regedit:
+    key: HKLM:\Software\Policies\Microsoft\Windows NT\DNSClient
+    value: EnableMulticast
+    data: 0
+### FIXME!
+#- name: Disable Windows Netbios Name Service (NBT-NS)
+##  win_regedit:
+##  key: HKLM:\SYSTEM\CurrentControlSet\services\NetBT\Parameters\Interfaces\xxxGUIDxxx
+##    value: NetbiosOptions
+##    data: 2
+##  command: "wmic /interactive:off nicconfig where TcpipNetbiosOptions={{ item }} call SetTcpipNetbios 2"
+##  with_items:
+##    - 0
+##    - 1
+#   command: 'powershell -Command "set-ItemProperty HKLM:SYSTEMCurrentControlSetservicesNetBTParametersInterfacestcpip* -Name NetbiosOptions -Value 2"'
+
+## http://news.softpedia.com/news/how-to-prevent-zip-files-from-executing-malicious-javascript-behind-your-back-503226.shtml
+## https://labsblog.f-secure.com/2016/04/19/how-to-disable-windows-script-host/
+- name: disable Windows Script Host (1)
+  win_regedit:
+    key: HKLM:\SOFTWARE\Microsoft\Windows Script Host\Settings
+    value: Enabled
+    data: 0
+- name: disable Windows Script Host (2)
+  win_regedit:
+    key: HKLM:\SOFTWARE\Microsoft\Windows Script Host\Settings
+    value: IgnoreUserSettings
+    data: 1
+## not sure about this one?
+#- name: Enable SAFER -  Software Restrictions Policies block scripts
+#  win_regedit:
+#    key: HKLM:\SOFTWARE\Microsoft\Windows Script Host\Settings
+#    value: UseWinSAFER
+#    data: 0
+
+## https://bluesoul.me/2016/05/12/use-gpo-to-change-the-default-behavior-of-potentially-malicious-file-extensions/
+## HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\FileExts\
+## \HKEY_CLASSES_ROOT\Software\Microsoft\Windows\CurrentVersion\Explorer\FileExts
+- name: disable javascript execution by Windows Script Host (2)
+  win_regedit:
+#    key: HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\FileExts\.hta
+    key: "HKCR:\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\FileExts\\.{{ item }}"
+#    value: Enabled
+    data: "%windir%\\system32\\notepad.exe"
+  with_items:
+    - hta
+    - vbs
+## https://isc.sans.edu/diary/Controlling+JavaScript+Malware+Before+it+Runs/21171
+    - js
+    - sct
+    - wsc
+
+## https://blogs.technet.microsoft.com/fdcc/2011/01/24/alwaysinstallelevated-is-equivalent-to-granting-administrative-rights/
+## https://msdn.microsoft.com/en-us/library/windows/desktop/aa367561(v=vs.85).aspx
+- name: Ensure Msiexec only executes with current user privileges
+  win_regedit:
+    key: HKLM:\Software\Policies\Microsoft\Windows\Installer
+    value: AlwaysInstallElevated
+    data: 0
+

@@ -1,0 +1,6 @@
+---
+
+- name: Windows | Harden
+  include: windows.yml
+  when: ansible_os_family == "Windows"
+

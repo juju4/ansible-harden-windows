@@ -1,0 +1,153 @@
+; (c) Microsoft Corporation 1997-2000
+;
+; Security Configuration Template for Security Configuration Editor
+;
+; Template Name:        W2k Workstation.INF
+; Template Version:     05.00.DR.0000
+;
+; Revision History
+; 0000  -	Original
+; May 2001 - SNAC version 1.01a
+; November 2001 - 
+;	Changed the line "RequireLogonToChangePassword = 1" to 
+;	"RequireLogonToChangePassword = 0" under the [System Access] 
+;	section. This line is an artifact from Windows NT 4.0 templates and could have
+;	adverse effects on a user's ability to change password at first logon. If you have
+;	experienced this problem, please reapply this corrected inf file, or, via a 
+;	text editor, create and apply an inf file with only the following lines:
+;	[Unicode]
+;	Unicode=yes
+;	[System Access]
+;	RequireLogonToChangePassword = 0
+
+;	
+;	NOTE: This setting does NOT appear when the template file is viewed graphically in
+;	the MMC.
+;
+; July 2002 -
+;	In the Registry section, corrected the 
+;	MACHINE\System\CurrentControlSet\Control\Wmi\Security to grant Administrators Full 
+;	Control on the key and subkeys
+;
+;  Nov. 2002 -
+;	In the Registry section, corrected the MACHINE\Software\Microsoft\WindowsNT\
+;	CurrentVersion\Perflib to give Creator Owner Full Control on Subkeys only.
+; from nsa
+; modified by tj 16-04-2003, 06-05-2003
+[Unicode]
+Unicode=yes
+[System Access]
+MinimumPasswordAge = 1
+MaximumPasswordAge = 180
+MinimumPasswordLength = 8
+PasswordComplexity = 0
+PasswordHistorySize = 5
+LockoutBadCount = 3
+ResetLockoutCount = 15
+LockoutDuration = 15
+RequireLogonToChangePassword = 0
+ClearTextPassword = 0
+[Kerberos Policy]
+MaxTicketAge = 10
+MaxRenewAge = 7
+MaxServiceAge = 600
+MaxClockSkew = 5
+TicketValidateClient = 1
+[System Log]
+MaximumLogSize = 4194240
+AuditLogRetentionPeriod = 2
+RetentionDays = 7
+RestrictGuestAccess = 1
+[Security Log]
+MaximumLogSize = 4194240
+AuditLogRetentionPeriod = 2
+RetentionDays = 7
+RestrictGuestAccess = 1
+[Application Log]
+MaximumLogSize = 4194240
+AuditLogRetentionPeriod = 2
+RetentionDays = 7
+RestrictGuestAccess = 1
+[Event Audit]
+AuditSystemEvents = 3
+AuditLogonEvents = 3
+AuditObjectAccess = 2
+AuditPrivilegeUse = 2
+AuditPolicyChange = 3
+AuditAccountManage = 3
+AuditProcessTracking = 0
+AuditDSAccess = 0
+AuditAccountLogon = 3
+;CrashOnAuditFull = 1
+CrashOnAuditFull = 0
+[Version]
+signature="$CHICAGO$"
+Revision=1
+; this params are part of NSA inf but limited ;)
+; => mainly to fix some perms issues (registry,etc.)
+[Registry Keys]
+"machine\system\currentcontrolset\control\securepipeservers\winreg",2,"D:PAR(A;CI;KA;;;BA)(A;;KR;;;BO)(A;CI;KA;;;SY)"
+[File Security]
+;"%SystemDrive%\",0,"D:AR(A;OICI;GA;;;BA)(A;OICI;GA;;;SY)(A;OICIIO;GA;;;CO)(A;CIOI;GRGX;;;BU)(A;CI;0x00000004;;;BU)(A;CIIO;0x00000002;;;BU)(A;;GRGX;;;WD)"
+;1="%SystemDrive%\", 0, "D:AR(A;OICI;FA;;;BA)(A;OICIIO;FA;;;CO)(A;OICI;FA;;;SY)(A;OICI;0x1200a9;;;AU)"
+;2="%SystemDrive%\documents and settings\all users\menu démarrer\programmes", 2, "D:AR(A;OICI;FA;;;LA)(A;OICI;FA;;;BA)(A;OICI;FA;;;SY)(A;OICI;DTSDWDWO;;;WD)(A;OICI;0x1200a9;;;AU)"
+;3="%SystemDrive%\winnt", 0, "D:AR(A;OICI;FA;;;LA)(A;OICI;FA;;;BA)(A;OICIIO;0x1301bf;;;CO)(A;OICIIO;FA;;;CO)(A;OICI;FA;;;SY)(A;OICI;SD;;;WD)(A;OICI;0x1200a9;;;AU)"
+;!"%SystemDrive%\Program Files\Resource Pro Kit",2,"D:PAR(A;OICI;FA;;;BA)(A;OICI;FA;;;SY)"
+"%SystemRoot%\security",2,"D:PAR(A;OICI;FA;;;BA)(A;OICIIO;FA;;;CO)(A;OICI;FA;;;SY)"
+"%SystemDrive%\Documents and Settings\Default User",2,"D:PAR(A;OICI;FA;;;BA)(A;OICI;FA;;;SY)(A;OICI;0x1200a9;;;BU)"
+"%SystemDrive%\ntldr",2,"D:PAR(A;OICI;FA;;;BA)(A;OICI;FA;;;SY)"
+"%SystemDrive%\config.sys",2,"D:PAR(A;OICI;FA;;;BA)(A;OICI;FA;;;SY)(A;OICI;0x1200a9;;;BU)"
+"%SystemDrive%\ntdetect.com",2,"D:PAR(A;OICI;FA;;;BA)(A;OICI;FA;;;SY)"
+"%SystemDrive%\boot.ini",2,"D:PAR(A;OICI;FA;;;BA)(A;OICI;FA;;;SY)"
+"%SystemDrive%\autoexec.bat",2,"D:PAR(A;OICI;FA;;;BA)(A;OICI;FA;;;SY)(A;OICI;0x1200a9;;;BU)"
+"%SystemRoot%\Offline Web Pages",1,"D:(A;OICI;GA;;;WD)"
+;!"%SystemDrive%\Documents and Settings\All Users\Documents\DrWatson\drwtsn32.log",2,"D:PAR(A;OICI;FA;;;BA)(A;OICIIO;FA;;;CO)(A;OICI;FA;;;SY)(A;OICI;0x1301bf;;;BU)"
+;!"%SystemRoot%\$NtServicePackUninstall$",2,"D:PAR(A;OICI;FA;;;BA)(A;OICI;FA;;;SY)"
+"%SystemDrive%\boot.ini",2,"D:PAR(A;;FA;;;BA)(A;;FA;;;SY)"
+"%SystemDrive%\ntdetect.com",2,"D:PAR(A;;FA;;;BA)(A;;FA;;;SY)"
+"%SystemDrive%\ntldr",2,"D:PAR(A;;FA;;;BA)(A;;FA;;;SY)"
+;!"%SystemDrive%\ntbootdd.sys",2,"D:PAR(A;;FA;;;BA)(A;;FA;;;SY)"
+"%SystemDrive%\autoexec.bat",2,"D:PAR(A;OICI;FA;;;BA)(A;OICI;FA;;;SY)(A;OICI;0x1200a9;;;BU)"
+"%SystemDrive%\config.sys",2,"D:PAR(A;;FA;;;BA)(A;;FA;;;SY)(A;;0x1200a9;;;BU)"
+"%ProgramFiles%",2,"D:PAR(A;OICI;FA;;;BA)(A;OICIIO;FA;;;CO)(A;OICI;FA;;;SY)(A;OICI;0x1200a9;;;BU)"
+"%SystemRoot%",2,"D:PAR(A;OICI;FA;;;BA)(A;OICIIO;FA;;;CO)(A;OICI;FA;;;SY)(A;OICI;0x1200a9;;;BU)"
+"%SystemRoot%\CSC",2,"D:PAR(A;OICI;FA;;;BA)(A;OICI;FA;;;SY)"
+"%SystemRoot%\debug",0,"D:PAR(A;OICI;FA;;;BA)(A;OICIIO;FA;;;CO)(A;OICI;FA;;;SY)(A;OICI;0x1200a9;;;BU)"
+"%SystemRoot%\Registration",0,"D:PAR(A;OICI;FA;;;BA)(A;OICI;FA;;;SY)(A;OICI;FR;;;BU)"
+"%SystemRoot%\repair",2,"D:PAR(A;OICI;FA;;;BA)(A;OICI;FA;;;SY)"
+"%SystemRoot%\Tasks",1,"D:AR"
+"%SystemRoot%\Temp",2,"D:PAR(A;OICI;FA;;;BA)(A;OICIIO;FA;;;CO)(A;OICI;FA;;;SY)(A;CI;0x100026;;;BU)"
+"%SystemDirectory%",2,"D:PAR(A;OICI;FA;;;BA)(A;OICIIO;FA;;;CO)(A;OICI;FA;;;SY)(A;OICI;0x1200a9;;;BU)"
+;!"%SystemDirectory%\appmgmt",0,"D:PAR(A;OICI;FA;;;BA)(A;OICI;FA;;;SY)(A;OICI;0x1200a9;;;BU)"
+"%SystemDirectory%\DTCLog",0,"D:PAR(A;OICI;FA;;;BA)(A;OICIIO;FA;;;CO)(A;OICI;FA;;;SY)(A;OICI;0x1200a9;;;BU)"
+"%SystemDirectory%\GroupPolicy",0,"D:PAR(A;OICI;FA;;;BA)(A;OICI;0x1200a9;;;AU)(A;OICI;FA;;;SY)"
+"%SystemDirectory%\NTMSData",0,"D:PAR(A;OICI;FA;;;BA)(A;OICI;FA;;;SY)"
+"%SystemDirectory%\Setup",0,"D:PAR(A;OICI;FA;;;BA)(A;OICI;FA;;;SY)(A;OICI;0x1200a9;;;BU)"
+"%SystemDirectory%\ReinstallBackups",1,"D:P(A;OICI;GXGR;;;BU)(A;OICI;GXGR;;;PU)(A;OICI;GA;;;BA)(A;OICI;GA;;;SY)(A;OICI;GA;;;CO)"
+;!"%SystemDirectory%\repl",0,"D:PAR(A;OICI;FA;;;BA)(A;OICI;FA;;;SY)(A;OICI;0x1200a9;;;BU)"
+"%SystemDirectory%\repl\import",0,"D:PAR(A;OICI;FA;;;BA)(A;OICI;0x1301bf;;;RE)(A;OICI;FA;;;SY)(A;OICI;0x1200a9;;;BU)"
+"%SystemDirectory%\repl\export",0,"D:PAR(A;OICI;FA;;;BA)(A;OICI;0x1200a9;;;RE)(A;OICI;FA;;;SY)(A;OICI;0x1200a9;;;BU)"
+"%SystemDirectory%\spool\printers",2,"D:PAR(A;OICI;FA;;;BA)(A;OICIIO;FA;;;CO)(A;OICI;FA;;;SY)(A;CI;DCLCSWWPLO;;;BU)"
+"%SystemDirectory%\config",2,"D:PAR(A;OICI;FA;;;BA)(A;OICI;FA;;;SY)"
+"%SystemDirectory%\dllcache",2,"D:P(A;OICI;GA;;;BA)(A;OICI;GA;;;SY)(A;OICI;GA;;;CO)"
+"%SystemDirectory%\ias",2,"D:P(A;OICI;GA;;;BA)(A;OICI;GA;;;SY)(A;OICI;GA;;;CO)"
+"%SystemDrive%\Documents and Settings",0,"D:PAR(A;OICI;FA;;;BA)(A;OICI;FA;;;SY)(A;OICI;0x1200a9;;;BU)"
+;!"%SystemDrive%\My Download Files",2,"D:PAR(A;OICI;FA;;;BA)(A;OICIIO;FA;;;CO)(A;OICI;FA;;;SY)(A;OICI;0x1201bf;;;BU)"
+"%SystemDrive%\System Volume Information",1,"D:PAR"
+"%SystemDrive%\Temp",2,"D:PAR(A;OICI;FA;;;BA)(A;OICIIO;FA;;;CO)(A;OICI;FA;;;SY)(A;CI;DCLCWP;;;BU)"
+"%SystemDrive%\",0,"D:PAR(A;OICI;FA;;;BA)(A;OICIIO;FA;;;CO)(A;OICI;FA;;;SY)(A;OICI;0x1200a9;;;BU)"
+"%SystemDrive%\IO.SYS",2,"D:PAR(A;OICI;FA;;;BA)(A;OICI;FA;;;SY)(A;OICI;0x1200a9;;;BU)"
+"%SystemDrive%\MSDOS.SYS",2,"D:PAR(A;OICI;FA;;;BA)(A;OICI;FA;;;SY)(A;OICI;0x1200a9;;;BU)"
+"%SystemRoot%\regedit.exe",2,"D:PAR(A;OICI;FA;;;BA)(A;OICI;FA;;;SY)"
+"%SystemDirectory%\rcp.exe",2,"D:PAR(A;OICI;FA;;;BA)(A;OICI;FA;;;SY)"
+"%SystemDirectory%\Ntbackup.exe",2,"D:PAR(A;OICI;FA;;;BA)(A;OICI;FA;;;SY)"
+"%SystemDirectory%\rexec.exe",2,"D:PAR(A;OICI;FA;;;BA)(A;OICI;FA;;;SY)"
+"%SystemDirectory%\rsh.exe",2,"D:PAR(A;OICI;FA;;;BA)(A;OICI;FA;;;SY)"
+"%SystemDirectory%\regedt32.exe",2,"D:PAR(A;OICI;FA;;;BA)(A;OICI;FA;;;SY)"
+;"%SystemDrive%\Documents and Settings\Administrator",2,"D:PAR(A;OICI;FA;;;BA)(A;OICI;FA;;;SY)"
+"%SystemDrive%\Documents and Settings\Administrateur",2,"D:PAR(A;OICI;FA;;;BA)(A;OICI;FA;;;SY)"
+;!"%SystemDrive%\Documents and Settings\All Users\Documents\DrWatson",2,"D:PAR(A;OICI;FA;;;BA)(A;OICIIO;FA;;;CO)(A;OICI;FA;;;SY)(A;OICIIO;DCLCWP;;;BU)(A;OICI;CCSWWPLORC;;;BU)"
+"%SystemDirectory%\secedit.exe",2,"D:PAR(A;OICI;FA;;;BA)(A;OICI;FA;;;SY)"
+"%SystemRoot%\Debug\UserMode",0,"D:PAR(A;OICI;FA;;;BA)(A;OICI;FA;;;SY)(A;;CCDCWP;;;BU)(A;OIIO;DCLC;;;BU)"
+"%SystemDrive%\Documents and Settings\All Users",0,"D:PAR(A;OICI;FA;;;BA)(A;OICI;FA;;;SY)(A;OICI;0x1200a9;;;BU)"
+"%SystemDrive%\documents and settings\all users\menu démarrer\programmes", 2, "D:AR(A;OICI;FA;;;LA)(A;OICI;FA;;;BA)(A;OICI;FA;;;SY)(A;OICI;DTSDWDWO;;;WD)(A;OICI;0x1200a9;;;AU)"

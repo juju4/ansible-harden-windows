@@ -1,0 +1,14 @@
+---
+
+## https://zeltser.com/detect-impede-ransomware/
+## https://digital-forensics.sans.org/blog/2015/04/03/identifying-and-disrupting-crypto-ransomware-and-destructive-malware
+
+- name: Download handle_monitor to watch on ransomware behavior
+  win_get_url:
+    url: 'https://github.com/adamkramer/handle_monitor/releases/download/v1.0/handle_monitor_x64.exe'
+    dest: 'C:\temp\handle_monitor_x64.exe'
+
+## http://www.freeforensics.org/2016/04/a-deeper-explanation-of-how-ransomware_5.html
+- name: create junction to make ransomware loop
+  raw: "mklink /j $ \"C:\Users\Kari\""
+

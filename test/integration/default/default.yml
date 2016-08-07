@@ -1,0 +1,9 @@
+---
+
+- hosts: all
+#- hosts: test-kitchen
+#  vars:
+#    - a:
+  roles:
+    - harden
+

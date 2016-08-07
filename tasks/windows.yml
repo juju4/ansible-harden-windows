@@ -1,0 +1,125 @@
+---
+# https://docs.ansible.com/ansible/intro_windows.html
+# Client should have PowerShell remoting configured
+# Execute: https://github.com/ansible/ansible/blob/devel/examples/scripts/ConfigureRemotingForAnsible.ps1
+
+# https://benchmarks.cisecurity.org/downloads/browse/index.cfm?category=benchmarks.os.windows
+# https://technet.microsoft.com/en-us/library/gg236605.aspx
+# https://technet.microsoft.com/en-us/library/cc677002.aspx
+# http://iase.disa.mil/stigs/Pages/index.aspx
+# http://iase.disa.mil/stigs/Pages/stig-viewing-guidance.aspx
+
+
+#- name: Create temp dir
+#  win_file: path='C:\temp' state=directory
+
+- name: Install all security/critical updates
+  win_updates:
+    category: SecurityUpdates
+    logPath: c:\temp\ansible-updates.log
+  when: harden_win_securityupdates is defined and harden_win_securityupdates
+
+- name: Install packages
+  win_chocolatey:
+    name: "{{ item }}"
+  with_items: "{{ harden_win_chocolateypkgs }}"
+
+# http://www.marksanborn.net/howto/turn-off-unnecessary-windows-services/
+# http://www.7tutorials.com/which-windows-services-are-safe-disable-when
+# http://www.blackviper.com/service-configurations/black-vipers-windows-10-service-configurations/
+- block:
+    - name: Disable unnecessary services
+      win_service:
+        name: "{{ item }}"
+        start_mode: disabled
+        state: stopped
+      with_items: "{{ harden_win_services_disable }}"
+      ignore_errors: true
+
+    - name: Set some services in manual start
+      win_service:
+        name: "{{ item }}"
+        start_mode: manual
+      with_items: "{{ harden_win_services_manual }}"
+      ignore_errors: true
+  when: harden_win_services is defined and harden_win_services
+
+## TODO: Enable AppLocker in audit mode
+## https://www.sixdub.net/?p=367
+## https://dfir-blog.com/2016/01/03/protecting-windows-networks-applocker/
+## http://www.scip.ch/en/?labs.20150507
+## https://www.sysadmins.lv/blog-en/powershell-50-and-applocker-when-security-doesnt-mean-security.aspx
+## block: C:\temp, C:\ProgramData, Recycle Bin
+## block for non-admin users: Powershell+ddl? Deny: %SYSTEM32%\Windows\PowerShell\*
+
+- name: Disable IGMP
+  raw: "Netsh interface ipv4 set global mldlevel=none"
+
+## EMET_Conf.exe -export EMET_Endpoint_Profile.xml
+#- win_stat: path={{ harden_win_emet_conf }}
+#  register: emetconf
+## FIXME! fails on ParserError: (:) [], ParentContainsErrorRecordException\r\n+ FullyQualifiedErrorId : UnexpectedToken
+#- name: EMET Configuration
+#  raw: "\"{{ harden_win_emet_path }}\\EMET_Conf.exe\" -import \"{{ harden_win_emet_conf }}\" --system DEP=AlwaysOn SEHOP=ApplicationOptOut"
+#  when: emetconf.stat.exists
+
+## win_regedit: New in ansible version 2.0
+- include: windows-registry.yml
+- include: windows-wmi.yml
+- include: adobereader.yml
+  when: harden_win_adobereader is defined and harden_win_adobereader
+- include: windows-flash.yml
+  when: harden_win_flash is defined and harden_win_flash
+
+## Powershell profile
+## https://www.fireeye.com/blog/threat-research/2016/02/greater_visibilityt.html
+## http://fr.slideshare.net/Hackerhurricane/ask-aalware-archaeologist/25
+## https://logrhythm.com/fr/blog/powershell-command-line-logging/
+## FIXME! french characters issue in path?
+- name: set powershell profile
+  win_template: src=Profile.ps1.j2 dest="c:\windows\system32\WindowsPowershell\v1.\Profile.ps1"
+  ignore_errors: true
+
+# https://gallery.technet.microsoft.com/scriptcenter/2d191bcd-3308-4edd-9de2-88dff796b0bc
+- name: Download Windows Update PowerShell Module
+  win_get_url:
+    url: 'https://gallery.technet.microsoft.com/scriptcenter/2d191bcd-3308-4edd-9de2-88dff796b0bc/file/41459/43/PSWindowsUpdate.zip'
+    dest: 'C:\temp\PSWindowsUpdate.zip'
+
+## Sysmon, https://gist.github.com/Neo23x0/f56bea38d95040b70cf5
+##  https://onedrive.live.com/view.aspx?resid=D026B4699190F1E6!2575 (RSA 2016)
+## http://www.darkoperator.com/blog/2014/8/8/sysinternals-sysmon
+#PS > Get-WinEvent -FilterHashtable @{logname="Microsoft-Windows-Sysmon/Operational";}
+- block:
+    - name: download sysmon
+      win_get_url:
+        url: https://download.sysinternals.com/files/Sysmon.zip
+        dest: c:\temp\sysmon.zip
+    - name: unzip sysmon
+      win_unzip:
+        src: c:\temp\sysmon.zip
+        dest: c:\temp\sysmon
+    - name: install sysmon
+      raw: 'c:\temp\sysmon\sysmon -i -n -accepteula'
+      ignore_errors: true
+  when: harden_win_sysmon is defined and harden_win_sysmon
+#  raw: 'c:\temp\sysmon\sysmon -i -n -accepteula c:\SysmonConfig.xml'
+
+## PECaptureSvc, https://isc.sans.edu/forums/diary/Hunting+for+Executable+Code+in+Windows+Environments/20745/
+
+## access time within Ntfs
+## volume shadow copies
+## central logging / windows event log forwarding
+## https://blog.brankovucinec.com/2014/10/24/use-software-restriction-policies-to-block-viruses-and-malware/ = SRP lock on %APPDATA%
+
+## Ansible v2: Windows Firewall configuration, http://docs.ansible.com/ansible/win_firewall_rule_module.html
+#- name: Enable Windows Firewall
+#  win_firewall_rule: enable=yes
+
+- include: windows-local-gpo.yml
+  when: harden_win_gpo_local is defined and harden_win_gpo_local
+
+- include: windows-nxlog.yml
+  when: harden_win_remotelogging is defined and harden_win_remotelogging
+
+

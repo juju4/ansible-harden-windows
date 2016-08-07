@@ -1,0 +1,19 @@
+---
+
+- win_stat: path="C:\\temp\\{{ harden_win_remotelogging_nxlog_url | basename }}"
+  register: nxlogdl
+- name: Download NXLog CE
+  win_get_url:
+    url: "{{ harden_win_remotelogging_nxlog_url }}"
+    dest: "C:\\temp\\{{ harden_win_remotelogging_nxlog_url | basename }}"
+  when: not nxlogdl.stat.exists
+
+- name: Install NXLog CE
+  win_msi: path="C:\\temp\\{{ harden_win_remotelogging_nxlog_url | basename }}" wait=true
+
+## nxlog configuration or graylog sidecar?
+## http://www.systeen.com/2016/05/12/install-graylog-2-0-centos-7-collect-windows-logs/
+## https://github.com/Graylog2/collector-sidecar/releases
+#"C:\Program Files (x86)\graylog\collector-sidecar\graylog-collector-sidecar.exe" -service install
+#"C:\Program Files (x86)\graylog\collector-sidecar\graylog-collector-sidecar.exe" -service start
+

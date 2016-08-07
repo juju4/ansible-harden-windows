@@ -1,0 +1,18 @@
+---
+dist: trusty
+language: python
+python: "2.7"
+before_install:
+ - ln -s ansible-harden-openbsd ../harden-openbsd
+install:
+  - pip install ansible ansible-lint
+  - ansible --version
+  - "{ echo '[defaults]'; echo 'roles_path = ../'; } >> ansible.cfg"
+script:
+  - "echo \"[test-kitchen]\nlocalhost\" > inventory"
+
+  - "ansible-lint tasks/main.yml"
+
+# Check the role/playbook's syntax.
+  - "ansible-playbook -i inventory --syntax-check test/integration/default/default.yml"
+

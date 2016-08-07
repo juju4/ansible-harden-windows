@@ -1,0 +1,16 @@
+---
+
+## https://blog.ropnop.com/using-credentials-to-own-windows-boxes-part-3-wmi-and-winrm/
+## https://msdn.microsoft.com/en-us/library/windows/desktop/aa826686(v=vs.85).aspx
+- name: Get WMI Tracing state
+  raw: "Wevtutil.exe gl Microsoft-Windows-WMI-Activity/Trace"
+  register: wmilogging
+  changed_when: false
+#- debug: var=wmilogging
+- name: Enabling WMI Tracing
+#  raw: "Wevtutil.exe sl Microsoft-Windows-WMI-Activity/Trace /e:true"
+  raw: "echo y | Wevtutil.exe sl Microsoft-Windows-WMI-Activity/Trace /e:true /ms:512000 /q"
+#  when: wmilogging.stdout.find('false') != -1
+  when: wmilogging.stdout.find("enabled{{ ':' }} false") != -1
+  ignore_errors: true
+

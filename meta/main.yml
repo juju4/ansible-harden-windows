@@ -1,0 +1,16 @@
+---
+galaxy_info:
+  author: juju4
+  description: Windows Hardening role
+  license: BSD
+  min_ansible_version: 2.0
+  platforms:
+  - name: Windows
+    versions:
+     - 7
+     - 10
+  categories:
+    - system
+    - security
+dependencies:
+

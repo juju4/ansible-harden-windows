@@ -1,0 +1,8 @@
+---
+
+## https://sverdis.com/hardening-flash-mission-impossible/
+## http://www.adobe.com/content/dam/Adobe/en/devnet/flashplayer/pdfs/flash_player_17_0_admin_guide.pdf
+
+- name: Win | (try to) harden flash
+  win_template: src=mms.cfg.j2 dest=c:\Windows\SysWow64\Macromed\Flash
+

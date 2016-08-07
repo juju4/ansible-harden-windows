@@ -1,0 +1,89 @@
+---
+
+## Windows
+harden_win_securityupdates: false
+harden_win_services: true
+harden_win_sysmon: true
+harden_win_gpo_local: false
+harden_win_gpo_inf: win7-computer-security.inf
+harden_win_gpo_db: "%systemRoot%\\security\\database\\newdb.sdb"
+harden_win_gpo_log: c:\windows\temp\secedit.txt
+## User Account Control: Run all administrators in Admin Approval Mode
+harden_win_gpo_EnableLUA: true
+## Note: this one corrupts win10 eval currently...
+harden_win_lsa_harden: false
+harden_win_emet_path: 'c:\Program Files (x86)\EMET 5.5'
+harden_win_emet_conf: "{{ harden_win_emet_path }}\\Deployment\\Protection Profiles\\Recommended Software.xml"
+harden_win_flash: true
+harden_win_adobereader: true
+#harden_win_adobereader_v: '11.0'
+harden_win_adobereader_v: 'DC'
+## 300MB = 314572 (default in kb)
+harden_win_eventlogs_maxsize: 314572
+harden_win_chocolateypkgs:
+# http://windows.microsoft.com/en-us/windows/security-essentials-all-versions
+## FAIL since 4m: https://gist.github.com/choco-bot/85701f4e87e16efed5be
+#    - microsoftsecurityessentials
+    - emet
+## currently only powershell4, 2016/03 (v5 under moderation/testing)
+    - powershell
+## for test
+    - adobereader
+    - procexp
+#    - sysinternals
+harden_win_remotelogging: true
+harden_win_remotelogging_nxlog_url: https://nxlog.co/system/files/products/files/1/nxlog-ce-2.9.1504.msi
+harden_win_services_disable:
+## Win10 default: only fax and retaildemo
+    - AdobeLM Service
+    - Fast User Switching Compatibility
+    - Error Reporting Service
+    - FTP Publishing
+#    - Indexing Service
+    - InstallDriver Table Manager
+    - Windows Messenger
+    - NetMeeting Remote Desktop Sharing
+    - Network Provisioning Service
+    - NT LM Security Support Provider
+    - Remote Desktop Help Session Manager
+    - Remote Registry
+#    - Security Accounts Manager
+#    - Security Center
+    - Smart Card
+    - SSDP Discovery Service
+    - Telnet
+    - Terminal Services
+    - Uninterrupted Power Supply
+#    - Volume Shadow Copy
+    - Windows Firewall/Internet Connection Sharing (ICS)
+    - Fax
+    - Offline Files
+    - Geolocation Service
+    - Sensor Service
+    - Routing and Remote Access
+    - RetailDemo
+
+harden_win_services_manual:
+    - Application Management
+    - Cryptographic Services
+    - Distributed Transaction Service
+    - Help and Support
+    - HTTP SSL
+    - IMAPI CD-Burning COM Service
+    - IPSEC Services
+    - MS Software Shadow Copy Provider
+    - Portable Media Serial Number Service
+    - Remote Procedure Call Locator
+    - Removable Storage
+    - Routing and Remote Access
+    - Secondary Logon
+    - Server
+    - TCP/IP NetBIOS Helper
+    - Universal Plug and Play Device Host
+    - User Privilege Service
+# If no network
+#    - Alerter 
+#    - ClipBook
+#    - Computer Browser
+#    - Net Logon
+
