@@ -5,5 +5,5 @@
 #  vars:
 #    - a:
   roles:
-    - harden
+    - harden-windows
 
