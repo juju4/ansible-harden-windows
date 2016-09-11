@@ -14,12 +14,17 @@ harden_win_gpo_EnableLUA: true
 harden_win_lsa_harden: false
 harden_win_emet_path: 'c:\Program Files (x86)\EMET 5.5'
 harden_win_emet_conf: "{{ harden_win_emet_path }}\\Deployment\\Protection Profiles\\Recommended Software.xml"
+harden_win_vss: true
 harden_win_flash: true
 harden_win_adobereader: true
 #harden_win_adobereader_v: '11.0'
 harden_win_adobereader_v: 'DC'
-## 300MB = 314572 (default in kb)
-harden_win_eventlogs_maxsize: 314572
+## 300MB = 314572 (default in kb) = 315801600
+## Reco Microsoft 4GB, https://support.microsoft.com/en-ca/kb/957662
+harden_win_eventlogs_maxsize: 315801600
+
+harden_windows_disable_wpad: true
+
 harden_win_chocolateypkgs:
 # http://windows.microsoft.com/en-us/windows/security-essentials-all-versions
 ## FAIL since 4m: https://gist.github.com/choco-bot/85701f4e87e16efed5be
@@ -32,7 +37,7 @@ harden_win_chocolateypkgs:
     - procexp
 #    - sysinternals
 harden_win_remotelogging: true
-harden_win_remotelogging_nxlog_url: https://nxlog.co/system/files/products/files/1/nxlog-ce-2.9.1504.msi
+harden_win_remotelogging_nxlog_url: https://nxlog.co/system/files/products/files/1/nxlog-ce-2.9.1716.msi
 harden_win_services_disable:
 ## Win10 default: only fax and retaildemo
     - AdobeLM Service
@@ -62,6 +67,14 @@ harden_win_services_disable:
     - Sensor Service
     - Routing and Remote Access
     - RetailDemo
+## WinHTTP Web-Proxy Auto-Discovery service (WPAD) + dependencies:
+    - WinHttpAutoProxySvc
+    - iphlpsvc
+    - NcaSvc
+## using IPSec or not ?
+    - PolicyAgent
+## iSCSI ?
+    - MSiSCSI
 
 harden_win_services_manual:
     - Application Management

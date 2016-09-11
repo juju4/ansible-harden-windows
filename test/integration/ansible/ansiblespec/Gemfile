@@ -1,0 +1,4 @@
+source 'https://rubygems.org'
+
+gem 'rake'
+gem 'busser-ansiblespec', '<=0.6.5'

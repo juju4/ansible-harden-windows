@@ -7,20 +7,25 @@ ENV['VAGRANT_DEFAULT_PROVIDER'] = 'virtualbox'
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 ## Note: you need to set up a windows box manually
 ## http://kitchen.ci/blog/test-kitchen-windows-test-flight-with-vagrant/
-    config.vm.box = "eval-windows-2012r2"
+    #config.vm.box = "eval-windows-2012r2"
+    config.vm.box = "windows-2012r2"
 
     config.vm.provision :ansible do |ansible|
        ansible.playbook = "site.yml"
        #ansible.verbose = "vvvv"
        #ansible.host_key_checking = false
        #ansible.limit = 'all'
-       ansible.sudo = true
-       ansible.extra_vars = { ansible_ssh_user: 'vagrant' }
+       ansible.sudo = false
+#       ansible.extra_vars = { ansible_ssh_user: 'vagrant' }
        ansible.groups = {
           "myrole" => ["vhost" ],
        }
     end
 
+## FIXME! WARN  WinRM::WinRMWebService : [WinRM] connection failed, terminating (#<WinRM::WinRMHTTPTransportError: Unable to parse WinRM response: Missing end tag for 'META' (got "HEAD")
+#    config.vm.provision :serverspec do |spec|
+#        spec.pattern = '../../test/integration/default/serverspec/*_spec.rb'
+#    end
     config.vm.define "vhost" do |vhost|
         vhost.vm.hostname = "vhost"
         vhost.vm.provider "virtualbox" do |v|

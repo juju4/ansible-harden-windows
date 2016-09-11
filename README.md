@@ -59,6 +59,14 @@ Pending
 * Ensure you follow ansible guide to be able to connect
 http://docs.ansible.com/ansible/intro_windows.html
 
+* 'The property 'changed' cannot be found on this object. Verify that the property exists and can be set.'
+https://github.com/ansible/ansible/issues/17139
+Ansible bug in 2.1.1, ok in 2.0.1 and 2.1.2
+
+* AdobeReader chocolatey install issue
+
+
+
 ## License
 
 BSD 2-clause

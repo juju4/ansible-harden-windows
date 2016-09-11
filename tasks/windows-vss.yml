@@ -1,0 +1,28 @@
+---
+
+- name: list state of shadow volumes
+  raw: "vssadmin.exe list volumes"
+  changed_when: false
+  register: vssvol
+- debug: var=vssvol
+- name: list state of shadowstorage
+  raw: "vssadmin.exe list shadowstorage"
+  changed_when: false
+  register: vssstor
+  ignore_errors: true
+- debug: var=vssstor
+
+- name: enable shadow copy for c
+  raw: "vssadmin.exe add shadowstorage /for=c: /on=c: /maxsize=15%"
+  when: vssstor.stdout.find("Shadow Copy Storage volume{{ ':' }} (C{{ ':' }})") == -1
+
+- name: ensure VSS service enabled
+  win_service:
+    name: "VSS"
+    start_mode: auto
+    state: started
+
+- name: schedule regular shadow copy
+#  raw: "schtasks /create /SC daily /TN VSS_Snapshot /TR \"c:vssadmin create shadow /for=c:\" /ST 12:30"
+  win_scheduled_task: name="VSS_Snapshot" execute="vssadmin create shadow /for=c:" frequency="daily" time="9am" description="Take daily shadow copy for c" enable=yes state=present user=SYSTEM
+

@@ -3,7 +3,8 @@ galaxy_info:
   author: juju4
   description: Windows Hardening role
   license: BSD
-  min_ansible_version: 2.0
+## win_regedit HKCR
+  min_ansible_version: 2.1
   platforms:
   - name: Windows
     versions:

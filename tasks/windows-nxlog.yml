@@ -6,6 +6,7 @@
   win_get_url:
     url: "{{ harden_win_remotelogging_nxlog_url }}"
     dest: "C:\\temp\\{{ harden_win_remotelogging_nxlog_url | basename }}"
+## FIXME! no checksum option
   when: not nxlogdl.stat.exists
 
 - name: Install NXLog CE

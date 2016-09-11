@@ -7,10 +7,15 @@
 # https://technet.microsoft.com/en-us/library/cc748849.aspx
 # http://lifeofageekadmin.com/changing-windows-20032008-eventlog-size/
 ## FIXME! does not seem to work??? valid in registry but not in computer management (compmgmt.msc)
+##        OK in PS C:\> get-eventlog -list
+## alternative:     wevtutil sl <LogName> /ms:<MaxSizeInBytes>
+## https://msdn.microsoft.com/en-us/library/windows/desktop/aa363648(v=vs.85).aspx
+## https://support.microsoft.com/en-ca/kb/957662
 - name: Event Log size review - Security
   win_regedit:
     key: HKLM:\SYSTEM\CurrentControlSet\Services\EventLog\Security
     value: MaxSize
+    datatype: dword
     data: "{{ harden_win_eventlogs_maxsize }}"
 - name: Event Log retention review - Security
   win_regedit:
@@ -21,6 +26,7 @@
   win_regedit:
     key: HKLM:\SYSTEM\CurrentControlSet\Services\EventLog\System
     value: MaxSize
+    datatype: dword
     data: "{{ harden_win_eventlogs_maxsize }}"
 - name: Event Log retention review - System
   win_regedit:
@@ -31,6 +37,7 @@
   win_regedit:
     key: HKLM:\SYSTEM\CurrentControlSet\Services\EventLog\Application
     value: MaxSize
+    datatype: dword
     data: "{{ harden_win_eventlogs_maxsize }}"
 - name: Event Log retention review - Application
   win_regedit:
@@ -41,6 +48,7 @@
   win_regedit:
     key: HKLM:\SYSTEM\CurrentControlSet\Services\EventLog\Windows PowerShell
     value: MaxSize
+    datatype: dword
     data: "{{ harden_win_eventlogs_maxsize }}"
 - name: Event Log retention review - Powershell1
   win_regedit:
@@ -51,6 +59,7 @@
   win_regedit:
     key: HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\WINEVT\Channels\Microsoft-Windows-PowerShell/Operational
     value: MaxSize
+    datatype: dword
     data: "{{ harden_win_eventlogs_maxsize }}"
 - name: Event Log retention review - Powershell2
   win_regedit:
@@ -77,6 +86,12 @@
     key: HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\WINEVT\Channels\Microsoft-Windows-Sysmon/Operational
     value: Retention
     data: 0
+- name: Event Log size review - Internet Explorer
+  win_regedit:
+    key: HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\WINEVT\Internet Explorer
+    value: MaxSize
+    data: "{{ harden_win_eventlogs_maxsize }}"
+
 ## https://technet.microsoft.com/en-ca/library/dn535776.aspx
 - name: Enable ProcessCreationIncludeCmdLine_Enabled audit
   win_regedit:
@@ -196,10 +211,14 @@
 ## https://bluesoul.me/2016/05/12/use-gpo-to-change-the-default-behavior-of-potentially-malicious-file-extensions/
 ## HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\FileExts\
 ## \HKEY_CLASSES_ROOT\Software\Microsoft\Windows\CurrentVersion\Explorer\FileExts
-- name: disable javascript execution by Windows Script Host (2)
+## Partially covered if Windows Script Host is disabled
+## FIXME! NOK
+- name: disable javascript execution by Windows Script Host (HKCU)
   win_regedit:
 #    key: HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\FileExts\.hta
-    key: "HKCR:\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\FileExts\\.{{ item }}"
+    key: "HKCU:\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\FileExts\\.{{ item }}"
+#    key: "HKLM:\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\FileExts\\.{{ item }}"    ## NOK
+#    key: "HKLM:\\Software\\Exts\\.{{ item }}"    ## NOK
 #    value: Enabled
     data: "%windir%\\system32\\notepad.exe"
   with_items:
@@ -209,6 +228,17 @@
     - js
     - sct
     - wsc
+## Note: HKCR only applies if HKCU doesn't exist. better enforcing with GPO
+- name: disable javascript execution by Windows Script Host (HKCR)
+  win_regedit:
+#    key: HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\FileExts\.hta
+    key: "{{ item }}"
+    data: "%windir%\\system32\\notepad.exe %1"
+  with_items:
+    - "HKCR:\\htafile\\shell\\open\\command"
+    - "HKCR:\\VBSFile\\shell\\open\\command"
+    - "HKCR:\\JSFile\\shell\\open\\command"
+    - "HKCR:\\scriptletfile\\shell\\open\\command"  ## default
 
 ## https://blogs.technet.microsoft.com/fdcc/2011/01/24/alwaysinstallelevated-is-equivalent-to-granting-administrative-rights/
 ## https://msdn.microsoft.com/en-us/library/windows/desktop/aa367561(v=vs.85).aspx
@@ -217,4 +247,7 @@
     key: HKLM:\Software\Policies\Microsoft\Windows\Installer
     value: AlwaysInstallElevated
     data: 0
+
+- include: wpad-disable.yml
+  when: harden_windows_disable_wpad is defined and harden_windows_disable_wpad
 
