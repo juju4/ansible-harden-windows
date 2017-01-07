@@ -1,96 +1,7 @@
 ---
-# Review evt/log files to 100-500M + corresponding GPO
-# https://dfirblog.wordpress.com/2015/10/11/protecting-windows-networks-essential-logging/
-# https://logrhythm.com/fr/blog/powershell-command-line-logging/
-# https://malwarearchaeology.squarespace.com/cheat-sheets/
-# https://support.microsoft.com/en-us/kb/957662
-# https://technet.microsoft.com/en-us/library/cc748849.aspx
-# http://lifeofageekadmin.com/changing-windows-20032008-eventlog-size/
-## FIXME! does not seem to work??? valid in registry but not in computer management (compmgmt.msc)
-##        OK in PS C:\> get-eventlog -list
-## alternative:     wevtutil sl <LogName> /ms:<MaxSizeInBytes>
-## https://msdn.microsoft.com/en-us/library/windows/desktop/aa363648(v=vs.85).aspx
-## https://support.microsoft.com/en-ca/kb/957662
-- name: Event Log size review - Security
-  win_regedit:
-    key: HKLM:\SYSTEM\CurrentControlSet\Services\EventLog\Security
-    value: MaxSize
-    datatype: dword
-    data: "{{ harden_win_eventlogs_maxsize }}"
-- name: Event Log retention review - Security
-  win_regedit:
-    key: HKLM:\SYSTEM\CurrentControlSet\Services\EventLog\Security
-    value: Retention
-    data: 0
-- name: Event Log size review - System
-  win_regedit:
-    key: HKLM:\SYSTEM\CurrentControlSet\Services\EventLog\System
-    value: MaxSize
-    datatype: dword
-    data: "{{ harden_win_eventlogs_maxsize }}"
-- name: Event Log retention review - System
-  win_regedit:
-    key: HKLM:\SYSTEM\CurrentControlSet\Services\EventLog\System
-    value: Retention
-    data: 0
-- name: Event Log size review - Application
-  win_regedit:
-    key: HKLM:\SYSTEM\CurrentControlSet\Services\EventLog\Application
-    value: MaxSize
-    datatype: dword
-    data: "{{ harden_win_eventlogs_maxsize }}"
-- name: Event Log retention review - Application
-  win_regedit:
-    key: HKLM:\SYSTEM\CurrentControlSet\Services\EventLog\Application
-    value: Retention
-    data: 0
-- name: Event Log size review - Powershell1
-  win_regedit:
-    key: HKLM:\SYSTEM\CurrentControlSet\Services\EventLog\Windows PowerShell
-    value: MaxSize
-    datatype: dword
-    data: "{{ harden_win_eventlogs_maxsize }}"
-- name: Event Log retention review - Powershell1
-  win_regedit:
-    key: HKLM:\SYSTEM\CurrentControlSet\Services\EventLog\Windows PowerShell
-    value: Retention
-    data: 0
-- name: Event Log size review - Powershell2
-  win_regedit:
-    key: HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\WINEVT\Channels\Microsoft-Windows-PowerShell/Operational
-    value: MaxSize
-    datatype: dword
-    data: "{{ harden_win_eventlogs_maxsize }}"
-- name: Event Log retention review - Powershell2
-  win_regedit:
-    key: HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\WINEVT\Channels\Microsoft-Windows-PowerShell/Operational
-    value: Retention
-    data: 0
-- name: Event Log size review - WMI
-  win_regedit:
-    key: HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\WINEVT\Channels\Microsoft-Windows-WMI-Activity/Operational
-    value: MaxSize
-    data: "{{ harden_win_eventlogs_maxsize }}"
-- name: Event Log retention review - WMI
-  win_regedit:
-    key: HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\WINEVT\Channels\Microsoft-Windows-WMI-Activity/Operational
-    value: Retention
-    data: 0
-- name: Event Log size review - Sysmon
-  win_regedit:
-    key: HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\WINEVT\Channels\Microsoft-Windows-Sysmon/Operational
-    value: MaxSize
-    data: "{{ harden_win_eventlogs_maxsize }}"
-- name: Event Log retention review - Sysmon
-  win_regedit:
-    key: HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\WINEVT\Channels\Microsoft-Windows-Sysmon/Operational
-    value: Retention
-    data: 0
-- name: Event Log size review - Internet Explorer
-  win_regedit:
-    key: HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\WINEVT\Internet Explorer
-    value: MaxSize
-    data: "{{ harden_win_eventlogs_maxsize }}"
+
+- include: windows-logging-registry.yml
+#- include: windows-logging-wevtutil.yml
 
 ## https://technet.microsoft.com/en-ca/library/dn535776.aspx
 - name: Enable ProcessCreationIncludeCmdLine_Enabled audit
@@ -224,6 +135,7 @@
   with_items:
     - hta
     - vbs
+    - VBE
 ## https://isc.sans.edu/diary/Controlling+JavaScript+Malware+Before+it+Runs/21171
     - js
     - sct
@@ -250,4 +162,13 @@
 
 - include: wpad-disable.yml
   when: harden_windows_disable_wpad is defined and harden_windows_disable_wpad
+
+- name: Disable CMD
+  win_regedit:
+    key: HKCU:\Software\Policies\Microsoft\Windows\System
+    value: DisableCMD
+    datatype: dword
+    data: 1
+  when: harden_windows_disable_cmd
+
 

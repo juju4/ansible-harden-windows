@@ -1,6 +1,7 @@
 ## https://github.com/mizzy/serverspec/blob/master/WINDOWS_SUPPORT.md
 ## http://shawinnes.com/testing-windows-infrastructure-with-serverspec/
 ## http://kitchen.ci/blog/test-kitchen-windows-test-flight-with-vagrant
+## TARGET_HOST=192.168.2.109 rake spec
 
 require 'serverspec'
 require 'winrm'

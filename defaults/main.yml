@@ -3,7 +3,7 @@
 ## Windows
 harden_win_securityupdates: false
 harden_win_services: true
-harden_win_sysmon: true
+harden_win_registry: true
 harden_win_gpo_local: false
 harden_win_gpo_inf: win7-computer-security.inf
 harden_win_gpo_db: "%systemRoot%\\security\\database\\newdb.sdb"
@@ -12,9 +12,13 @@ harden_win_gpo_log: c:\windows\temp\secedit.txt
 harden_win_gpo_EnableLUA: true
 ## Note: this one corrupts win10 eval currently...
 harden_win_lsa_harden: false
-harden_win_emet_path: 'c:\Program Files (x86)\EMET 5.5'
+## win7
+#harden_win_emet_path: 'c:\Program Files (x86)\EMET 5.5'
+## win10
+harden_win_emet_path: 'c:\Program Files\EMET 5.5'
 harden_win_emet_conf: "{{ harden_win_emet_path }}\\Deployment\\Protection Profiles\\Recommended Software.xml"
 harden_win_vss: true
+harden_win_wmi_monitor: true
 harden_win_flash: true
 harden_win_adobereader: true
 #harden_win_adobereader_v: '11.0'
@@ -25,19 +29,50 @@ harden_win_eventlogs_maxsize: 315801600
 
 harden_windows_disable_wpad: true
 
+harden_windows_disable_cmd: false
+harden_windows_disable_win10cortana: true
+
 harden_win_chocolateypkgs:
 # http://windows.microsoft.com/en-us/windows/security-essentials-all-versions
 ## FAIL since 4m: https://gist.github.com/choco-bot/85701f4e87e16efed5be
 #    - microsoftsecurityessentials
+## v5.5.2, oct 2016
     - emet
-## currently only powershell4, 2016/03 (v5 under moderation/testing)
+## v5.0, oct 2016
     - powershell
 ## for test
-    - adobereader
+#    - adobereader
     - procexp
 #    - sysinternals
-harden_win_remotelogging: true
-harden_win_remotelogging_nxlog_url: https://nxlog.co/system/files/products/files/1/nxlog-ce-2.9.1716.msi
+#    - gmer
+#    - gpg4win
+#    - gpg4usb
+## install fails for me... "Exception calling "SetAccessRule" ... Some or all identity references could not be translated."
+#    - osquery
+
+harden_win_sysmon: true
+harden_win_sysmon_url: 'https://download.sysinternals.com/files/Sysmon.zip'
+
+## win_get_url missing checksum check
+harden_win_remotelogging: false
+harden_win_remotelogging_nxlog_url: 'https://nxlog.co/system/files/products/files/1/nxlog-ce-2.9.1716.msi'
+
+harden_win_netcease: true
+harden_win_netcease_url: 'https://gallery.technet.microsoft.com/Net-Cease-Blocking-Net-1e8dcb5b/file/165596/1/NetCease.zip'
+
+harden_win_simplednscrypt: true
+harden_win_simplednscrypt_url: https://github.com/bitbeans/SimpleDnsCrypt/releases/download/0.3.7/SimpleDNSCrypt.msi
+
+## install NOK
+harden_win_osquery: false
+## currently only chocolatey release
+harden_win_osquery_url: ''
+
+## Experimental
+harden_win_mbrfilter: false
+harden_win_mbrfilter_url: https://github.com/yyounan/MBRFilter/files/536998/64.zip
+harden_win_restrict_usb: false
+
 harden_win_services_disable:
 ## Win10 default: only fax and retaildemo
     - AdobeLM Service
@@ -67,14 +102,32 @@ harden_win_services_disable:
     - Sensor Service
     - Routing and Remote Access
     - RetailDemo
-## WinHTTP Web-Proxy Auto-Discovery service (WPAD) + dependencies:
-    - WinHttpAutoProxySvc
+## WinHTTP Web-Proxy Auto-Discovery service (WPAD) + dependencies (iphlpsvc - must be first)
     - iphlpsvc
+    - WinHttpAutoProxySvc
     - NcaSvc
 ## using IPSec or not ?
     - PolicyAgent
 ## iSCSI ?
     - MSiSCSI
+## https://github.com/W4RH4WK/Debloat-Windows-10/blob/master/scripts/disable-services.ps1
+    - diagnosticshub.standardcollector.service
+    - DiagTrack
+    - dmwappushservice
+    - HomeGroupListener
+    - HomeGroupProvider
+    - lfsvc
+    - MapsBroker
+    - NetTcpPortSharing
+    - RemoteAccess
+    - RemoteRegistry
+    - SharedAccess
+    - TrkWks
+    - WbioSrvc
+    - WMPNetworkSvc
+    - XblAuthManager
+    - XblGameSave
+    - XboxNetApiSvc
 
 harden_win_services_manual:
     - Application Management
@@ -99,4 +152,41 @@ harden_win_services_manual:
 #    - ClipBook
 #    - Computer Browser
 #    - Net Logon
+
+## Experimental. issue with ansible win_firewall_rule module
+harden_win_firewall: false
+#harden_win_fw_default_action: 'allow'
+harden_win_fw_default_action: 'block'
+harden_win_fw_program_allowed_out_public:
+  - '%ProgramFiles\firefox.exe'
+  - '%ProgramFiles%\Google\Chrome\Application\chrome.exe'
+  - '%windir%\SystemApps\Microsoft.MicrosoftEdge_8wekyb3d8bbwe\MicrosoftEdge.exe'
+  - 'microsoftupdate.exe'
+  - '%windir%\System32\BackgroundTransferHost.exe'
+  - '%ProgramFiles%\bitbeans\Simple DNSCrypt\dnscrypt-proxy\dnscrypt-proxy.exe'
+  - '%ProgramFiles%\bitbeans\Simple DNSCrypt\dnscrypt-proxy\dnscrypt-proxy-secondary.exe'
+harden_win_fw_program_blocked_out_public:
+  - "C:\\Program Files\\Microsoft Office\\Office14\\winword.exe"
+  - "C:\\Program Files\\Microsoft Office\\Office14\\excel.exe"
+  - "C:\\Program Files\\Microsoft Office\\Office14\\powerpoint.exe"
+  - "C:\\Program Files\\Microsoft Office\\Office14\\msaccess.exe"
+  - '%SystemRoot%\System32\wscript.exe'
+  - '%SystemRoot%\Syswow64\wscript.exe'
+  - '%SystemRoot%\System32\cscript.exe'
+  - '%SystemRoot%\Syswow64\cscript.exe'
+  - '%SystemRoot%\system32\mshta.exe'
+  - '%SystemRoot%\SysWOW64\WindowsPowerShell\v1.0\powershell.exe'
+  - '%SystemRoot%\system32\WindowsPowerShell\v1.0\powershell.exe'
+  - '%SystemRoot%\system32\cmd.exe'
+## https://labs.nettitude.com/blog/fun-with-windows-binaries-application-whitelist-bypass-using-msiexec/
+  - msiexec.exe
+
+## FIXME! localized rule name...
+harden_win_fw_rules_disable:
+  - Xbox
+  - Xbox Game UI
+  - Xbox Identity Provider
+  - Cortana
+  - Candy Crush Soda Saga
+harden_win_fw_prefix: "A-Ansible"
 

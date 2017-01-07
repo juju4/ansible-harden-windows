@@ -1,0 +1,133 @@
+---
+
+# Review evt/log files to 100-500M + corresponding GPO
+# https://dfirblog.wordpress.com/2015/10/11/protecting-windows-networks-essential-logging/
+# https://logrhythm.com/fr/blog/powershell-command-line-logging/
+# https://malwarearchaeology.squarespace.com/cheat-sheets/
+# https://support.microsoft.com/en-us/kb/957662
+# https://technet.microsoft.com/en-us/library/cc748849.aspx
+# http://lifeofageekadmin.com/changing-windows-20032008-eventlog-size/
+## https://msdn.microsoft.com/en-us/library/windows/desktop/aa363648(v=vs.85).aspx
+## https://support.microsoft.com/en-ca/kb/957662
+## alternative:     wevtutil sl <LogName> /ms:<MaxSizeInBytes>
+## PS C:\> get-eventlog -list
+
+## FIXME! not idempotent when executed over wevtutil?
+## FIXME! [WARNING]: Module invocation had junk after the JSON data:
+- name: Event Log size review - Security
+  win_regedit:
+    key: HKLM:\SYSTEM\CurrentControlSet\Services\EventLog\Security
+    value: MaxSize
+    datatype: dword
+    data: "{{ harden_win_eventlogs_maxsize }}"
+- name: Event Log retention review - Security
+  win_regedit:
+    key: HKLM:\SYSTEM\CurrentControlSet\Services\EventLog\Security
+    value: Retention
+    datatype: dword
+    data: 0
+- name: Event Log size review - System
+  win_regedit:
+    key: HKLM:\SYSTEM\CurrentControlSet\Services\EventLog\System
+    value: MaxSize
+    datatype: dword
+    data: "{{ harden_win_eventlogs_maxsize }}"
+- name: Event Log retention review - System
+  win_regedit:
+    key: HKLM:\SYSTEM\CurrentControlSet\Services\EventLog\System
+    value: Retention
+    datatype: dword
+    data: 0
+- name: Event Log size review - Application
+  win_regedit:
+    key: HKLM:\SYSTEM\CurrentControlSet\Services\EventLog\Application
+    value: MaxSize
+    datatype: dword
+    data: "{{ harden_win_eventlogs_maxsize }}"
+- name: Event Log retention review - Application
+  win_regedit:
+    key: HKLM:\SYSTEM\CurrentControlSet\Services\EventLog\Application
+    value: Retention
+    datatype: dword
+    data: 0
+- name: Event Log size review - Powershell1
+  win_regedit:
+    key: HKLM:\SYSTEM\CurrentControlSet\Services\EventLog\Windows PowerShell
+    value: MaxSize
+    datatype: dword
+    data: "{{ harden_win_eventlogs_maxsize }}"
+- name: Event Log retention review - Powershell1
+  win_regedit:
+    key: HKLM:\SYSTEM\CurrentControlSet\Services\EventLog\Windows PowerShell
+    value: Retention
+    datatype: dword
+    data: 0
+- name: Event Log size review - Powershell2
+  win_regedit:
+    key: HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\WINEVT\Channels\Microsoft-Windows-PowerShell/Operational
+    value: MaxSize
+    datatype: dword
+    data: "{{ harden_win_eventlogs_maxsize }}"
+- name: Event Log retention review - Powershell2
+  win_regedit:
+    key: HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\WINEVT\Channels\Microsoft-Windows-PowerShell/Operational
+    value: Retention
+    datatype: dword
+    data: 0
+- name: Event Log size review - WMI
+  win_regedit:
+    key: HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\WINEVT\Channels\Microsoft-Windows-WMI-Activity/Operational
+    value: MaxSize
+    datatype: dword
+    data: "{{ harden_win_eventlogs_maxsize }}"
+- name: Event Log retention review - WMI
+  win_regedit:
+    key: HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\WINEVT\Channels\Microsoft-Windows-WMI-Activity/Operational
+    value: Retention
+    datatype: dword
+    data: 0
+## Need verification?
+## https://www.fireeye.com/content/dam/fireeye-www/global/en/current-threats/pdfs/wp-windows-management-instrumentation.pdf
+- name: Event Log size review - WinRM
+  win_regedit:
+    key: HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\WINEVT\Channels\Microsoft-Windows-WinRM/Operational
+    value: MaxSize
+    datatype: dword
+    data: "{{ harden_win_eventlogs_maxsize }}"
+- name: Event Log retention review - WinRM
+  win_regedit:
+    key: HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\WINEVT\Channels\Microsoft-Windows-WinRM/Operational
+    value: Retention
+    datatype: dword
+    data: 0
+- name: Event Log size review - DistributedCOM
+  win_regedit:
+    key: HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\WINEVT\Channels\Microsoft-Windows-DistributedCOM/Operational
+    value: MaxSize
+    datatype: dword
+    data: "{{ harden_win_eventlogs_maxsize }}"
+- name: Event Log retention review - DistributedCOM
+  win_regedit:
+    key: HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\WINEVT\Channels\Microsoft-Windows-DistributedCOM/Operational
+    value: Retention
+    datatype: dword
+    data: 0
+- name: Event Log size review - Sysmon
+  win_regedit:
+    key: HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\WINEVT\Channels\Microsoft-Windows-Sysmon/Operational
+    value: MaxSize
+    datatype: dword
+    data: "{{ harden_win_eventlogs_maxsize }}"
+- name: Event Log retention review - Sysmon
+  win_regedit:
+    key: HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\WINEVT\Channels\Microsoft-Windows-Sysmon/Operational
+    value: Retention
+    datatype: dword
+    data: 0
+- name: Event Log size review - Internet Explorer
+  win_regedit:
+    key: HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\WINEVT\Internet Explorer
+    value: MaxSize
+    datatype: dword
+    data: "{{ harden_win_eventlogs_maxsize }}"
+

@@ -1,0 +1,30 @@
+---
+
+## http://securityaffairs.co/wordpress/52271/hacking/netcease-tool.html
+## https://gallery.technet.microsoft.com/Net-Cease-Blocking-Net-1e8dcb5b
+
+- name: check if netcease archive is present
+  win_stat: path="{{ harden_win_temp_dir }}\\{{ harden_win_netcease_url | basename }}"
+  register: netceasedl
+- name: Download Netcease - restrict Net Session Enumeration (NetSessionEnum) default permissions
+  win_get_url:
+    url: "{{ harden_win_netcease_url }}"
+    dest: "{{ harden_win_temp_dir }}\\{{ harden_win_netcease_url | basename }}"
+## FIXME! no checksum option, https://github.com/ansible/ansible-modules-core/issues/4901
+  when: not netceasedl.stat.exists
+
+- name: Uncompress Netcease
+  win_unzip:
+    src: "{{ harden_win_temp_dir }}\\{{ harden_win_netcease_url | basename }}"
+    dest: "{{ harden_win_temp_dir }}\\Netcease"
+    creates: "{{ harden_win_temp_dir }}\\Netcease\\NetCease.ps1"
+
+## FIXME! Note: Ansible has no module to edit ACL on registry entry... not idempotent
+- name: Execute Netcease
+#  script: "{{ harden_win_temp_dir }}\\Netcease\\NetCease.ps1"
+#  script: "NetCease.ps1"
+#  raw: "PowerShell.exe -ExecutionPolicy Bypass -File {{ harden_win_temp_dir }}\\Netcease\\NetCease.ps1"
+## ansible v2.2
+  win_command: "PowerShell.exe -ExecutionPolicy Bypass -File {{ harden_win_temp_dir }}\\Netcease\\NetCease.ps1"
+
+

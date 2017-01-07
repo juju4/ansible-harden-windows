@@ -1,0 +1,83 @@
+---
+## https://docs.ansible.com/ansible/win_firewall_rule_module.html
+## https://support.microsoft.com/en-gb/kb/947709
+## Multiple issues
+## https://github.com/ansible/ansible-modules-extras/issues/2882        win_firewall_rule fails if rule already exists
+## https://github.com/ansible/ansible/issues/18807                      win_firewall_rule fails when locale isn't English
+## https://github.com/ansible/ansible/issues/18861                      After commit 9392943 win_firewall_rules rules default to services only
+## FIXME! Rules not visible in management console or
+##      HKLM:\SYSTEM\CurrentControlSet\Services\SharedAccess\Parameters\FirewallPolicy\<profilename>
+##      HKLM\Software\Policies\Microsoft\WindowsFirewall\<Profilename>  (if set by gpo)
+
+- name: Firewall | allow svchost dns and ntp requests out
+  win_firewall_rule:
+      name: "{{ harden_win_fw_prefix }}-allow-outgoing-svchost-{{ item }}"
+      program: "%SystemRoot%\\System32\\svchost.exe"
+      enable: yes
+      state: present
+      localport: any
+      remoteport: "{{ item }}"
+      action: allow
+      direction: Out
+  with_items:
+    - 53
+    - 123
+## FIXME! not idempotent. (item=53) => {"changed": false, "error": "La propriété « LocalPort » est introuvable dans cet objet. Vérifiez qu’elle existe.", "failed": true, "item": 53, "msg": ["The rule 'DNS' exists."]}
+  ignore_errors: true
+
+- name: Firewall | block outgoing program
+  win_firewall_rule:
+      name: "{{ harden_win_fw_prefix }}-block-outgoing-{{ item | basename }}"
+      program: "{{ item }}"
+      enable: yes
+      state: present
+      localport: any
+      action: block
+      direction: Out
+#      protocol: TCP
+      profile: Public
+  with_items: "{{ harden_win_fw_program_blocked_out_public }}"
+  ignore_errors: true
+
+- name: Firewall | allow outgoing program
+  win_firewall_rule:
+      name: "{{ harden_win_fw_prefix }}-allow-outgoing-{{ item | basename }}"
+      enable: yes
+      state: present
+      action: allow
+      direction: Out
+      profile: Public
+  with_items: "{{ harden_win_fw_program_allowed_out_public }}"
+  ignore_errors: true
+
+- debug: var=harden_win_fw_rules_disable
+- name: Firewall | disable rules
+  win_firewall_rule:
+    name: "{{ item }}"
+    enable: no
+    with_items: "{{ harden_win_fw_rules_disable }}"
+  ignore_errors: true
+
+
+## FIXME! default rule
+## does not seem supported by ansible: http://docs.ansible.com/ansible/win_firewall_rule_module.html
+## rule order(block, after allow, after default): https://technet.microsoft.com/en-us/library/cc755191(v=ws.10).aspx
+#- name: Last Firewall rule (~default)
+#  win_firewall_rule:
+#      name: "{{ harden_win_fw_prefix }}-default-rule-{{ harden_win_fw_default_action }}"
+#      direction: "{{ item }}"
+#      enable: yes
+#      action: "{{ harden_win_fw_default_action }}"
+#      state: present
+#  with_items:
+#    - in
+#    - out
+
+- name: Firewall reconfigure logging
+  win_command: "{{ item }}"
+  with_items:
+#    - netsh advfirewall set currentprofile logging maxfilesize 4096
+    - netsh advfirewall set currentprofile logging maxfilesize 500000
+    - netsh advfirewall set currentprofile logging droppedconnections enable
+    - netsh advfirewall set currentprofile logging allowedconnections enable
+

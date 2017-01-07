@@ -1,0 +1,25 @@
+---
+
+# Review evt/log files to 100-500M + corresponding GPO
+## https://msdn.microsoft.com/en-us/library/windows/desktop/aa363648(v=vs.85).aspx
+## https://support.microsoft.com/en-ca/kb/957662
+
+## FIXME! not idempotent unlike win_regedit module but more readable
+- name: update Windows Log event size
+  win_command: "wevtutil sl \"{{ item }}\" /ms:{{ harden_win_eventlogs_maxsize }} /rt:true /ab:true"
+  with_items:
+    - Microsoft-Windows-Powershell/Admin
+    - Microsoft-Windows-Sysmon
+    - Microsoft-Windows-Sysmon/Operational
+    - Application
+    - Security
+    - System
+    - Microsoft-Windows-DistributedCOM
+#    - Microsoft-Windows-DistributedCOM/Operational
+    - Microsoft-Windows-Powershell/Operational
+    - Microsoft-Windows-WMI-Activity/Operational
+    - Microsoft-Windows-WinRM/Operational
+## FIXME! too many arguments, even with quote
+#    - Internel Explorer
+#  ignore_errors: true
+

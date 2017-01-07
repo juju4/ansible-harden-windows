@@ -16,3 +16,9 @@
 
 ## Configure Network Level Authentication for Remote Desktop Services Connections, win2008r2+
 ## https://technet.microsoft.com/en-us/library/cc732713%28v=ws.11%29.aspx
+
+## Applocker to block program from 
+##  %USERPROFILE%, %ALLUSERSPROFILE%, %PUBLIC%, %OSDRIVE%\Users\*, %APPDATA%
+##  %TEMP%, Recycler
+##  %ProgramData%, %OSDRIVE%\Program Files\Common Files\Microsoft Shared\VBA\*
+

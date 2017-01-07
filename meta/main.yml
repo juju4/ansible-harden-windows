@@ -10,8 +10,8 @@ galaxy_info:
     versions:
      - 7
      - 10
-  categories:
+  galaxy_tags:
     - system
     - security
-dependencies:
+dependencies: []
 
