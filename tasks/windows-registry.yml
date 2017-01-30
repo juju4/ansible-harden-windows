@@ -133,6 +133,7 @@
 #    value: Enabled
     data: "%windir%\\system32\\notepad.exe"
   with_items: "{{ harden_win_suspicious_ext }}"
+
 ## Note: HKCR only applies if HKCU doesn't exist. better enforcing with GPO
 - name: disable javascript execution by Windows Script Host (HKCR)
   win_regedit:
@@ -164,6 +165,7 @@
     data: 1
   when: harden_windows_disable_cmd
 
+<<<<<<< HEAD
 ## https://support.microsoft.com/en-ca/help/2696547/how-to-enable-and-disable-smbv1,-smbv2,-and-smbv3-in-windows-vista,-windows-server-2008,-windows-7,-windows-server-2008-r2,-windows-8,-and-windows-server-2012
 ## https://www.us-cert.gov/ncas/current-activity/2017/01/16/SMB-Security-Best-Practices
 - name: Disable Older SMB
@@ -173,4 +175,6 @@
     datatype: dword
     data: 0
   with_items: "{{ harden_win_disable_smb_proto }}"
+=======
+>>>>>>> dbed329073efa9a9ffaa25eca46b3f9f6bfd705d
 
