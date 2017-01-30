@@ -1,0 +1,16 @@
+---
+
+## https://osquery.io/downloads/
+## https://www.facebook.com/notes/protect-the-graph/introducing-osquery-for-windows/1775110322729111/
+
+## no ansible module option to include prerelease
+#- name: Install osquery package with chocolatey
+#  win_chocolatey:
+#    name: osquery
+### ansible 2.1+
+#    install_args: "/InstallService"
+#  ignore_errors: true
+
+- name: Install osquery package with chocolatey
+  win_command: "%ProgramData%\\Chocolatey\\choco install osquery -pre -params '\"/InstallService\"'"
+

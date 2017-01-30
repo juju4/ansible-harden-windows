@@ -1,0 +1,27 @@
+---
+
+## https://www.reddit.com/r/sysadmin/comments/3ti7r8/protect_against_usb_to_ethernet_adapters/
+## + Enable or disable Network Bridge with Group Policy
+##      Local Computer Policy, Computer Configuration, Administrative Templates, Network, and Network Connections.
+##      Prohibit installation and configuration of Network Bridge on your DNS domain network
+## https://technet.microsoft.com/en-us/library/cc732103(v=ws.10).aspx
+## + Enable or disable Internet Connection Sharing with Group Policy
+##      Local Computer Policy, Computer Configuration, Administrative Templates, Network, and Network Connections.
+##      Prohibit use of Internet Connection Sharing on your DNS domain network
+## https://technet.microsoft.com/en-us/library/cc770930(v=ws.10).aspx
+## + Locking down Windows Vista and Windows 7 against Malicious USB devices
+##      registry HKEY_LOCAL_MACHINE\System\CurrentControlSet\Control\StorageDevicePolicies\WriteProtect
+##      Computer Configuration->Administrative Templates->System->Device Installation->Device Installation Restrictions
+##      Prevent installation of devices...
+##      [HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Group Policy Objects\{55803F47-01A6-4A85-89CE-74357A125D17}Machine\Software\Policies\Microsoft\Windows\DeviceInstall\Restrictions]: "AllowAdminInstall"=dword:00000001
+## http://www.irongeek.com/i.php?page=security/locking-down-windows-vista-and-windows-7-against-malicious-usb-devices
+## https://apple.slashdot.org/story/16/09/07/2048237/modified-usb-ethernet-adapter-can-steal-windows-and-mac-credentials
+## http://arstechnica.com/security/2016/11/meet-poisontap-the-5-tool-that-ransacks-password-protected-computers/
+
+
+## 3rd party tool
+## https://www.elevenpaths.com/labstools/latch-usb-monitor/
+## http://www.binisoft.org/usbc.php
+## http://www.binisoft.org/download/usbc4setup.exe
+## https://github.com/pmsosa/duckhunt
+

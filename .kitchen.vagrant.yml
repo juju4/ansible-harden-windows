@@ -1,0 +1,58 @@
+---
+## FIXME! $$$$$$ Remove-Item : A parameter cannot be found that matches parameter name 'rf'.
+##  not even provisioning
+##      For now, prefer test/vagrant
+
+driver:
+  name: vagrant
+  provider: <%= ENV['KITCHEN_PROVIDER'] || 'virtualbox' %>
+
+provisioner:
+  name: ansible_playbook
+  roles_path: ../../roles
+  hosts: test-kitchen
+#  ansible_verbose: true
+  ansible_verbose: false
+  ansible_verbosity: 3
+  ansible_extra_flags: <%= ENV['ANSIBLE_EXTRA_FLAGS'] %>
+
+platforms:
+### http://kitchen.ci/blog/test-kitchen-windows-test-flight-with-vagrant/
+### FIXME! https://github.com/neillturner/kitchen-ansible/issues/131
+  - name: ubuntu-16.04
+    driver_plugin: vagrant
+    driver_config:
+      box: "boxcutter/ubuntu1604"
+  - name: windows-2012r2
+    transport:
+      name: winrm
+    driver:
+#      gui: false
+      gui: true
+
+suites:
+#  - name: default
+#    run_list:
+#    attributes:
+  - name: ansible
+    run_list:
+    attributes:
+    driver_config:
+      network:
+      - [ 'private_network', { ip: '172.28.128.6' } ]
+      - [ 'public_network', { bridge: 'eth0' }]
+    includes:
+      - ubuntu-16.04
+    provisioner:
+      name: ansible_playbook
+      playbook: test/integration/ansible/default.yml
+  - name: windows
+    driver_config:
+      network:
+      - [ 'private_network', { ip: '172.28.128.7' } ]
+    includes:
+      - windows-2012r2
+    provisioner:
+      name: ansible_playbook
+      playbook: test/integration/default/default.yml
+

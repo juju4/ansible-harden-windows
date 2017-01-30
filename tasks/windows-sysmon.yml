@@ -1,0 +1,41 @@
+---
+
+## Sysmon, https://gist.github.com/Neo23x0/f56bea38d95040b70cf5
+##  https://onedrive.live.com/view.aspx?resid=D026B4699190F1E6!2575 (RSA 2016)
+## http://www.darkoperator.com/blog/2014/8/8/sysinternals-sysmon
+#PS > Get-WinEvent -FilterHashtable @{logname="Microsoft-Windows-Sysmon/Operational";}
+
+- name: check if sysmon archive is present
+  win_stat: path="{{ harden_win_temp_dir }}\\{{ harden_win_sysmon_url | basename }}"
+  register: sysmondl
+- name: download sysmon
+  win_get_url:
+    url: "{{ harden_win_sysmon_url }}"
+    dest: "{{ harden_win_temp_dir }}\\{{ harden_win_sysmon_url | basename }}"
+  when: not sysmondl.stat.exists
+- name: unzip sysmon
+  win_unzip:
+    src: "{{ harden_win_temp_dir }}\\{{ harden_win_sysmon_url | basename }}"
+    dest: "{{ harden_win_temp_dir }}\\sysmon"
+    creates: "{{ harden_win_temp_dir }}\\sysmon\\sysmon.exe"
+
+- block:
+    - name: Copy Sysmon template
+      win_template:
+        src: "{{ harden_win_sysmon_template }}.j2"
+        dest: "{{ harden_win_temp_dir }}\{{ harden_win_sysmon_template }}"
+    - name: install sysmon with defined config
+    #  raw: '{{ harden_win_temp_dir }}\sysmon\sysmon -i -n -accepteula c:\SysmonConfig.xml'
+    ## ansible v2.2
+      win_command: "{{ harden_win_temp_dir }}\\sysmon\\sysmon -i -n -accepteula {{ harden_win_temp_dir }}\{{ harden_win_sysmon_template }}"
+  when: harden_win_sysmon_template != ''
+
+- block:
+    - name: install sysmon
+    #  raw: "{{ harden_win_temp_dir }}\\sysmon\\sysmon -i -n -accepteula"
+    #  raw: '{{ harden_win_temp_dir }}\sysmon\sysmon -i -n -accepteula c:\SysmonConfig.xml'
+    ## ansible v2.2
+      win_command: "{{ harden_win_temp_dir }}\\sysmon\\sysmon -i -n -accepteula"
+      ignore_errors: true
+  when: harden_win_sysmon_template == ''
+

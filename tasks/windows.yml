@@ -9,17 +9,17 @@
 # http://iase.disa.mil/stigs/Pages/index.aspx
 # http://iase.disa.mil/stigs/Pages/stig-viewing-guidance.aspx
 
-
 - name: Create temp dir
 ## FIXME! "msg": "Illegal characters in path."
-#  win_file: path='C:\temp' state=directory
-  raw: 'mkdir c:\temp'
+#  win_file: path='{{ harden_win_temp_dir }}' state=directory
+  raw: "mkdir {{ harden_win_temp_dir }}"
   ignore_errors: true
 
+## [WARNING]: Module invocation had junk after the JSON data:
 - name: Install all security/critical updates
   win_updates:
     category: SecurityUpdates
-    logPath: c:\temp\ansible-updates.log
+    logPath: "{{ harden_win_temp_dir }}\\ansible-updates.log"
   when: harden_win_securityupdates is defined and harden_win_securityupdates
   tags:
     - updates
@@ -60,25 +60,23 @@
 ## https://dfir-blog.com/2016/01/03/protecting-windows-networks-applocker/
 ## http://www.scip.ch/en/?labs.20150507
 ## https://www.sysadmins.lv/blog-en/powershell-50-and-applocker-when-security-doesnt-mean-security.aspx
-## block: C:\temp, C:\ProgramData, Recycle Bin
+## block: {{ harden_win_temp_dir }}, C:\ProgramData, Recycle Bin
 ## block for non-admin users: Powershell+ddl? Deny: %SYSTEM32%\Windows\PowerShell\*
 
 - name: Disable IGMP
   raw: "Netsh interface ipv4 set global mldlevel=none"
 
-## EMET_Conf.exe -export EMET_Endpoint_Profile.xml
-#- win_stat: path={{ harden_win_emet_conf }}
-#  register: emetconf
-## FIXME! fails on ParserError: (:) [], ParentContainsErrorRecordException\r\n+ FullyQualifiedErrorId : UnexpectedToken
-#- name: EMET Configuration
-#  raw: "\"{{ harden_win_emet_path }}\\EMET_Conf.exe\" -import \"{{ harden_win_emet_conf }}\" --system DEP=AlwaysOn SEHOP=ApplicationOptOut"
-#  when: emetconf.stat.exists
-
 ## win_regedit: New in ansible version 2.0
 - include: windows-registry.yml
+  when: harden_win_registry is defined and harden_win_registry
   tags:
     - registry
+
 - include: windows-wmi.yml
+
+- include: windows-emet.yml
+  when: harden_win_emet_conf != ''
+
 - include: adobereader.yml
   when: harden_win_adobereader is defined and harden_win_adobereader
 - include: windows-flash.yml
@@ -97,26 +95,10 @@
 - name: Download Windows Update PowerShell Module
   win_get_url:
     url: 'https://gallery.technet.microsoft.com/scriptcenter/2d191bcd-3308-4edd-9de2-88dff796b0bc/file/41459/43/PSWindowsUpdate.zip'
-    dest: 'C:\temp\PSWindowsUpdate.zip'
+    dest: "{{ harden_win_temp_dir }}\\PSWindowsUpdate.zip"
 
-## Sysmon, https://gist.github.com/Neo23x0/f56bea38d95040b70cf5
-##  https://onedrive.live.com/view.aspx?resid=D026B4699190F1E6!2575 (RSA 2016)
-## http://www.darkoperator.com/blog/2014/8/8/sysinternals-sysmon
-#PS > Get-WinEvent -FilterHashtable @{logname="Microsoft-Windows-Sysmon/Operational";}
-- block:
-    - name: download sysmon
-      win_get_url:
-        url: https://download.sysinternals.com/files/Sysmon.zip
-        dest: c:\temp\sysmon.zip
-    - name: unzip sysmon
-      win_unzip:
-        src: c:\temp\sysmon.zip
-        dest: c:\temp\sysmon
-    - name: install sysmon
-      raw: 'c:\temp\sysmon\sysmon -i -n -accepteula'
-      ignore_errors: true
+- include: windows-sysmon.yml
   when: harden_win_sysmon is defined and harden_win_sysmon
-#  raw: 'c:\temp\sysmon\sysmon -i -n -accepteula c:\SysmonConfig.xml'
 
 ## PECaptureSvc, https://isc.sans.edu/forums/diary/Hunting+for+Executable+Code+in+Windows+Environments/20745/
 
@@ -137,4 +119,28 @@
 
 - include: windows-vss.yml
   when: harden_win_vss is defined and harden_win_vss
+
+- include: windows-wmi-monitor.yml
+  when: harden_win_wmi_monitor is defined and harden_win_wmi_monitor
+
+- include: windows-netcease.yml
+  when: harden_win_netcease is defined and harden_win_netcease
+
+- include: windows-osquery.yml
+  when: harden_win_osquery
+
+- include: windows-dnscrypt.yml
+  when: harden_win_simplednscrypt
+
+- include: windows-firewall.yml
+  when: harden_win_firewall is defined and harden_win_firewall
+
+- include: mbrfilter.yml
+  when: harden_win_mbrfilter
+
+- include: windows-usb.yml
+  when: harden_win_restrict_usb
+
+- include: windows-cortana.yml
+  when: harden_windows_disable_win10cortana and ansible_distribution_major_version >= 10
 
