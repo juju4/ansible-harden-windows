@@ -23,7 +23,7 @@
     - name: Copy Sysmon template
       win_template:
         src: "{{ harden_win_sysmon_template }}.j2"
-        dest: "{{ harden_win_temp_dir }}\{{ harden_win_sysmon_template }}"
+        dest: "{{ harden_win_temp_dir }}\\{{ harden_win_sysmon_template }}"
     - name: install sysmon with defined config
     #  raw: '{{ harden_win_temp_dir }}\sysmon\sysmon -i -n -accepteula c:\SysmonConfig.xml'
     ## ansible v2.2
