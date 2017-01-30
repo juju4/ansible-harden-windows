@@ -27,7 +27,7 @@
     - name: install sysmon with defined config
     #  raw: '{{ harden_win_temp_dir }}\sysmon\sysmon -i -n -accepteula c:\SysmonConfig.xml'
     ## ansible v2.2
-      win_command: "{{ harden_win_temp_dir }}\\sysmon\\sysmon -i -n -accepteula {{ harden_win_temp_dir }}\{{ harden_win_sysmon_template }}"
+      win_command: "{{ harden_win_temp_dir }}\\sysmon\\sysmon -i -n -accepteula {{ harden_win_temp_dir }}\\{{ harden_win_sysmon_template }}"
   when: harden_win_sysmon_template != ''
 
 - block:
