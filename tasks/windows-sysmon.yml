@@ -4,6 +4,7 @@
 ##  https://onedrive.live.com/view.aspx?resid=D026B4699190F1E6!2575 (RSA 2016)
 ## http://www.darkoperator.com/blog/2014/8/8/sysinternals-sysmon
 #PS > Get-WinEvent -FilterHashtable @{logname="Microsoft-Windows-Sysmon/Operational";}
+## native alternative for process auditing (not network?) on Windows Server 2016, Windows Server 2012 R2, Windows Server 2012 (ID 4688)
 
 - name: check if sysmon archive is present
   win_stat: path="{{ harden_win_temp_dir }}\\{{ harden_win_sysmon_url | basename }}"

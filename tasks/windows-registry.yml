@@ -175,3 +175,12 @@
     data: 0
   with_items: "{{ harden_win_disable_smb_proto }}"
 
+## https://onedrive.live.com/view.aspx?resid=A352EBC5934F0254!3316&ithint=file%2cpptx&app=PowerPoint
+## https://support.microsoft.com/en-us/help/2871997/microsoft-security-advisory-update-to-improve-credentials-protection-and-management-may-13,-2014
+- name: Win7/KB2871997 | trigger the clearing of any credentials of logged off users after 30 seconds
+  win_regedit:
+    key: HKLM:\SYSTEM\CurrentControlSet\Control\Lsa
+    value: TokenLeakDetectDelaySecs
+    datatype: dword
+    data: 30
+
