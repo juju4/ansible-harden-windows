@@ -1,0 +1,18 @@
+---
+## http://blog.win-fu.com/2017/02/the-true-story-of-windows-10-and-dma.html
+
+## GPO only: https://technet.microsoft.com/en-us/library/bb530324.aspx
+#- block:
+#    
+#  when: ansible_os_family == "Windows" and ansible_distribution_version.split('.')[0]|int >= 6 and ansible_distribution_version.split('.')[0]|int < 10
+
+- block:
+    ## "This mitigation only protects PCI-based buses, for example, ExpressCard, Thunderbolt, & some docking stations (PCIe based).  Older, non-PCI busses such as 1394 and CardBus are still vulnerable."
+    - name: Disable DMA
+      win_regedit:
+        key: HKLM:\SYSTEM\CurrentControlSet\Control\PnP\Pci
+        value: DisableExternalDMAUnderLock
+        datatype: dword
+        data: 1
+
+  when: ansible_os_family == "Windows" and ansible_distribution_version.split('.')[0] == '10' and harden_windows_disable_dma

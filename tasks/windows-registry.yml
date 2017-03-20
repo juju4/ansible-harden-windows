@@ -1,4 +1,5 @@
 ---
+## Limitation on HKCU manipulation https://github.com/ansible/ansible/issues/20123
 
 - include: windows-logging-registry.yml
 #- include: windows-logging-wevtutil.yml
@@ -9,59 +10,18 @@
     key: HKLM:\Software\Microsoft\Windows\CurrentVersion\Policies\System\Audit
     value: ProcessCreationIncludeCmdLine_Enabled
     data: 1
+    datatype: dword
 
 # http://blogs.technet.com/b/kfalde/archive/2015/10/02/emet-reporting.aspx
 # https://github.com/kurtfalde/EMET-Reporting
 
 ## https://jimshaver.net/2016/02/14/defending-against-mimikatz/
-- name: Enable ProcessCreationIncludeCmdLine_Enabled audit
+- name: Pre-Win server 2012 Mimikatz Protection - UseLogonCredential
   win_regedit:
     key: HKLM:\System\CurrentControlSet\Control\SecurityProviders\WDigest
     value: UseLogonCredential
     data: 0
-
-## PowerShell5, WMF5. regedit or GPO. https://www.fireeye.com/blog/threat-research/2016/02/greater_visibilityt.html
-##      https://blogs.msdn.microsoft.com/powershell/2015/06/09/powershell-the-blue-team/
-##      https://www.blackhat.com/docs/us-14/materials/us-14-Kazanciyan-Investigating-Powershell-Attacks-WP.pdf
-##      http://fr.slideshare.net/Hackerhurricane/ask-aalware-archaeologist/25
-## 	http://www.asd.gov.au/publications/protect/securing-powershell.htm
-## Forward EID 4104 to SIEM at least. https://msdn.microsoft.com/en-us/library/cc748890.aspx
-- name: enable module logging - PowerShell5
-  win_regedit:
-    key: HKLM:\SOFTWARE\Wow6432Node\Policies\Microsoft\Windows\PowerShell\ModuleLogging
-    value: EnableModuleLogging
-    data: 1
-### FIXME! why need to ignore errors???
-- name: enable module logging - PowerShell5 (2)
-  win_regedit:
-    key: 'HKLM:\SOFTWARE\Wow6432Node\Policies\Microsoft\Windows\PowerShell\ModuleLogging \ModuleNames'
-    value: "*"
-    data: "*"
-  ignore_errors: true
-- name: enable script block logging - PowerShell5
-  win_regedit:
-    key: HKLM:\SOFTWARE\Wow6432Node\Policies\Microsoft\Windows\PowerShell\ScriptBlockLogging
-    value: EnableScriptBlockLogging
-    data: 1
-- name: enable transcription - PowerShell5
-  win_regedit:
-    key: HKLM:\SOFTWARE\Wow6432Node\Policies\Microsoft\Windows\PowerShell\Transcription
-    value: EnableTranscripting
-    data: 1
-- name: enable transcription - PowerShell5 (2)
-  win_regedit:
-    key: HKLM:\SOFTWARE\Wow6432Node\Policies\Microsoft\Windows\PowerShell\Transcription
-    value: EnableInvocationHeader
-    data: 1
-- name: enable transcription - PowerShell5 (3)
-  win_regedit:
-    key: HKLM:\SOFTWARE\Wow6432Node\Policies\Microsoft\Windows\PowerShell\Transcription
-    value: OutputDirectory
-## default is %USERPROFILE%\Documents, can be UNC path
-## Dont forget to set appropriate permission, script attached
-    data: ""
-## FIXME! Not recorded
-#    data: "%USERPROFILE%\\AppData\\Roaming\\PowershellTranscripts"
+    datatype: dword
 
 ## LSA hardening: Monitor: Operational log under Applications and Services Logs\Microsoft\Windows\CodeIntegrity, ID 3065, 3066, failure: 3033, 3063
 ## https://technet.microsoft.com/en-us/security/dn920237.aspx
@@ -72,11 +32,13 @@
         key: HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Image File Execution Options\LSASS.exe
         value: AuditLevel
         data: 8
+        datatype: dword
     - name: LSA hardening (2) - On x86-based or x64-based devices using Secure Boot and UEFI or not
       win_regedit:
         key: HKLM:\SYSTEM\CurrentControlSet\Control\Lsa
         value: RunAsPPL
         data: 1
+        datatype: dword
   when: harden_win_lsa_harden is defined and harden_win_lsa_harden
 
 ## https://www.sternsecurity.com/blog/local-network-attacks-llmnr-and-nbt-ns-poisoning
@@ -88,6 +50,7 @@
     key: HKLM:\Software\Policies\Microsoft\Windows NT\DNSClient
     value: EnableMulticast
     data: 0
+    datatype: dword
 ### FIXME!
 #- name: Disable Windows Netbios Name Service (NBT-NS)
 ##  win_regedit:
@@ -107,11 +70,13 @@
     key: HKLM:\SOFTWARE\Microsoft\Windows Script Host\Settings
     value: Enabled
     data: 0
+    datatype: dword
 - name: disable Windows Script Host (2)
   win_regedit:
     key: HKLM:\SOFTWARE\Microsoft\Windows Script Host\Settings
     value: IgnoreUserSettings
     data: 1
+    datatype: dword
 ## not sure about this one?
 #- name: Enable SAFER -  Software Restrictions Policies block scripts
 #  win_regedit:
@@ -153,6 +118,7 @@
     key: HKLM:\Software\Policies\Microsoft\Windows\Installer
     value: AlwaysInstallElevated
     data: 0
+    datatype: dword
 
 - include: wpad-disable.yml
   when: harden_windows_disable_wpad is defined and harden_windows_disable_wpad
@@ -164,16 +130,6 @@
     datatype: dword
     data: 1
   when: harden_windows_disable_cmd
-
-## https://support.microsoft.com/en-ca/help/2696547/how-to-enable-and-disable-smbv1,-smbv2,-and-smbv3-in-windows-vista,-windows-server-2008,-windows-7,-windows-server-2008-r2,-windows-8,-and-windows-server-2012
-## https://www.us-cert.gov/ncas/current-activity/2017/01/16/SMB-Security-Best-Practices
-- name: Disable Older SMB
-  win_regedit:
-    key: HKLM:\SYSTEM\CurrentControlSet\Services\LanmanServer\Parameters
-    value: "{{ item }}"
-    datatype: dword
-    data: 0
-  with_items: "{{ harden_win_disable_smb_proto }}"
 
 ## https://onedrive.live.com/view.aspx?resid=A352EBC5934F0254!3316&ithint=file%2cpptx&app=PowerPoint
 ## https://support.microsoft.com/en-us/help/2871997/microsoft-security-advisory-update-to-improve-credentials-protection-and-management-may-13,-2014

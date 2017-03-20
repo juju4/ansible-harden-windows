@@ -144,3 +144,6 @@
 - include: windows-cortana.yml
   when: harden_windows_disable_win10cortana and ansible_distribution_major_version >= 10
 
+- include: windows-dma.yml
+  when: harden_win_restrict_dma
+

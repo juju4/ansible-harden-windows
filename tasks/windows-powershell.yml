@@ -1,0 +1,53 @@
+---
+
+## PowerShell5, WMF5. regedit or GPO. https://www.fireeye.com/blog/threat-research/2016/02/greater_visibilityt.html
+##      https://blogs.msdn.microsoft.com/powershell/2015/06/09/powershell-the-blue-team/
+##      https://www.blackhat.com/docs/us-14/materials/us-14-Kazanciyan-Investigating-Powershell-Attacks-WP.pdf
+##      http://fr.slideshare.net/Hackerhurricane/ask-aalware-archaeologist/25
+## 	http://www.asd.gov.au/publications/protect/securing-powershell.htm
+## 	https://www.leeholmes.com/blog/2017/03/17/detecting-and-preventing-powershell-downgrade-attacks/
+## Forward EID 4104 to SIEM at least. https://msdn.microsoft.com/en-us/library/cc748890.aspx
+- name: enable module logging - PowerShell5
+  win_regedit:
+    key: HKLM:\SOFTWARE\Wow6432Node\Policies\Microsoft\Windows\PowerShell\ModuleLogging
+    value: EnableModuleLogging
+    data: 1
+    datatype: dword
+### FIXME! why need to ignore errors???
+- name: enable module logging - PowerShell5 (2)
+  win_regedit:
+    key: 'HKLM:\SOFTWARE\Wow6432Node\Policies\Microsoft\Windows\PowerShell\ModuleLogging \ModuleNames'
+    value: "*"
+    data: "*"
+  ignore_errors: true
+
+## Warning! those options are very verbose!
+- name: enable script block logging - PowerShell5
+  win_regedit:
+    key: HKLM:\SOFTWARE\Wow6432Node\Policies\Microsoft\Windows\PowerShell\ScriptBlockLogging
+    value: EnableScriptBlockLogging
+    data: 1
+    datatype: dword
+- name: enable transcription - PowerShell5
+  win_regedit:
+    key: HKLM:\SOFTWARE\Wow6432Node\Policies\Microsoft\Windows\PowerShell\Transcription
+    value: EnableTranscripting
+    data: 1
+    datatype: dword
+- name: enable transcription - PowerShell5 (2)
+  win_regedit:
+    key: HKLM:\SOFTWARE\Wow6432Node\Policies\Microsoft\Windows\PowerShell\Transcription
+    value: EnableInvocationHeader
+    data: 1
+    datatype: dword
+- name: enable transcription - PowerShell5 (3)
+  win_regedit:
+    key: HKLM:\SOFTWARE\Wow6432Node\Policies\Microsoft\Windows\PowerShell\Transcription
+    value: OutputDirectory
+## default is %USERPROFILE%\Documents, can be UNC path
+## Dont forget to set appropriate permission, script attached
+    data: ""
+## FIXME! Not recorded
+#    data: "%USERPROFILE%\\AppData\\Roaming\\PowershellTranscripts"
+#    datatype: string
+

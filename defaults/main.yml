@@ -78,6 +78,7 @@ harden_win_osquery_url: ''
 harden_win_mbrfilter: false
 harden_win_mbrfilter_url: https://github.com/yyounan/MBRFilter/files/536998/64.zip
 harden_win_restrict_usb: false
+harden_win_restrict_dma: false
 
 harden_win_services_disable:
 ## Win10 default: only fax and retaildemo
@@ -108,12 +109,14 @@ harden_win_services_disable:
     - Sensor Service
     - Routing and Remote Access
     - RetailDemo
+## IpHlpSvc: IP Helper = IPv6 transition technologies (6to4, ISATAP, Port Proxy, and Teredo), and IP-HTTPS, Homegroups
 ## WinHTTP Web-Proxy Auto-Discovery service (WPAD) + dependencies (iphlpsvc - must be first)
     - iphlpsvc
     - WinHttpAutoProxySvc
     - NcaSvc
 ## using IPSec or not ?
     - PolicyAgent
+    - IKEEXT
 ## iSCSI ?
     - MSiSCSI
 ## https://github.com/W4RH4WK/Debloat-Windows-10/blob/master/scripts/disable-services.ps1
@@ -134,6 +137,8 @@ harden_win_services_disable:
     - XblAuthManager
     - XblGameSave
     - XboxNetApiSvc
+## MS16-075, Miscmag90, http://www.blackviper.com/windows-services/webclient/
+    - WebClient
 
 harden_win_services_manual:
     - Application Management
@@ -198,14 +203,18 @@ harden_win_fw_prefix: "A-Ansible"
 
 harden_win_suspicious_ext:
     - hta
+    - vbe
     - vbs
     - VBE
 ## https://isc.sans.edu/diary/Controlling+JavaScript+Malware+Before+it+Runs/21171
     - js
+    - jse
     - sct
     - wsc
     - wsf
+    - wsh
     - pif
+    - bat
 
 harden_win_disable_smb_proto:
     - SMB1
