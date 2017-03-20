@@ -3,7 +3,7 @@
 
 ## GPO only: https://technet.microsoft.com/en-us/library/bb530324.aspx
 #- block:
-#    
+#
 #  when: ansible_os_family == "Windows" and ansible_distribution_version.split('.')[0]|int >= 6 and ansible_distribution_version.split('.')[0]|int < 10
 
 - block:
