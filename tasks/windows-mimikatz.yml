@@ -1,0 +1,32 @@
+---
+
+## https://jimshaver.net/2016/02/14/defending-against-mimikatz/
+- name: Pre-Win server 2012 Mimikatz Protection - UseLogonCredential
+  win_regedit:
+    key: HKLM:\System\CurrentControlSet\Control\SecurityProviders\WDigest
+    value: UseLogonCredential
+    data: 0
+    datatype: dword
+
+## http://www.harmj0y.net/blog/redteaming/pass-the-hash-is-dead-long-live-localaccounttokenfilterpolicy/
+## https://technet.microsoft.com/en-us/library/dd835564(v=ws.10).aspx#BKMK_BuiltInAdmin
+## default: 0
+- name: enabled User Account Control - Admin Approval Mode for the built-in Administrator account
+  win_regedit:
+    key: HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System
+    value: FilterAdministratorToken
+    data: 1
+    datatype: dword
+## default: does not exist
+- name: Ensure Local admininistrators are filtered against Pass-The-Hash
+  win_regedit:
+    key: HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System
+    value: LocalAccountTokenFilterPolicy
+    data: 0
+    datatype: dword
+
+
+
+
+
+

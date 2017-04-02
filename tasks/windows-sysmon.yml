@@ -22,7 +22,9 @@
 
 - block:
     - name: Copy Sysmon template
-      win_template:
+## FIXME! bug: look src on remote windows. no remote_src=false argument available
+#      win_template:
+      win_copy:
         src: "{{ harden_win_sysmon_template }}.j2"
         dest: "{{ harden_win_temp_dir }}\\{{ harden_win_sysmon_template }}"
     - name: install sysmon with defined config

@@ -24,6 +24,12 @@
   tags:
     - updates
 
+## https://github.com/ansible/ansible/issues/13856
+## FIXME! FAILED! => {"changed": false, "choco_bootstrap_output": ["Getting latest version of the Chocolatey package for download.", "Getting Chocolatey from https://chocolatey.org/api/v2/package/chocolatey/0.10.3.", "Downloading 7-Zip commandline tool prior to extraction.", "Extracting C:\\Users\\ADMINI~1\\AppData\\Local\\Temp\\chocolatey\\chocInstall\\chocolatey.zip to C:\\Users\\ADMINI~1\\AppData\\Local\\Temp\\chocolatey\\chocInstall...", "Installing chocolatey on this machine", "Creating ChocolateyInstall as an environment variable (targeting 'Machine') ", "  Setting ChocolateyInstall to 'C:\\ProgramData\\chocolatey'", "WARNING: It's very likely you will need to close and reopen your shell ", "  before you can use choco."], "failed": true, "msg": "Chocolatey bootstrap installation failed."}
+##	= workaround, manual install before...
+- name: Chocolatey installation 
+  win_chocolatey: name=chocolatey state=present upgrade=no
+
 - name: Install packages
   win_chocolatey:
     name: "{{ item }}"

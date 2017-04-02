@@ -15,14 +15,6 @@
 # http://blogs.technet.com/b/kfalde/archive/2015/10/02/emet-reporting.aspx
 # https://github.com/kurtfalde/EMET-Reporting
 
-## https://jimshaver.net/2016/02/14/defending-against-mimikatz/
-- name: Pre-Win server 2012 Mimikatz Protection - UseLogonCredential
-  win_regedit:
-    key: HKLM:\System\CurrentControlSet\Control\SecurityProviders\WDigest
-    value: UseLogonCredential
-    data: 0
-    datatype: dword
-
 ## LSA hardening: Monitor: Operational log under Applications and Services Logs\Microsoft\Windows\CodeIntegrity, ID 3065, 3066, failure: 3033, 3063
 ## https://technet.microsoft.com/en-us/security/dn920237.aspx
 ## https://technet.microsoft.com/library/dn408187.aspx
@@ -140,3 +132,4 @@
     datatype: dword
     data: 30
 
+- include: windows-mimikatz.yml
