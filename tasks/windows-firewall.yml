@@ -9,16 +9,18 @@
 ##      HKLM:\SYSTEM\CurrentControlSet\Services\SharedAccess\Parameters\FirewallPolicy\<profilename>
 ##      HKLM\Software\Policies\Microsoft\WindowsFirewall\<Profilename>  (if set by gpo)
 
+## FIXME! win_firewall_rule not idempotent
+
 - name: Firewall | allow svchost dns and ntp requests out
   win_firewall_rule:
-      name: "{{ harden_win_fw_prefix }}-allow-outgoing-svchost-{{ item }}"
-      program: "%SystemRoot%\\System32\\svchost.exe"
-      enable: yes
-      state: present
-      localport: any
-      remoteport: "{{ item }}"
-      action: allow
-      direction: Out
+    name: "{{ harden_win_fw_prefix }}-allow-outgoing-svchost-{{ item }}"
+    program: "%SystemRoot%\\System32\\svchost.exe"
+    enable: yes
+    state: present
+    localport: any
+    remoteport: "{{ item }}"
+    action: allow
+    direction: Out
   with_items:
     - 53
     - 123
@@ -27,36 +29,81 @@
 
 - name: Firewall | block outgoing program
   win_firewall_rule:
-      name: "{{ harden_win_fw_prefix }}-block-outgoing-{{ item | basename }}"
-      program: "{{ item }}"
-      enable: yes
-      state: present
-      localport: any
-      action: block
-      direction: Out
-#      protocol: TCP
-      profile: Public
+    name: "{{ harden_win_fw_prefix }}-block-outgoing-{{ item | basename }}"
+    program: "{{ item }}"
+    enable: yes
+    state: present
+    localport: any
+    action: block
+    direction: Out
+#    protocol: TCP
+    profile: Public
   with_items: "{{ harden_win_fw_program_blocked_out_public }}"
-  ignore_errors: true
+#  ignore_errors: true
 
 - name: Firewall | allow outgoing program
   win_firewall_rule:
-      name: "{{ harden_win_fw_prefix }}-allow-outgoing-{{ item | basename }}"
-      enable: yes
-      state: present
-      action: allow
-      direction: Out
-      profile: Public
+    name: "{{ harden_win_fw_prefix }}-allow-outgoing-{{ item | basename }}"
+    enable: yes
+    state: present
+    action: allow
+    direction: Out
+    profile: Public
   with_items: "{{ harden_win_fw_program_allowed_out_public }}"
-  ignore_errors: true
+#  ignore_errors: true
+
+- name: Firewall | block outgoing ports
+  win_firewall_rule:
+    name: "{{ harden_win_fw_prefix }}-block-outgoing-{{ item }}"
+    enable: yes
+    state: present
+    localport: any
+    remoteport: "{{ item }}"
+    action: block
+    direction: Out
+#    protocol: TCP
+    profile: Public
+  with_items: "{{ harden_win_fw_ports_blocked_out_public }}"
+#  ignore_errors: true
+
+- name: Firewall | allow outgoing ports
+  win_firewall_rule:
+    name: "{{ harden_win_fw_prefix }}-allow-outgoing-{{ item }}"
+    enable: yes
+    state: present
+    localport: any
+    remoteport: "{{ item }}"
+    action: allow
+    direction: Out
+    profile: Public
+  with_items: "{{ harden_win_fw_ports_allowed_out_public }}"
+#  ignore_errors: true
+
+## FIXME! 'Unexpected failure during module execution.', 'AttributeError: 'int' object has no attribute 'rfind''
+- name: Firewall | block incoming ports
+  win_firewall_rule:
+    name: "{{ harden_win_fw_prefix }}-block-incoming-{{ item }}"
+    enable: yes
+    state: present
+    localport: "{{ item }}"
+    remoteport: any
+    action: block
+    direction: In
+#    protocol: TCP
+    profile: Public
+  with_items: "{{ harden_win_fw_ports_blocked_in_public }}"
+
 
 - debug: var=harden_win_fw_rules_disable
 - name: Firewall | disable rules
   win_firewall_rule:
     name: "{{ item }}"
+    direction: Out
+    action: allow
+    state: present
     enable: no
-    with_items: "{{ harden_win_fw_rules_disable }}"
-  ignore_errors: true
+  with_items: "{{ harden_win_fw_rules_disable }}"
+#  ignore_errors: true
 
 
 ## FIXME! default rule
@@ -64,11 +111,11 @@
 ## rule order(block, after allow, after default): https://technet.microsoft.com/en-us/library/cc755191(v=ws.10).aspx
 #- name: Last Firewall rule (~default)
 #  win_firewall_rule:
-#      name: "{{ harden_win_fw_prefix }}-default-rule-{{ harden_win_fw_default_action }}"
-#      direction: "{{ item }}"
-#      enable: yes
-#      action: "{{ harden_win_fw_default_action }}"
-#      state: present
+#    name: "{{ harden_win_fw_prefix }}-default-rule-{{ harden_win_fw_default_action }}"
+#    direction: "{{ item }}"
+#    enable: yes
+#    action: "{{ harden_win_fw_default_action }}"
+#    state: present
 #  with_items:
 #    - in
 #    - out
@@ -77,7 +124,8 @@
   win_command: "{{ item }}"
   with_items:
 #    - netsh advfirewall set currentprofile logging maxfilesize 4096
-    - netsh advfirewall set currentprofile logging maxfilesize 500000
+## 'Log file size must be between 1 and 32767.'
+    - netsh advfirewall set currentprofile logging maxfilesize 32767
     - netsh advfirewall set currentprofile logging droppedconnections enable
     - netsh advfirewall set currentprofile logging allowedconnections enable
 

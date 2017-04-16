@@ -1,0 +1,77 @@
+---
+
+- name: IE 64-bit tab
+  win_regedit:
+    key: HKLM:\Software\Policies\Microsoft\Internet Explorer\Main
+    value: Isolation64Bit
+    datatype: dword
+    data: 1
+
+- name: Run antimalware programs against ActiveX controls
+  win_regedit:
+    key: HKLM:\Software\Policies\Microsoft\Windows\CurrentVersion\Internet Settings\Zones\3
+    value: "270C"
+    datatype: dword
+    data: 0
+
+- name: Disable IE add-ons
+  win_regedit:
+    key: HKCU:\Software\Microsoft\Internet Explorer\Main
+    value: "Enable Browser Extensions"
+    datatype: string
+    data: "no"
+
+## https://www.stigviewer.com/stig/internet_explorer_8/2013-04-01/finding/V-15494
+- name: Turn off the Security Settings Check feature is not disabled
+  win_regedit:
+    key: HKLM:\Software\Policies\Microsoft\Internet Explorer\Security Criteria
+    value: "DisableSecuritySettingsCheck"
+    datatype: dword
+    data: 0
+
+## https://community.spiceworks.com/topic/314789-how-do-i-allow-only-browsing-an-intranet-site-on-our-terminal-server
+- block:
+    - name: Configure Internet Proxy
+      win_regedit:
+        key: HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Internet Settings
+        value: "{{ item.v }}"
+        datatype: "{{ item.t }}"
+        data: "{{ item.d }}"
+      with_items:
+        - { v: ProxyServer, t: string, d: "{{ harden_win_ie_proxy_url }}" }
+        - { v: ProxyOverride, t: string, d: "{{ harden_win_ie_proxy_override }}" }
+        - { v: ProxyEnable, t: dword, d: 1 }
+  when: harden_win_ie_proxy
+- block:
+    - name: Disable Internet Proxy
+      win_regedit:
+        key: HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Internet Settings
+        value: "{{ item.v }}"
+        datatype: "{{ item.t }}"
+        data: "{{ item.d }}"
+      with_items:
+        - { v: ProxyEnable, t: dword, d: 0 }
+  when: not harden_win_ie_proxy
+## https://community.spiceworks.com/topic/314789-how-do-i-allow-only-browsing-an-intranet-site-on-our-terminal-server
+- block:
+    - name: Configure Internet Proxy
+      win_regedit:
+        key: HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Internet Settings
+        value: "{{ item.v }}"
+        datatype: "{{ item.t }}"
+        data: "{{ item.d }}"
+      with_items:
+        - { v: ProxyServer, t: string, d: "{{ harden_win_ie_proxy_url }}" }
+        - { v: ProxyOverride, t: string, d: "{{ harden_win_ie_proxy_override }}" }
+        - { v: ProxyEnable, t: dword, d: 1 }
+  when: harden_win_ie_proxy
+- block:
+    - name: Disable Internet Proxy
+      win_regedit:
+        key: HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Internet Settings
+        value: "{{ item.v }}"
+        datatype: "{{ item.t }}"
+        data: "{{ item.d }}"
+      with_items:
+        - { v: ProxyEnable, t: dword, d: 0 }
+  when: not harden_win_ie_proxy

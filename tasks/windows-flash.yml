@@ -4,8 +4,12 @@
 ## http://www.adobe.com/content/dam/Adobe/en/devnet/flashplayer/pdfs/flash_player_17_0_admin_guide.pdf
 
 - name: ensure flash config dir exists
-  win_file: dest=c:\Windows\SysWow64\Macromed\Flash state=directory
+  win_file:
+    dest: 'c:\Windows\SysWow64\Macromed\Flash'
+    state: directory
 
 - name: Win | (try to) harden flash
-  win_template: src=mms.cfg.j2 dest=c:\Windows\SysWow64\Macromed\Flash
+  win_template:
+    src: mms.cfg.j2
+    dest: 'c:\Windows\SysWow64\Macromed\Flash\mms.cfg'
 

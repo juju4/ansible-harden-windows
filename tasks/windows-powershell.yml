@@ -24,30 +24,57 @@
 ## Warning! those options are very verbose!
 - name: enable script block logging - PowerShell5
   win_regedit:
-    key: HKLM:\SOFTWARE\Wow6432Node\Policies\Microsoft\Windows\PowerShell\ScriptBlockLogging
+    key: "{{ item }}\\Policies\\Microsoft\\Windows\\PowerShell\\ScriptBlockLogging"
     value: EnableScriptBlockLogging
     data: 1
     datatype: dword
+  with_items:
+    - "HKLM:\\SOFTWARE\\Wow6432Node"
+    - "HKLM:\\SOFTWARE"
 - name: enable transcription - PowerShell5
   win_regedit:
-    key: HKLM:\SOFTWARE\Wow6432Node\Policies\Microsoft\Windows\PowerShell\Transcription
+    key: "{{ item }}\\Policies\\Microsoft\\Windows\\PowerShell\\Transcription"
     value: EnableTranscripting
     data: 1
     datatype: dword
+  with_items:
+    - "HKLM:\\SOFTWARE\\Wow6432Node"
+    - "HKLM:\\SOFTWARE"
 - name: enable transcription - PowerShell5 (2)
   win_regedit:
-    key: HKLM:\SOFTWARE\Wow6432Node\Policies\Microsoft\Windows\PowerShell\Transcription
+    key: "{{ item }}\\Policies\\Microsoft\\Windows\\PowerShell\\Transcription"
     value: EnableInvocationHeader
     data: 1
     datatype: dword
+  with_items:
+    - "HKLM:\\SOFTWARE\\Wow6432Node"
+    - "HKLM:\\SOFTWARE"
+
+- name: Create directory structure
+  win_file:
+    path: "{{ harden_win_powershell_transcription_dir }}"
+    state: directory
+
+- name: setup permissions script for Transcript directory
+  win_template:
+    src: PowershellTranscripts-dir.ps1.j2
+    dest: "{{ harden_win_temp_dir }}\\PowershellTranscripts-dir.ps1"
+
+- name: Validate permissions for Transcript directory
+  win_shell: "{{ harden_win_temp_dir }}\\PowershellTranscripts-dir.ps1"
+
 - name: enable transcription - PowerShell5 (3)
   win_regedit:
-    key: HKLM:\SOFTWARE\Wow6432Node\Policies\Microsoft\Windows\PowerShell\Transcription
+    key: "{{ item }}\\Policies\\Microsoft\\Windows\\PowerShell\\Transcription"
     value: OutputDirectory
 ## default is %USERPROFILE%\Documents, can be UNC path
 ## Dont forget to set appropriate permission, script attached
-    data: ""
+#    data: ""
+    data: "{{ harden_win_powershell_transcription_dir }}"
 ## FIXME! Not recorded
 #    data: "%USERPROFILE%\\AppData\\Roaming\\PowershellTranscripts"
 #    datatype: string
+  with_items:
+    - "HKLM:\\SOFTWARE\\Wow6432Node"
+    - "HKLM:\\SOFTWARE"
 

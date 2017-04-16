@@ -4,13 +4,40 @@
 ## https://www.facebook.com/notes/protect-the-graph/introducing-osquery-for-windows/1775110322729111/
 
 ## no ansible module option to include prerelease
-#- name: Install osquery package with chocolatey
-#  win_chocolatey:
-#    name: osquery
+- name: Install osquery package with chocolatey
+  win_chocolatey:
+    name: osquery
 ### ansible 2.1+
 #    install_args: "/InstallService"
 #  ignore_errors: true
 
-- name: Install osquery package with chocolatey
-  win_command: "%ProgramData%\\Chocolatey\\choco install osquery -pre -params '\"/InstallService\"'"
+- name: Configure osqueryd
+  win_template:
+    src: "{{ harden_win_osquery_template }}"
+#    dest: "%ProgramData%\\osquery\\osquery.conf"
+    dest: "c:\\ProgramData\\osquery\\osquery.conf"
+
+- name: update osqueryd.exe path
+  win_template:
+    src: manage-osqueryd.ps1.j2
+    dest: "c:\\ProgramData\\osquery\\manage-osqueryd.ps1"
+    backup: yes
+
+- block:
+    - name: Install and start osqueryd service
+#      win_shell: "%ProgramData%\\osquery\\manage-osqueryd.ps1 -install -start"
+      win_shell: "{{ item }}"
+      with_items:
+        - "PowerShell.exe -ExecutionPolicy Bypass -File c:\\ProgramData\\osquery\\manage-osqueryd.ps1 -install"
+        - "PowerShell.exe -ExecutionPolicy Bypass -File c:\\ProgramData\\osquery\\manage-osqueryd.ps1 -start"
+      ignore_errors: true
+  when: harden_win_osqueryd_service_enable
+- block:
+    - name: Uninstall and stop osqueryd service
+      win_shell: "{{ item }}"
+      with_items:
+        - "PowerShell.exe -ExecutionPolicy Bypass -File c:\\ProgramData\\osquery\\manage-osqueryd.ps1 -uninstall"
+        - "PowerShell.exe -ExecutionPolicy Bypass -File c:\\ProgramData\\osquery\\manage-osqueryd.ps1 -stop"
+      ignore_errors: true
+  when: not harden_win_osqueryd_service_enable
 

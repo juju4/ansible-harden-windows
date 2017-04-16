@@ -1,7 +1,8 @@
 ## from https://blogs.msdn.microsoft.com/powershell/2015/06/09/powershell-the-blue-team/
 
-$TranscriptDir = "%USERPROFILE%\AppData\Roaming\PowershellTranscripts"
+#$TranscriptDir = "%USERPROFILE%\AppData\Roaming\PowershellTranscripts"
 #$TranscriptDir = "z:\PowershellTranscripts"
+$TranscriptDir = "{{ harden_win_powershell_transcription_dir }}"
 
 md $TranscriptDir
 
@@ -34,5 +35,8 @@ $acl | Set-Acl $TranscriptDir\
 
 ## Create the SMB Share, granting Everyone the right to read and write files. Specific
 ## actions will actually be enforced by the ACL on the file folder.
-New-SmbShare -Name Transcripts -Path $TranscriptDir -ChangeAccess Everyone  
+## Only WS2012, https://social.technet.microsoft.com/Forums/windowsserver/en-US/26b3a596-4f72-4a37-abf2-8351d90d9242/powershell-v3-installed-but-am-still-getting-error-for-an-unrecognized-cmdlet
+if (Get-WmiObject Win32_OperatingSystem | select buildnumber > 9200) {
+  New-SmbShare -Name Transcripts -Path $TranscriptDir -ChangeAccess Everyone
+}
 

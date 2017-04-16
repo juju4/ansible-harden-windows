@@ -11,8 +11,8 @@
 
 - name: Create temp dir
 ## FIXME! "msg": "Illegal characters in path."
-#  win_file: path='{{ harden_win_temp_dir }}' state=directory
-  raw: "mkdir {{ harden_win_temp_dir }}"
+  win_file: path='{{ harden_win_temp_dir }}' state=directory
+#  raw: "mkdir {{ harden_win_temp_dir }}"
   ignore_errors: true
 
 ## [WARNING]: Module invocation had junk after the JSON data:
@@ -26,9 +26,11 @@
 
 ## https://github.com/ansible/ansible/issues/13856
 ## FIXME! FAILED! => {"changed": false, "choco_bootstrap_output": ["Getting latest version of the Chocolatey package for download.", "Getting Chocolatey from https://chocolatey.org/api/v2/package/chocolatey/0.10.3.", "Downloading 7-Zip commandline tool prior to extraction.", "Extracting C:\\Users\\ADMINI~1\\AppData\\Local\\Temp\\chocolatey\\chocInstall\\chocolatey.zip to C:\\Users\\ADMINI~1\\AppData\\Local\\Temp\\chocolatey\\chocInstall...", "Installing chocolatey on this machine", "Creating ChocolateyInstall as an environment variable (targeting 'Machine') ", "  Setting ChocolateyInstall to 'C:\\ProgramData\\chocolatey'", "WARNING: It's very likely you will need to close and reopen your shell ", "  before you can use choco."], "failed": true, "msg": "Chocolatey bootstrap installation failed."}
-##	= workaround, manual install before...
 - name: Chocolatey installation
   win_chocolatey: name=chocolatey state=present upgrade=no
+
+#- name: Fix problem with Chocolatey .99 (https://github.com/ansible/ansible-modules-extras/issues/378)
+#  raw: Chocolatey feature enable -n allowGlobalConfirmation
 
 - name: Install packages
   win_chocolatey:
@@ -78,7 +80,11 @@
   tags:
     - registry
 
+- include: windows-ie.yml
+- include: windows-smb.yml
+- include: windows-powershell.yml
 - include: windows-wmi.yml
+- include: windows-online.yml
 
 - include: windows-emet.yml
   when: harden_win_emet_conf != ''
@@ -94,8 +100,10 @@
 ## https://logrhythm.com/fr/blog/powershell-command-line-logging/
 ## FIXME! french characters issue in path?
 - name: set powershell profile
-  win_template: src=Profile.ps1.j2 dest="c:\windows\system32\WindowsPowershell\v1.\Profile.ps1"
-  ignore_errors: true
+  win_template:
+    src: Profile.ps1.j2
+    dest: 'c:\windows\system32\WindowsPowershell\v1.0\Profile.ps1'
+#  ignore_errors: true
 
 # https://gallery.technet.microsoft.com/scriptcenter/2d191bcd-3308-4edd-9de2-88dff796b0bc
 - name: Download Windows Update PowerShell Module
@@ -103,6 +111,7 @@
     url: 'https://gallery.technet.microsoft.com/scriptcenter/2d191bcd-3308-4edd-9de2-88dff796b0bc/file/41459/43/PSWindowsUpdate.zip'
     dest: "{{ harden_win_temp_dir }}\\PSWindowsUpdate.zip"
 
+- debug: var=harden_win_sysmon
 - include: windows-sysmon.yml
   when: harden_win_sysmon is defined and harden_win_sysmon
 

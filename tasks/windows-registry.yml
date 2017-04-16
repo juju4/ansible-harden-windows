@@ -1,40 +1,3 @@
----
-## Limitation on HKCU manipulation https://github.com/ansible/ansible/issues/20123
-
-- include: windows-logging-registry.yml
-#- include: windows-logging-wevtutil.yml
-
-## https://technet.microsoft.com/en-ca/library/dn535776.aspx
-- name: Enable ProcessCreationIncludeCmdLine_Enabled audit
-  win_regedit:
-    key: HKLM:\Software\Microsoft\Windows\CurrentVersion\Policies\System\Audit
-    value: ProcessCreationIncludeCmdLine_Enabled
-    data: 1
-    datatype: dword
-
-# http://blogs.technet.com/b/kfalde/archive/2015/10/02/emet-reporting.aspx
-# https://github.com/kurtfalde/EMET-Reporting
-
-## LSA hardening: Monitor: Operational log under Applications and Services Logs\Microsoft\Windows\CodeIntegrity, ID 3065, 3066, failure: 3033, 3063
-## https://technet.microsoft.com/en-us/security/dn920237.aspx
-## https://technet.microsoft.com/library/dn408187.aspx
-- block:
-    - name: LSA hardening (1)
-      win_regedit:
-        key: HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Image File Execution Options\LSASS.exe
-        value: AuditLevel
-        data: 8
-        datatype: dword
-    - name: LSA hardening (2) - On x86-based or x64-based devices using Secure Boot and UEFI or not
-      win_regedit:
-        key: HKLM:\SYSTEM\CurrentControlSet\Control\Lsa
-        value: RunAsPPL
-        data: 1
-        datatype: dword
-  when: harden_win_lsa_harden is defined and harden_win_lsa_harden
-
-## https://www.sternsecurity.com/blog/local-network-attacks-llmnr-and-nbt-ns-poisoning
-## https://www.tagi.wiki/advisories/smb-relay-how-we-leverage-it-and-how-you-can-stop-us
 ## http://windowsitpro.com/networking/q-how-can-i-disable-netbios-over-tcpip-windows-server-core-installations
 ## https://technet.microsoft.com/en-us/library/cc775874%28v=ws.10%29.aspx
 - name: Disable Windows Link-Local Multicast Name Resolution (LLMNR)
@@ -44,16 +7,18 @@
     data: 0
     datatype: dword
 ### FIXME!
-#- name: Disable Windows Netbios Name Service (NBT-NS)
+- name: Disable Windows Netbios Name Service (NBT-NS)
 ##  win_regedit:
 ##  key: HKLM:\SYSTEM\CurrentControlSet\services\NetBT\Parameters\Interfaces\xxxGUIDxxx
 ##    value: NetbiosOptions
 ##    data: 2
-##  command: "wmic /interactive:off nicconfig where TcpipNetbiosOptions={{ item }} call SetTcpipNetbios 2"
-##  with_items:
-##    - 0
-##    - 1
-#   command: 'powershell -Command "set-ItemProperty HKLM:SYSTEMCurrentControlSetservicesNetBTParametersInterfacestcpip* -Name NetbiosOptions -Value 2"'
+### This one is working fine
+  win_command: "wmic /interactive:off nicconfig where TcpipNetbiosOptions={{ item }} call SetTcpipNetbios 2"
+  with_items:
+    - 0
+    - 1
+## FIXME! doesn't seem to work
+#  win_command: 'powershell -Command "set-ItemProperty HKLM:SYSTEMCurrentControlSetservicesNetBTParametersInterfacestcpip* -Name NetbiosOptions -Value 2"'
 
 ## http://news.softpedia.com/news/how-to-prevent-zip-files-from-executing-malicious-javascript-behind-your-back-503226.shtml
 ## https://labsblog.f-secure.com/2016/04/19/how-to-disable-windows-script-host/
@@ -87,7 +52,8 @@
     key: "HKCU:\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\FileExts\\.{{ item }}"
 #    key: "HKLM:\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\FileExts\\.{{ item }}"    ## NOK
 #    key: "HKLM:\\Software\\Exts\\.{{ item }}"    ## NOK
-#    value: Enabled
+    value: "(Default)"
+    datatype: string
     data: "%windir%\\system32\\notepad.exe"
   with_items: "{{ harden_win_suspicious_ext }}"
 
@@ -133,3 +99,40 @@
     data: 30
 
 - include: windows-mimikatz.yml
+
+## https://technet.microsoft.com/en-us/library/cc960646.aspx
+- name: Strong Windows NTLMv2 Authentication Enabled; Weak LM/NTLM Disabled
+  win_regedit:
+    key: HKLM:\System\CurrentControlSet\Control\Lsa
+    value: LmCompatibilityLevel
+    datatype: dword
+    data: 5
+
+- name: Network security - Minimum session security for NTLM SSP based clients
+  win_regedit:
+    key: HKLM:\SYSTEM\CurrentControlSet\Control\Lsa\MSV1_0
+    value: NtlmMinClientSec
+    datatype: dword
+    data: 537395248
+
+- name: Network security - Minimum session security for NTLM SSP based servers
+  win_regedit:
+    key: HKLM:\SYSTEM\CurrentControlSet\Control\Lsa\MSV1_0
+    value: NtlmMinServerSec
+    datatype: dword
+    data: 537395248
+
+- name: Windows Remote Desktop Configured to Always Prompt for Password
+  win_regedit:
+    key: HKLM:\SOFTWARE\Policies\Microsoft\Windows NT\Terminal Services
+    value: fPromptForPassword
+    datatype: dword
+    data: 1
+
+- name: Strong Encryption for Windows Remote Desktop Required
+  win_regedit:
+    key: HKLM:\SOFTWARE\Policies\Microsoft\Windows NT\Terminal Services
+    value: MinEncryptionLevel
+    datatype: dword
+    data: 3
+

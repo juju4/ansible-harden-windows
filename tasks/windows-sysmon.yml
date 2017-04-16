@@ -22,21 +22,19 @@
 
 - block:
     - name: Copy Sysmon template
-## FIXME! bug: look src on remote windows. no remote_src=false argument available
-#      win_template:
       win_copy:
         src: "{{ harden_win_sysmon_template }}.j2"
         dest: "{{ harden_win_temp_dir }}\\{{ harden_win_sysmon_template }}"
     - name: install sysmon with defined config
-    #  raw: '{{ harden_win_temp_dir }}\sysmon\sysmon -i -n -accepteula c:\SysmonConfig.xml'
+    #  raw: '{{ harden_win_temp_dir }}\sysmon\sysmon -n -accepteula -i c:\SysmonConfig.xml'
     ## ansible v2.2
-      win_command: "{{ harden_win_temp_dir }}\\sysmon\\sysmon -i -n -accepteula {{ harden_win_temp_dir }}\\{{ harden_win_sysmon_template }}"
+      win_command: "{{ harden_win_temp_dir }}\\sysmon\\sysmon -n -accepteula -i {{ harden_win_temp_dir }}\\{{ harden_win_sysmon_template }}"
+      ignore_errors: true
   when: harden_win_sysmon_template != ''
 
 - block:
     - name: install sysmon
     #  raw: "{{ harden_win_temp_dir }}\\sysmon\\sysmon -i -n -accepteula"
-    #  raw: '{{ harden_win_temp_dir }}\sysmon\sysmon -i -n -accepteula c:\SysmonConfig.xml'
     ## ansible v2.2
       win_command: "{{ harden_win_temp_dir }}\\sysmon\\sysmon -i -n -accepteula"
       ignore_errors: true

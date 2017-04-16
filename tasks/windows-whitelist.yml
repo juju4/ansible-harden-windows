@@ -4,6 +4,12 @@
 ## https://insights.sei.cmu.edu/cert/2016/06/bypassing-application-whitelisting.html
 ## http://www.howtogeek.com/howto/8739/restrict-users-to-run-only-specified-programs-in-windows-7/
 ## https://www.bleepingcomputer.com/tutorials/create-an-application-whitelist-policy-in-windows/
+## https://www.asd.gov.au/publications/protect/Hardening_Win7_SP1.pdf       13. list of path to whitelist
+## Applocker to block program from
+##  %USERPROFILE%, %ALLUSERSPROFILE%, %PUBLIC%, %OSDRIVE%\Users\*, %APPDATA%
+##  %TEMP%, Recycler
+##  %ProgramData%, %OSDRIVE%\Program Files\Common Files\Microsoft Shared\VBA\*
+
 ## powershell downgrade
 ## C:\WINDOWS\assembly\GAC_MSIL\System.Management.Automation
 ## C:\WINDOWS\assembly\NativeImages_v2.0.50727_64 or v2.0.*

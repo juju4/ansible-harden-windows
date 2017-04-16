@@ -1,9 +1,16 @@
 ---
 
+- name: copy gpo template to target computer
+  win_template:
+    src: "{{ harden_win_gpo_inf }}"
+    dest: "{{ harden_win_temp_dir }}\\{{ harden_win_gpo_inf | regex_replace('.j2$', '') }}"
+
 ## Windows Server 2003, Windows Server 2003 R2, Windows Server 2003 with SP1, Windows Server 2003 with SP2
 ## https://technet.microsoft.com/en-ca/library/cc776625%28v=ws.10%29.aspx
 - name: load gpo configuration locally
-  raw: "secedit /configure /cfg {{ harden_win_gpo_inf }} /db {{ harden_win_gpo_db }} /log {{ harden_win_gpo_log }} /quiet"
+#  raw: "secedit /configure /cfg {{ harden_win_temp_dir }}\\{{ harden_win_gpo_inf | regex_replace('.j2$', '') }} /db {{ harden_win_gpo_db }} /log {{ harden_win_gpo_log }} /quiet"
+  win_command: "secedit /configure /cfg {{ harden_win_temp_dir }}\\{{ harden_win_gpo_inf | regex_replace('.j2$', '') }} /db {{ harden_win_gpo_db }} /log {{ harden_win_gpo_log }} /quiet"
+  ignore_errors: true
 ## require Windows Script Host
 #  raw: "msiexec /qb /i c:\Program Files (x86)\Microsoft Security Compliance Manager\LGPO\LocalGPO.msi"
 #  raw: "csript c:\Program Files (x86)\LocalGPO\LocalGPO.wsf"
@@ -16,9 +23,4 @@
 
 ## Configure Network Level Authentication for Remote Desktop Services Connections, win2008r2+
 ## https://technet.microsoft.com/en-us/library/cc732713%28v=ws.11%29.aspx
-
-## Applocker to block program from
-##  %USERPROFILE%, %ALLUSERSPROFILE%, %PUBLIC%, %OSDRIVE%\Users\*, %APPDATA%
-##  %TEMP%, Recycler
-##  %ProgramData%, %OSDRIVE%\Program Files\Common Files\Microsoft Shared\VBA\*
 

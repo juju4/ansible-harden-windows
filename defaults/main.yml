@@ -34,7 +34,20 @@ harden_win_eventlogs_maxsize: 315801600
 harden_windows_disable_wpad: true
 
 harden_windows_disable_cmd: false
+
+harden_win_ie_proxy: false
+harden_win_ie_proxy_url: ''
+harden_win_ie_proxy_override: ''
+
+## if empty, will go in User documents
+## Note: env variable are not resolved
+#harden_win_powershell_transcription_dir: ''
+#harden_win_powershell_transcription_dir: "%USERPROFILE%\\AppData\\Roaming\\PowershellTranscripts"
+harden_win_powershell_transcription_dir: "c:\\Windows\\Logs\\PowershellTranscripts"
+
 harden_windows_disable_win10cortana: true
+
+harden_win_restrict_dma: false
 
 harden_win_chocolateypkgs:
 # http://windows.microsoft.com/en-us/windows/security-essentials-all-versions
@@ -57,7 +70,7 @@ harden_win_chocolateypkgs:
 harden_win_sysmon: true
 harden_win_sysmon_url: 'https://download.sysinternals.com/files/Sysmon.zip'
 ## note: file should be in current or template directory with .j2 extension
-harden_win_sysmon_template: SysmonConfig-Neo23x0-config-workstations.xml
+harden_win_sysmon_template: SysmonConfig-Neo23x0-workstations.xml
 
 ## win_get_url missing checksum check
 harden_win_remotelogging: false
@@ -69,8 +82,17 @@ harden_win_netcease_url: 'https://gallery.technet.microsoft.com/Net-Cease-Blocki
 harden_win_simplednscrypt: true
 harden_win_simplednscrypt_url: https://github.com/bitbeans/SimpleDnsCrypt/releases/download/0.4.0/SimpleDNSCrypt.msi
 
-## install NOK
-harden_win_osquery: false
+harden_win_osquery: true
+harden_win_osqueryd_service_enable: true
+harden_win_osquery_template: 'osquery.conf.j2'
+## extra files to upload as packs
+harden_win_osquery_upload_packs: []
+harden_win_osquery_packs:
+    - "osquery-monitoring"
+    - "incident-response"
+    - "it-compliance"
+    - "vuln-management"
+    - "hardware-monitoring"
 ## currently only chocolatey release
 harden_win_osquery_url: ''
 
@@ -78,7 +100,6 @@ harden_win_osquery_url: ''
 harden_win_mbrfilter: false
 harden_win_mbrfilter_url: https://github.com/yyounan/MBRFilter/files/536998/64.zip
 harden_win_restrict_usb: false
-harden_win_restrict_dma: false
 
 harden_win_services_disable:
 ## Win10 default: only fax and retaildemo
@@ -152,7 +173,6 @@ harden_win_services_manual:
     - Portable Media Serial Number Service
     - Remote Procedure Call Locator
     - Removable Storage
-    - Routing and Remote Access
     - Secondary Logon
     - Server
     - TCP/IP NetBIOS Helper
@@ -191,6 +211,23 @@ harden_win_fw_program_blocked_out_public:
   - '%SystemRoot%\system32\cmd.exe'
 ## https://labs.nettitude.com/blog/fun-with-windows-binaries-application-whitelist-bypass-using-msiexec/
   - msiexec.exe
+harden_win_fw_ports_allowed_out_public: []
+harden_win_fw_ports_blocked_out_public:
+  - 25
+  - 587
+  - 53
+  - 123
+  - 6881-6889
+harden_win_fw_ports_allowed_in_public: []
+harden_win_fw_ports_blocked_in_public:
+  - 25
+  - 587
+  - 80
+  - 443
+  - 8080
+  - 53
+  - 123
+  - 6881-6889
 
 ## FIXME! localized rule name...
 harden_win_fw_rules_disable:
@@ -216,6 +253,7 @@ harden_win_suspicious_ext:
     - pif
     - bat
 
+## https://support.microsoft.com/en-us/help/2696547/how-to-enable-and-disable-smbv1,-smbv2,-and-smbv3-in-windows-vista,-windows-server-2008,-windows-7,-windows-server-2008-r2,-windows-8,-and-windows-server-2012
 harden_win_disable_smb_proto:
     - SMB1
 #    - SMB2
