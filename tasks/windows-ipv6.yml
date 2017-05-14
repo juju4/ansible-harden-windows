@@ -1,0 +1,12 @@
+---
+## https://support.microsoft.com/en-us/help/929852/how-to-disable-ipv6-or-its-components-in-windows
+## https://techjourney.net/how-to-disable-tcpipv6-teredo-tunneling-in-windows/
+## https://technet.microsoft.com/en-us/library/2009.07.cableguy.aspx
+
+- name: Disable Non-native IPv6 (Tunnels)
+  win_regedit:
+    #path: HKLM:\SYSTEM\CurrentControlSet\Services\Tcpip6\Parameters
+    key: HKLM:\SYSTEM\CurrentControlSet\Services\Tcpip6\Parameters
+    name: DisabledComponents
+    data: 14
+    type: dword

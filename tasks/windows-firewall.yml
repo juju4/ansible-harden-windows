@@ -24,7 +24,7 @@
   with_items:
     - 53
     - 123
-## FIXME! not idempotent. (item=53) => {"changed": false, "error": "La propriété « LocalPort » est introuvable dans cet objet. Vérifiez qu’elle existe.", "failed": true, "item": 53, "msg": ["The rule 'DNS' exists."]}
+## FIXME! not idempotent. https://github.com/ansible/ansible-modules-extras/pull/2654 related?
   ignore_errors: true
 
 - name: Firewall | block outgoing program

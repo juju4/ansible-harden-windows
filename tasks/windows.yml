@@ -41,35 +41,6 @@
   tags:
     - packages
 
-# http://www.marksanborn.net/howto/turn-off-unnecessary-windows-services/
-# http://www.7tutorials.com/which-windows-services-are-safe-disable-when
-# http://www.blackviper.com/service-configurations/black-vipers-windows-10-service-configurations/
-- block:
-    - name: Disable unnecessary services
-      win_service:
-        name: "{{ item }}"
-        start_mode: disabled
-        state: stopped
-      with_items: "{{ harden_win_services_disable }}"
-      ignore_errors: true
-
-    - name: Set some services in manual start
-      win_service:
-        name: "{{ item }}"
-        start_mode: manual
-      with_items: "{{ harden_win_services_manual }}"
-      ignore_errors: true
-  when: harden_win_services is defined and harden_win_services
-  tags:
-    - services
-
-## TODO: Enable AppLocker in audit mode
-## https://www.sixdub.net/?p=367
-## https://dfir-blog.com/2016/01/03/protecting-windows-networks-applocker/
-## http://www.scip.ch/en/?labs.20150507
-## https://www.sysadmins.lv/blog-en/powershell-50-and-applocker-when-security-doesnt-mean-security.aspx
-## block: {{ harden_win_temp_dir }}, C:\ProgramData, Recycle Bin
-## block for non-admin users: Powershell+ddl? Deny: %SYSTEM32%\Windows\PowerShell\*
 
 - name: Disable IGMP
   raw: "Netsh interface ipv4 set global mldlevel=none"
@@ -80,11 +51,13 @@
   tags:
     - registry
 
+- include: windows-services.yml
 - include: windows-ie.yml
 - include: windows-smb.yml
 - include: windows-powershell.yml
 - include: windows-wmi.yml
 - include: windows-online.yml
+- include: windows-ipv6.yml
 
 - include: windows-emet.yml
   when: harden_win_emet_conf != ''
@@ -156,9 +129,13 @@
 - include: windows-usb.yml
   when: harden_win_restrict_usb
 
+- include: windows10.yml
+  when: harden_windows_disable_win10cortana and ansible_distribution_major_version >= 10
 - include: windows-cortana.yml
   when: harden_windows_disable_win10cortana and ansible_distribution_major_version >= 10
 
 - include: windows-dma.yml
   when: harden_win_restrict_dma
 
+- include: windows-msoffice.yml
+- include: windows-msproject.yml

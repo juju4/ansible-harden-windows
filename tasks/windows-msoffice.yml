@@ -1,4 +1,22 @@
 ---
 
+## https://www.asd.gov.au/publications/protect/hardening-ms-office-2016.htm
+## https://www.asd.gov.au/publications/protect/ms-office-macro-security.htm
 ## http://www.asd.gov.au/publications/protect/Microsoft_Office_Macro_Security.pdf
+## https://blogs.technet.microsoft.com/mmpc/2016/03/22/new-feature-in-office-2016-can-block-macros-and-help-prevent-infection/
+## https://blogs.technet.microsoft.com/diana_tudor/2014/12/02/microsoft-project-how-to-control-macro-settings-using-registry-keys/
+## https://technet.microsoft.com/en-us/library/cc179076.aspx    ActiveX in Office
+## https://technet.microsoft.com/en-us/library/cc179039.aspx
 
+- name: Ms Office | defined trusted locations path
+  win_regedit:
+    key: HKCU:\Software\Microsoft\Office\15.0\application_name\Security\Trusted Locations
+    name: Path
+    data: "{{ harden_win_msoffice_trustedlocations }}"
+    type: expandstring
+  with_items:
+    - Access
+    - Excel
+    - PowerPoint
+    - Visio
+    - Word

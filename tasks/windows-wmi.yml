@@ -1,4 +1,5 @@
 ---
+## Note: win10 uses Microsoft-Windows-WMI-Activity/Operational
 
 ## https://blog.ropnop.com/using-credentials-to-own-windows-boxes-part-3-wmi-and-winrm/
 ## https://msdn.microsoft.com/en-us/library/windows/desktop/aa826686(v=vs.85).aspx

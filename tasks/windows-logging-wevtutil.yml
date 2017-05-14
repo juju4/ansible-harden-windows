@@ -17,8 +17,9 @@
     - Microsoft-Windows-DistributedCOM
 #    - Microsoft-Windows-DistributedCOM/Operational
     - Microsoft-Windows-Powershell/Operational
-    - Microsoft-Windows-WMI-Activity/Operational
     - Microsoft-Windows-WinRM/Operational
+## win10
+    - Microsoft-Windows-WMI-Activity/Operational
 ## FIXME! too many arguments, even with quote
 #    - Internel Explorer
 #  ignore_errors: true

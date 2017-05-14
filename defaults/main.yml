@@ -82,17 +82,20 @@ harden_win_netcease_url: 'https://gallery.technet.microsoft.com/Net-Cease-Blocki
 harden_win_simplednscrypt: true
 harden_win_simplednscrypt_url: https://github.com/bitbeans/SimpleDnsCrypt/releases/download/0.4.0/SimpleDNSCrypt.msi
 
-harden_win_osquery: true
+#harden_win_osquery: true
+harden_win_osquery: false
 harden_win_osqueryd_service_enable: true
 harden_win_osquery_template: 'osquery.conf.j2'
 ## extra files to upload as packs
-harden_win_osquery_upload_packs: []
+harden_win_osquery_upload_packs:
+  - osquery-windows-pack
 harden_win_osquery_packs:
-    - "osquery-monitoring"
-    - "incident-response"
-    - "it-compliance"
-    - "vuln-management"
-    - "hardware-monitoring"
+  - "osquery-monitoring"
+  - "incident-response"
+  - "it-compliance"
+  - "vuln-management"
+  - "hardware-monitoring"
+  - "osquery-windows-pack"
 ## currently only chocolatey release
 harden_win_osquery_url: ''
 
@@ -184,8 +187,15 @@ harden_win_services_manual:
 #    - Computer Browser
 #    - Net Logon
 
+harden_win_services_automatic:
+## http://www.blackviper.com/windows-services/superfetch/ + Forensics
+## https://www.tekrevue.com/tip/disable-superfetch-prefetch-windows-8/
+  - Superfetch
+
+
 ## Experimental. issue with ansible win_firewall_rule module
 harden_win_firewall: false
+#harden_win_firewall: true
 #harden_win_fw_default_action: 'allow'
 harden_win_fw_default_action: 'block'
 harden_win_fw_program_allowed_out_public:
@@ -209,6 +219,8 @@ harden_win_fw_program_blocked_out_public:
   - '%SystemRoot%\SysWOW64\WindowsPowerShell\v1.0\powershell.exe'
   - '%SystemRoot%\system32\WindowsPowerShell\v1.0\powershell.exe'
   - '%SystemRoot%\system32\cmd.exe'
+## https://github.com/MHaggis/hunt-detect-prevent/blob/master/Prevention/Windows%20Firewall.md
+  - '%SystemRoot%\syswow64\verclsid.exe'
 ## https://labs.nettitude.com/blog/fun-with-windows-binaries-application-whitelist-bypass-using-msiexec/
   - msiexec.exe
 harden_win_fw_ports_allowed_out_public: []
@@ -257,4 +269,6 @@ harden_win_suspicious_ext:
 harden_win_disable_smb_proto:
     - SMB1
 #    - SMB2
+
+harden_win_msoffice_trustedlocations: "%USERPROFILE%\\TrustedMacroDocuments"
 

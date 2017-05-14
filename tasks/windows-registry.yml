@@ -136,3 +136,11 @@
     datatype: dword
     data: 3
 
+## http://www.antalyatasarim.com/registry/sources/detail-1235.htm
+- name: Disable UPnP broadcasts
+  win_regedit:
+    key: HKLM:\SOFTWARE\Microsoft\DirectPlayNATHelp\DPNHUPn
+    value: UPnPMode
+    datatype: dword
+    data: 2
+

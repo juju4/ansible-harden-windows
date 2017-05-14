@@ -1,0 +1,11 @@
+---
+## https://twitter.com/dwizzzleMSFT/status/853079695520284674
+## If you instal Windows 10 1703 and enable HVCI we now also enable kCFG.  Kernel mode exploits are subject to control flow integrity in Win10
+## https://docs.microsoft.com/en-us/windows/device-security/device-guard/deploy-device-guard-enable-virtualization-based-security
+## https://docs.microsoft.com/en-us/windows/device-security/device-guard/deploy-code-integrity-policies-steps
+
+## https://blogs.technet.microsoft.com/the_microsoft_excel_support_team_blog/2015/08/19/blocked-access-to-files-with-windows-10/
+
+
+## Win server 2k8+
+#- include: windows-filescreening.yml

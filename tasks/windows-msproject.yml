@@ -1,0 +1,11 @@
+---
+## No GPO available
+## https://blogs.technet.microsoft.com/diana_tudor/2014/12/02/microsoft-project-how-to-control-macro-settings-using-registry-keys/
+
+## 1: Enable All Macros, 2: Disable All macros with notification, 3: Disable all macros except those digitally signed, 4: Disable all without notification
+- name: Update Macro settings for Ms Project
+  win_regedit:
+    key: HKCU:\Software\Policies\Microsoft\Office\14.0\msproject\security
+    name: VBAWarnings
+    data: 2
+    type: dword

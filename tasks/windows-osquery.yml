@@ -3,13 +3,22 @@
 ## https://osquery.io/downloads/
 ## https://www.facebook.com/notes/protect-the-graph/introducing-osquery-for-windows/1775110322729111/
 
-## no ansible module option to include prerelease
+## FIXME! "ERROR: Exception calling "RemovableAccessRule" with "1" argument(s): "Some or all identity references could not be translated."
+##      https://github.com/facebook/osquery/blob/e8045f1dd33ee4ed3a424ba70e71c1ff07b2a6e9/tools/provision/chocolatey/osquery_utils.ps1#L36
+##      https://msdn.microsoft.com/en-us/library/windows/desktop/aa379649(v=vs.85).aspx
 - name: Install osquery package with chocolatey
   win_chocolatey:
     name: osquery
-### ansible 2.1+
+## ansible 2.1+
 #    install_args: "/InstallService"
 #  ignore_errors: true
+
+- name: update windows packs
+  win_template:
+    src: "{{ item }}.conf.j2"
+    dest: "c:\\ProgramData\\osquery\\{{ item }}.conf"
+    backup: yes
+  with_items: "{{ harden_win_osquery_upload_packs }}"
 
 - name: Configure osqueryd
   win_template:

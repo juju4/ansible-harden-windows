@@ -1,4 +1,5 @@
 ---
+## https://blogs.windows.com/msedgedev/2015/08/26/how-microsoft-edge-and-internet-explorer-11-on-windows-10-work-better-together-in-the-enterprise/#s4vAKTKvz328jwjY.97 Enterprise Mode Site List
 
 - name: copy gpo template to target computer
   win_template:

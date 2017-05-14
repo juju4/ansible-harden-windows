@@ -3,10 +3,7 @@
 ## http://la.trendmicro.com/media/misc/understanding-wmi-malware-research-paper-en.pdf
 ## https://files.sans.org/summit/Digital_Forensics_and_Incident_Response_Summit_2015/PDFs/TheresSomethingAboutWMIDevonKerr.pdf
 ## https://ics-cert.us-cert.gov/sites/default/files/documents/WMI_for_Detection_and_Response_S508C.pdf
-
-## needed ?
-#wevtutil.exe sl Microsoft-Windows-WMI-Activity/Trace /e:true
-
+## FIXME! cover root\subscription, root\default
 
 ## https://www.fireeye.com/blog/threat-research/2016/08/wmi_vs_wmi_monitor.html
 ## FIXME! no checksum option
