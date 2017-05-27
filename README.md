@@ -1,5 +1,5 @@
 [![Build Status - Master](https://travis-ci.org/juju4/ansible-harden-windows.svg?branch=master)](https://travis-ci.org/juju4/ansible-harden-windows)
-[![Build Status - Devel](https://travis-ci.org/juju4/ansible-harden-windows.svg?branch=devel)](https://travis-ci.org/juju4/ansible-harden-windows/branches)
+[![Build Status - Devel](https://travis-ci.org/juju4/ansible-harden-windows.svg?branch=devel)](https://travis-ci.org/juju4/ansible-harden-windows/branches)(Syntax Only)
 # Windows harden ansible role
 
 Ansible role to harden windows system.
@@ -41,7 +41,7 @@ For example
 ```
 - host: all
   roles:
-    - harden-windows
+    - juju4.harden-windows
 ```
 
 Run
