@@ -9,22 +9,30 @@
 - name: Install osquery package with chocolatey
   win_chocolatey:
     name: osquery
-## ansible 2.1+
+## ansible 2.1+. better after configuration
 #    install_args: "/InstallService"
 #  ignore_errors: true
 
-- name: update windows packs
+- name: update osquery windows packs
   win_template:
     src: "{{ item }}.conf.j2"
     dest: "c:\\ProgramData\\osquery\\{{ item }}.conf"
     backup: yes
   with_items: "{{ harden_win_osquery_upload_packs }}"
+  register: conf1
 
 - name: Configure osqueryd
   win_template:
     src: "{{ harden_win_osquery_template }}"
 #    dest: "%ProgramData%\\osquery\\osquery.conf"
     dest: "c:\\ProgramData\\osquery\\osquery.conf"
+  register: conf2
+
+- name: Configure osqueryd flags
+  win_template:
+    src: "{{ harden_win_osquery_flags_template }}"
+    dest: "c:\\ProgramData\\osquery\\osquery.flags"
+  register: conf3
 
 - name: update osqueryd.exe path
   win_template:
@@ -37,10 +45,11 @@
 #      win_shell: "%ProgramData%\\osquery\\manage-osqueryd.ps1 -install -start"
       win_shell: "{{ item }}"
       with_items:
-        - "PowerShell.exe -ExecutionPolicy Bypass -File c:\\ProgramData\\osquery\\manage-osqueryd.ps1 -install"
+#        - "PowerShell.exe -ExecutionPolicy Bypass -File c:\\ProgramData\\osquery\\manage-osqueryd.ps1 -install"
+        - "PowerShell.exe -ExecutionPolicy Bypass -File c:\\ProgramData\\osquery\\manage-osqueryd.ps1 -install -args '--flagfile \\ProgramData\\osquery\\osquery.flags'"
         - "PowerShell.exe -ExecutionPolicy Bypass -File c:\\ProgramData\\osquery\\manage-osqueryd.ps1 -start"
       ignore_errors: true
-  when: harden_win_osqueryd_service_enable
+  when: harden_win_osqueryd_service_enable and (conf1.changed or conf2.changed or conf3.changed)
 - block:
     - name: Uninstall and stop osqueryd service
       win_shell: "{{ item }}"
