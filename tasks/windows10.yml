@@ -9,3 +9,13 @@
 
 ## Win server 2k8+
 #- include: windows-filescreening.yml
+
+## https://docs.microsoft.com/en-us/windows/threat-protection/block-untrusted-fonts-in-enterprise
+## Application and Service Logs/Microsoft/Windows/Win32k/Operational. Review Event ID 260
+- name: Win10 | Block Untrusted Fonts - Audit mode
+  win_regedit:
+    key: HKLM:\SYSTEM\CurrentControlSet\Control\Session Manager\Kernel
+    value: MitigationOptions
+    data: 3000000000000
+#    data: 1000000000000
+    datatype: qword

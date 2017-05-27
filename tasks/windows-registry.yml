@@ -1,5 +1,9 @@
 ## http://windowsitpro.com/networking/q-how-can-i-disable-netbios-over-tcpip-windows-server-core-installations
 ## https://technet.microsoft.com/en-us/library/cc775874%28v=ws.10%29.aspx
+## https://technet.microsoft.com/en-us/library/ee692589.aspx
+## https://www.4armed.com/blog/llmnr-nbtns-poisoning-using-responder/
+## https://www.surecloud.com/newsletter/local-network-vulnerabilities-llmnr-and-nbt-ns-poisoning
+## https://support.microsoft.com/en-us/help/313314/how-to-disable-netbios-over-tcp-ip-by-using-dhcp-server-options
 - name: Disable Windows Link-Local Multicast Name Resolution (LLMNR)
   win_regedit:
     key: HKLM:\Software\Policies\Microsoft\Windows NT\DNSClient
@@ -69,6 +73,14 @@
     - "HKCR:\\JSFile\\shell\\open\\command"
     - "HKCR:\\scriptletfile\\shell\\open\\command"  ## default
 
+## https://www.stigviewer.com/stig/windows_8_8.1/2014-06-27/finding/V-43239
+- name: Enable Cmdline in Audit Process creation
+  win_regedit:
+    key: HKLM:\Software\Microsoft\Windows\CurrentVersion\Policies\System\Audit
+    value: ProcessCreationIncludeCmdLine_Enabled
+    data: 1
+    datatype: dword
+
 ## https://blogs.technet.microsoft.com/fdcc/2011/01/24/alwaysinstallelevated-is-equivalent-to-granting-administrative-rights/
 ## https://msdn.microsoft.com/en-us/library/windows/desktop/aa367561(v=vs.85).aspx
 - name: Ensure Msiexec only executes with current user privileges
@@ -108,6 +120,14 @@
     datatype: dword
     data: 5
 
+## https://adsecurity.org/?p=3299, EventID 6065,3066
+- name: Audit LSA plugins and drivers
+  win_regedit:
+    key: HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Image File Execution Options\LSASS.exe
+    value: AuditLevel
+    datatype: dword
+    data: 8
+
 - name: Network security - Minimum session security for NTLM SSP based clients
   win_regedit:
     key: HKLM:\SYSTEM\CurrentControlSet\Control\Lsa\MSV1_0
@@ -139,8 +159,22 @@
 ## http://www.antalyatasarim.com/registry/sources/detail-1235.htm
 - name: Disable UPnP broadcasts
   win_regedit:
-    key: HKLM:\SOFTWARE\Microsoft\DirectPlayNATHelp\DPNHUPn
+    key: HKLM:\SOFTWARE\Microsoft\DirectPlayNATHelp\DPNHUPnP
     value: UPnPMode
     datatype: dword
     data: 2
 
+## https://www.stigviewer.com/stig/windows_8_8.1/2014-06-27/finding/V-3338
+## https://technet.microsoft.com/en-us/library/jj852166(v=ws.11).aspx
+## https://technet.microsoft.com/en-us/library/dd349805(v=ws.10).aspx#BKMK_44
+## https://technet.microsoft.com/en-us/library/cc957461.aspx
+- name: Ensure no anonymous access to named pipes
+  win_regedit:
+    key: HKLM:\System\CurrentControlSet\Services\LanManServer\Parameters
+    value: "{{ item.v }}"
+    datatype: "{{ item.t }}"
+    data: "{{ item.d }}"
+    state: "{{ item.s }}"
+  with_items:
+    - { v: NullSessionPipes, t: multistring, d: '', s: absent  }
+    - { v: RestrictNullSessAccess, t: dword, d: 1, s: present }

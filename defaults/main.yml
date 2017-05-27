@@ -82,13 +82,15 @@ harden_win_netcease_url: 'https://gallery.technet.microsoft.com/Net-Cease-Blocki
 harden_win_simplednscrypt: true
 harden_win_simplednscrypt_url: https://github.com/bitbeans/SimpleDnsCrypt/releases/download/0.4.0/SimpleDNSCrypt.msi
 
-#harden_win_osquery: true
-harden_win_osquery: false
+harden_win_osquery: true
+#harden_win_osquery: false
 harden_win_osqueryd_service_enable: true
 harden_win_osquery_template: 'osquery.conf.j2'
+harden_win_osquery_flags_template: 'osquery.flags.j2'
 ## extra files to upload as packs
 harden_win_osquery_upload_packs:
   - osquery-windows-pack
+  - osquery-windows-snapshots-pack
 harden_win_osquery_packs:
   - "osquery-monitoring"
   - "incident-response"
@@ -96,8 +98,12 @@ harden_win_osquery_packs:
   - "vuln-management"
   - "hardware-monitoring"
   - "osquery-windows-pack"
+  - "osquery-windows-snapshots-pack"
 ## currently only chocolatey release
 harden_win_osquery_url: ''
+## full queries snapshot 1/week or 1/month
+harden_win_osquery_snapshot_interval: 604800
+harden_win_osquery_snapshot_interval2: 2592000
 
 ## Experimental
 harden_win_mbrfilter: false
@@ -193,6 +199,11 @@ harden_win_services_automatic:
   - Superfetch
 
 
+harden_win_msoffice_version_reg: "15.0"
+harden_win_msoffice_version_short: "15"
+harden_win_msoffice_trustedlocations: "%USERPROFILE%\\TrustedMacroDocuments"
+
+
 ## Experimental. issue with ansible win_firewall_rule module
 harden_win_firewall: false
 #harden_win_firewall: true
@@ -207,10 +218,10 @@ harden_win_fw_program_allowed_out_public:
   - '%ProgramFiles%\bitbeans\Simple DNSCrypt\dnscrypt-proxy\dnscrypt-proxy.exe'
   - '%ProgramFiles%\bitbeans\Simple DNSCrypt\dnscrypt-proxy\dnscrypt-proxy-secondary.exe'
 harden_win_fw_program_blocked_out_public:
-  - "C:\\Program Files\\Microsoft Office\\Office14\\winword.exe"
-  - "C:\\Program Files\\Microsoft Office\\Office14\\excel.exe"
-  - "C:\\Program Files\\Microsoft Office\\Office14\\powerpoint.exe"
-  - "C:\\Program Files\\Microsoft Office\\Office14\\msaccess.exe"
+  - "C:\\Program Files\\Microsoft Office\\Office{{ harden_win_msoffice_version_short }}\\winword.exe"
+  - "C:\\Program Files\\Microsoft Office\\Office{{ harden_win_msoffice_version_short }}\\excel.exe"
+  - "C:\\Program Files\\Microsoft Office\\Office{{ harden_win_msoffice_version_short }}\\powerpoint.exe"
+  - "C:\\Program Files\\Microsoft Office\\Office{{ harden_win_msoffice_version_short }}\\msaccess.exe"
   - '%SystemRoot%\System32\wscript.exe'
   - '%SystemRoot%\Syswow64\wscript.exe'
   - '%SystemRoot%\System32\cscript.exe'
@@ -230,6 +241,11 @@ harden_win_fw_ports_blocked_out_public:
   - 53
   - 123
   - 6881-6889
+## smb/llmnr?
+  - 137
+  - 138
+  - 5353
+  - 5355
 harden_win_fw_ports_allowed_in_public: []
 harden_win_fw_ports_blocked_in_public:
   - 25
@@ -269,6 +285,4 @@ harden_win_suspicious_ext:
 harden_win_disable_smb_proto:
     - SMB1
 #    - SMB2
-
-harden_win_msoffice_trustedlocations: "%USERPROFILE%\\TrustedMacroDocuments"
 

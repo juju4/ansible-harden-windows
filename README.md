@@ -92,7 +92,8 @@ https://www.sixdub.net/?p=367
 http://www.scip.ch/en/?labs.20150507
 https://www.sysadmins.lv/blog-en/powershell-50-and-applocker-when-security-doesnt-mean-security.aspx
 
-
+* Securing Windows Workstations: Developing a Secure Baseline
+https://adsecurity.org/?p=3299
 
 
 ## License

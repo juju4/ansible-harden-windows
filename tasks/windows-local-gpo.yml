@@ -1,5 +1,6 @@
 ---
 ## https://blogs.windows.com/msedgedev/2015/08/26/how-microsoft-edge-and-internet-explorer-11-on-windows-10-work-better-together-in-the-enterprise/#s4vAKTKvz328jwjY.97 Enterprise Mode Site List
+## http://www.morgantechspace.com/2013/11/Enable-File-System-Auditing-in-Windows.html
 
 - name: copy gpo template to target computer
   win_template:
@@ -24,4 +25,6 @@
 
 ## Configure Network Level Authentication for Remote Desktop Services Connections, win2008r2+
 ## https://technet.microsoft.com/en-us/library/cc732713%28v=ws.11%29.aspx
+
+## (LLMNR) Computer Configuration->Administrative Templates->Network->DNS client: Turn off multicast name resolution
 
