@@ -6,6 +6,8 @@
 ##      http://fr.slideshare.net/Hackerhurricane/ask-aalware-archaeologist/25
 ## 	http://www.asd.gov.au/publications/protect/securing-powershell.htm
 ## 	https://www.leeholmes.com/blog/2017/03/17/detecting-and-preventing-powershell-downgrade-attacks/
+## 	https://blogs.msdn.microsoft.com/daviddasneves/2017/05/25/powershell-security-at-enterprise-customers/
+##	https://www.trendmicro.com/vinfo/us/security/news/security-technology/security-101-the-rise-of-fileless-threats-that-abuse-powershell
 ## Forward EID 4104 to SIEM at least. https://msdn.microsoft.com/en-us/library/cc748890.aspx
 - name: enable module logging - PowerShell5
   win_regedit:
@@ -16,7 +18,8 @@
 ### FIXME! why need to ignore errors???
 - name: enable module logging - PowerShell5 (2)
   win_regedit:
-    key: 'HKLM:\SOFTWARE\Wow6432Node\Policies\Microsoft\Windows\PowerShell\ModuleLogging \ModuleNames'
+#    key: 'HKLM:\SOFTWARE\Wow6432Node\Policies\Microsoft\Windows\PowerShell\ModuleLogging \ModuleNames'
+    key: 'HKLM:\SOFTWARE\Wow6432Node\Policies\Microsoft\Windows\PowerShell\ModuleLogging\ModuleNames'
     value: "*"
     data: "*"
   ignore_errors: true

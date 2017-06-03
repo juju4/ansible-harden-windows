@@ -5,10 +5,15 @@ VAGRANTFILE_API_VERSION = "2"
 ENV['VAGRANT_DEFAULT_PROVIDER'] = 'virtualbox'
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
-## Note: you need to set up a windows box manually
 ## http://kitchen.ci/blog/test-kitchen-windows-test-flight-with-vagrant/
-    #config.vm.box = "eval-windows-2012r2"
-    config.vm.box = "windows-2012r2"
+## https://atlas.hashicorp.com/boxes/search?provider=virtualbox&q=windows&sort=&utf8=%E2%9C%93
+## initial ansible preparation?
+    config.vm.box = "mwrock/Windows2012R2"
+    config.vm.guest = :windows
+    config.vm.communicator = "winrm"
+    #config.winrm.username = "IEUser"
+    #config.winrm.password = "Passw0rd!"
+    config.vm.boot_timeout = 600
 
     config.vm.provision :ansible do |ansible|
        ansible.playbook = "site.yml"
@@ -18,7 +23,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
        ansible.sudo = false
 #       ansible.extra_vars = { ansible_ssh_user: 'vagrant' }
        ansible.groups = {
-          "myrole" => ["vhost" ],
+          "myrole" => ["vhardenwin" ],
        }
     end
 
@@ -26,11 +31,12 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 #    config.vm.provision :serverspec do |spec|
 #        spec.pattern = '../../test/integration/default/serverspec/*_spec.rb'
 #    end
-    config.vm.define "vhost" do |vhost|
-        vhost.vm.hostname = "vhost"
-        vhost.vm.provider "virtualbox" do |v|
-          v.memory = 1024
+    config.vm.define "vhardenwin" do |vhardenwin|
+        vhardenwin.vm.hostname = "vhardenwin"
+        vhardenwin.vm.provider "virtualbox" do |v|
+          v.memory = 2048
         end
+        vhardenwin.gui = true
     end
 
 end

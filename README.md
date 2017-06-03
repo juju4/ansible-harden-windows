@@ -95,6 +95,7 @@ https://www.sysadmins.lv/blog-en/powershell-50-and-applocker-when-security-doesn
 * Securing Windows Workstations: Developing a Secure Baseline
 https://adsecurity.org/?p=3299
 
+* [Validation with inspec](https://github.com/juju4/windows-baseline)(Thanks to dev-sec project!)
 
 ## License
 

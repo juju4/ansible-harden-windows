@@ -1,0 +1,21 @@
+---
+## TODO: Ensure Powershell v5 is installed before removing v2 else will affect ansible & others...
+
+## https://technet.microsoft.com/en-us/itpro/powershell/windows/dism/disable-windowsoptionalfeature
+## FIXME! 'InvalidOperation : (:) [Disable-WindowsOptionalFeature], PSInvalidOperationException_x000D__x000A_'
+## https://docs.microsoft.com/en-us/windows-hardware/manufacture/desktop/dism-global-options-for-command-line-syntax
+## https://technet.microsoft.com/en-us/library/dd744582(v=ws.10).aspx (DISM)
+
+## Note: output is localized...
+#- name: Get Windows feature state with DISM
+#  win_command: "Dism /online /get-features /format:table"
+#  changed_when: false
+#  ignore_errors: true
+#  register: winfeatures
+#- debug: var=winfeatures
+
+- name: Disable Windows Optional Feature
+#  win_shell: "Disable-WindowsOptionalFeature -FeatureName {{ item }} -Online"
+## FIXME! not idempotent
+  win_command: "Dism /online /Disable-Feature /FeatureName:{{ item }}"
+  with_items: "{{ harden_win_disable_winfeature }}"

@@ -10,7 +10,7 @@
         start_mode: disabled
         state: stopped
       with_items: "{{ harden_win_services_disable }}"
-      ignore_errors: true
+#      ignore_errors: true
 
     - name: Set some services in manual start
       win_service:

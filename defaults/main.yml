@@ -112,32 +112,30 @@ harden_win_restrict_usb: false
 
 harden_win_services_disable:
 ## Win10 default: only fax and retaildemo
-    - AdobeLM Service
-    - Fast User Switching Compatibility
-    - Error Reporting Service
-    - FTP Publishing
+#    - AdobeLM Service
+#    - Fast User Switching Compatibility
+#    - Error Reporting Service
+#    - FTP Publishing
 #    - Indexing Service
-    - InstallDriver Table Manager
-    - Windows Messenger
-    - NetMeeting Remote Desktop Sharing
-    - Network Provisioning Service
-    - NT LM Security Support Provider
-    - Remote Desktop Help Session Manager
-    - Remote Registry
+#    - InstallDriver Table Manager
+#    - Windows Messenger
+#    - NetMeeting Remote Desktop Sharing
+#    - Network Provisioning Service
+#    - NT LM Security Support Provider
+#    - Remote Desktop Help Session Manager
 #    - Security Accounts Manager
 #    - Security Center
-    - Smart Card
-    - SSDP Discovery Service
-    - Telnet
-    - Terminal Services
-    - Uninterrupted Power Supply
+#    - Smart Card
+    - SCardSvr
+    - SSDPSRV
+#    - Telnet
+#    - Terminal Services
+#    - Uninterrupted Power Supply
 #    - Volume Shadow Copy
-    - Windows Firewall/Internet Connection Sharing (ICS)
     - Fax
-    - Offline Files
-    - Geolocation Service
-    - Sensor Service
-    - Routing and Remote Access
+#    - Offline Files
+#    - Geolocation Service
+#    - Sensor Service
     - RetailDemo
 ## IpHlpSvc: IP Helper = IPv6 transition technologies (6to4, ISATAP, Port Proxy, and Teredo), and IP-HTTPS, Homegroups
 ## WinHTTP Web-Proxy Auto-Discovery service (WPAD) + dependencies (iphlpsvc - must be first)
@@ -156,6 +154,7 @@ harden_win_services_disable:
     - HomeGroupListener
     - HomeGroupProvider
     - lfsvc
+    - lltdsvc
     - MapsBroker
     - NetTcpPortSharing
     - RemoteAccess
@@ -167,26 +166,28 @@ harden_win_services_disable:
     - XblAuthManager
     - XblGameSave
     - XboxNetApiSvc
+    - upnphost
 ## MS16-075, Miscmag90, http://www.blackviper.com/windows-services/webclient/
     - WebClient
 
-harden_win_services_manual:
-    - Application Management
-    - Cryptographic Services
-    - Distributed Transaction Service
-    - Help and Support
-    - HTTP SSL
-    - IMAPI CD-Burning COM Service
-    - IPSEC Services
-    - MS Software Shadow Copy Provider
-    - Portable Media Serial Number Service
-    - Remote Procedure Call Locator
-    - Removable Storage
-    - Secondary Logon
-    - Server
-    - TCP/IP NetBIOS Helper
-    - Universal Plug and Play Device Host
-    - User Privilege Service
+harden_win_services_manual: []
+#harden_win_services_manual:
+#    - Application Management
+#    - Cryptographic Services
+#    - Distributed Transaction Service
+#    - Help and Support
+#    - HTTP SSL
+#    - IMAPI CD-Burning COM Service
+#    - IPSEC Services
+#    - MS Software Shadow Copy Provider
+#    - Portable Media Serial Number Service
+#    - Remote Procedure Call Locator
+#    - Removable Storage
+#    - Secondary Logon
+#    - Server
+#    - TCP/IP NetBIOS Helper
+#    - Universal Plug and Play Device Host
+#    - User Privilege Service
 # If no network
 #    - Alerter 
 #    - ClipBook
@@ -197,6 +198,8 @@ harden_win_services_automatic:
 ## http://www.blackviper.com/windows-services/superfetch/ + Forensics
 ## https://www.tekrevue.com/tip/disable-superfetch-prefetch-windows-8/
   - Superfetch
+## Win Firewall
+  - MpsSvc
 
 
 harden_win_msoffice_version_reg: "15.0"
@@ -285,4 +288,9 @@ harden_win_suspicious_ext:
 harden_win_disable_smb_proto:
     - SMB1
 #    - SMB2
+
+harden_win_disable_winfeature:
+  - SMB1Protocol
+  - MicrosoftWindowsPowerShellV2
+  - MicrosoftWindowsPowerShellV2Root
 

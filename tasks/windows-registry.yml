@@ -1,3 +1,8 @@
+---
+
+- include: windows-logging-registry.yml
+#- include: windows-logging-wevtutil.yml
+
 ## http://windowsitpro.com/networking/q-how-can-i-disable-netbios-over-tcpip-windows-server-core-installations
 ## https://technet.microsoft.com/en-us/library/cc775874%28v=ws.10%29.aspx
 ## https://technet.microsoft.com/en-us/library/ee692589.aspx
@@ -10,19 +15,30 @@
     value: EnableMulticast
     data: 0
     datatype: dword
-### FIXME!
-- name: Disable Windows Netbios Name Service (NBT-NS)
+
+
+- name: Windows Netbios Name Service state with wmic
+  win_command: "wmic /interactive:off nicconfig where TcpipNetbiosOptions={{ item }}"
+  with_items:
+    - 0
+    - 1
+  register: nbtstate
+  changed_when: false
+  ignore_errors: true
+- block:
+    - name: Disable Windows Netbios Name Service (NBT-NS)
 ##  win_regedit:
 ##  key: HKLM:\SYSTEM\CurrentControlSet\services\NetBT\Parameters\Interfaces\xxxGUIDxxx
 ##    value: NetbiosOptions
 ##    data: 2
-### This one is working fine
-  win_command: "wmic /interactive:off nicconfig where TcpipNetbiosOptions={{ item }} call SetTcpipNetbios 2"
-  with_items:
-    - 0
-    - 1
 ## FIXME! doesn't seem to work
 #  win_command: 'powershell -Command "set-ItemProperty HKLM:SYSTEMCurrentControlSetservicesNetBTParametersInterfacestcpip* -Name NetbiosOptions -Value 2"'
+### This one is working fine
+      win_command: "wmic /interactive:off nicconfig where TcpipNetbiosOptions={{ item }} call SetTcpipNetbios 2"
+      with_items:
+        - 0
+        - 1
+  when: nbtstate.results[0].stdout != "\r\r\n\r\r\n" and nbtstate.results[1].stdout != "\r\r\n\r\r\n"
 
 ## http://news.softpedia.com/news/how-to-prevent-zip-files-from-executing-malicious-javascript-behind-your-back-503226.shtml
 ## https://labsblog.f-secure.com/2016/04/19/how-to-disable-windows-script-host/
@@ -120,6 +136,7 @@
     datatype: dword
     data: 5
 
+## https://technet.microsoft.com/en-us/library/dn408187(v=ws.11).aspx
 ## https://adsecurity.org/?p=3299, EventID 6065,3066
 - name: Audit LSA plugins and drivers
   win_regedit:

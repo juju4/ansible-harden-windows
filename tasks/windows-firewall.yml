@@ -9,6 +9,19 @@
 ##      HKLM:\SYSTEM\CurrentControlSet\Services\SharedAccess\Parameters\FirewallPolicy\<profilename>
 ##      HKLM\Software\Policies\Microsoft\WindowsFirewall\<Profilename>  (if set by gpo)
 
+## https://technet.microsoft.com/en-us/library/ee693371(v=exchg.80).aspx
+## not sure if apply to Win10?
+- name: Ensure Firewall is enabled for all profile
+  win_regedit:
+    key: "HKLM:\\Software\\Policies\\Microsoft\\WindowsFirewall\\{{ item }}"
+    value: EnableFirewall
+    data: 1
+    datatype: dword
+  with_items:
+    - DomainProfile
+    - StandardProfile
+    - PublicProfile
+
 ## FIXME! win_firewall_rule not idempotent
 
 - name: Firewall | allow svchost dns and ntp requests out
