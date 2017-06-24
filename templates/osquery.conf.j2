@@ -84,7 +84,7 @@
   //
   "packs": {
 {% for item in harden_win_osquery_packs %}
-    "{{ item }}": "/var/osquery/packs/{{ item }}.conf"{% if not loop.last %},{% endif %}
+    "{{ item }}": "/ProgramData/osquery/{{ item }}.conf"{% if not loop.last %},{% endif %}
 
 {% endfor %}
   }

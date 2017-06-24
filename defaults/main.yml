@@ -101,9 +101,9 @@ harden_win_osquery_packs:
   - "osquery-windows-snapshots-pack"
 ## currently only chocolatey release
 harden_win_osquery_url: ''
-## full queries snapshot 1/week or 1/month
+## full queries snapshot 1/week (maximum from code)
 harden_win_osquery_snapshot_interval: 604800
-harden_win_osquery_snapshot_interval2: 2592000
+harden_win_osquery_snapshot_interval2: 604800
 
 ## Experimental
 harden_win_mbrfilter: false

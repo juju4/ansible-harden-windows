@@ -59,13 +59,13 @@
       "query": "select * from wmi_event_filters;",
       "interval": "{{ harden_win_osquery_snapshot_interval }}",
       "platform": "windows",
-      "description": "Lists WMI event filters",
+      "description": "Lists WMI event filters"
     },
     "win_wmi_filter_consumer_binding": {
       "query": "select * from wmi_filter_consumer_binding;",
       "interval": "{{ harden_win_osquery_snapshot_interval }}",
       "platform": "windows",
-      "description": "Lists the relationship between event consumers and filters",
+      "description": "Lists the relationship between event consumers and filters"
     },
     "win_wmi_script_event_consumers": {
       "query" : "select filter,consumer,query,scripting_engine,script_file_name,script_text,wsec.name from wmi_script_event_consumers wsec left outer join wmi_filter_consumer_binding wcb on consumer = wsec.relative_path left outer join wmi_event_filters wef on wef.relative_path = wcb.filter;",
