@@ -35,6 +35,8 @@ harden_windows_disable_wpad: true
 
 harden_windows_disable_cmd: false
 
+harden_win_certificates_review: true
+
 harden_win_ie_proxy: false
 harden_win_ie_proxy_url: ''
 harden_win_ie_proxy_override: ''

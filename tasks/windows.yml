@@ -144,6 +144,9 @@
 - include: windows-dma.yml
   when: harden_win_restrict_dma
 
+- include: windows-certificates.yml
+  when: harden_win_certificates_review
+
 - include: windows-msoffice.yml
 - include: windows-msproject.yml
 - include: windows-feature.yml
