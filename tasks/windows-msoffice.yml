@@ -17,6 +17,7 @@
   with_items:
     - Access
     - Excel
+    - Outlook
     - PowerPoint
     - Visio
     - Word
@@ -28,3 +29,17 @@
     name: ShowOLEPackageObj
     data: 0
     type: dword
+
+## https://blogs.technet.microsoft.com/mmpc/2016/06/14/wheres-the-macro-malware-author-are-now-using-ole-embedding-to-deliver-malicious-files/
+- name: Ms Office | Prevent activation of OLE packages
+  win_regedit:
+    key: "HKCU:\\Software\\Microsoft\\Office\\{{ harden_win_msoffice_version_reg }}\\{{ item }}\\Security"
+    name: PackagerPrompt
+    data: "{{ harden_win_msoffice_packagerprompt }}"
+    type: dword
+  with_items:
+    - Access
+    - Excel
+    - Outlook
+    - PowerPoint
+    - Visio

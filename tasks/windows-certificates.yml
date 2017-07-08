@@ -8,6 +8,9 @@
 #- command: Certutil
 #- command: certutil -dcinfo deleteBad
 #- command: certutil -dcinfo superfish
+#- name: remove certificates from Windows Certificate store
+#  win_shell: "dir cert:\ -rec | where Subject -match '{{ item }}' | Remove-Item"
+#  with_items: "{{ harden_win_certificates_removed }}"
 
 ## certmgr.msc
 ## https://github.com/ansible/ansible/issues/14387
