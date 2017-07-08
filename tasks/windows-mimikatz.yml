@@ -1,6 +1,7 @@
 ---
 
 ## https://jimshaver.net/2016/02/14/defending-against-mimikatz/
+## https://blogs.technet.microsoft.com/askpfeplat/2016/04/18/the-importance-of-kb2871997-and-kb2928120-for-credential-protection/
 - name: Pre-Win server 2012 Mimikatz Protection - UseLogonCredential
   win_regedit:
     key: HKLM:\System\CurrentControlSet\Control\SecurityProviders\WDigest
