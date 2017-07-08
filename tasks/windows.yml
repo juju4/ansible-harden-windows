@@ -106,6 +106,9 @@
 #- name: Enable Windows Firewall
 #  win_firewall_rule: enable=yes
 
+- include: windows-adminshares.yml
+  when: harden_windows_disable_adminshares
+
 - include: windows-local-gpo.yml
   when: harden_win_gpo_local is defined and harden_win_gpo_local
 

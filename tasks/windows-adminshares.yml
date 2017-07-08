@@ -1,0 +1,23 @@
+---
+## https://support.microsoft.com/en-us/help/842715/overview-of-problems-that-may-occur-when-administrative-shares-are-mis (<=WinXP)
+## https://www.petri.com/disable_administrative_shares
+## https://social.technet.microsoft.com/Forums/windows/en-US/c9d6b1c2-1059-4a8a-a6bd-56cc34104faa/disable-administrator-share
+
+- name: Disable Windows Administrative shares - registry
+  win_regedit:
+    key: "{{ item.k }}"
+    value: "{{ item.v }}"
+    data: "{{ item.d }}"
+    datatype: dword
+  with_items:
+    - { k: 'HKLM:\SYSTEM\CurrentControlSet\Services\LanManServer\Parameters', v: 'AutoShareWks', d: 0 }
+    - { k: 'HKLM:\SYSTEM\CurrentControlSet\Services\LanManServer\Parameters', v: 'AutoShareServer', d: 0 }
+    - { k: 'HKLM:\SYSTEM\CurrentControlSet\Control\Lsa', v: 'restrictanonymous', d: 1 }
+
+- name: Disable Windows Administrative shares - current session
+  win_command: "{{ item }}"
+  with_items:
+    - "net share admin$ /delete"
+    - "net share c$ /delete"
+    - "net share d$ /delete"
+    - "net share e$ /delete"
