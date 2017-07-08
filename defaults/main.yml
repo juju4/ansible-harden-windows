@@ -32,7 +32,8 @@ harden_win_adobereader_v: 'DC'
 harden_win_eventlogs_maxsize: 315801600
 
 harden_windows_disable_wpad: true
-harden_windows_disable_adminshares: true
+harden_win_disable_adminshares: true
+harden_win_configure_errorreporting: false
 
 harden_windows_disable_cmd: false
 

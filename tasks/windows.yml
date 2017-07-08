@@ -107,7 +107,7 @@
 #  win_firewall_rule: enable=yes
 
 - include: windows-adminshares.yml
-  when: harden_windows_disable_adminshares
+  when: harden_win_disable_adminshares
 
 - include: windows-local-gpo.yml
   when: harden_win_gpo_local is defined and harden_win_gpo_local
@@ -132,6 +132,9 @@
 
 - include: windows-firewall.yml
   when: harden_win_firewall is defined and harden_win_firewall
+
+- include: windows-error-reporting.yml
+  when: harden_win_configure_errorreporting
 
 - include: mbrfilter.yml
   when: harden_win_mbrfilter
