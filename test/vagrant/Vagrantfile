@@ -8,12 +8,43 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 ## http://kitchen.ci/blog/test-kitchen-windows-test-flight-with-vagrant/
 ## https://atlas.hashicorp.com/boxes/search?provider=virtualbox&q=windows&sort=&utf8=%E2%9C%93
 ## initial ansible preparation?
-    config.vm.box = "mwrock/Windows2012R2"
+    config.vm.box = "mwrock/Windows2016"
+    #config.vm.box = "mwrock/Windows2012R2"
+    #config.vm.box = "opentable/win-2008r2-standard-amd64-nocm"
+    #config.vm.box = "Microsoft/EdgeOnWindows10"
+## https://developer.microsoft.com/en-us/microsoft-edge/tools/vms/
+##  + manually https://docs.ansible.com/ansible/intro_windows.html#windows-system-prep
+#    config.vm.box = "win10edge"
+#    config.winrm.username = "IEUser"
+#    config.winrm.password = "Passw0rd!"
     config.vm.guest = :windows
     config.vm.communicator = "winrm"
-    #config.winrm.username = "IEUser"
-    #config.winrm.password = "Passw0rd!"
     config.vm.boot_timeout = 600
+
+## http://www.hurryupandwait.io/blog/understanding-and-troubleshooting-winrm-connection-and-authentication-a-thrill-seekers-guide-to-adventure
+    config.vm.provision "shell", path: "ConfigureRemotingForAnsible.ps1", privileged: true
+    config.vm.provision "shell", path: "SetNetworkCategory.ps1", privileged: true
+#    config.vm.provision "shell", inline: "$c = New-SelfSignedCertificate -DnsName localhost -CertStoreLocation cert:\\LocalMachine\\My", privileged: true
+## Do not used in production, just for testing. Domain users should be fine.
+#    config.vm.provision "shell", inline: "Set-Item \\"wsman:\\localhost\\client\\trustedhosts\" -Value 'localhost' -Force", privileged: true
+    config.vm.provision "shell", inline: "winrm set winrm/config/client '@{TrustedHosts=\"*\"}'", privileged: true
+#    config.vm.provision "shell", inline: "winrm set winrm/config/client/auth '@{Basic=\"true\"}'", privileged: true
+#    config.vm.provision "shell", inline: "winrm set winrm/config/service/auth '@{Basic=\"true\"}'", privileged: true
+    config.vm.provision "shell", inline: "winrm set winrm/config/service '@{AllowUnencrypted=\"true\"}'", privileged: true
+## End testing
+## Configuration check
+    config.vm.provision "shell", inline: "Test-WSMan -Authentication default", privileged: true
+#    config.vm.provision "shell", inline: "Test-PsRemoting", privileged: true
+    config.vm.provision "shell", inline: "Get-PSSessionConfiguration", privileged: true
+    config.vm.provision "shell", inline: "Get-Item WSMan:\\localhost\\Client\\TrustedHosts", privileged: true
+    config.vm.provision "shell", inline: "Get-ChildItem WSMan:\\localhost\\Client\\DefaultPorts", privileged: true
+    config.vm.provision "shell", inline: "Get-ChildItem WSMan:\\localhost\\Listener", privileged: true
+    config.vm.provision "shell", inline: "Get-Service -Name winrm | Select Status", privileged: true
+    config.vm.provision "shell", inline: "reg query HKLM\\software\\Microsoft\\Windows\\CurrentVersion\\Policies\\system", privileged: true
+    #config.vm.provision "shell", inline: "", privileged: true
+# Host test
+# $ nc -z -w1 localhost 55985; echo $?
+# $ openssl s_client -connect localhost:55986 -showcerts </dev/null 2>/dev/null|openssl x509 -outform PEM
 
     config.vm.provision :ansible do |ansible|
        ansible.playbook = "site.yml"
@@ -36,7 +67,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
         vhardenwin.vm.provider "virtualbox" do |v|
           v.memory = 2048
         end
-        vhardenwin.gui = true
+        #vhardenwin.gui = true
     end
 
 end
