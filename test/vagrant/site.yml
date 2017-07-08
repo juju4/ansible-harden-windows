@@ -2,5 +2,5 @@
 
 - hosts: all
   roles:
-    - harden-windows
+    - juju4.harden-windows
 
