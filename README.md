@@ -76,8 +76,8 @@ $ cd /path/to/packer-build
 $ cp -Rd /path/to/juju4.harden-windows/packer .
 ## update packer-*.json with your current absolute ansible role path for the main role
 $ cd packer
-$ packer build packer-*.json
-$ packer build -only=virtualbox-iso packer-*.json
+$ packer build *.json
+$ packer build -only=virtualbox-iso *.json
 ## if you want to enable extra log
 $ PACKER_LOG_PATH="packerlog.txt" PACKER_LOG=1 packer build packer-*.json
 ```
