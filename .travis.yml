@@ -3,7 +3,7 @@ dist: trusty
 language: python
 python: "2.7"
 before_install:
- - ln -s ansible-harden-windows ../harden-windows
+ - ln -s ansible-harden-windows ../juju4.harden-windows
 install:
   - pip install ansible ansible-lint
   - ansible --version
