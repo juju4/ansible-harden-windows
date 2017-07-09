@@ -6,9 +6,9 @@
 ## FIXME! "ERROR: Exception calling "RemovableAccessRule" with "1" argument(s): "Some or all identity references could not be translated."
 ##      https://github.com/facebook/osquery/blob/e8045f1dd33ee4ed3a424ba70e71c1ff07b2a6e9/tools/provision/chocolatey/osquery_utils.ps1#L36
 ##      https://msdn.microsoft.com/en-us/library/windows/desktop/aa379649(v=vs.85).aspx
-#- name: Install osquery package with chocolatey
-#  win_chocolatey:
-#    name: osquery
+- name: Install osquery package with chocolatey
+  win_chocolatey:
+    name: osquery
 ## ansible 2.1+. better after configuration
 #    install_args: "/InstallService"
 #  ignore_errors: true

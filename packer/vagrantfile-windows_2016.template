@@ -1,0 +1,26 @@
+Vagrant.configure("2") do |config|
+  config.vm.box = "windows_2016"
+  config.vm.guest = :windows
+
+  config.windows.halt_timeout = 15
+
+  # Configure Vagrant to use WinRM instead of SSH
+  config.vm.communicator = "winrm"
+
+  # Configure WinRM Connectivity
+  config.winrm.username = "vagrant"
+  config.winrm.password = "vagrant"
+
+  # Forwarding the Windows Server 2016 Guest Port 8080 t0 48080
+  # so that we can access it easily from outside the VM
+  config.vm.network "forwarded_port", guest: 8080, host: 48080, host_ip: "127.0.0.1", id: "edgeservice"
+
+  config.vm.provider "virtualbox" do |vb|
+     vb.name = "WindowsServer2016"
+     # Display the VirtualBox GUI when booting the machine
+     vb.gui = true
+     # More Power for the Windows Box with Docker
+     vb.memory = 8192
+     vb.cpus = 4
+   end
+end

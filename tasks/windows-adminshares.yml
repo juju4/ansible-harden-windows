@@ -21,3 +21,4 @@
     - "net share c$ /delete"
     - "net share d$ /delete"
     - "net share e$ /delete"
+  ignore_errors: true

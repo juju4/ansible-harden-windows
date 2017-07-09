@@ -5,5 +5,5 @@
 #  vars:
 #    - a:
   roles:
-    - harden-windows
+    - juju4.harden-windows
 
