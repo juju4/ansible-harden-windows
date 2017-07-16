@@ -1,6 +1,8 @@
 ---
 ## Enable AppLocker in audit mode, Win Enterprise+
 ## https://technet.microsoft.com/en-us/library/dd759131(v=ws.11).aspx
+## AppLocker Design Guide, Microsoft
+## https://docs.microsoft.com/en-us/windows/device-security/applocker/applocker-policies-design-guide
 
 ## https://www.sixdub.net/?p=367
 ## https://dfir-blog.com/2016/01/03/protecting-windows-networks-applocker/
@@ -19,6 +21,11 @@
 ##  %ProgramData%, %OSDRIVE%\Program Files\Common Files\Microsoft Shared\VBA\*
 ## https://github.com/MHaggis/hunt-detect-prevent/blob/master/Prevention/applocker.md
 ## https://github.com/MHaggis/hunt-detect-prevent/blob/master/Prevention/Applocker/applocker.xml
+## https://github.com/iadgov/AppLocker-Guidance/tree/master/AppLocker%20Starter%20Policy
+## https://www.sans.org/reading-room/whitepapers/Whitelists/finding-evil-whitelist-35832
+## https://helgeklein.com/blog/2012/08/applocker-solutions-to-common-problems/  UAC=NoAppLocker group
+## https://hinchley.net/articles/an-approach-for-managing-microsoft-applocker-policies/
+## https://mssec.wordpress.com/2015/10/22/applocker-bypass-checker/
 
 ## powershell downgrade
 ## C:\WINDOWS\assembly\GAC_MSIL\System.Management.Automation
