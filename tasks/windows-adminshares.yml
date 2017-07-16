@@ -15,10 +15,12 @@
     - { k: 'HKLM:\SYSTEM\CurrentControlSet\Control\Lsa', v: 'restrictanonymous', d: 1 }
 
 - name: Disable Windows Administrative shares - current session
-  win_command: "{{ item }}"
+  win_share:
+    name: "{{ item }}"
+    state: absent
+#  win_command: "net share {{ item }} /delete"
   with_items:
-    - "net share admin$ /delete"
-    - "net share c$ /delete"
-    - "net share d$ /delete"
-    - "net share e$ /delete"
-  ignore_errors: true
+    - "admin$"
+    - "c$"
+    - "d$"
+    - "e$"
