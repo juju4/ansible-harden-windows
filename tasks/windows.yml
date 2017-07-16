@@ -65,6 +65,7 @@
 - include: windows-wmi.yml
 - include: windows-online.yml
 - include: windows-ipv6.yml
+- include: windows-rdp-restricted.yml
 
 - include: windows-emet.yml
   when: harden_win_emet_conf != ''
@@ -152,6 +153,9 @@
 
 - include: windows-certificates.yml
   when: harden_win_certificates_review
+
+- include: windows-disallowrun.yml
+  when: harden_win_disallowrun
 
 - include: windows-msoffice.yml
 - include: windows-msproject.yml

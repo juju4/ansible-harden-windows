@@ -127,6 +127,8 @@ Extra read
 
 * [Validation with inspec](https://github.com/juju4/windows-baseline)(Thanks to dev-sec project!)
 
+* [SecurityWithoutBorders HardenTools](https://github.com/securitywithoutborders/hardentools)
+
 ## License
 
 BSD 2-clause

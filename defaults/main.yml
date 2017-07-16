@@ -71,6 +71,14 @@ harden_win_chocolateypkgs:
 ## install fails for me... "Exception calling "SetAccessRule" ... Some or all identity references could not be translated."
 #    - osquery
 
+## per user/HKCU...
+harden_win_disallowrun: false
+harden_win_disallowrun_list:
+  - { v: "1", d: "powershell.exe" }
+  - { v: "2", d: "powershell_ise.exe" }
+  - { v: "3", d: "cmd.exe" }
+  - { v: "4", d: "mshta.exe" }
+
 harden_win_sysmon: true
 harden_win_sysmon_url: 'https://download.sysinternals.com/files/Sysmon.zip'
 ## note: file should be in current or template directory with .j2 extension
@@ -265,11 +273,6 @@ harden_win_firewall: false
 #harden_win_fw_default_action: 'allow'
 harden_win_fw_default_action: 'block'
 harden_win_fw_program_allowed_out_public:
-  - '%ProgramFiles\firefox.exe'
-  - '%ProgramFiles%\Google\Chrome\Application\chrome.exe'
-  - '%windir%\SystemApps\Microsoft.MicrosoftEdge_8wekyb3d8bbwe\MicrosoftEdge.exe'
-  - 'microsoftupdate.exe'
-  - '%windir%\System32\BackgroundTransferHost.exe'
   - '%ProgramFiles%\bitbeans\Simple DNSCrypt\dnscrypt-proxy\dnscrypt-proxy.exe'
   - '%ProgramFiles%\bitbeans\Simple DNSCrypt\dnscrypt-proxy\dnscrypt-proxy-secondary.exe'
 harden_win_fw_program_blocked_out_public:
@@ -282,13 +285,30 @@ harden_win_fw_program_blocked_out_public:
   - '%SystemRoot%\System32\cscript.exe'
   - '%SystemRoot%\Syswow64\cscript.exe'
   - '%SystemRoot%\system32\mshta.exe'
-  - '%SystemRoot%\SysWOW64\WindowsPowerShell\v1.0\powershell.exe'
+  - '%SystemRoot%\SysWOW64\mshta.exe'
   - '%SystemRoot%\system32\WindowsPowerShell\v1.0\powershell.exe'
+  - '%SystemRoot%\SysWOW64\WindowsPowerShell\v1.0\powershell.exe'
   - '%SystemRoot%\system32\cmd.exe'
+  - '%SystemRoot%\SysWOW64\cmd.exe'
+  - '%SystemRoot%\system32\notepad.exe'
+  - '%SystemRoot%\SysWOW64\notepad.exe'
+  - '%SystemRoot%\system32\calc.exe'
+  - '%SystemRoot%\SysWOW64\calc.exe'
+  - '%SystemRoot%\system32\ftp.exe'
+  - '%SystemRoot%\SysWOW64\ftp.exe'
+## https://securityinaction.wordpress.com/2016/04/24/windows-applocker-bypass-disclosed/
+  - '%SystemRoot%\system32\regsvr32.exe'
+  - '%SystemRoot%\SysWOW64\regsvr64.exe'
 ## https://github.com/MHaggis/hunt-detect-prevent/blob/master/Prevention/Windows%20Firewall.md
+  - '%SystemRoot%\system32\verclsid.exe'
   - '%SystemRoot%\syswow64\verclsid.exe'
 ## https://labs.nettitude.com/blog/fun-with-windows-binaries-application-whitelist-bypass-using-msiexec/
-  - msiexec.exe
+  - '%SystemRoot%\system32\msiexec.exe'
+  - '%SystemRoot%\SysWOW64\msiexec.exe'
+## does it work?
+##  https://social.technet.microsoft.com/Forums/windows/en-US/9d0f3230-2ead-47ee-9233-d5e94df98b90/using-a-wildcard-path-for-a-firewall-program-exception?forum=w7itprosecurity
+##  http://www.404techsupport.com/2009/01/09/windows-firewall-exceptions-through-group-policy/
+  - '%UserProfile%\*.*'
 harden_win_fw_ports_allowed_out_public: []
 harden_win_fw_ports_blocked_out_public:
   - 25
@@ -311,6 +331,16 @@ harden_win_fw_ports_blocked_in_public:
   - 53
   - 123
   - 6881-6889
+harden_win_fw_program_allowed_web_out_public:
+  - '%ProgramFiles\firefox.exe'
+  - '%ProgramFiles%\Google\Chrome\Application\chrome.exe'
+  - '%windir%\SystemApps\Microsoft.MicrosoftEdge_8wekyb3d8bbwe\MicrosoftEdge.exe'
+  - 'microsoftupdate.exe'
+  - '%windir%\System32\BackgroundTransferHost.exe'
+harden_win_fw_web_ports:
+  - 80
+  - 443
+  - 8080
 
 ## FIXME! localized rule name...
 harden_win_fw_rules_disable:
@@ -334,7 +364,7 @@ harden_win_suspicious_ext:
     - wsf
     - wsh
     - pif
-    - bat
+#    - bat
 
 ## https://support.microsoft.com/en-us/help/2696547/how-to-enable-and-disable-smbv1,-smbv2,-and-smbv3-in-windows-vista,-windows-server-2008,-windows-7,-windows-server-2008-r2,-windows-8,-and-windows-server-2012
 harden_win_disable_smb_proto:
