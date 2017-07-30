@@ -9,10 +9,14 @@
 # http://iase.disa.mil/stigs/Pages/index.aspx
 # http://iase.disa.mil/stigs/Pages/stig-viewing-guidance.aspx
 
-- name: Create temp dir
-## FIXME! "msg": "Illegal characters in path."
-  win_file: path='{{ harden_win_temp_dir }}' state=directory
-#  raw: "mkdir {{ harden_win_temp_dir }}"
+- name: Create ansible directories
+  win_file:
+    path: "{{ item }}"
+    state: directory
+#  raw: "mkdir {{ item }}"
+  with_items:
+    - "{{ harden_win_temp_dir }}"
+    - "{{ harden_win_log_dir }}"
   ignore_errors: true
 
 ## [WARNING]: Module invocation had junk after the JSON data:
