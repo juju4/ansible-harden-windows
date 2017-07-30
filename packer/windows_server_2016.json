@@ -78,7 +78,7 @@
         "ANSIBLE_ROLES_PATH=../../"
       ],
       "extra_arguments": [
-        "--connection", "packer", "-vvv",
+        "--connection", "packer",
         "--extra-vars", "ansible_shell_type=powershell ansible_shell_executable=None"
       ]
     }
