@@ -71,7 +71,6 @@ harden_win_chocolateypkgs:
 #    - gpg4usb
 ## install fails for me... "Exception calling "SetAccessRule" ... Some or all identity references could not be translated."
 #    - osquery
-    - sysmon
 
 ## per user/HKCU...
 harden_win_disallowrun: false
@@ -82,8 +81,11 @@ harden_win_disallowrun_list:
   - { v: "4", d: "mshta.exe" }
 
 harden_win_sysmon: true
+## as sysmon link is updated and hash change, chocolatey install can fails
+## ansible win_get_url currently does not support checksum option
 harden_win_sysmon_direct: false
 harden_win_sysmon_url: 'https://download.sysinternals.com/files/Sysmon.zip'
+harden_win_sysmon_sha256: '848c3323324e8fa849024f87a2764f8575513463f339690056664861f99e4c5f'
 ## note: file should be in current or template directory with .j2 extension
 harden_win_sysmon_template: SysmonConfig-Neo23x0-workstations.xml
 

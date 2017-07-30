@@ -24,8 +24,13 @@
         sysmon_path: "{{ harden_win_temp_dir }}\\sysmon\\sysmon"
   when: harden_win_sysmon_direct
 - block:
+    - name: install sysmon with chocolatey
+      win_chocolatey:
+        name: sysmon
+        state: present
+        params: "--checksum {{ harden_win_sysmon_sha256 }}"
     - set_fact:
-        sysmon_path: "{{ harden_win_temp_dir }}\\sysmon\\sysmon"
+        sysmon_path: "c:\\ProgramData\\chocolatey\\lib\\sysmon\\tools\\sysmon"
   when: not harden_win_sysmon_direct
 
 - block:
