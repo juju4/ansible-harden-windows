@@ -1,0 +1,11 @@
+---
+
+- name: testing | Ensure inspec is present
+  win_chocolatey:
+    name: inspec
+    state: present
+
+- name: testing | run windows-baseline
+  command: "inspec exec https://github.com/juju4/windows-baseline >{{ harden_win_temp_dir }}\\inspec.log"
+  ignore_errors: true
+
