@@ -1,0 +1,21 @@
+---
+
+- hosts: all
+  vars:
+    - jumpbox_tools:
+        - putty
+        - filezilla
+        - googlechrome
+        - rdcman
+        - rsat
+        - 7zip
+        - notepadplusplus
+    - harden_win_applocker_policy: "applocker-medium.xml"
+  roles:
+    - juju4.harden-windows
+  tasks:
+    - name: install jump box toolset
+      win_chocolatey:
+        name: "{{ item}}"
+        state: present
+      with_items: "{{ jumpbox_tools }}"

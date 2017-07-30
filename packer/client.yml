@@ -1,0 +1,30 @@
+---
+
+- hosts: all
+  vars:
+    - client_tools:
+        - microsoftsecurityessentials
+        - putty
+        - filezilla
+        - googlechrome
+        - rdcman
+        - 7zip
+        - notepadplusplus
+#        - gitdesktop   ## package issue
+#        - tortoisegit
+#        - eclipse
+#        - visualstudio2017community
+#        - docker
+#        - docker-kitematic
+#        - libreoffice
+#        - skypeforbusiness
+#        - office365business
+    - harden_win_applocker_policy: "applocker-basic.xml"
+  roles:
+    - juju4.harden-windows
+  tasks:
+    - name: install client toolset
+      win_chocolatey:
+        name: "{{ item}}"
+        state: present
+      with_items: "{{ client_tools }}"
