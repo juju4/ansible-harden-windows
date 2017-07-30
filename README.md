@@ -24,11 +24,12 @@ Only apply to your own system else for most countries (ex: Europe), user must ha
 It was tested on the following versions:
  * 2.0 (min required for Win)
  * 2.2
+ * 2.3
 
 ### Operating systems
 
-Tested with vagrant on Ubuntu 14.04.
-Only tested against Win10 Evaluation.
+Tested with vagrant on Ubuntu 14.04 and 16.04.
+Only tested against Win10 and Ws2016 Evaluation.
 Follow
 http://kitchen.ci/blog/test-kitchen-windows-test-flight-with-vagrant/
 
@@ -79,7 +80,7 @@ $ cd packer
 $ packer build *.json
 $ packer build -only=virtualbox-iso *.json
 ## if you want to enable extra log
-$ PACKER_LOG_PATH="packerlog.txt" PACKER_LOG=1 packer build packer-*.json
+$ PACKER_LOG_PATH="packerlog.txt" PACKER_LOG=1 packer build *.json
 ```
 
 ## Troubleshooting & Known issues
@@ -114,7 +115,8 @@ Build 'virtualbox-iso' errored: Error uploading VirtualBox version: Error restor
 ```
 Same, restarting is usually enough.
 https://github.com/StefanScherer/packer-windows/issues/21
-
+It also sometimes stall on ` Waiting for WinRM to become available...`
+==> just stop it and restart
 
 ## FAQ
 
@@ -126,6 +128,13 @@ Extra read
 * Securing Windows Workstations: Developing a Secure Baseline: https://adsecurity.org/?p=3299
 
 * [Validation with inspec](https://github.com/juju4/windows-baseline)(Thanks to dev-sec project!)
+
+* [SecurityWithoutBorders HardenTools](https://github.com/securitywithoutborders/hardentools)
+
+## Thanks
+
+Thanks to the many people who share books, tweets, scripts or other OSINT that contributed directly or not inside this role.
+Infosec community is GREAT!
 
 ## License
 
