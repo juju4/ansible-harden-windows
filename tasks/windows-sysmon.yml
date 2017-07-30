@@ -28,7 +28,7 @@
       win_chocolatey:
         name: sysmon
         state: present
-        params: "--checksum {{ harden_win_sysmon_sha256 }}"
+        install_args: "--checksum {{ harden_win_sysmon_sha256 }}"
     - set_fact:
         sysmon_path: "c:\\ProgramData\\chocolatey\\lib\\sysmon\\tools\\sysmon"
   when: not harden_win_sysmon_direct
