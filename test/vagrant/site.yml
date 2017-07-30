@@ -3,4 +3,5 @@
 - hosts: all
   roles:
     - juju4.harden-windows
-
+  tasks:
+    - win_ping:
