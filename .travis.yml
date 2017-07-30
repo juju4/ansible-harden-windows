@@ -5,6 +5,7 @@ python: "2.7"
 before_install:
  - ln -s ansible-harden-windows ../juju4.harden-windows
 install:
+  - apt-get install libxml2-utils
   - pip install ansible ansible-lint
   - ansible --version
   - "{ echo '[defaults]'; echo 'roles_path = ../'; } >> ansible.cfg"
