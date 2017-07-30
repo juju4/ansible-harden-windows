@@ -81,6 +81,14 @@ harden_win_disallowrun_list:
   - { v: "3", d: "cmd.exe" }
   - { v: "4", d: "mshta.exe" }
 
+## per user/HKCU...
+harden_win_disallowrun: false
+harden_win_disallowrun_list:
+  - { v: "1", d: "powershell.exe" }
+  - { v: "2", d: "powershell_ise.exe" }
+  - { v: "3", d: "cmd.exe" }
+  - { v: "4", d: "mshta.exe" }
+
 harden_win_sysmon: true
 harden_win_sysmon_direct: false
 harden_win_sysmon_url: 'https://download.sysinternals.com/files/Sysmon.zip'
@@ -284,11 +292,6 @@ harden_win_firewall: false
 #harden_win_fw_default_action: 'allow'
 harden_win_fw_default_action: 'block'
 harden_win_fw_program_allowed_out_public:
-  - '%ProgramFiles\firefox.exe'
-  - '%ProgramFiles%\Google\Chrome\Application\chrome.exe'
-  - '%windir%\SystemApps\Microsoft.MicrosoftEdge_8wekyb3d8bbwe\MicrosoftEdge.exe'
-  - 'microsoftupdate.exe'
-  - '%windir%\System32\BackgroundTransferHost.exe'
   - '%ProgramFiles%\bitbeans\Simple DNSCrypt\dnscrypt-proxy\dnscrypt-proxy.exe'
   - '%ProgramFiles%\bitbeans\Simple DNSCrypt\dnscrypt-proxy\dnscrypt-proxy-secondary.exe'
 harden_win_fw_program_blocked_out_public:
