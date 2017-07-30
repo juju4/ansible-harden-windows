@@ -2,7 +2,8 @@
 
 harden_win_networkpath: ''
 harden_win_networkdrive: ''
-harden_win_temp_dir: 'c:\temp'
+harden_win_temp_dir: 'c:\ansible\temp'
+harden_win_log_dir: 'c:\ansible\log'
 
 ## Windows
 harden_win_securityupdates: false
@@ -11,7 +12,7 @@ harden_win_registry: true
 harden_win_gpo_local: false
 harden_win_gpo_inf: win7-computer-security.inf
 harden_win_gpo_db: "%systemRoot%\\security\\database\\newdb.sdb"
-harden_win_gpo_log: c:\windows\temp\secedit.txt
+harden_win_gpo_log: "{{ harden_win_log_dir }}\\secedit.txt"
 ## User Account Control: Run all administrators in Admin Approval Mode
 harden_win_gpo_EnableLUA: true
 ## Note: this one corrupts win10 eval currently...
@@ -70,8 +71,18 @@ harden_win_chocolateypkgs:
 #    - gpg4usb
 ## install fails for me... "Exception calling "SetAccessRule" ... Some or all identity references could not be translated."
 #    - osquery
+    - sysmon
+
+## per user/HKCU...
+harden_win_disallowrun: false
+harden_win_disallowrun_list:
+  - { v: "1", d: "powershell.exe" }
+  - { v: "2", d: "powershell_ise.exe" }
+  - { v: "3", d: "cmd.exe" }
+  - { v: "4", d: "mshta.exe" }
 
 harden_win_sysmon: true
+harden_win_sysmon_direct: false
 harden_win_sysmon_url: 'https://download.sysinternals.com/files/Sysmon.zip'
 ## note: file should be in current or template directory with .j2 extension
 harden_win_sysmon_template: SysmonConfig-Neo23x0-workstations.xml
@@ -258,6 +269,14 @@ harden_win_msoffice_trustedlocations: "%USERPROFILE%\\TrustedMacroDocuments"
 ## 0 no prompt+executes, 1 prompt+if click, executes, 2 no prompt+no execution
 harden_win_msoffice_packagerprompt: 2
 
+harden_win_applocker_enable: true
+harden_win_applocker_policy: "applocker-basic.xml"
+harden_win_applocker_mode_exe: "AuditOnly"
+#harden_win_applocker_mode_exe: "Enforced"
+harden_win_applocker_mode_script: "AuditOnly"
+harden_win_applocker_mode_msi: "AuditOnly"
+harden_win_applocker_mode_appx: "AuditOnly"
+harden_win_applocker_mode_dll: "AuditOnly"
 
 ## Experimental. issue with ansible win_firewall_rule module
 harden_win_firewall: false
@@ -282,13 +301,30 @@ harden_win_fw_program_blocked_out_public:
   - '%SystemRoot%\System32\cscript.exe'
   - '%SystemRoot%\Syswow64\cscript.exe'
   - '%SystemRoot%\system32\mshta.exe'
-  - '%SystemRoot%\SysWOW64\WindowsPowerShell\v1.0\powershell.exe'
+  - '%SystemRoot%\SysWOW64\mshta.exe'
   - '%SystemRoot%\system32\WindowsPowerShell\v1.0\powershell.exe'
+  - '%SystemRoot%\SysWOW64\WindowsPowerShell\v1.0\powershell.exe'
   - '%SystemRoot%\system32\cmd.exe'
+  - '%SystemRoot%\SysWOW64\cmd.exe'
+  - '%SystemRoot%\system32\notepad.exe'
+  - '%SystemRoot%\SysWOW64\notepad.exe'
+  - '%SystemRoot%\system32\calc.exe'
+  - '%SystemRoot%\SysWOW64\calc.exe'
+  - '%SystemRoot%\system32\ftp.exe'
+  - '%SystemRoot%\SysWOW64\ftp.exe'
+## https://securityinaction.wordpress.com/2016/04/24/windows-applocker-bypass-disclosed/
+  - '%SystemRoot%\system32\regsvr32.exe'
+  - '%SystemRoot%\SysWOW64\regsvr64.exe'
 ## https://github.com/MHaggis/hunt-detect-prevent/blob/master/Prevention/Windows%20Firewall.md
+  - '%SystemRoot%\system32\verclsid.exe'
   - '%SystemRoot%\syswow64\verclsid.exe'
 ## https://labs.nettitude.com/blog/fun-with-windows-binaries-application-whitelist-bypass-using-msiexec/
-  - msiexec.exe
+  - '%SystemRoot%\system32\msiexec.exe'
+  - '%SystemRoot%\SysWOW64\msiexec.exe'
+## does it work?
+##  https://social.technet.microsoft.com/Forums/windows/en-US/9d0f3230-2ead-47ee-9233-d5e94df98b90/using-a-wildcard-path-for-a-firewall-program-exception?forum=w7itprosecurity
+##  http://www.404techsupport.com/2009/01/09/windows-firewall-exceptions-through-group-policy/
+  - '%UserProfile%\*.*'
 harden_win_fw_ports_allowed_out_public: []
 harden_win_fw_ports_blocked_out_public:
   - 25
@@ -311,6 +347,16 @@ harden_win_fw_ports_blocked_in_public:
   - 53
   - 123
   - 6881-6889
+harden_win_fw_program_allowed_web_out_public:
+  - '%ProgramFiles\firefox.exe'
+  - '%ProgramFiles%\Google\Chrome\Application\chrome.exe'
+  - '%windir%\SystemApps\Microsoft.MicrosoftEdge_8wekyb3d8bbwe\MicrosoftEdge.exe'
+  - 'microsoftupdate.exe'
+  - '%windir%\System32\BackgroundTransferHost.exe'
+harden_win_fw_web_ports:
+  - 80
+  - 443
+  - 8080
 
 ## FIXME! localized rule name...
 harden_win_fw_rules_disable:
@@ -334,7 +380,7 @@ harden_win_suspicious_ext:
     - wsf
     - wsh
     - pif
-    - bat
+#    - bat
 
 ## https://support.microsoft.com/en-us/help/2696547/how-to-enable-and-disable-smbv1,-smbv2,-and-smbv3-in-windows-vista,-windows-server-2008,-windows-7,-windows-server-2008-r2,-windows-8,-and-windows-server-2012
 harden_win_disable_smb_proto:
@@ -346,254 +392,6 @@ harden_win_disable_winfeature:
   - SMB1Protocol
   - MicrosoftWindowsPowerShellV2
 #  - MicrosoftWindowsPowerShellV2Root
-
-## For now, unused. refer directly to templates/Remove-TrustedRootCA.ps1.j2
-## You might want to double check this to your usage. Test, test and test!
-harden_win_certificates_removed:
-  - A-Trust-Qual-02
-  - A-Trust-Qual-03a
-  - A-Trust-Root-05
-  - AC Raíz Certicámara S.A.
-  - AC Raíz Certicámara S.A.
-  - AC RAIZ FNMT-RCM
-  - AC1 RAIZ MTIN
-  - ACA ROOT
-  - ACCVRAIZ1
-  - ACEDICOM Root
-  - ACNLB
-  - Actalis Authentication Root CA
-  - ANCERT Certificados CGN V2
-  - ANCERT Certificados Notariales V2
-  - ANF AC
-  - ANF Global Root CA
-  - Application CA G3 Root
-  - Athex Root CA
-  - Atos TrustedRoot 2011
-  - Australian Defence Organisation (ADO) Certificate Authority 02
-  - Australian Defence Public Root CA
-  - Austrian Society for Data Protection GLOBALTRUST Certification Service
-  - Autoridad Certificadora Raíz Nacional de Uruguay
-  - Autoridad de Certificacion de la Abogacia
-  - Autoridad de Certificacion Firmaprofesional CIF A62634068
-  - Autoridad de Certificacion Raiz de la Republica Bolivariana de Venezuela
-  - Autoridad de Certificacion Raiz de la Republica Bolivariana de Venezuela 1
-  - Autoridade Certificadora da Raiz Brasileira v1 - ICP-Brasil
-  - Autoridade Certificadora Raiz Brasileira v2
-  - Buypass Class 2 Root CA
-  - Buypass Class 3 Root CA
-  - BYTE Root Certification Authority 001
-  - CA DATEV BT 01
-  - CA DATEV BT 02
-  - CA DATEV BT 03
-  - CA DATEV INT 01
-  - CA DATEV INT 02
-  - CA DATEV INT 03
-  - CA DATEV STD 01
-  - CA DATEV STD 02
-  - CA DATEV STD 03
-  - CA Disig Root R1
-  - CA Disig Root R2
-  - CA WoSign ECC Root
-  - CAEDICOM ROOT
-  - CCA India 2014
-  - CCA India 2015
-  - Certification Authority of WoSign
-  - Certification Authority of WoSign G2
-  - Certigna
-  - Certigna Root CA
-  - Certinomis - Autorité Racine
-  - Certinomis - Root CA
-  - CertPlus Class 3 Primary CA
-  - CertPlus Class 3P Primary CA
-  - CertPlus Class 3TS Primary CA
-  - Certplus Root CA G1
-  - Certplus Root CA G2
-  - certSIGN ROOT CA
-  - Certum CA
-  - Certum Trusted Network CA
-  - Certum Trusted Network CA 2
-  - CFCA EV ROOT
-  - CFCA Identity CA
-  - Chambers of Commerce Root
-  - Chambers of Commerce Root - 2008
-  - Chambers of Commerce Root - 2016
-  - China Financial CA
-  - China Internet Network Information Center EV Certificates Root
-  - Chunghwa Telecom Co. Ltd.
-  - Cisco Systems
-  - Class 2 Primary CA
-  - CNNIC ROOT
-  - Colegio de Registradores Mercantiles
-  - Common Policy
-  - ComSign Advanced Security CA
-  - ComSign CA
-  - ComSign Global Root CA
-  - ComSign Secured CA
-  - Correo Uruguayo - Root CA
-  - Cybertrust Global Root
-  - D-TRUST Root CA 3 2013
-  - D-TRUST Root Class 3 CA 2 2009
-  - D-TRUST Root Class 3 CA 2 EV 2009
-  - Deutsche Telekom Root CA 2
-  - DIRECCION GENERAL DE LA POLICIA
-  - DST ACES CA X6
-  - E-ME SSI (RCA)
-  - E-Tugra Certification Authority
-  - EC-ACC
-  - Echoworx Root CA2
-  - ECRaizEstado
-  - EE Certification Centre Root CA
-  - ESIGNIT.ORG
-  - Fabrica Nacional de Moneda y Timbre
-  - Federal Government Common Policy
-  - Fotanúsítványkiadó - Kormányzati Hitelesítés Szolgáltató
-  - GDCA TrustAUTH R5 ROOT
-  - Global Chambersign Root
-  - Global Chambersign Root - 2008
-  - GLOBAL CHAMBERSIGN ROOT - 2016
-  - Government of Netherlands G3
-  - Government of Sweden (Försäkringskassan)
-  - GPKI ApplicationCA2 Root
-  - GPKIRootCA1
-  - Halcom CA FO
-  - Halcom CA PO 2
-  - Halcom Root CA
-  - Hellenic Academic and Research Institutions ECC RootCA 2015
-  - Hellenic Academic and Research Institutions RootCA 2011
-  - Hellenic Academic and Research Institutions RootCA 2015
-  - Hongkong Post Root CA 1
-  - Hotspot 2.0 Trust Root CA – 03
-  - I.CA – Qualified Certification Authority
-  - I.CA – Standard Certification Authority
-  - I.CA První certifikacní autorita a.s.
-  - I.CA První certifikacní autorita a.s. 1
-  - I.CA Root CA/RSA
-  - IdenTrust Commercial Root CA 1
-  - IdenTrust Public Sector Root CA 1
-  - Inera AB
-  - IZENPE S.A.
-  - Izenpe.com
-  - KEYNECTSIS ROOT CA
-  - KISA RootCA 1
-  - LAWtrust Root Certification Authority 2048
-  - LuxTrust Global Root 2
-  - LuxTrust Global Root CA
-  - Macao Post eSign Trust
-  - Microsec e-Szigno Root CA 2009
-  - Microsoft Root Authority
-  - Microsoft Root Certificate Authority 2010
-  - Microsoft Root Certificate Authority 2011
-  - MULTICERT Root Certification Authority 01
-  - NetLock Arany (Class Gold) Főtanúsítvány
-  - NetLock Kozjegyzoi (Class A) Tanusitvanykiado
-  - NetLock Minositett Kozjegyzoi (Class QA) Tanusitvanykiado
-  - NetLock Platina (Class Platinum) Fotanúsítvány
-  - Netrust CA1
-  - Nets DanID
-  - Network Solutions
-  - Network Solutions ECC Certificate Authority
-  - Network Solutions RSA Certificate Authority
-  - Notarius Root Certificate Authority
-  - OATI WebCARES Root CA
-  - OISTE WISeKey Global Root GA CA
-  - OISTE WISeKey Global Root GB CA
-  - OpenTrust Root CA G1
-  - OpenTrust Root CA G2
-  - OpenTrust Root CA G3
-  - PersonalID Trustworthy RootCA 2011
-  - Posta CA Root
-  - POSTarCA
-  - PostSignum Root QCA 2
-  - RXC-R2
-  - S-TRUST Authentication and Encryption Root CA 2005:PN
-  - S-TRUST Universal Root CA
-  - SAPO Class 2 Root CA
-  - SAPO Class 3 Root CA
-  - SAPO Class 4 Root CA
-  - Saudi National Root CA
-  - SECOM Trust Systems CO LTD 1
-  - SECOM Trust Systems Co Ltd.
-  - Secrétariat Général de la Défense Nationale
-  - Secure Global CA
-  - SecureSign RootCA11
-  - SecureTrust CA
-  - Security Communication ECC RootCA1
-  - Security Communication EV RootCA1
-  - Security Communication RootCA3
-  - SI-TRUST Root
-  - Skaitmeninio sertifikavimo centras 1
-  - Skaitmeninio sertifikavimo centras 2
-  - Skaitmeninio sertifikavimo centras 3
-  - Sonera Class1 CA
-  - Sonera Class2 CA
-  - SSC GDL CA Root B
-  - SSL.com EV Root Certification Authority ECC
-  - SSL.com EV Root Certification Authority RSA
-  - SSL.com Root Certification Authority ECC
-  - SSL.com Root Certification Authority RSA
-  - Staat der Nederlanden EV Root CA
-  - Staat der Nederlanden Root CA - G2
-  - Starfield Class 2 CA
-  - Starfield Root Certificate Authority - G2
-  - Starfield Services Root Certificate Authority - G2
-  - Starfield Technologies Inc.
-  - StartCom Certification Authority
-  - StartCom Certification Authority G2
-  - Swedish Government Root Authority v1
-  - Swedish Government Root Authority v3
-  - Swiss Government Root CA I
-  - Swiss Government Root CA II
-  - Swiss Government Root III
-  - Swisscom Root CA 1
-  - Swisscom Root CA 2
-  - Swisscom Root EV CA 2
-  - SwissSign Gold CA - G2
-  - SwissSign Gold Root CA – G3
-  - SwissSign Platinum CA - G2
-  - SwissSign Platinum Root CA – G3
-  - SwissSign Silver CA - G2
-  - SwissSign Silver Root CA – G3
-  - SZAFIR ROOT CA
-  - SZAFIR ROOT CA2
-  - T-TeleSec GlobalRoot Class 2
-  - T-TeleSec GlobalRoot Class 3
-  - TC TrustCenter Class 3 CA II
-  - TeliaSonera Root CA v1
-  - Thailand National Root Certification Authority - G1
-  - The USERTrust Network™
-  - TM Applied Business Root Certificate
-  - Trend Micro 1
-  - Trend Micro 2
-  - Trend Micro 3
-  - Trend Micro 4
-  - TrustCor ECA-1
-  - TrustCor RootCert CA-1
-  - TrustCor RootCert CA-2
-  - TÜBITAK Kamu SM
-  - TUBITAK Kamu SM SSL Kok Sertifikasi - Surum 1
-  - Tunisian Root Certificate Authority - TunRootCA2
-  - TÜRKTRUST Elektronik Sertifika Hizmet Sağlayıcısı 2
-  - TÜRKTRUST Elektronik Sertifika Hizmet Sağlayıcısı H5
-  - TÜRKTRUST Elektronik Sertifika Hizmet Sağlayıcısı H6
-  - TW Government Root Certification Authority
-  - TW Government Root Certification Authority 2
-  - TWCA Global Root CA
-  - TWCA Root Certification Authority
-  - UCA Global Root
-  - UCA Root
-  - USERTrust (Code Signing)
-  - USERTrust RSA Certification Authority
-  - USERTrust (Client Authentication / Secure Email)
-  - UTN-USERFirst-Hardware
-  - VAS Latvijas Pasts SSI(RCA)
-  - Verizon Global Root CA
-  - VI Registru Centras
-  - Visa eCommerce Root
-  - Visa Information Delivery Root CA
-  - VRK Gov. Root CA
-  - WellsSecure Public Root Certification Authority 01 G2
-  - WoSign China
-  - XRamp Global Certification Authority
 
 ## For now, unused. refer directly to templates/Remove-TrustedRootCA.ps1.j2
 ## You might want to double check this to your usage. Test, test and test!
