@@ -81,14 +81,6 @@ harden_win_disallowrun_list:
   - { v: "3", d: "cmd.exe" }
   - { v: "4", d: "mshta.exe" }
 
-## per user/HKCU...
-harden_win_disallowrun: false
-harden_win_disallowrun_list:
-  - { v: "1", d: "powershell.exe" }
-  - { v: "2", d: "powershell_ise.exe" }
-  - { v: "3", d: "cmd.exe" }
-  - { v: "4", d: "mshta.exe" }
-
 harden_win_sysmon: true
 harden_win_sysmon_direct: false
 harden_win_sysmon_url: 'https://download.sysinternals.com/files/Sysmon.zip'
