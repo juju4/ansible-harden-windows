@@ -6,6 +6,6 @@
     state: present
 
 - name: testing | run windows-baseline
-  win_command: "c:\\opscode\\inspec\\bin\\inspec.bat exec https://github.com/juju4/windows-baseline >{{ harden_win_temp_dir }}\\inspec.log"
+  win_command: "c:\\opscode\\inspec\\bin\\inspec.bat exec https://github.com/juju4/windows-baseline >{{ harden_win_log_dir }}\\inspec.log"
   ignore_errors: true
 
