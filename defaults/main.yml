@@ -53,6 +53,7 @@ harden_win_powershell_transcription_dir: "c:\\Windows\\Logs\\PowershellTranscrip
 harden_windows_disable_win10cortana: true
 
 harden_win_restrict_dma: false
+harden_win_stickykeys_disable: true
 
 harden_win_wef_enable: false
 harden_win_wef_collector_server: 'DOMAIN\mycollector'

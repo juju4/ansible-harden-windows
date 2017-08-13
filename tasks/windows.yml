@@ -165,5 +165,8 @@
 - include: windows-msproject.yml
 - include: windows-feature.yml
 
+- include: windows-sticky-keys.yml
+  when: harden_win_stickykeys_disable
+
 - include: windows-wef.yml
   when: harden_win_wef_enable
