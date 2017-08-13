@@ -12,7 +12,8 @@
       "winrm_username": "vagrant",
       "winrm_password": "vagrant",
       "winrm_timeout": "6h",
-      "shutdown_command": "shutdown /s /t 10 /f /d p:4:1 /c \"Packer Shutdown\"",
+      "shutdown_command": "C:/windows/system32/sysprep/sysprep.exe /generalize /oobe /unattend:C:/Windows/Panther/Unattend/unattend.xml /quiet /shutdown",
+      "shutdown_timeout": "15m",
       "post_shutdown_delay": "10s",
       "guest_os_type": "Windows2012_64",
       "guest_additions_mode": "attach",
@@ -40,7 +41,8 @@
       "winrm_username": "vagrant",
       "winrm_password": "vagrant",
       "winrm_timeout": "6h",
-      "shutdown_command": "shutdown /s /t 10 /f /d p:4:1 /c \"Packer Shutdown\"",
+      "shutdown_command": "C:/windows/system32/sysprep/sysprep.exe /generalize /oobe /unattend:C:/Windows/Panther/Unattend/unattend.xml /quiet /shutdown",
+      "shutdown_timeout": "15m",
       "tools_upload_flavor": "windows",
       "guest_os_type": "windows8srv-64",
       "disk_size": 61440,
@@ -80,6 +82,13 @@
       "extra_arguments": [
         "--connection", "packer",
         "--extra-vars", "ansible_shell_type=powershell ansible_shell_executable=None"
+      ]
+    },
+    {
+      "type": "windows-shell",
+      "execute_command": "{{ .Vars }} cmd /c \"{{ .Path }}\"",
+      "scripts": [
+        "./end-cleaning.bat"
       ]
     }
   ],
