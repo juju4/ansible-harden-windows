@@ -54,6 +54,9 @@ harden_windows_disable_win10cortana: true
 
 harden_win_restrict_dma: false
 
+harden_win_wef_enable: false
+harden_win_wef_collector_server: 'DOMAIN\mycollector'
+
 harden_win_chocolateypkgs:
 # http://windows.microsoft.com/en-us/windows/security-essentials-all-versions
 ## FAIL since 4m: https://gist.github.com/choco-bot/85701f4e87e16efed5be
@@ -364,6 +367,7 @@ harden_win_fw_rules_disable:
   - Candy Crush Soda Saga
 harden_win_fw_prefix: "A-Ansible"
 
+## https://www.nccgroup.trust/uk/about-us/newsroom-and-events/blogs/2017/august/smuggling-hta-files-in-internet-exploreredge/
 harden_win_suspicious_ext:
     - hta
     - vbe
