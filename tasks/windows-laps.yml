@@ -3,6 +3,7 @@
 ## https://blogs.technet.microsoft.com/askpfeplat/2015/12/28/local-administrator-password-solution-laps-implementation-hints-and-security-nerd-commentary-including-mini-threat-model/
 ## https://adsecurity.org/?p=1790
 ## https://adsecurity.org/?p=3164
+#PS> Get-ADComputer -Filter {ms-McsAdmPwdExpirationTime -Like “*”} -Property ms-McsAdmPwdExpirationTime
 ## https://flamingkeys.com/deploying-the-local-administrator-password-solution-part-1/
 ## https://blogs.technet.microsoft.com/kfalde/2015/11/18/laps-audit-reporting-via-wef-posh-and-powerbi/
 ## https://github.com/kurtfalde/LAPS-Reporting
