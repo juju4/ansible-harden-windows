@@ -7,11 +7,23 @@
       "platform": "windows",
       "description" : "Info on Application Compatibility shims"
     },
+    "win_autoexec": {
+      "query" : "select * from autoexec;",
+      "interval": "3600",
+      "platform": "windows",
+      "description" : "Aggregate of executables that will automatically execute on the target machine"
+    },
     "win_drivers": {
       "query" : "select * from drivers;",
       "interval": "3600",
       "platform": "windows",
       "description" : "Lists all installed and loaded Windows Drivers"
+    },
+    "win_ie_extensions": {
+      "query" : "select * from ie_extensions;",
+      "interval": "3600",
+      "platform": "windows",
+      "description" : "Internet Explorer browser extensions"
     },
     "win_patches": {
       "query" : "select * from patches;",
