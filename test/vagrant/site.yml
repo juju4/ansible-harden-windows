@@ -1,6 +1,16 @@
 ---
 
 - hosts: all
+  become_method: runas
+  vars:
+#    - harden_win_lsa_harden: true
+    - harden_win_mbrfilter: true
+    - harden_win_restrict_usb: true
+    - harden_win_remotelogging: true
+    - harden_win_firewall: true
+    - harden_win_configure_errorreporting: true
+    - harden_win_restrict_dma: true
+    - harden_win_wef_enable: true
   roles:
     - juju4.harden-windows
   tasks:
