@@ -62,6 +62,7 @@
   tags:
     - registry
 
+- include: windows-audit.yml
 - include: windows-services.yml
 - include: windows-ie.yml
 - include: windows-smb.yml
@@ -168,5 +169,14 @@
 - include: windows-sticky-keys.yml
   when: harden_win_stickykeys_disable
 
+- include: windows-laps.yml
+  when: harden_win_laps_enable
+
 - include: windows-wef.yml
   when: harden_win_wef_enable
+
+- include: passwd-filters.yml
+  when: harden_win_passwd_filters
+
+- include: windows-whitelist.yml
+  when: harden_win_applocker_enable

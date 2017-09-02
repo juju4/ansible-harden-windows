@@ -9,12 +9,24 @@ harden_win_log_dir: 'c:\ansible\log'
 harden_win_securityupdates: false
 harden_win_services: true
 harden_win_registry: true
-harden_win_gpo_local: false
+harden_win_gpo_local: true
 harden_win_gpo_inf: win7-computer-security.inf
 harden_win_gpo_db: "%systemRoot%\\security\\database\\newdb.sdb"
 harden_win_gpo_log: "{{ harden_win_log_dir }}\\secedit.txt"
 ## User Account Control: Run all administrators in Admin Approval Mode
 harden_win_gpo_EnableLUA: true
+harden_win_inf_PasswordComplexity: 1
+harden_win_inf_LockoutBadCount: 4
+harden_win_inf_ResetLockoutCount: 15
+harden_win_inf_LockoutDuration: 15
+## https://support.microsoft.com/en-us/help/243330/well-known-security-identifiers-in-windows-operating-systems
+## S-1-0-0=Nobody, S-1-5-32-544=Administrators, S-1-5-32-545=Users
+harden_win_inf_SeRemoteInteractiveLogonRight: ''
+harden_win_inf_SeTcbPrivilege: '*S-1-0-0'
+#harden_win_inf_SeNetworkLogonRight: '*S-1-5-32-545,*S-1-5-32-544'
+harden_win_inf_SeMachineAccountPrivilege: '*S-1-5-32-544'
+harden_win_inf_SeTrustedCredManAccessPrivilege: '*S-1-0-0'
+harden_win_inf_SeNetworkLogonRight: '*S-1-0-0'
 ## Note: this one corrupts win10 eval currently...
 harden_win_lsa_harden: false
 ## win7
@@ -35,6 +47,8 @@ harden_win_eventlogs_maxsize: 315801600
 harden_windows_disable_wpad: true
 harden_win_disable_adminshares: true
 harden_win_configure_errorreporting: false
+
+harden_win_cachedlogonscount: 1
 
 harden_windows_disable_cmd: false
 
@@ -57,6 +71,10 @@ harden_win_stickykeys_disable: true
 
 harden_win_wef_enable: false
 harden_win_wef_collector_server: 'DOMAIN\mycollector'
+
+harden_win_laps_enable: true
+
+harden_win_passwd_filters: true
 
 harden_win_chocolateypkgs:
 # http://windows.microsoft.com/en-us/windows/security-essentials-all-versions
