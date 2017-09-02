@@ -9,3 +9,4 @@
   win_command: "c:\\opscode\\inspec\\bin\\inspec.bat exec https://github.com/juju4/windows-baseline >{{ harden_win_log_dir }}\\inspec.log"
   ignore_errors: true
 
+- include: testing-applocker.yml
