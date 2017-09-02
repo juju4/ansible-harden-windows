@@ -41,5 +41,5 @@
     - { n: DelegateExecute, d: '' }
     - { n: '(default)', d: 'cmd /c start powershell.exe' }
 
-- name: Test UAC bypass: launch fodhelper
+- name: Test UAC bypass - launch fodhelper
   win_command: "C:\\Windows\\System32\\fodhelper.exe"
