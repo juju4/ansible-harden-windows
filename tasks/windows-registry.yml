@@ -195,3 +195,10 @@
   with_items:
     - { v: NullSessionPipes, t: multistring, d: '', s: absent  }
     - { v: RestrictNullSessAccess, t: dword, d: 1, s: present }
+
+- name: Limit number of cached logon accounts
+  win_regedit:
+    key: HKLM:\Software\Microsoft\Windows NT\Current Version\Winlogon
+    value: "cachedlogonscount"
+    datatype: dword
+    data: "{{ harden_win_cachedlogonscount }}"
