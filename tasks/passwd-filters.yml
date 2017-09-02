@@ -1,0 +1,53 @@
+---
+## https://msdn.microsoft.com/en-us/library/windows/desktop/ms722496(v=vs.85).aspx
+## https://amarkulo.com/integrating-database-of-pwned-password-hashes-with-microsoft-ad/
+## https://github.com/jephthai/OpenPasswordFilter
+## https://haveibeenpwned.com/passwords
+## https://jacksonvd.com/checking-for-breached-passwords-in-active-directory/
+
+opf_url: https://github.com/brockrob/OpenPasswordFilter/raw/master/OPF-alpha.zip
+
+- name: check if OpenPasswordFilter archive is present
+  win_stat: path="{{ harden_win_temp_dir }}\\{{ opf_url | basename }}"
+  register: opfdl
+- name: download OpenPasswordFilter
+  win_get_url:
+    url: "{{ opf_url }}"
+    dest: "{{ harden_win_temp_dir }}\\{{ opf_url | basename }}"
+## FIXME! no checksum option, https://github.com/ansible/ansible-modules-core/issues/4901
+  when: not opfdl.Stat.exists
+
+- name: Uncompress OPF
+  win_unzip:
+    src: "{{ harden_win_temp_dir }}\\{{ opf_url | basename }}"
+    dest: "{{ harden_win_temp_dir }}\\opf"
+    creates: "{{ harden_win_temp_dir }}\\opf\\OpenPasswordFilter.dll"
+
+- name: Copy OPF dll to system32
+  win_copy:
+    src: "{{ item }}"
+    dest: "c:\\windows\\system32\\{{ item | basename }}"
+    remote_src: true
+  with_items:
+    - "{{ harden_win_temp_dir }}\\opf\\OpenPasswordFilter.dll"
+    - "{{ harden_win_temp_dir }}\\opf\\OPFService.exe"
+
+- name: create OPF service
+  win_service:
+    name: OpenPasswordFilter
+    path: "c:\\windows\\system32\\OPFService.exe"
+    start_mode: auto
+    state: started
+
+- name: retrieving Notification registry value
+  command: "reg query HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Control\\Lsa\\Notification"
+  changed_when: false
+  register: reg1
+
+## FIXME! how to append?
+#- name: Enable Password filters
+#  win_regedit:
+#    key: HKLM:\SYSTEM\CurrentControlSet\Control\Lsa
+#    value: Notification
+#    datatype: multistring
+#    dataappend: OpenPasswordFilter
