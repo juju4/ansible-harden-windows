@@ -5,8 +5,6 @@
 ## https://haveibeenpwned.com/passwords
 ## https://jacksonvd.com/checking-for-breached-passwords-in-active-directory/
 
-opf_url: https://github.com/brockrob/OpenPasswordFilter/raw/master/OPF-alpha.zip
-
 - name: check if OpenPasswordFilter archive is present
   win_stat: path="{{ harden_win_temp_dir }}\\{{ opf_url | basename }}"
   register: opfdl

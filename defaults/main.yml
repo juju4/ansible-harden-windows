@@ -75,6 +75,8 @@ harden_win_wef_collector_server: 'DOMAIN\mycollector'
 harden_win_laps_enable: true
 
 harden_win_passwd_filters: true
+opf_url: https://github.com/brockrob/OpenPasswordFilter/raw/master/OPF-alpha.zip
+
 
 harden_win_chocolateypkgs:
 # http://windows.microsoft.com/en-us/windows/security-essentials-all-versions
