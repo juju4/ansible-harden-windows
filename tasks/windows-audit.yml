@@ -1,9 +1,14 @@
 ---
 
-- name: Configure Windows Audit policies
+- name: Common | Configure Windows Audit policies
+  win_command: AuditPol /Set /Category:\"{{ item }}\" /Failure:Enable /Success:Enable
+  with_items: "{{ harden_win_auditpol_enable }}"
+
+## not present on Ws2016
+- name: Specific | Configure Windows Audit policies
   win_command: AuditPol /Set /Category:\"{{ item }}\" /Failure:Enable /Success:Enable
   with_items:
-    - Account Logon
     - Application Group Management
     - Computer Account Management
     - Distribution Group Management
+  ignore_errors: true
