@@ -24,7 +24,7 @@ Only apply to your own system else for most countries (ex: Europe), user must ha
 It was tested on the following versions:
  * 2.0 (min required for Win)
  * 2.2
- * 2.3
+ * 2.3 (required for testing part - become_method: runas)
 
 ### Operating systems
 
