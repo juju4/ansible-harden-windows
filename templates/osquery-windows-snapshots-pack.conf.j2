@@ -5,74 +5,99 @@
       "query" : "select * from appcompat_shims;",
       "interval": "{{ harden_win_osquery_snapshot_interval }}",
       "platform": "windows",
+      "snapshot": true,
       "description" : "Info on Application Compatibility shims"
+    },
+    "win_autoexec": {
+      "query" : "select * from autoexec;",
+      "interval": "{{ harden_win_osquery_snapshot_interval }}",
+      "platform": "windows",
+      "snapshot": true,
+      "description" : "Aggregate of executables that will automatically execute on the target machine"
     },
     "win_drivers": {
       "query" : "select * from drivers;",
       "interval": "{{ harden_win_osquery_snapshot_interval }}",
       "platform": "windows",
+      "snapshot": true,
       "description" : "Lists all installed and loaded Windows Drivers"
+    },
+    "win_ie_extensions": {
+      "query" : "select * from ie_extensions;",
+      "interval": "{{ harden_win_osquery_snapshot_interval }}",
+      "platform": "windows",
+      "snapshot": true,
+      "description" : "Internet Explorer browser extensions"
     },
     "win_patches": {
       "query" : "select * from patches;",
       "interval": "{{ harden_win_osquery_snapshot_interval }}",
       "platform": "windows",
+      "snapshot": true,
       "description" : "Lists all the patches applied. Note: This does not include patches applied via MSI or downloaded from Windows Update (e.g. Service Packs)."
       },
     "win_programs": {
         "query" : "select * from programs;",
         "interval": "{{ harden_win_osquery_snapshot_interval2 }}",
         "platform": "windows",
+      "snapshot": true,
         "description" : "list products as they are installed by Windows Installer."
     },
     "win_registry": {
       "query" : "select * from registry;",
       "interval": "{{ harden_win_osquery_snapshot_interval2 }}",
       "platform": "windows",
+      "snapshot": true,
       "description" : "All of the Windows registry hives"
     },
     "win_scheduled_tasks": {
       "query" : "select * from scheduled_tasks;",
       "interval": "{{ harden_win_osquery_snapshot_interval2 }}",
       "platform": "windows",
+      "snapshot": true,
       "description" : "Lists all of the tasks in the Windows Task Scheduler"
     },
     "win_services": {
       "query" : "select * from services;",
       "interval": "{{ harden_win_osquery_snapshot_interval2 }}",
       "platform": "windows",
+      "snapshot": true,
       "description" : "Lists all installed Windows Services"
     },
     "win_shared_resources": {
       "query" : "select * from shared_resources;",
       "interval": "{{ harden_win_osquery_snapshot_interval }}",
       "platform": "windows",
+      "snapshot": true,
       "description" : "Displays shared resources on a computer system running Windows"
     },
     "win_wmi_cli_event_consumers": {
       "query" : "select filter,consumer,query,command_line_template,wcec.name from wmi_cli_event_consumers wcec left outer join wmi_filter_consumer_binding wcb on consumer = wcec.relative_path left outer join wmi_event_filters wef on wef.relative_path = wcb.filter;",
       "interval": "{{ harden_win_osquery_snapshot_interval }}",
       "platform": "windows",
+      "snapshot": true,
       "description" : "WMI CommandLineEventConsumer, which can be used for persistance on Windows"
     },
     "win_wmi_event_filters": {
       "query": "select * from wmi_event_filters;",
       "interval": "{{ harden_win_osquery_snapshot_interval }}",
       "platform": "windows",
+      "snapshot": true,
       "description": "Lists WMI event filters"
     },
     "win_wmi_filter_consumer_binding": {
       "query": "select * from wmi_filter_consumer_binding;",
       "interval": "{{ harden_win_osquery_snapshot_interval }}",
       "platform": "windows",
+      "snapshot": true,
       "description": "Lists the relationship between event consumers and filters"
     },
     "win_wmi_script_event_consumers": {
       "query" : "select filter,consumer,query,scripting_engine,script_file_name,script_text,wsec.name from wmi_script_event_consumers wsec left outer join wmi_filter_consumer_binding wcb on consumer = wsec.relative_path left outer join wmi_event_filters wef on wef.relative_path = wcb.filter;",
       "interval": "{{ harden_win_osquery_snapshot_interval }}",
       "platform": "windows",
+      "snapshot": true,
       "description" : "WMI ActiveScriptEventConsumer, which can be used for persistance on Windows"
     }
-
   }
 }
