@@ -1,0 +1,22 @@
+---
+## ansible 2.3+
+
+- hosts: all
+  roles:
+    - juju4.harden-windows
+  tasks:
+    - name: promote current server as Domain Controller
+      win_domain_controller:
+        dns_domain_name: ansible.vagrant
+        domain_admin_user: testguy@ansible.vagrant
+        domain_admin_password: password123!
+        safe_mode_password: password123!
+        state: domain_controller
+        log_path: c:\ansible_win_domain_controller.txt
+      register: dcpromo
+    - name: Reboot upon promotion
+      raw: shutdown /r
+      when: dcpromo.reboot_required
+      async: 0
+      poll: 0
+      ignore_errors: true

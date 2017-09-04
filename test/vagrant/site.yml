@@ -3,6 +3,18 @@
 - hosts: all
   become_method: runas
   vars:
+    - harden_win_securityupdates: false
+#    - harden_win_services: false
+#    - harden_win_registry: false
+#    - harden_win_gpo_local: true
+#    - harden_win_inf_MinimumPasswordLength: 6
+#    - harden_win_inf_PasswordComplexity: 0
+#    - harden_win_adobereader: false
+#    - harden_win_flash: false
+#    - harden_win_netcease: false
+#    - harden_win_simplednscrypt: false
+#    - harden_win_osquery: false
+#    - harden_win_certificates_review: false
 #    - harden_win_lsa_harden: true
     - harden_win_mbrfilter: true
     - harden_win_restrict_usb: true
@@ -10,7 +22,36 @@
     - harden_win_firewall: true
     - harden_win_configure_errorreporting: true
     - harden_win_restrict_dma: true
-    - harden_win_wef_enable: true
+#    - harden_win_wef_enable: true
+#    - harden_win_wef_collector_server_user: ''
+    - harden_win_applocker_enable: true
+    - harden_win_applocker_policy: "applocker-medium.xml"
+    - harden_win_applocker_mode_exe: "Enabled"
+    - harden_win_applocker_mode_script: "Enabled"
+    - harden_win_applocker_mode_msi: "Enabled"
+    - harden_win_applocker_mode_appx: "Enabled"
+    - harden_win_applocker_mode_dll: "AuditOnly"
+    - harden_win_testing_applocker_filepath:
+        - 'c:\windows\system32\calc.exe'
+        - 'c:\windows\system32\mshta.exe'
+        - 'c:\windows\system32\regsvr32.exe'
+        - 'c:\windows\Microsoft.NET\Framework\v4.0.30319\InstallUtil.exe'
+        - 'c:\windows\Microsoft.NET\Framework64\v4.0.30319\InstallUtil.exe'
+        - 'c:\windows\Microsoft.NET\Framework\v4.0.30319\MSBuild.exe'
+        - 'c:\windows\Microsoft.NET\Framework64\v4.0.30319\MSBuild.exe'
+        - 'c:\windows\Microsoft.NET\Framework\v4.0.30319\regasm.exe'
+        - 'c:\windows\Microsoft.NET\Framework64\v4.0.30319\regasm.exe'
+    - harden_win_chocolateypkgs:
+        - emet
+        - powershell
+        - adobereader
+        - procexp
+        - sysinternals
+        - pscx
+    - harden_win_testing_inspec: true
+    - harden_win_testing_applocker: true
+    - harden_win_testing_uac: false
+    - harden_win_testing_opf: false
   roles:
     - juju4.harden-windows
   tasks:
