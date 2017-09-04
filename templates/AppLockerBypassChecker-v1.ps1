@@ -9,7 +9,8 @@
 # // Tom Aafloen, 2015-10-22
 
 #$TestPath = "C:\Windows"
-$TestPath = $Args[1]
+$TestPath = [string]$Args
+Write-Host "Test Path:" $TestPath -ForegroundColor Green
 
 # Cleanup if script has been run before
 # Note that some folder allows adding files, but not deleting or executing

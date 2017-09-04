@@ -40,10 +40,25 @@
   win_shell: "Set-AppLockerPolicy -XMLPolicy {{ harden_win_temp_dir }}\\{{ harden_win_applocker_policy }}"
 
 - name: Check current Applocker policy
-  win_shell: Get-AppLockerPolicy -Local -Xml | Out-GridView
+  win_shell: Get-AppLockerPolicy -Local -Xml
   register: policy
   changed_when: false
 - debug: var=policy.stdout_lines
 
+
+- name: Non-domain | check if scheduled task to start AppIdSvc
+  win_shell: schtasks /query /tn "AppIdSvc-start"
+  changed_when: false
+  register: schtask1
+  failed_when: '"ERROR: The system cannot find the file specified." in schtask1.stdout'
+  ignore_errors: true
+
+## win_scheduled_task does not support onstart option
 - name: Non-domain | ensure Application Identity service started
   win_shell: schtasks /create /tn "AppIdSvc-start" /tr "sc start AppIdSvc" /sc onstart /RU SYSTEM
+  when: schtask1.failed
+
+- name: Ensure Application Identity service started
+  win_service:
+    name: AppIdSvc
+    state: started
