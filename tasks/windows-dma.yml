@@ -15,4 +15,4 @@
         datatype: dword
         data: 1
 
-  when: ansible_os_family == "Windows" and ansible_distribution_version.split('.')[0] == '10' and harden_windows_disable_dma
+  when: ansible_os_family == "Windows" and ansible_distribution_version.split('.')[0] == '10' and harden_win_disable_dma
