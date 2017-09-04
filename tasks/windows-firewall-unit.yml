@@ -2,7 +2,7 @@
 
 - name: Firewall | add rule for {{ program }}
   win_firewall_rule:
-    name: "{{ harden_win_fw_prefix }}-{{ action }}-{{ direction }}-{{ program | basename }}-{{ item }}"
+    name: "{{ harden_win_fw_prefix }}-{{ action }}-{{ direction }}-{{ program | win_basename }}-{{ item }}"
     program: "{{ program }}"
     enable: yes
     state: present
