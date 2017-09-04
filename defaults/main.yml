@@ -11,22 +11,27 @@ harden_win_services: true
 harden_win_registry: true
 harden_win_gpo_local: true
 harden_win_gpo_inf: win7-computer-security.inf
-harden_win_gpo_db: "%systemRoot%\\security\\database\\newdb.sdb"
+harden_win_gpo_db: "c:\\windows\\security\\database\\newdb.sdb"
 harden_win_gpo_log: "{{ harden_win_log_dir }}\\secedit.txt"
 ## User Account Control: Run all administrators in Admin Approval Mode
 harden_win_gpo_EnableLUA: true
+harden_win_inf_MinimumPasswordAge: 1
+harden_win_inf_MaximumPasswordAge: 180
+harden_win_inf_MinimumPasswordLength: 14
+harden_win_inf_PasswordHistorySize: 3
 harden_win_inf_PasswordComplexity: 1
 harden_win_inf_LockoutBadCount: 4
 harden_win_inf_ResetLockoutCount: 15
 harden_win_inf_LockoutDuration: 15
 ## https://support.microsoft.com/en-us/help/243330/well-known-security-identifiers-in-windows-operating-systems
 ## S-1-0-0=Nobody, S-1-5-32-544=Administrators, S-1-5-32-545=Users
-harden_win_inf_SeRemoteInteractiveLogonRight: ''
+harden_win_inf_SeRemoteInteractiveLogonRight: '*S-1-5-32-544'
 harden_win_inf_SeTcbPrivilege: '*S-1-0-0'
-#harden_win_inf_SeNetworkLogonRight: '*S-1-5-32-545,*S-1-5-32-544'
 harden_win_inf_SeMachineAccountPrivilege: '*S-1-5-32-544'
 harden_win_inf_SeTrustedCredManAccessPrivilege: '*S-1-0-0'
-harden_win_inf_SeNetworkLogonRight: '*S-1-0-0'
+## Warning: Removing administrators here might impact your ansible/winrm connection. Be cautious!
+#harden_win_inf_SeNetworkLogonRight: '*S-1-5-32-545,*S-1-5-32-544'
+harden_win_inf_SeNetworkLogonRight: '*S-1-0-0,*S-1-5-32-544'
 ## Note: this one corrupts win10 eval currently...
 harden_win_lsa_harden: false
 ## win7
@@ -67,16 +72,36 @@ harden_win_powershell_transcription_dir: "c:\\Windows\\Logs\\PowershellTranscrip
 harden_windows_disable_win10cortana: true
 
 harden_win_restrict_dma: false
+harden_win_disable_dma: false
 harden_win_stickykeys_disable: true
 
 harden_win_wef_enable: false
-harden_win_wef_collector_server: 'DOMAIN\mycollector'
+harden_win_wef_collector_server_user: 'DOMAIN\mycollector'
 
 harden_win_laps_enable: true
+## flag for DC schema change
+harden_win_laps_dc: false
+harden_win_rdp_enable: false
+## https://blogs.technet.microsoft.com/askperf/2008/02/16/ws2008-network-level-authentication-and-encryption/ (4 fips, 3 high, 2 client-compatible)
+#harden_win_rdp_encryptionlevel: 2
+harden_win_rdp_encryptionlevel: 3
 
-harden_win_passwd_filters: true
+## FIXME! service issue + .net 3.5
+harden_win_passwd_filters: false
 opf_url: https://github.com/brockrob/OpenPasswordFilter/raw/master/OPF-alpha.zip
+#opf_url: https://github.com/amarkulo/OpenPasswordFilter/raw/master/x64.7z
+## dictionary to use either as full match or partial (pay attention to size vs performance import, or use SQL fork)
+opf_passwd_list_url: https://raw.githubusercontent.com/danielmiessler/SecLists/master/Passwords/10_million_password_list_top_1000.txt
+opf_passwd_list_partial_url: https://raw.githubusercontent.com/danielmiessler/SecLists/master/Passwords/10_million_password_list_top_1000.txt
 
+## Warning! Enabling all those will generate *lot* of logs
+harden_win_auditpol_enable:
+  - Account Logon
+  - Object Access
+  - Privilege Use
+  - Detailed Tracking
+  - Policy Change
+  - DS Access
 
 harden_win_chocolateypkgs:
 # http://windows.microsoft.com/en-us/windows/security-essentials-all-versions
@@ -93,8 +118,9 @@ harden_win_chocolateypkgs:
 #    - gmer
 #    - gpg4win
 #    - gpg4usb
-## install fails for me... "Exception calling "SetAccessRule" ... Some or all identity references could not be translated."
 #    - osquery
+## for 7z uncompress
+    - pscx
 
 ## per user/HKCU...
 harden_win_disallowrun: false
@@ -115,7 +141,7 @@ harden_win_sysmon_template: SysmonConfig-Neo23x0-workstations.xml
 
 ## win_get_url missing checksum check
 harden_win_remotelogging: false
-harden_win_remotelogging_nxlog_url: 'https://nxlog.co/system/files/products/files/1/nxlog-ce-2.9.1716.msi'
+harden_win_remotelogging_nxlog_url: 'https://nxlog.co/system/files/products/files/348/nxlog-ce-2.9.1716.msi'
 
 harden_win_netcease: true
 harden_win_netcease_url: 'https://gallery.technet.microsoft.com/Net-Cease-Blocking-Net-1e8dcb5b/file/165596/1/NetCease.zip'
@@ -298,11 +324,12 @@ harden_win_msoffice_packagerprompt: 2
 harden_win_applocker_enable: true
 harden_win_applocker_policy: "applocker-basic.xml"
 harden_win_applocker_mode_exe: "AuditOnly"
-#harden_win_applocker_mode_exe: "Enforced"
+#harden_win_applocker_mode_exe: "Enabled"
 harden_win_applocker_mode_script: "AuditOnly"
 harden_win_applocker_mode_msi: "AuditOnly"
 harden_win_applocker_mode_appx: "AuditOnly"
 harden_win_applocker_mode_dll: "AuditOnly"
+#harden_win_testing_applocker_filepath: []
 
 ## Experimental. issue with ansible win_firewall_rule module
 harden_win_firewall: false
@@ -342,6 +369,13 @@ harden_win_fw_program_blocked_out_public:
 ## https://labs.nettitude.com/blog/fun-with-windows-binaries-application-whitelist-bypass-using-msiexec/
   - '%SystemRoot%\system32\msiexec.exe'
   - '%SystemRoot%\SysWOW64\msiexec.exe'
+#
+  - '%SystemRoot%\Microsoft.NET\Framework\v4.0.30319\InstallUtil.exe'
+  - '%SystemRoot%\Microsoft.NET\Framework64\v4.0.30319\InstallUtil.exe'
+  - '%SystemRoot%\Microsoft.NET\Framework\v4.0.30319\MSBuild.exe'
+  - '%SystemRoot%\Microsoft.NET\Framework64\v4.0.30319\MSBuild.exe'
+  - '%SystemRoot%\Microsoft.NET\Framework\v4.0.30319\regasm.exe'
+  - '%SystemRoot%\Microsoft.NET\Framework64\v4.0.30319\regasm.exe'
 ## does it work?
 ##  https://social.technet.microsoft.com/Forums/windows/en-US/9d0f3230-2ead-47ee-9233-d5e94df98b90/using-a-wildcard-path-for-a-firewall-program-exception?forum=w7itprosecurity
 ##  http://www.404techsupport.com/2009/01/09/windows-firewall-exceptions-through-group-policy/
@@ -663,3 +697,7 @@ harden_win_certificates_removed:
   - WoSign China
   - XRamp Global Certification Authority
 
+harden_win_testing_inspec: false
+harden_win_testing_applocker: false
+harden_win_testing_uac: false
+harden_win_testing_opf: false

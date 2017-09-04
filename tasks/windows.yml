@@ -45,6 +45,23 @@
   tags:
     - packages
 
+## FIXME!
+#- name: Ensure no users-writeable dir in general paths
+#  win_acl:
+#    path: "{{ item }}"
+#    user: Users
+#    rights: AppendData,WriteData,Write,FullControl
+#    type: allow
+#    state: absent
+#    inherit: ContainerInherit,ObjectInherit
+##    propagation: InheritOnly
+#    propagation: None
+#  win_command: "icacls \"{{ item }}\" /remove:g Users:(W)(AD)(WD) /T /inheritance:d"
+#  with_items:
+#    - 'c:\opscode\inspec'
+#    - 'c:\ProgramData'
+#    - "{{ harden_win_temp_dir }}"
+#    - "{{ harden_win_log_dir }}"
 
 - name: check ipv4 interface status
   raw: "netsh interface ipv4 show global | findstr MLD | findstr Level"
@@ -70,7 +87,7 @@
 - include: windows-wmi.yml
 - include: windows-online.yml
 - include: windows-ipv6.yml
-- include: windows-rdp-restricted.yml
+- include: windows-rdp.yml
 
 - include: windows-emet.yml
   when: harden_win_emet_conf != ''
