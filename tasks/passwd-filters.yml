@@ -13,7 +13,25 @@
     url: "{{ opf_url }}"
     dest: "{{ harden_win_temp_dir }}\\{{ opf_url | basename }}"
 ## FIXME! no checksum option, https://github.com/ansible/ansible-modules-core/issues/4901
-  when: not opfdl.Stat.exists
+  when: not opfdl.stat.exists
+
+- name: check if OpenPasswordFilter password list is present
+  win_stat: path="c:\\windows\\system32\\opfmatch.txt"
+  register: opfpass
+- name: download password list
+  win_get_url:
+    url: "{{ opf_passwd_list_url }}"
+    dest: "c:\\windows\\system32\\opfmatch.txt"
+  when: not opfpass.stat.exists
+
+- name: check if OpenPasswordFilter password list is present for partial match
+  win_stat: path="c:\\windows\\system32\\opfconf.txt"
+  register: opfpass2
+- name: download password list for partial match
+  win_get_url:
+    url: "{{ opf_passwd_list_partial_url }}"
+    dest: "c:\\windows\\system32\\opfconf.txt"
+  when: not opfpass2.stat.exists
 
 - name: Uncompress OPF
   win_unzip:
@@ -21,31 +39,54 @@
     dest: "{{ harden_win_temp_dir }}\\opf"
     creates: "{{ harden_win_temp_dir }}\\opf\\OpenPasswordFilter.dll"
 
+## note: once configured in registry, dll will be locked/used by lsass.exe
 - name: Copy OPF dll to system32
-  win_copy:
-    src: "{{ item }}"
-    dest: "c:\\windows\\system32\\{{ item | basename }}"
-    remote_src: true
+## BUG original_basename
+#  win_copy:
+#    src: "{{ harden_win_temp_dir }}\\opf\\{{ item }}"
+#    dest: "c:\\windows\\system32\\{{ item }}"
+#    remote_src: true
+## original
+#  win_shell: "Copy-Item {{ harden_win_temp_dir }}\\opf\\{{ item }} c:\\windows\\system32\\{{ item }}"
+## amarkulo
+  win_shell: "Copy-Item {{ harden_win_temp_dir }}\\opf\\x64\\{{ item }} c:\\windows\\system32\\{{ item }}"
+  args:
+    creates: "c:\\windows\\system32\\{{ item }}"
   with_items:
-    - "{{ harden_win_temp_dir }}\\opf\\OpenPasswordFilter.dll"
-    - "{{ harden_win_temp_dir }}\\opf\\OPFService.exe"
+    - "OpenPasswordFilter.dll"
+    - "OPFService.exe"
 
 - name: create OPF service
+#  win_service:
+#    name: OpenPasswordFilter
+#    path: "c:\\windows\\system32\\OPFService.exe"
+#    start_mode: auto
+#    state: started
+  win_shell: "New-Service -Name OpenPasswordFilter -BinaryPathName c:\\windows\\system32\\OPFService.exe -Description \"OpenPasswordFilter service to prevent dictionary passwords\" -StartupType Automatic"
+  ignore_errors: true
+
+## FIXME! error 'SHIM_GOTO_CONTROLPANEL', https://support.microsoft.com/en-us/help/2715633/shim-errors-for-the--net-framework-version-and-platform-support
+##  NOK ws2016: without or with .Net Framework 3.5
+##  NOK amarkulo, ws2016: service started and stopped. no error message
+- name: Ensure OPF service is started
   win_service:
     name: OpenPasswordFilter
-    path: "c:\\windows\\system32\\OPFService.exe"
-    start_mode: auto
     state: started
 
+## ws2016: initial value = 'rassfm\0scecli'
 - name: retrieving Notification registry value
-  command: "reg query HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Control\\Lsa\\Notification"
+  win_shell: "reg query \"HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Control\\Lsa\" /v \"Notification Packages\" | findstr REG_MULTI_SZ"
   changed_when: false
   register: reg1
+- set_fact:
+    NotifPackages: "{{ reg1.stdout | regex_replace('^\\s+Notification Packages\\s+REG_MULTI_SZ\\s+(.*)\\r\\n$', '\\1') }}"
+- debug: var=reg1.stdout_lines
+- debug: var=NotifPackages
 
-## FIXME! how to append?
-#- name: Enable Password filters
-#  win_regedit:
-#    key: HKLM:\SYSTEM\CurrentControlSet\Control\Lsa
-#    value: Notification
-#    datatype: multistring
-#    dataappend: OpenPasswordFilter
+- name: Enable Password filters
+  win_regedit:
+    key: HKLM:\SYSTEM\CurrentControlSet\Control\Lsa
+    value: Notification Packages
+    datatype: multistring
+    data: "{{ NotifPackages }}\\0OpenPasswordFilter"
+  when: not "'OpenPasswordFilter' in NotifPackages"
