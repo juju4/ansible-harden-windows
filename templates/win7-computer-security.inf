@@ -87,7 +87,11 @@ MACHINE\SYSTEM\CurrentControlSet\Services\Eventlog\Security\WarningLevel=4,90
 [System Access]
 EnableGuestAccount=0
 LSAAnonymousNameLookup=0
+MinimumPasswordAge={{ harden_win_inf_MinimumPasswordAge }}
+MaximumPasswordAge={{ harden_win_inf_MaximumPasswordAge }}
+MinimumPasswordLength={{ harden_win_inf_MinimumPasswordLength }}
 PasswordComplexity={{ harden_win_inf_PasswordComplexity }}
+PasswordHistorySize={{ harden_win_inf_PasswordHistorySize }}
 LockoutBadCount={{ harden_win_inf_LockoutBadCount }}
 ResetLockoutCount={{ harden_win_inf_ResetLockoutCount }}
 LockoutDuration={{ harden_win_inf_LockoutDuration }}
