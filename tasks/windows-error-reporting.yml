@@ -28,6 +28,6 @@
     - { v: 'DisableArchive', d: '0', t: 'dword' }
     - { v: 'DontShowUI', d: '1', t: 'dword' }
     - { v: 'DontSendAdditionalData', d: '1', t: 'dword' }
-    - { v: 'ExcludedApplications\[Application Name]', d: '', t: 'string' }
+#    - { v: 'ExcludedApplications\[Application Name]', d: '', t: 'string' }
     - { v: 'ExcludedApplications\Keepass.exe', d: '', t: 'string' }
 #    - { v: '', d: '', t: '' }
