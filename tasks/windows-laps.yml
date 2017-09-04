@@ -44,6 +44,7 @@
     - Update-AdmPwdADSchema
 # Auditing
 #    - Set-AdmPwdAuditing -OrgUnit $OU-of-Computers-to-Audit -AuditedPrincipals:$Group-to-Audit
+  when: harden_win_laps_dc
 
 ## https://4sysops.com/archives/part-2-faqs-for-microsoft-local-administrator-password-solution-laps/
 ## 0 (the default) to log errors only, 1 to log errors and warnings, and 2 for verbose logging.
