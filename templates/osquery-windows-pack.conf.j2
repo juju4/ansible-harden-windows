@@ -85,7 +85,7 @@
       "platform": "windows",
       "description" : "WMI ActiveScriptEventConsumer, which can be used for persistance on Windows"
     },
-// depends if you use Windows Event Forwarder or similar mechanisms. Arbitrary choice among many.
+// depends if you use Windows Event Forwarder or similar mechanisms. Arbitrary choice among many (also 7045,4663,5156,7040...)
     "windows_events_sec_4688": {
       "query" : "select * from windows_events where eventid=4688 and channel='Security';",
       "interval": "3600",

@@ -72,7 +72,7 @@
     <Query>
         <![CDATA[<QueryList>
             <Query Id="0" Path="Security">
-                <!-- A new process has been created -->
+                <!-- A new process has been created (high volume! but essential) -->
                 <Select Path="Security">*[System[(EventID='4688')]]</Select>
                 <!-- An account was successfully logged on -->
                 <Select Path="Security">*[System[(EventID='4624')]]</Select>
@@ -90,6 +90,12 @@
                 <Select Path="Security">*[System[(EventID='4104')]]</Select>
                 <!-- Application Error -->
                 <Select Path="Application">*[System[(EventID='1000')]]</Select>
+                <!-- The Windows Filtering Platform has allowed a connection (high volume!) -->
+                <Select Path="Security">*[System[(EventID='5156')]]</Select>
+                <!-- A network share object was accessed -->
+                <Select Path="Security">*[System[(EventID='5140')]]</Select>
+                <!-- An attempt was made to access an object -->
+                <Select Path="Security">*[System[(EventID='4663')]]</Select>
             </Query>
         </QueryList>]]>
     </Query>
