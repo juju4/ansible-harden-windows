@@ -202,3 +202,23 @@
     value: "cachedlogonscount"
     datatype: dword
     data: "{{ harden_win_cachedlogonscount }}"
+
+## http://resources.infosecinstitute.com/windows-systems-artifacts-digital-forensics-part-iii-prefetch-files/
+## http://www.forensicswiki.org/wiki/Prefetch
+- name: Limit number of cached logon accounts
+  win_regedit:
+    key: HKLM:\SYSTEM\CurrentControlSet\Control\Session Manager\Memory Management\PrefetchParameters
+    value: "{{ item }}"
+    datatype: dword
+    data: 3
+  with_items:
+    - EnablePrefetcher
+    - EnableSuperfetch
+
+## https://technet.microsoft.com/en-us/library/cc959914.aspx
+- name: Ensure last access times for NTFS partitions is enabled
+  win_regedit:
+    key: HKLM:\SYSTEM\CurrentControlSet\Control\FileSystem
+    value: "NtfsDisableLastAccessUpdate"
+    datatype: dword
+    data: 0
