@@ -74,6 +74,15 @@
     value: Retention
     datatype: dword
     data: 0
+- name: Event Log size review - Internet Explorer
+  win_regedit:
+    key: HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\WINEVT\Internet Explorer
+    value: MaxSize
+    datatype: dword
+    data: "{{ harden_win_eventlogs_maxsize }}"
+
+
+## FIXME! WMI, Sysmon, DistributedCOM got key created as HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\WINEVT\Channels\Microsoft-Windows-WMI-Activity\Operational
 - name: Event Log size review - WMI
   win_regedit:
     key: HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\WINEVT\Channels\Microsoft-Windows-WMI-Activity/Operational
@@ -112,6 +121,9 @@
     value: Retention
     datatype: dword
     data: 0
+- name: Ensure Microsoft-Windows-Sysmon/Operational key exists
+  win_regedit:
+    path: HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\WINEVT\Channels\Microsoft-Windows-Sysmon/Operational
 - name: Event Log size review - Sysmon
   win_regedit:
     key: HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\WINEVT\Channels\Microsoft-Windows-Sysmon/Operational
@@ -124,10 +136,3 @@
     value: Retention
     datatype: dword
     data: 0
-- name: Event Log size review - Internet Explorer
-  win_regedit:
-    key: HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\WINEVT\Internet Explorer
-    value: MaxSize
-    datatype: dword
-    data: "{{ harden_win_eventlogs_maxsize }}"
-
