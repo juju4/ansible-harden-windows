@@ -81,8 +81,6 @@
     datatype: dword
     data: "{{ harden_win_eventlogs_maxsize }}"
 
-
-## FIXME! WMI, Sysmon, DistributedCOM got key created as HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\WINEVT\Channels\Microsoft-Windows-WMI-Activity\Operational
 - name: Event Log size review - WMI
   win_regedit:
     key: HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\WINEVT\Channels\Microsoft-Windows-WMI-Activity\/Operational
