@@ -27,7 +27,7 @@
     - harden_win_applocker_enable: true
     - harden_win_applocker_policy: "applocker-medium.xml"
     - harden_win_applocker_mode_exe: "Enabled"
-    - harden_win_applocker_mode_script: "Enabled"
+    - harden_win_applocker_mode_script: "AuditOnly"
     - harden_win_applocker_mode_msi: "Enabled"
     - harden_win_applocker_mode_appx: "Enabled"
     - harden_win_applocker_mode_dll: "AuditOnly"
