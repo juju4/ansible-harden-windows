@@ -16,9 +16,9 @@ harden_win_gpo_log: "{{ harden_win_log_dir }}\\secedit.txt"
 ## User Account Control: Run all administrators in Admin Approval Mode
 harden_win_gpo_EnableLUA: true
 harden_win_inf_MinimumPasswordAge: 1
-harden_win_inf_MaximumPasswordAge: 180
+harden_win_inf_MaximumPasswordAge: 60
 harden_win_inf_MinimumPasswordLength: 14
-harden_win_inf_PasswordHistorySize: 3
+harden_win_inf_PasswordHistorySize: 24
 harden_win_inf_PasswordComplexity: 1
 harden_win_inf_LockoutBadCount: 4
 harden_win_inf_ResetLockoutCount: 15
