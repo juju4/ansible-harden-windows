@@ -145,6 +145,7 @@
     datatype: dword
     data: 8
 
+## check also templates/win7-computer-security.inf
 - name: Network security - Minimum session security for NTLM SSP based clients
   win_regedit:
     key: HKLM:\SYSTEM\CurrentControlSet\Control\Lsa\MSV1_0
