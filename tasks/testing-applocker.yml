@@ -23,7 +23,12 @@
 - set_fact:
     ansible_become_password: "_Password_CI_CD_to_be_revoked1_"
 
+- name: Remove user _test
+  win_user:
+    name: _test
+    state: absent
 ## FIXME! failing on second pass, https://groups.google.com/forum/#!topic/ansible-project/_ydkYXZibrM
+##  https://technet.microsoft.com/en-us/library/cc732593(v=ws.10).aspx
 - name: Ensure user _test is present
   win_user:
     name: _test
@@ -56,9 +61,3 @@
 #  win_shell: Get-WinEvent -LogName 'Microsoft-Windows-AppLocker/EXE and DLL' | Where { $_.ID -eq 8004 }
 #  register: winevt
 #- debug: var=winevt.stdout_lines
-#
-### FIXME! often fails with 'ERROR! A worker was found in a dead state'
-#- name: Remove user _test
-#  win_user:
-#    name: _test
-#    state: absent
