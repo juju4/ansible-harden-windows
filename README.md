@@ -118,6 +118,9 @@ https://github.com/StefanScherer/packer-windows/issues/21
 It also sometimes stall on ` Waiting for WinRM to become available...`
 ==> just stop it and restart
 
+* ```Cannot dot-source this command because it was defined in a different language mode. To invoke this command without importing its contents, omit the '.' operator.```
+It happens with Applocker enabled and non-administrator user because of Constrained Powershell. See https://www.sysadmins.lv/blog-en/powershell-50-and-applocker-when-security-doesnt-mean-security.aspx
+
 ## FAQ
 
 Extra read
