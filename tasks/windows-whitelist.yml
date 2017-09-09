@@ -63,14 +63,3 @@
     name: AppIdSvc
     state: started
 
-- name: Increase Local Event Log size for Applocker
-  win_regedit:
-    key: "HKLM:\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\WINEVT\\Channels\\Microsoft-Windows-AppLocker\/{{ item }}"
-    value: MaxSize
-    datatype: dword
-    data: "{{ harden_win_eventlogs_maxsize }}"
-  with_items:
-    - EXE and DLL
-    - MSI and Script
-    - Packaged app-Deployment
-    - Packaged app-Execution

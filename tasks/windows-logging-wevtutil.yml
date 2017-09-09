@@ -22,5 +22,9 @@
     - Microsoft-Windows-WMI-Activity/Operational
 ## FIXME! too many arguments, even with quote
 #    - Internel Explorer
+    - Microsoft-Windows-AppLocker/EXE and DLL
+    - Microsoft-Windows-AppLocker/MSI and Script
+    - Microsoft-Windows-AppLocker/Packaged app-Deployment
+    - Microsoft-Windows-AppLocker/Packaged app-Execution
 #  ignore_errors: true
 
