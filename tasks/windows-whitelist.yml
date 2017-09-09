@@ -54,7 +54,7 @@
   ignore_errors: true
 
 ## win_scheduled_task does not support onstart option
-- name: Non-domain | ensure Application Identity service started
+- name: Non-domain | ensure Application Identity service started at boot with scheduled task
   win_shell: schtasks /create /tn "AppIdSvc-start" /tr "sc start AppIdSvc" /sc onstart /RU SYSTEM
   when: schtask1.failed
 
