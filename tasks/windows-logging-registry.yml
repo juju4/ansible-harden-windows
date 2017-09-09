@@ -85,13 +85,13 @@
 ## FIXME! WMI, Sysmon, DistributedCOM got key created as HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\WINEVT\Channels\Microsoft-Windows-WMI-Activity\Operational
 - name: Event Log size review - WMI
   win_regedit:
-    key: HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\WINEVT\Channels\Microsoft-Windows-WMI-Activity/Operational
+    key: HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\WINEVT\Channels\Microsoft-Windows-WMI-Activity\/Operational
     value: MaxSize
     datatype: dword
     data: "{{ harden_win_eventlogs_maxsize }}"
 - name: Event Log retention review - WMI
   win_regedit:
-    key: HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\WINEVT\Channels\Microsoft-Windows-WMI-Activity/Operational
+    key: HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\WINEVT\Channels\Microsoft-Windows-WMI-Activity\/Operational
     value: Retention
     datatype: dword
     data: 0
@@ -99,40 +99,37 @@
 ## https://www.fireeye.com/content/dam/fireeye-www/global/en/current-threats/pdfs/wp-windows-management-instrumentation.pdf
 - name: Event Log size review - WinRM
   win_regedit:
-    key: HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\WINEVT\Channels\Microsoft-Windows-WinRM/Operational
+    key: HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\WINEVT\Channels\Microsoft-Windows-WinRM\/Operational
     value: MaxSize
     datatype: dword
     data: "{{ harden_win_eventlogs_maxsize }}"
 - name: Event Log retention review - WinRM
   win_regedit:
-    key: HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\WINEVT\Channels\Microsoft-Windows-WinRM/Operational
+    key: HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\WINEVT\Channels\Microsoft-Windows-WinRM\/Operational
     value: Retention
     datatype: dword
     data: 0
 - name: Event Log size review - DistributedCOM
   win_regedit:
-    key: HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\WINEVT\Channels\Microsoft-Windows-DistributedCOM/Operational
+    key: HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\WINEVT\Channels\Microsoft-Windows-DistributedCOM\/Operational
     value: MaxSize
     datatype: dword
     data: "{{ harden_win_eventlogs_maxsize }}"
 - name: Event Log retention review - DistributedCOM
   win_regedit:
-    key: HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\WINEVT\Channels\Microsoft-Windows-DistributedCOM/Operational
+    key: HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\WINEVT\Channels\Microsoft-Windows-DistributedCOM\/Operational
     value: Retention
     datatype: dword
     data: 0
-- name: Ensure Microsoft-Windows-Sysmon/Operational key exists
-  win_regedit:
-    path: HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\WINEVT\Channels\Microsoft-Windows-Sysmon/Operational
 - name: Event Log size review - Sysmon
   win_regedit:
-    key: HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\WINEVT\Channels\Microsoft-Windows-Sysmon/Operational
+    key: HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\WINEVT\Channels\Microsoft-Windows-Sysmon\/Operational
     value: MaxSize
     datatype: dword
     data: "{{ harden_win_eventlogs_maxsize }}"
 - name: Event Log retention review - Sysmon
   win_regedit:
-    key: HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\WINEVT\Channels\Microsoft-Windows-Sysmon/Operational
+    key: HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\WINEVT\Channels\Microsoft-Windows-Sysmon\/Operational
     value: Retention
     datatype: dword
     data: 0
