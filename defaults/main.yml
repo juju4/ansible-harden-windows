@@ -77,6 +77,9 @@ harden_win_stickykeys_disable: true
 
 harden_win_wef_enable: false
 harden_win_wef_collector_server_user: 'DOMAIN\mycollector'
+## other options https://github.com/palantir/windows-event-forwarding/tree/master/wef-subscriptions
+harden_win_wef_templates_list:
+  - WEF-Subscription.xml.j2
 
 harden_win_laps_enable: true
 ## flag for DC schema change
