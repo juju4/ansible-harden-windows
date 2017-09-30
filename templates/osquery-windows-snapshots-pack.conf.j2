@@ -31,15 +31,15 @@
     },
     "win_etc_hosts": {
       "query": "select * from etc_hosts;",
-      "interval": {{ harden_win_osquery_snapshot_interval }},
-      "snapshot": true,
+      "interval": "{{ harden_win_osquery_snapshot_interval }}",
+      "snapshot": "true",
       "platform": "windows",
       "description" : "Line-parsed /etc/hosts."
     },
     "win_heartbeat": {
       "query": "select si.hostname, si.uuid, si.computer_name, up.total_seconds as uptime from system_info si, uptime up;",
-      "interval": {{ harden_win_osquery_snapshot_interval }},
-      "snapshot": true,
+      "interval": "{{ harden_win_osquery_snapshot_interval }}",
+      "snapshot": "true",
       "platform": "windows",
       "description" : "System info and uptime as heartbeat"
     },
@@ -47,7 +47,7 @@
       "query" : "select * from ie_extensions;",
       "interval": "{{ harden_win_osquery_snapshot_interval }}",
       "platform": "windows",
-      "snapshot": true,
+      "snapshot": "true",
       "description" : "Internet Explorer browser extensions"
     },
     "win_listening_ports": {
