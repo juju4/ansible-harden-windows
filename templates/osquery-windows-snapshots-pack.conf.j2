@@ -40,7 +40,6 @@
       "query": "select si.hostname, si.uuid, si.computer_name, up.total_seconds as uptime from system_info si, uptime up;",
       "interval": {{ harden_win_osquery_snapshot_interval }},
       "snapshot": true,
-      "snapshot": "true"
       "platform": "windows",
       "description" : "System info and uptime as heartbeat"
     },
@@ -73,11 +72,11 @@
       "description" : "list processes."
     },
     "win_programs": {
-        "query" : "select * from programs;",
-        "interval": "{{ harden_win_osquery_snapshot_interval2 }}",
-        "platform": "windows",
+      "query" : "select * from programs;",
+      "interval": "{{ harden_win_osquery_snapshot_interval2 }}",
+      "platform": "windows",
       "snapshot": true,
-        "description" : "list products as they are installed by Windows Installer."
+      "description" : "list products as they are installed by Windows Installer."
     },
     "win_registry": {
       "query" : "select * from registry;",

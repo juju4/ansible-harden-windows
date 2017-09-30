@@ -35,7 +35,7 @@
     "win_heartbeat": {
       "query": "select si.hostname, si.uuid, si.computer_name, up.total_seconds as uptime from system_info si, uptime up;",
       "interval": 900,
-      "snapshot": "true"
+      "snapshot": "true",
       "platform": "windows",
       "description" : "System info and uptime as heartbeat"
     },
