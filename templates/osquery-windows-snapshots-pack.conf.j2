@@ -15,12 +15,34 @@
       "snapshot": true,
       "description" : "Aggregate of executables that will automatically execute on the target machine"
     },
+    "win_certificates": {
+      "query": "select * from certificates;",
+      "interval" : "{{ harden_win_osquery_snapshot_interval }}",
+      "snapshot": true,
+      "platform": "windows",
+      "description": "Certificate Authorities installed in Keychains/ca-bundles"
+    },
     "win_drivers": {
       "query" : "select * from drivers;",
       "interval": "{{ harden_win_osquery_snapshot_interval }}",
       "platform": "windows",
       "snapshot": true,
       "description" : "Lists all installed and loaded Windows Drivers"
+    },
+    "win_etc_hosts": {
+      "query": "select * from etc_hosts;",
+      "interval": {{ harden_win_osquery_snapshot_interval }},
+      "snapshot": true,
+      "platform": "windows",
+      "description" : "Line-parsed /etc/hosts."
+    },
+    "win_heartbeat": {
+      "query": "select si.hostname, si.uuid, si.computer_name, up.total_seconds as uptime from system_info si, uptime up;",
+      "interval": {{ harden_win_osquery_snapshot_interval }},
+      "snapshot": true,
+      "snapshot": "true"
+      "platform": "windows",
+      "description" : "System info and uptime as heartbeat"
     },
     "win_ie_extensions": {
       "query" : "select * from ie_extensions;",
@@ -29,13 +51,27 @@
       "snapshot": true,
       "description" : "Internet Explorer browser extensions"
     },
+    "win_listening_ports": {
+      "query": "select * from listening_ports;",
+      "interval": "{{ harden_win_osquery_snapshot_interval }}",
+      "snapshot": true,
+      "platform": "windows",
+      "description" : "Lists all the listening ports."
+    },
     "win_patches": {
       "query" : "select * from patches;",
       "interval": "{{ harden_win_osquery_snapshot_interval }}",
       "platform": "windows",
       "snapshot": true,
       "description" : "Lists all the patches applied. Note: This does not include patches applied via MSI or downloaded from Windows Update (e.g. Service Packs)."
-      },
+    },
+    "win_process": {
+      "query": "select * from processes;",
+      "interval": "{{ harden_win_osquery_snapshot_interval }}",
+      "snapshot": true,
+      "platform": "windows",
+      "description" : "list processes."
+    },
     "win_programs": {
         "query" : "select * from programs;",
         "interval": "{{ harden_win_osquery_snapshot_interval2 }}",
@@ -70,6 +106,14 @@
       "platform": "windows",
       "snapshot": true,
       "description" : "Displays shared resources on a computer system running Windows"
+    },
+    "win_startup_items": {
+      "query": "select * from startup_items;",
+      "interval": "{{ harden_win_osquery_snapshot_interval }}",
+      "platform": "windows",
+      "snapshot": true,
+      "platform": "windows",
+      "description" : "Applications and binaries set as user/login startup items."
     },
     "win_wmi_cli_event_consumers": {
       "query" : "select filter,consumer,query,command_line_template,wcec.name from wmi_cli_event_consumers wcec left outer join wmi_filter_consumer_binding wcb on consumer = wcec.relative_path left outer join wmi_event_filters wef on wef.relative_path = wcb.filter;",

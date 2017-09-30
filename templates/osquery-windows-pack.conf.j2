@@ -1,4 +1,5 @@
 // https://osquery.io/docs/tables/#windows
+// https://brewfault.io/blog/2017/9/24/local-configuration-for-osquery-on-windows
 {
   "queries": {
     "win_appcompat_shims": {
@@ -13,11 +14,30 @@
       "platform": "windows",
       "description" : "Aggregate of executables that will automatically execute on the target machine"
     },
+    "win_certificates": {
+      "query": "select * from certificates;",
+      "interval" : "3600",
+      "platform": "windows",
+      "description": "Certificate Authorities installed in Keychains/ca-bundles"
+    },
     "win_drivers": {
       "query" : "select * from drivers;",
       "interval": "3600",
       "platform": "windows",
       "description" : "Lists all installed and loaded Windows Drivers"
+    },
+    "win_etc_hosts": {
+      "query": "select * from etc_hosts;",
+      "interval": 3600,
+      "platform": "windows",
+      "description" : "Line-parsed /etc/hosts."
+    },
+    "win_heartbeat": {
+      "query": "select si.hostname, si.uuid, si.computer_name, up.total_seconds as uptime from system_info si, uptime up;",
+      "interval": 900,
+      "snapshot": "true"
+      "platform": "windows",
+      "description" : "System info and uptime as heartbeat"
     },
     "win_ie_extensions": {
       "query" : "select * from ie_extensions;",
@@ -25,12 +45,24 @@
       "platform": "windows",
       "description" : "Internet Explorer browser extensions"
     },
+    "win_listening_ports": {
+      "query": "select * from listening_ports;",
+      "interval": 300,
+      "platform": "windows",
+      "description" : "Lists all the listening ports."
+    },
     "win_patches": {
       "query" : "select * from patches;",
       "interval": "3600",
       "platform": "windows",
       "description" : "Lists all the patches applied. Note: This does not include patches applied via MSI or downloaded from Windows Update (e.g. Service Packs)."
-      },
+    },
+    "win_process": {
+      "query": "select * from processes;",
+      "interval": 300,
+      "platform": "windows",
+      "description" : "list processes."
+    },
     "win_programs": {
         "query" : "select * from programs;",
         "interval": "3600",
@@ -60,6 +92,12 @@
       "interval": "3600",
       "platform": "windows",
       "description" : "Displays shared resources on a computer system running Windows"
+    },
+    "win_startup_items": {
+      "query": "select * from startup_items;",
+      "interval": 3600,
+      "platform": "windows",
+      "description" : "Applications and binaries set as user/login startup items."
     },
     "win_wmi_cli_event_consumers": {
       "query" : "select filter,consumer,query,command_line_template,wcec.name from wmi_cli_event_consumers wcec left outer join wmi_filter_consumer_binding wcb on consumer = wcec.relative_path left outer join wmi_event_filters wef on wef.relative_path = wcb.filter;",
