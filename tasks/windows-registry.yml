@@ -16,7 +16,6 @@
     data: 0
     datatype: dword
 
-
 - name: Windows Netbios Name Service state with wmic
   win_command: "wmic /interactive:off nicconfig where TcpipNetbiosOptions={{ item }}"
   with_items:
@@ -223,3 +222,5 @@
     value: "NtfsDisableLastAccessUpdate"
     datatype: dword
     data: 0
+
+- include: dc-ldap-signing.yml

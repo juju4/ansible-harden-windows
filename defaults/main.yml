@@ -63,6 +63,9 @@ harden_win_ie_proxy: false
 harden_win_ie_proxy_url: ''
 harden_win_ie_proxy_override: ''
 
+harden_win_dc_ldap_diag: false
+harden_win_dc_ldap_enforce_signing: false
+
 ## if empty, will go in User documents
 ## Note: env variable are not resolved
 #harden_win_powershell_transcription_dir: ''

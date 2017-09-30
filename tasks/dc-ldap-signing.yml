@@ -1,0 +1,19 @@
+---
+# https://technet.microsoft.com/en-ca/library/dd941856(v=ws.10).aspx
+# https://dirteam.com/sander/2012/09/17/new-features-in-active-directory-domain-services-in-windows-server-2012-part-17-ldap-enhancements/
+
+- name: DC | Enable LDAP diagnostics
+  win_regedit:
+    key: HKLM:\SYSTEM\CurrentControlSet\Services\NTDS\Diagnostics
+    value: "16 LDAP Interface Events"
+    data: 2
+    datatype: dword
+  when: harden_win_dc_ldap_diag
+
+- name: DC | Enforce LDAP signing
+  win_regedit:
+    key: HKLM:\SYSTEM\CurrentControlSet\Services\NTDS\Parameters
+    value: ldapserverintegrity
+    data: 2
+    datatype: dword
+  when: harden_win_dc_ldap_enforce_signing
