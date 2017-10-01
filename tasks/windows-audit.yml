@@ -4,11 +4,21 @@
   win_command: AuditPol /Set /Category:\"{{ item }}\" /Failure:Enable /Success:Enable
   with_items: "{{ harden_win_auditpol_enable }}"
 
-## not present on Ws2016
+## not present on Ws2016 or specific roles
 - name: Specific | Configure Windows Audit policies
   win_command: AuditPol /Set /Category:\"{{ item }}\" /Failure:Enable /Success:Enable
   with_items:
     - Application Group Management
     - Computer Account Management
     - Distribution Group Management
+  ignore_errors: true
+
+# https://posts.specterops.io/hunting-with-active-directory-replication-metadata-1dab2f681b19
+# https://social.technet.microsoft.com/wiki/contents/articles/25946.metadata-de-replication-et-analyse-forensic-active-directory-fr-fr.aspx
+- name: Specific | Configure Windows Audit policies
+  win_command: AuditPol /Set /Category:\"{{ item }}\" /Success:Enable
+  with_items:
+    - User Account Management
+    - Security Group Management
+    - Directory Service Changes
   ignore_errors: true
