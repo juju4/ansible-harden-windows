@@ -19,6 +19,7 @@
     - "C:\\tmp"
     - "{{ harden_win_temp_dir }}"
   register: wpath_results
+  ignore_errors: true
 - debug: var=wpath_results
 
 - set_fact:
