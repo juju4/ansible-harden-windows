@@ -10,7 +10,11 @@
   when: not nxlogdl.stat.exists
 
 - name: Install NXLog CE
-  win_msi: path="{{ harden_win_temp_dir }}\\{{ harden_win_remotelogging_nxlog_url | basename }}" wait=true
+## ansible 2.4+
+#  win_package:
+  win_msi:
+    path: "{{ harden_win_temp_dir }}\\{{ harden_win_remotelogging_nxlog_url | basename }}"
+    wait: true
 
 ## nxlog configuration or graylog sidecar?
 ## http://www.systeen.com/2016/05/12/install-graylog-2-0-centos-7-collect-windows-logs/

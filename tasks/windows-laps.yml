@@ -25,12 +25,16 @@
     dest: 'LAPS.x64.msi'
 
 - name: Install LAPS - targeted computer
+## ansible 2.4+
+#  win_package:
   win_msi:
     path: LAPS.x64.msi
     wait: true
 # To hide software in Programs and Features Control panel view, use msiexec parameter ARPSYSTEMCOMPONENT=1:
     extra_args: '/quiet /qn ARPSYSTEMCOMPONENT=1'
 - name: DC | Install LAPS
+## ansible 2.4+
+#  win_package:
   win_msi:
     path: LAPS.x64.msi
     wait: true
