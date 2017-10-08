@@ -80,6 +80,8 @@
     - registry
 
 - include: windows-audit.yml
+- include: windows-audit-files.yml
+  when: harden_win_audit_files
 - include: windows-services.yml
 - include: windows-ie.yml
 - include: windows-smb.yml

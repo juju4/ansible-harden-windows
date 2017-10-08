@@ -110,6 +110,7 @@ harden_win_auditpol_enable:
   - DS Access
 
 # https://technet.microsoft.com/en-us/library/ff730951.aspx
+harden_win_audit_files: true
 harden_win_FileAuditRules: "Write,WriteData,Delete,DeleteSubdirectoriesAndFiles,ChangePermissions,Takeownership"
 harden_win_audit_filepaths:
   - C:\Users\Administrator\AppData\Local
