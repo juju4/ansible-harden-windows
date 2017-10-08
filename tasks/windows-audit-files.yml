@@ -7,11 +7,6 @@
 
 - name: Enable File auditing for selected paths
   win_shell: "Powershell -Exec Bypass -File {{ harden_win_temp_dir }}\\EnableFileAudit.ps1 \"{{ item }}\""
-  with_items:
-    - "C:\\Users"
-    - "C:\\Program Files"
-    - "C:\\Program Files (x86)"
-    - "C:\\ProgramData"
-    - "C:\\Windows"
+  with_items: "{{ harden_win_audit_filepaths }}"
   register: setacl_results
 - debug: var=setacl_results
