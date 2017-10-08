@@ -3,6 +3,7 @@
 # Review evt/log files to 100-500M + corresponding GPO
 ## https://msdn.microsoft.com/en-us/library/windows/desktop/aa363648(v=vs.85).aspx
 ## https://support.microsoft.com/en-ca/kb/957662
+## https://www.malwarearchaeology.com/logging
 
 ## FIXME! not idempotent unlike win_regedit module but more readable
 - name: update Windows Log event size
