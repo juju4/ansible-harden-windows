@@ -134,6 +134,13 @@ harden_win_audit_filepaths:
   - C:\Users\Public
   - C:\Windows\System32\drivers\etc\hosts
 
+harden_win_audit_registry: true
+harden_win_RegAuditRules: "SetValue,Delete,ChangePermissions,TakeOwnership"
+harden_win_audit_regpaths:
+  - 'HKCU:\Control Panel\Desktop'
+  - 'HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Run'
+  - 'HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\RunOnce'
+
 harden_win_chocolateypkgs:
 # http://windows.microsoft.com/en-us/windows/security-essentials-all-versions
 ## FAIL since 4m: https://gist.github.com/choco-bot/85701f4e87e16efed5be
