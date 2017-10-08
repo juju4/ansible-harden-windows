@@ -109,6 +109,14 @@ harden_win_auditpol_enable:
   - Policy Change
   - DS Access
 
+# https://technet.microsoft.com/en-us/library/ff730951.aspx
+harden_win_FileAuditRules: "Write,WriteData,Delete,DeleteSubdirectoriesAndFiles,ChangePermissions,Takeownership"
+harden_win_audit_filepaths:
+  - C:\Users\Administrator\AppData\Local
+  - C:\Users\Administrator\AppData\Roaming
+  - C:\Users\Public
+  - C:\Windows\System32\drivers\etc\hosts
+
 harden_win_chocolateypkgs:
 # http://windows.microsoft.com/en-us/windows/security-essentials-all-versions
 ## FAIL since 4m: https://gist.github.com/choco-bot/85701f4e87e16efed5be

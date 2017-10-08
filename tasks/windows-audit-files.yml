@@ -1,0 +1,17 @@
+---
+
+- name: upload Enable File Auditing script
+  win_template:
+    src: EnableFileAudit.ps1.j2
+    dest: "{{ harden_win_temp_dir }}\\EnableFileAudit.ps1"
+
+- name: Enable File auditing for selected paths
+  win_shell: "Powershell -Exec Bypass -File {{ harden_win_temp_dir }}\\EnableFileAudit.ps1 \"{{ item }}\""
+  with_items:
+    - "C:\\Users"
+    - "C:\\Program Files"
+    - "C:\\Program Files (x86)"
+    - "C:\\ProgramData"
+    - "C:\\Windows"
+  register: setacl_results
+- debug: var=setacl_results
