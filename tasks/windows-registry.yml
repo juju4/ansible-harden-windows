@@ -76,6 +76,14 @@
     data: "%windir%\\system32\\notepad.exe"
   with_items: "{{ harden_win_suspicious_ext }}"
 
+- name: disable suspicious executabled file extensions (HKCU)
+  win_regedit:
+    key: "HKCU:\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\FileExts\\.{{ item }}\\OpenWithList"
+    value: "a"
+    datatype: string
+    data: "%windir%\\system32\\notepad.exe"
+  with_items: "{{ harden_win_suspicious_ext }}"
+
 ## Note: HKCR only applies if HKCU doesn't exist. better enforcing with GPO
 - name: disable javascript execution by Windows Script Host (HKCR)
   win_regedit:
@@ -84,8 +92,15 @@
     data: "%windir%\\system32\\notepad.exe %1"
   with_items:
     - "HKCR:\\htafile\\shell\\open\\command"
+    - "HKCR:\\VBSFile\\shell\\edit\\command"
     - "HKCR:\\VBSFile\\shell\\open\\command"
+    - "HKCR:\\VBSFile\\shell\\open2\\command"
+    - "HKCR:\\VBEFile\\shell\\edit\\command"
+    - "HKCR:\\VBEFile\\shell\\open\\command"
+    - "HKCR:\\VBEFile\\shell\\open2\\command"
     - "HKCR:\\JSFile\\shell\\open\\command"
+    - "HKCR:\\JSEFile\\shell\\open\\command"
+    - "HKCR:\\wshfile\\shell\\open\\command"
     - "HKCR:\\scriptletfile\\shell\\open\\command"  ## default
 
 ## https://www.stigviewer.com/stig/windows_8_8.1/2014-06-27/finding/V-43239
