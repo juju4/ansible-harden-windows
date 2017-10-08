@@ -53,6 +53,22 @@ harden_windows_disable_wpad: true
 harden_win_disable_adminshares: true
 harden_win_configure_errorreporting: false
 
+harden_win_logging_retention: 0
+harden_win_winevt_channels:
+  - Microsoft-Windows-PowerShell\/Operational
+  - Internet Explorer
+  - Microsoft-Windows-WMI-Activity\/Operational
+## https://www.fireeye.com/content/dam/fireeye-www/global/en/current-threats/pdfs/wp-windows-management-instrumentation.pdf
+  - Microsoft-Windows-WinRM\/Operational
+  - Microsoft-Windows-DistributedCOM\/Operational
+  - Microsoft-Windows-Sysmon\/Operational
+  - Microsoft-Windows-AppLocker\/EXE and DLL
+  - Microsoft-Windows-AppLocker\/MSI and Script
+  - Microsoft-Windows-AppLocker\/Packaged app-Deployment
+  - Microsoft-Windows-AppLocker\/Packaged app-Execution
+  - Microsoft-Windows-TaskScheduler\/Operational
+  - Microsoft-Windows-DNS-Client\/Operational
+
 harden_win_cachedlogonscount: 1
 
 harden_windows_disable_cmd: false
