@@ -36,3 +36,5 @@
   with_items:
     - Microsoft-Windows-TaskScheduler/Operational
     - Microsoft-Windows-DNS-Client/Operational
+    - Microsoft-Windows-Kernel-Network
+    - Microsoft-Windows-Kernel-Process
