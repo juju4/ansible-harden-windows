@@ -14,6 +14,8 @@
     - Application
     - Security
     - System
+    - Setup
+    - Microsoft-Windows-DNS-Client/Operational
     - Microsoft-Windows-DistributedCOM
 #    - Microsoft-Windows-DistributedCOM/Operational
     - Microsoft-Windows-Powershell/Operational
@@ -28,3 +30,8 @@
     - Microsoft-Windows-AppLocker/Packaged app-Execution
 #  ignore_errors: true
 
+- name: Ensure TaskScheduler logs are enabled
+  win_command: "wevtutil set-log {{ item }} /enabled:true /ms:{{ harden_win_eventlogs_maxsize }} /rt:true /ab:true"
+  with_items:
+    - Microsoft-Windows-TaskScheduler/Operational
+    - Microsoft-Windows-DNS-Client/Operational
