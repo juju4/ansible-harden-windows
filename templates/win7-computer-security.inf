@@ -1,3 +1,4 @@
+; {{ ansible_managed }}
 ;; from Microsoft Security Compliance Manager - Win7
 ;; https://technet.microsoft.com/en-us/library/dd835564%28v=ws.10%29.aspx
 ;This Security Template provides settings to support the setting recommendations

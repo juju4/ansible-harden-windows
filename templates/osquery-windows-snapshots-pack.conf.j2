@@ -1,3 +1,4 @@
+// {{ ansible_managed }}
 // https://osquery.io/docs/tables/#windows
 {
   "queries": {
@@ -36,6 +37,14 @@
       "platform": "windows",
       "description" : "Line-parsed /etc/hosts."
     },
+// https://blog.trailofbits.com/2017/10/10/tracking-a-stolen-code-signing-certificate-with-osquery/
+    "win_files_invalid_microsoft": {
+        "query" : "SELECT files.path AS path, authenticode.subject_name AS subject_name, authenticode.serial_number AS serial_number, authenticode.result AS status, hashes.sha256 AS sha256 FROM ( SELECT * FROM file WHERE directory = 'C:\\' ) AS files LEFT JOIN signature AS authenticode ON authenticode.path = files.path LEFT JOIN hash AS hashes ON hashes.path = files.path WHERE authenticode.subject_name LIKE '%Microsoft%' AND authenticode.result == 'invalid';",
+      "interval": "{{ harden_win_osquery_snapshot_interval }}",
+      "snapshot": "true",
+        "platform": "windows",
+        "description" : "list files with invalid signatures marked as Microsoft."
+    },
     "win_heartbeat": {
       "query": "select si.hostname, si.uuid, si.computer_name, up.total_seconds as uptime from system_info si, uptime up;",
       "interval": "{{ harden_win_osquery_snapshot_interval }}",
@@ -57,6 +66,13 @@
       "platform": "windows",
       "description" : "Lists all the listening ports."
     },
+    "win_listening_ports_signature": {
+      "query": "SELECT port_info.pid, port_info.family, port_info.protocol, port_info.port, port_info.address, process.name, process.path, authenticode.result AS authenticode FROM listening_ports AS port_info LEFT JOIN processes AS process ON port_info.pid = process.pid LEFT JOIN signature AS authenticode ON process.path = authenticode.path",
+      "interval": "{{ harden_win_osquery_snapshot_interval }}",
+      "snapshot": true,
+      "platform": "windows",
+      "description" : "Lists all the listening ports with their signature status."
+    },
     "win_patches": {
       "query" : "select * from patches;",
       "interval": "{{ harden_win_osquery_snapshot_interval }}",
@@ -70,6 +86,13 @@
       "snapshot": true,
       "platform": "windows",
       "description" : "list processes."
+    },
+    "win_process_signatures": {
+      "query": "SELECT process.pid, process.path, authenticode.result FROM processes as process LEFT JOIN signature AS authenticode ON process.path = authenticode.path;",
+      "interval": "{{ harden_win_osquery_snapshot_interval }}",
+      "snapshot": true,
+      "platform": "windows",
+      "description" : "list processes with their signature status."
     },
     "win_programs": {
       "query" : "select * from programs;",

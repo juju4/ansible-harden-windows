@@ -1,3 +1,4 @@
+# {{ ansible_managed }}
 # AppLocker Bypass Checker (Default Rules) v1.0
 #
 # One of the Default Rules in AppLocker allows everything in the folder C:\Windows to be executed.
