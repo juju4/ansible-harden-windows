@@ -5,3 +5,5 @@ rem https://docs.microsoft.com/en-us/windows-hardware/manufacture/desktop/clean-
 @echo on
 Dism.exe /online /Cleanup-Image /StartComponentCleanup /ResetBase
 Defrag.exe c: /H
+
+C:/windows/system32/sysprep/sysprep.exe /generalize /oobe /unattend:C:/Windows/Panther/Unattend/unattend.xml /quiet
