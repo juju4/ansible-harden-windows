@@ -217,6 +217,24 @@ harden_win_mbrfilter: false
 harden_win_mbrfilter_url: https://github.com/yyounan/MBRFilter/files/536998/64.zip
 harden_win_restrict_usb: false
 
+# Attack Surface Reduction, b1709+
+# action: Enabled, AuditMode, Disabled
+harden_win_asr_config:
+# Block executable content from email client and webmail
+  - { ruleid: 'BE9BA2D9-53EA-4CDC-84E5-9B1EEEE46550', action: 'Enabled' }
+# Block Office applications from creating child processes
+  - { ruleid: 'D4F940AB-401B-4EFC-AADC-AD5F3C50688A', action: 'Enabled' }
+# Block Office applications from creating executable content
+  - { ruleid: '3B576869-A4EC-4529-8536-B80A7769E899', action: 'Enabled' }
+# Block Office applications from injecting into other processes
+  - { ruleid: '75668C1F-73B5-4CF0-BB93-3ECF5CB7CC84', action: 'Enabled' }
+# Impede JavaScript and VBScript to launch executables
+  - { ruleid: 'D3E037E1-3EB8-44C8-A917-57927947596D', action: 'Enabled' }
+# Block execution of potentially obfuscated scripts
+  - { ruleid: '5BEB7EFE-FD9A-4556-801D-275E5FFC04CC', action: 'Enabled' }
+# Block Win32 imports from Macro code in Office
+  - { ruleid: '92E97FA1-2EDF-4476-BDD6-9DD0B4DDDC7B', action: 'Enabled' }
+
 harden_win_services_disable:
 ## Win10 default: only fax and retaildemo
 #    - AdobeLM Service
@@ -475,6 +493,7 @@ harden_win_suspicious_ext:
     - wsh
     - pif
 #    - bat
+    - jar
 
 ## https://support.microsoft.com/en-us/help/2696547/how-to-enable-and-disable-smbv1,-smbv2,-and-smbv3-in-windows-vista,-windows-server-2008,-windows-7,-windows-server-2008-r2,-windows-8,-and-windows-server-2012
 harden_win_disable_smb_proto:
