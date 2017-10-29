@@ -43,3 +43,42 @@
     - Outlook
     - PowerPoint
     - Visio
+
+# https://www.endgame.com/blog/technical-blog/bug-feature-debate-back-yet-again-ddeauto-root-cause-analysis
+# https://blog.barkly.com/microsoft-office-malware-attack-no-macros
+# https://gist.github.com/wdormann/732bb88d9b5dd5a66c9f1e1498f31a1b
+- name: Ms Office | Disable DDE - Link auto update
+  win_regedit:
+    key: "{{ item }}"
+    name: DontUpdateLinks
+    data: 1
+    type: dword
+  with_items:
+    - "HKCU:\\Software\\Microsoft\\Office\\{{ harden_win_msoffice_version_reg }}\\Word\\Options"
+    - "HKCU:\\Software\\Microsoft\\Office\\{{ harden_win_msoffice_version_reg }}\\Word\\Options\\WordMail"
+    - "HKCU:\\Software\\Microsoft\\Office\\{{ harden_win_msoffice_version_reg }}\\Excel\\Options"
+  when: harden_win_msoffice_disable_dde_updatelink
+
+- name: Ms Office | Disable DDE - OneNote DisableEmbeddedFiles
+  win_regedit:
+    key: "{{ item }}"
+    name: DisableEmbeddedFiles
+    data: 1
+    type: dword
+  with_items:
+    - "HKCU:\\Software\\Microsoft\\Office\\{{ harden_win_msoffice_version_reg }}\\OneNote\\Options"
+    - "HKCU:\\Software\\Microsoft\\Office\\{{ harden_win_msoffice_version_reg }}\\Word\\Options\\WordMail"
+    - "HKCU:\\Software\\Microsoft\\Office\\{{ harden_win_msoffice_version_reg }}\\Excel\\Options"
+  when: harden_win_msoffice_disable_dde_embeddedfiles
+
+- name: Ms Office | Disable DDE - Excel extras
+  win_regedit:
+    key: "HKCU:\\Software\\Microsoft\\Office\\{{ harden_win_msoffice_version_reg }}\\Excel\\Options"
+    name: "{{ item.n }}"
+    data: "{{ item.d }}"
+    type: dword
+  with_items:
+    - { n: "DDEAllowed", d: 0 }
+    - { n: "DDECleaned", d: 1 }
+    - { n: "Options", d: 117 }
+  when: harden_win_msoffice_disable_dde_excel_extras
