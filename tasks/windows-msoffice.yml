@@ -82,3 +82,15 @@
     - { n: "DDECleaned", d: 1 }
     - { n: "Options", d: 117 }
   when: harden_win_msoffice_disable_dde_excel_extras
+
+# https://embedi.com/blog/skeleton-closet-ms-office-vulnerability-you-didnt-know-about
+- name: Disable Equation Editor - CVE-2017-11882
+  win_regedit:
+    key: "{{ item }}"
+    name: "Compatibility Flags"
+    data: '0x400'
+    type: dword
+  with_items:
+    - "HKLM:\\SOFTWARE\\Microsoft\\Office\\{{ harden_win_msoffice_version_reg }}\\Common\\COM Compatibility\\{0002CE02-0000- 0000-C000-000000000046}"
+    - "HKLM:\\SOFTWARE\\Wow6432Node\\Microsoft\\Office\\{{ harden_win_msoffice_version_reg }}\\Common\\COM Compatibility\\{0002CE02-0000-0000-C000-000000000046}"
+  when: harden_win_msoffice_disable_equation_editor

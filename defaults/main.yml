@@ -384,6 +384,7 @@ harden_win_msoffice_packagerprompt: 2
 harden_win_msoffice_disable_dde_updatelink: true
 harden_win_msoffice_disable_dde_embeddedfiles: true
 harden_win_msoffice_disable_dde_excel_extras: true
+harden_win_msoffice_disable_equation_editor: true
 
 harden_win_applocker_enable: true
 harden_win_applocker_policy: "applocker-basic.xml"
