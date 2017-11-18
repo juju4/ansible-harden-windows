@@ -1,0 +1,24 @@
+---
+
+- name: Chocolatey installation
+  win_chocolatey:
+    name: python3
+    state: present
+    upgrade: no
+
+# http://www.kitploit.com/2017/11/kernelpop-kernel-privilege-escalation.html
+# https://github.com/spencerdodd/kernelpop
+- name: retrieve kernelpop
+  git:
+    repo: 'https://github.com/spencerdodd/kernelpop'
+    dest: "{{ harden_win_temp_dir }}/kernelpop"
+    version: HEAD
+  become: yes
+  become_user: _test
+
+- name: execute kernelpop
+  win_shell: "python3 kernelpop.py -b > kernelpop.out"
+  args:
+    chdir: "{{ harden_win_temp_dir }}/kernelpop"
+  become: yes
+  become_user: _test
