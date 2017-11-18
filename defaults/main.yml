@@ -758,6 +758,9 @@ harden_win_certificates_removed:
   - WoSign China
   - XRamp Global Certification Authority
 
+harden_win_extra_reg:
+  - extra-registry-settings.reg
+
 harden_win_testing_inspec: false
 harden_win_testing_applocker: false
 harden_win_testing_uac: false
