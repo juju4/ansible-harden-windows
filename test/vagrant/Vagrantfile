@@ -58,7 +58,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
        #ansible.verbose = "vvvv"
        #ansible.host_key_checking = false
        #ansible.limit = 'all'
-       ansible.sudo = false
+       ansible.become = false
 #       ansible.extra_vars = { ansible_winrm_server_cert_validation: 'ignore', ansible_scheme: 'http' }
        ansible.groups = {
           "myrole" => ["vhardenwin" ],
