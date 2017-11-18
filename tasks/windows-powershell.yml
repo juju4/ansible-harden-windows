@@ -82,3 +82,19 @@
     - "HKLM:\\SOFTWARE\\Wow6432Node"
     - "HKLM:\\SOFTWARE"
 
+# https://blogs.technet.microsoft.com/kfalde/2017/05/13/securing-your-powershell-operational-logs/
+# FIXME!
+- name: Remove powershell logs access for BUILTIN Users
+  win_acl:
+    path: "HKLM:\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\WINEVT\\Channels\\Microsoft-Windows-PowerShell/Operational"
+    user: "{{ item }}"
+#    rights: ChangePermissions,Delete,FullControl,ReadKey,SetValue,TakeOwnership,WriteKey
+    rights: ReadKey
+    type: allow
+    state: absent
+    inherit: ContainerInherit, ObjectInherit
+    propagation: 'None'
+  with_items:
+#    - 'BUILTIN\Users'
+    - 'Users'
+#    - 'BUILTIN\INTERACTIVE'
