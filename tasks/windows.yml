@@ -203,3 +203,6 @@
   when: harden_win_applocker_enable
 
 - include: extras.yml
+
+- include: palantir-AutorunsToWinEventLog.yml
+  when: harden_win_palantir_AutorunsToWinEventLog
