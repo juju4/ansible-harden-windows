@@ -763,3 +763,4 @@ harden_win_testing_applocker: false
 harden_win_testing_uac: false
 harden_win_testing_opf: false
 harden_win_testing_privesc: false
+harden_win_testing_mimikatz: false

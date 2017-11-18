@@ -53,6 +53,7 @@
     - harden_win_testing_uac: false
     - harden_win_testing_opf: false
     - harden_win_testing_privesc: true
+    - harden_win_testing_mimikatz: true
   roles:
     - juju4.harden-windows
   tasks:
