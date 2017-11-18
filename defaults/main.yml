@@ -159,6 +159,8 @@ harden_win_chocolateypkgs:
 #    - osquery
 ## for 7z uncompress
     - pscx
+## monitoring?
+    - collectdwin
 
 ## per user/HKCU...
 harden_win_disallowrun: false
@@ -203,6 +205,8 @@ harden_win_osquery_packs:
   - "it-compliance"
   - "vuln-management"
   - "hardware-monitoring"
+  - unwanted-chrome-extensions
+  - windows-attacks
   - "osquery-windows-pack"
   - "osquery-windows-snapshots-pack"
   - "osquery-windows-compliance-pack"
@@ -758,3 +762,4 @@ harden_win_testing_inspec: false
 harden_win_testing_applocker: false
 harden_win_testing_uac: false
 harden_win_testing_opf: false
+harden_win_testing_privesc: false
