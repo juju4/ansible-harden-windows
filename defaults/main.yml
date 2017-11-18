@@ -380,6 +380,10 @@ harden_win_msoffice_trustedlocations: "%USERPROFILE%\\TrustedMacroDocuments"
 ## Prevent activation of OLE Packages
 ## 0 no prompt+executes, 1 prompt+if click, executes, 2 no prompt+no execution
 harden_win_msoffice_packagerprompt: 2
+## DDE
+harden_win_msoffice_disable_dde_updatelink: true
+harden_win_msoffice_disable_dde_embeddedfiles: true
+harden_win_msoffice_disable_dde_excel_extras: true
 
 harden_win_applocker_enable: true
 harden_win_applocker_policy: "applocker-basic.xml"
