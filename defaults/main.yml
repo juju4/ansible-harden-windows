@@ -60,8 +60,8 @@ harden_win_winevt_channels:
   - Microsoft-Windows-WMI-Activity\/Operational
 ## https://www.fireeye.com/content/dam/fireeye-www/global/en/current-threats/pdfs/wp-windows-management-instrumentation.pdf
   - Microsoft-Windows-WinRM\/Operational
-  - Microsoft-Windows-DistributedCOM\/Operational
-  - Microsoft-Windows-Sysmon\/Operational
+  - Microsoft-Windows-DistributedCOM
+  - Microsoft-Windows-Sysmon
   - Microsoft-Windows-AppLocker\/EXE and DLL
   - Microsoft-Windows-AppLocker\/MSI and Script
   - Microsoft-Windows-AppLocker\/Packaged app-Deployment
