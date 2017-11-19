@@ -765,7 +765,8 @@ harden_win_certificates_removed:
   - XRamp Global Certification Authority
 
 harden_win_extra_reg:
-  - extra-registry-settings.reg
+  - directory_prompt.reg
+#  - directory_prompt_git.reg
 
 harden_win_testing_inspec: false
 harden_win_testing_applocker: false
