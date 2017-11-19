@@ -144,12 +144,17 @@
         <FilePathCondition Path="%WINDIR%\WinSxS\amd64_microsoft-windows-a..atibility-assistant_31bf3856ad364e35_10.0.15063.0_none_44da5f4d5bf5bb92\pcalua.exe" />
       </Exceptions>
     </FilePathRule>
-    <FilePathRule Id="7cc5dda9-9641-467a-8efd-c0856abb9d66" Name="Allow chocolatey (ProgramData)" Description="" UserOrGroupSid="S-1-5-32-544" Action="Allow">
+    <FilePathRule Id="7cc5dda9-9641-467a-8efd-c0856abb9d66" Name="Allow chocolatey bin/choco.exe (ProgramData)" Description="" UserOrGroupSid="S-1-5-32-544" Action="Allow">
       <Conditions>
         <FilePathCondition Path="%OSDRIVE%\ProgramData\chocolatey\bin\choco.exe" />
       </Conditions>
     </FilePathRule>
-    <FilePathRule Id="67309d72-496a-44fd-bd10-721c796e295d" Name="%OSDRIVE%\ProgramData\chocolatey\choco.exe" Description="" UserOrGroupSid="S-1-5-32-544" Action="Allow">
+    <FilePathRule Id="ef4c8742-c2a7-4fed-aeb8-707408bf33db" Name="Allow chocolatey bin/cinst.exe (ProgramData)" Description="" UserOrGroupSid="S-1-5-32-544" Action="Allow">
+      <Conditions>
+        <FilePathCondition Path="%OSDRIVE%\ProgramData\chocolatey\bin\cinst.exe" />
+      </Conditions>
+    </FilePathRule>
+    <FilePathRule Id="67309d72-496a-44fd-bd10-721c796e295d" Name="Allow chocolatey choco.exe" Description="" UserOrGroupSid="S-1-5-32-544" Action="Allow">
       <Conditions>
         <FilePathCondition Path="%OSDRIVE%\ProgramData\chocolatey\choco.exe" />
       </Conditions>
