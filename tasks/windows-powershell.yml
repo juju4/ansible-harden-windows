@@ -98,3 +98,4 @@
 #    - 'BUILTIN\Users'
     - 'Users'
 #    - 'BUILTIN\INTERACTIVE'
+  ignore_errors: true
