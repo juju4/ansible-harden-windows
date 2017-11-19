@@ -47,6 +47,7 @@
 # https://www.endgame.com/blog/technical-blog/bug-feature-debate-back-yet-again-ddeauto-root-cause-analysis
 # https://blog.barkly.com/microsoft-office-malware-attack-no-macros
 # https://gist.github.com/wdormann/732bb88d9b5dd5a66c9f1e1498f31a1b
+# https://technet.microsoft.com/en-us/library/security/4053440
 - name: Ms Office | Disable DDE - Link auto update
   win_regedit:
     key: "{{ item }}"
@@ -82,6 +83,16 @@
     - { n: "DDECleaned", d: 1 }
     - { n: "Options", d: 117 }
   when: harden_win_msoffice_disable_dde_excel_extras
+
+- name: Ms Office | Disable DDE - Excel WorkbookLinkWarnings
+  win_regedit:
+    key: "HKCU:\\Software\\Microsoft\\Office\\{{ harden_win_msoffice_version_reg }}\\Excel\\Security"
+    name: "{{ item.n }}"
+    data: "{{ item.d }}"
+    type: dword
+  with_items:
+    - { n: "WorkbookLinkWarnings", d: 2 }
+  when: harden_win_msoffice_disable_dde_excel_workbooklink
 
 # https://embedi.com/blog/skeleton-closet-ms-office-vulnerability-you-didnt-know-about
 - name: Disable Equation Editor - CVE-2017-11882
