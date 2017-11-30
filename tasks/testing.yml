@@ -30,3 +30,6 @@
 
 - include: testing-mimikatz.yml
   when: harden_win_testing_mimikatz
+
+- include: testing-msoffice.yml
+  when: harden_win_testing_msoffice
