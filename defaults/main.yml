@@ -378,6 +378,8 @@ harden_win_services_automatic:
 harden_win_msoffice_version_reg: "16.0"
 harden_win_msoffice_version_short: "16"
 harden_win_msoffice_trustedlocations: "%USERPROFILE%\\TrustedMacroDocuments"
+## 1: Enable All Macros, 2: Disable All macros with notification, 3: Disable all macros except those digitally signed, 4: Disable all without notification
+harden_win_msoffice_vbawarnings: 3
 ## Prevent activation of OLE Packages
 ## 0 no prompt+executes, 1 prompt+if click, executes, 2 no prompt+no execution
 harden_win_msoffice_packagerprompt: 2

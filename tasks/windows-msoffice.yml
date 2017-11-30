@@ -4,7 +4,6 @@
 ## https://www.asd.gov.au/publications/protect/ms-office-macro-security.htm
 ## http://www.asd.gov.au/publications/protect/Microsoft_Office_Macro_Security.pdf
 ## https://blogs.technet.microsoft.com/mmpc/2016/03/22/new-feature-in-office-2016-can-block-macros-and-help-prevent-infection/
-## https://blogs.technet.microsoft.com/diana_tudor/2014/12/02/microsoft-project-how-to-control-macro-settings-using-registry-keys/
 ## https://technet.microsoft.com/en-us/library/cc179076.aspx    ActiveX in Office
 ## https://technet.microsoft.com/en-us/library/cc179039.aspx
 
@@ -43,6 +42,46 @@
     - Outlook
     - PowerPoint
     - Visio
+
+- name: Ms Office | Update Macro settings
+  win_regedit:
+    key: "HKCU:\\Software\\Policies\\Microsoft\\Office\\{{ harden_win_msoffice_version_reg }}\\msproject\\security"
+    name: VBAWarnings
+    data: "{{ harden_win_msoffice_vbawarnings }}"
+    type: dword
+  with_items:
+    - { k: "HKCU:\\SOFTWARE\\Policies\\Microsoft\\Office\\{{ harden_win_msoffice_version_reg }}\\Word\\Security", n: 'VBAWarnings', d: "{{ harden_win_msoffice_vbawarnings }}" }
+    - { k: "HKCU:\\SOFTWARE\\Policies\\Microsoft\\Office\\{{ harden_win_msoffice_version_reg }}\\Word\\Security", n: 'blockcontentexecutionfrominternet', d: 1 }
+    - { k: "HKCU:\\SOFTWARE\\Policies\\Microsoft\\Office\\{{ harden_win_msoffice_version_reg }}\\Excel\\Security", n: 'VBAWarnings', d: "{{ harden_win_msoffice_vbawarnings }}" }
+    - { k: "HKCU:\\SOFTWARE\\Policies\\Microsoft\\Office\\{{ harden_win_msoffice_version_reg }}\\Excel\\Security", n: 'blockcontentexecutionfrominternet', d: 1 }
+    - { k: "HKCU:\\SOFTWARE\\Policies\\Microsoft\\Office\\{{ harden_win_msoffice_version_reg }}\\Powerpoint\\Security", n: 'VBAWarnings', d: "{{ harden_win_msoffice_vbawarnings }}" }
+    - { k: "HKCU:\\SOFTWARE\\Policies\\Microsoft\\Office\\{{ harden_win_msoffice_version_reg }}\\Powerpoint\\Security", n: 'blockcontentexecutionfrominternet', d: 1 }
+    - { k: "HKCU:\\SOFTWARE\\Policies\\Microsoft\\Office\\{{ harden_win_msoffice_version_reg }}\\Access\\Security", n: 'VBAWarnings', d: "{{ harden_win_msoffice_vbawarnings }}" }
+    - { k: "HKCU:\\SOFTWARE\\Policies\\Microsoft\\Office\\{{ harden_win_msoffice_version_reg }}\\Access\\Security", n: 'blockcontentexecutionfrominternet', d: 1 }
+    - { k: "HKCU:\\SOFTWARE\\Policies\\Microsoft\\Office\\{{ harden_win_msoffice_version_reg }}\\Publisher\\Security", n: 'VBAWarnings', d: "{{ harden_win_msoffice_vbawarnings }}" }
+    - { k: "HKCU:\\SOFTWARE\\Policies\\Microsoft\\Office\\{{ harden_win_msoffice_version_reg }}\\Publisher\\Security", n: 'blockcontentexecutionfrominternet', d: 1 }
+    - { k: "HKCU:\\SOFTWARE\\Policies\\Microsoft\\Office\\{{ harden_win_msoffice_version_reg }}\\Visio\\Security", n: 'VBAWarnings', d: "{{ harden_win_msoffice_vbawarnings }}" }
+    - { k: "HKCU:\\SOFTWARE\\Policies\\Microsoft\\Office\\{{ harden_win_msoffice_version_reg }}\\Visio\\Security", n: 'blockcontentexecutionfrominternet', d: 1 }
+
+- name: Ms Office | Ensure Protected view is enabled
+  win_regedit:
+    key: "{{ item.k }}"
+    name: "{{ item.n }}"
+    data: "{{ item.d }}"
+    type: dword
+  with_items:
+    - { k: "HKCU:\\SOFTWARE\\Microsoft\\Office\\{{ harden_win_msoffice_version_reg }}\\Outlook\\Security", n: 'MarkInternalAsUnsafe', d: 1 }
+    - { k: "HKCU:\\SOFTWARE\\Policies\\Microsoft\\Office\\{{ harden_win_msoffice_version_reg }}\\Outlook\\Security", n: 'MarkInternalAsUnsafe', d: 1 }
+    - { k: "HKCU:\\SOFTWARE\\Microsoft\\Office\\{{ harden_win_msoffice_version_reg }}\\Word\\Security\\ProtectedView", n: 'DisableAttachementsInPV', d: 0 }
+    - { k: "HKCU:\\SOFTWARE\\Microsoft\\Office\\{{ harden_win_msoffice_version_reg }}\\Word\\Security\\ProtectedView", n: 'DisableInternetFilesInPV', d: 0 }
+    - { k: "HKCU:\\SOFTWARE\\Microsoft\\Office\\{{ harden_win_msoffice_version_reg }}\\Word\\Security\\ProtectedView", n: 'DisableUnsafeLocationsInPV', d: 0 }
+    - { k: "HKCU:\\SOFTWARE\\Microsoft\\Office\\{{ harden_win_msoffice_version_reg }}\\Excel\\Security\\ProtectedView", n: 'DisableAttachementsInPV', d: 0 }
+    - { k: "HKCU:\\SOFTWARE\\Microsoft\\Office\\{{ harden_win_msoffice_version_reg }}\\Excel\\Security\\ProtectedView", n: 'DisableInternetFilesInPV', d: 0 }
+    - { k: "HKCU:\\SOFTWARE\\Microsoft\\Office\\{{ harden_win_msoffice_version_reg }}\\Excel\\Security\\ProtectedView", n: 'DisableUnsafeLocationsInPV', d: 0 }
+    - { k: "HKCU:\\SOFTWARE\\Microsoft\\Office\\{{ harden_win_msoffice_version_reg }}\\Powerpoint\\Security\\ProtectedView", n: 'DisableAttachementsInPV', d: 0 }
+    - { k: "HKCU:\\SOFTWARE\\Microsoft\\Office\\{{ harden_win_msoffice_version_reg }}\\Powerpoint\\Security\\ProtectedView", n: 'DisableInternetFilesInPV', d: 0 }
+    - { k: "HKCU:\\SOFTWARE\\Microsoft\\Office\\{{ harden_win_msoffice_version_reg }}\\Powerpoint\\Security\\ProtectedView", n: 'DisableUnsafeLocationsInPV', d: 0 }
+#    - { k: '', n: '', d: '' }
 
 # https://www.endgame.com/blog/technical-blog/bug-feature-debate-back-yet-again-ddeauto-root-cause-analysis
 # https://blog.barkly.com/microsoft-office-malware-attack-no-macros
