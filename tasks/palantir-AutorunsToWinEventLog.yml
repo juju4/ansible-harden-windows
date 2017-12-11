@@ -2,8 +2,8 @@
 
 - name: retrieve windows-event-forwarding from github
   git:
-    repo: https://github.com/palantir/windows-event-forwarding.git
-    dest: "{{ harden_win_temp_dir }}/windows-event-forwarding"
+    repo: 'https://github.com/palantir/windows-event-forwarding.git'
+    dest: "{{ harden_win_temp_dir }}\\windows-event-forwarding"
     version: HEAD
 
 - name: install AutorunsToWinEventLog
