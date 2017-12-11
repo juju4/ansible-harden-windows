@@ -17,6 +17,7 @@
     wait: true
 
 ## nxlog configuration or graylog sidecar?
+## https://github.com/SMAPPER/NXLog-AutoConfig
 ## http://www.systeen.com/2016/05/12/install-graylog-2-0-centos-7-collect-windows-logs/
 ## https://github.com/Graylog2/collector-sidecar/releases
 #"C:\Program Files (x86)\graylog\collector-sidecar\graylog-collector-sidecar.exe" -service install
