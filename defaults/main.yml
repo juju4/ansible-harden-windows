@@ -178,6 +178,7 @@ harden_win_sysmon_url: 'https://download.sysinternals.com/files/Sysmon.zip'
 harden_win_sysmon_sha256: '848c3323324e8fa849024f87a2764f8575513463f339690056664861f99e4c5f'
 ## note: file should be in current or template directory with .j2 extension
 harden_win_sysmon_template: SysmonConfig-Neo23x0-workstations.xml
+#harden_win_sysmon_template: SysmonConfig-moti.xml
 
 ## win_get_url missing checksum check
 harden_win_remotelogging: false
@@ -770,6 +771,11 @@ harden_win_certificates_removed:
 harden_win_extra_reg:
   - directory_prompt.reg
 #  - directory_prompt_git.reg
+
+harden_win_monitorsec_tools:
+  - { u: 'https://github.com/BloodHoundAD/BloodHound/releases/download/1.4/BloodHound-win32-x64.zip', c: '' }
+  - { u: 'https://www.pingcastle.com/PingCastleFiles/PingCastle_2.4.2.0.zip', c: '' }
+#  - { u: '' }
 
 harden_win_testing_inspec: false
 harden_win_testing_applocker: false
