@@ -9,7 +9,7 @@
    It is not focussed on
    - malware detection (execution)
    - malware detection (network connections)
-   
+
    See Windows workstation base config: https://gist.github.com/Neo23x0/f56bea38d95040b70cf5
 -->
 <Sysmon schemaversion="3.20">
@@ -91,6 +91,26 @@
           <SourceImage condition="is">C:\Windows\System32\lsm.exe</SourceImage> # System process under C:\Windows\System32\lsm.exe
           <SourceImage condition="end with">Microsoft.Identity.AadConnect.Health.AadSync.Host.exe</SourceImage> # Microsoft Azure AD Connect Health Sync Agent
           <SourceImage condition="begin with">C:\Program Files (x86)\Symantec\Symantec Endpoint Protection</SourceImage> # Symantec
+      </ProcessAccess>
+<!--
+Detecting in-memory attacks with Sysmon and Azure Security Center, Nov 2017
+https://azure.microsoft.com/en-us/blog/detecting-in-memory-attacks-with-sysmon-and-azure-security-center/
+-->
+      <!-- Restrict logging to access targeting svchost.exe and verclsid.exe -->
+      <ProcessAccess onmatch="exclude">
+        <TargetImage condition="excludes">verclsid.exe</TargetImage>
+        <TargetImage condition="excludes">svchost.exe</TargetImage>
+      </ProcessAccess>
+      <!-- Process access requests with suspect privileged access,
+           or call trace indicative of unknown modules -->
+      <ProcessAccess onmatch="include">
+         <GrantedAccess condition="is">0x1F0FFF</GrantedAccess>
+         <GrantedAccess condition="is">0x1F1FFF</GrantedAccess>
+         <GrantedAccess condition="is">0x1F2FFF</GrantedAccess>
+         <GrantedAccess condition="is">0x1F3FFF</GrantedAccess>
+<!--             ... -->
+         <GrantedAccess condition="is">0x1FFFFF</GrantedAccess>
+         <CallTrace condition="contains">unknown</CallTrace>
       </ProcessAccess>
    </EventFiltering>
 </Sysmon>
