@@ -4,3 +4,4 @@
   include: windows.yml
   when: ansible_os_family == "Windows"
 
+- include: testing.yml

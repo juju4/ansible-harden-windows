@@ -1,0 +1,18 @@
+---
+## https://technet.microsoft.com/en-us/library/cc960900.aspx
+
+- name: Enable DisallowRun
+  win_regedit:
+    key: HKCU:\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer
+    value: DisallowRun
+    datatype: dword
+    data: 1
+
+- name: DisallowRun identified applications
+  win_regedit:
+    key: HKCU:\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer\DisallowRun
+    value: "{{ item.v }}"
+    datatype: dword
+    data: "{{ item.d }}"
+  with_items: "{{ harden_win_disallowrun_list }}"
+

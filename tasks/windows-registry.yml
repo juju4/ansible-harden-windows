@@ -16,7 +16,6 @@
     data: 0
     datatype: dword
 
-
 - name: Windows Netbios Name Service state with wmic
   win_command: "wmic /interactive:off nicconfig where TcpipNetbiosOptions={{ item }}"
   with_items:
@@ -77,6 +76,14 @@
     data: "%windir%\\system32\\notepad.exe"
   with_items: "{{ harden_win_suspicious_ext }}"
 
+- name: disable suspicious executabled file extensions (HKCU)
+  win_regedit:
+    key: "HKCU:\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\FileExts\\.{{ item }}\\OpenWithList"
+    value: "a"
+    datatype: string
+    data: "%windir%\\system32\\notepad.exe"
+  with_items: "{{ harden_win_suspicious_ext }}"
+
 ## Note: HKCR only applies if HKCU doesn't exist. better enforcing with GPO
 - name: disable javascript execution by Windows Script Host (HKCR)
   win_regedit:
@@ -85,8 +92,15 @@
     data: "%windir%\\system32\\notepad.exe %1"
   with_items:
     - "HKCR:\\htafile\\shell\\open\\command"
+    - "HKCR:\\VBSFile\\shell\\edit\\command"
     - "HKCR:\\VBSFile\\shell\\open\\command"
+    - "HKCR:\\VBSFile\\shell\\open2\\command"
+    - "HKCR:\\VBEFile\\shell\\edit\\command"
+    - "HKCR:\\VBEFile\\shell\\open\\command"
+    - "HKCR:\\VBEFile\\shell\\open2\\command"
     - "HKCR:\\JSFile\\shell\\open\\command"
+    - "HKCR:\\JSEFile\\shell\\open\\command"
+    - "HKCR:\\wshfile\\shell\\open\\command"
     - "HKCR:\\scriptletfile\\shell\\open\\command"  ## default
 
 ## https://www.stigviewer.com/stig/windows_8_8.1/2014-06-27/finding/V-43239
@@ -145,6 +159,7 @@
     datatype: dword
     data: 8
 
+## check also templates/win7-computer-security.inf
 - name: Network security - Minimum session security for NTLM SSP based clients
   win_regedit:
     key: HKLM:\SYSTEM\CurrentControlSet\Control\Lsa\MSV1_0
@@ -195,3 +210,32 @@
   with_items:
     - { v: NullSessionPipes, t: multistring, d: '', s: absent  }
     - { v: RestrictNullSessAccess, t: dword, d: 1, s: present }
+
+- name: Limit number of cached logon accounts
+  win_regedit:
+    key: HKLM:\Software\Microsoft\Windows NT\Current Version\Winlogon
+    value: "cachedlogonscount"
+    datatype: dword
+    data: "{{ harden_win_cachedlogonscount }}"
+
+## http://resources.infosecinstitute.com/windows-systems-artifacts-digital-forensics-part-iii-prefetch-files/
+## http://www.forensicswiki.org/wiki/Prefetch
+- name: Limit number of cached logon accounts
+  win_regedit:
+    key: HKLM:\SYSTEM\CurrentControlSet\Control\Session Manager\Memory Management\PrefetchParameters
+    value: "{{ item }}"
+    datatype: dword
+    data: 3
+  with_items:
+    - EnablePrefetcher
+    - EnableSuperfetch
+
+## https://technet.microsoft.com/en-us/library/cc959914.aspx
+- name: Ensure last access times for NTFS partitions is enabled
+  win_regedit:
+    key: HKLM:\SYSTEM\CurrentControlSet\Control\FileSystem
+    value: "NtfsDisableLastAccessUpdate"
+    datatype: dword
+    data: 0
+
+- include: dc-ldap-signing.yml

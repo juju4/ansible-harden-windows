@@ -1,0 +1,113 @@
+<!--
+   {{ ansible_managed }}
+-->
+<Subscription xmlns="http://schemas.microsoft.com/2006/03/windows/events/subscription">
+    <SubscriptionId>WEF Security Subscription</SubscriptionId>
+    <SubscriptionType>SourceInitiated</SubscriptionType>
+    <Description>Important Security Events</Description>
+    <Enabled>true</Enabled>
+    <Uri>http://schemas.microsoft.com/wbem/wsman/1/windows/EventLog</Uri>
+
+    <!-- Use Normal (default), Custom, MinLatency, MinBandwidth -->
+    <ConfigurationMode>MinLatency</ConfigurationMode>
+<!--
+    <ConfigurationMode>Custom</ConfigurationMode>
+
+    <Delivery Mode="Push">
+        <Batching>
+            <MaxItems>1</MaxItems>
+            <MaxLatencyTime>1000</MaxLatencyTime>
+        </Batching>
+        <PushSettings>
+            <Heartbeat Interval="60000"/>
+        </PushSettings>
+    </Delivery>
+    <Expires>2018-01-01T00:00:00.000Z</Expires>
+-->
+
+    <Query>
+        <![CDATA[
+            <QueryList>
+                <Query Path="Application">
+                    <Select>Event[System/EventID='999']</Select>
+                </Query>
+            </QueryList>
+        ]]>
+    </Query>
+
+    <Query>
+        <![CDATA[<QueryList>
+            <Query Id="0" Path="Security">
+                <!-- Local Admins Changed -->
+                <Select Path="Security">*[EventData[Data[@Name='TargetUserName'] and (Data='Administrators')]] and *[System[(EventID='4732') or (EventID='4733')]]</Select>
+                <!-- Local user created or deleted -->
+                <Select Path="Security">*[System[(EventID='4720') or (EventID='4726')]]</Select>
+                <!-- New Service Installed -->
+                <!-- Event Log Cleared -->
+                <Select Path="Security">*[System[(EventID='1102')]]</Select>
+            </Query>
+        </QueryList>]]>
+    </Query>
+
+    <Query>
+        <![CDATA[<QueryList>
+            <Query Id="0" Path="Security">
+                <!-- New Service Installed -->
+                <Select Path="System">*[System[(EventID='7045')]]</Select>
+                <!-- Member Added or Removed from an AD Domain Local, Universal or  Global Security Group -->
+                <Select Path="Security">
+                    (*[EventData[Data[@Name="TargetUserName"] = "Administrators"]]) or
+                    (*[EventData[Data[@Name="TargetUserName"] = "Domain Admins"]]) or
+                    (*[EventData[Data[@Name="TargetUserName"] = "Schema Admins"]]) or
+                    (*[EventData[Data[@Name="TargetUserName"] = "Enterprise Admins"]]) or
+                    (*[EventData[Data[@Name="TargetUserName"] =  "Print Operators"]]) or
+                    (*[EventData[Data[@Name="TargetUserName"] = "Server Operators"]]) or
+                    (*[EventData[Data[@Name="TargetUserName"] = "Backup Operators"]])
+                    and
+                    *[System[(EventID='4732') or (EventID='4733') or (EventID='4756') or (EventID='4757') or (EventID='4728') or (EventID='4729')]]
+                </Select>
+                <!-- Event Log Cleared -->
+                <Select Path="Security">*[System[(EventID='1102')]]</Select>
+            </Query>
+        </QueryList>]]>
+    </Query>
+
+    <Query>
+        <![CDATA[<QueryList>
+            <Query Id="0" Path="Security">
+                <!-- A new process has been created (high volume! but essential) -->
+                <Select Path="Security">*[System[(EventID='4688')]]</Select>
+                <!-- An account was successfully logged on -->
+                <Select Path="Security">*[System[(EventID='4624')]]</Select>
+                <!-- An account failed to log on -->
+                <Select Path="Security">*[System[(EventID='4625')]]</Select>
+                <!-- A scheduled task was created -->
+                <Select Path="Security">*[System[(EventID='4698')]]</Select>
+                <!-- A service was installed in the system -->
+                <Select Path="Security">*[System[(EventID='4697')]]</Select>
+                <!-- A network share object was accessed -->
+                <Select Path="Security">*[System[(EventID='5145')]]</Select>
+                <!-- Special privileges assigned to new logon -->
+                <Select Path="Security">*[System[(EventID='4672')]]</Select>
+                <!-- Microsoft Distributed Transaction Coordinator Service Installation and Setup -->
+                <Select Path="Security">*[System[(EventID='4104')]]</Select>
+                <!-- Application Error -->
+                <Select Path="Application">*[System[(EventID='1000')]]</Select>
+                <!-- The Windows Filtering Platform has allowed a connection (high volume!) -->
+                <Select Path="Security">*[System[(EventID='5156')]]</Select>
+                <!-- A network share object was accessed -->
+                <Select Path="Security">*[System[(EventID='5140')]]</Select>
+                <!-- An attempt was made to access an object -->
+                <Select Path="Security">*[System[(EventID='4663')]]</Select>
+            </Query>
+        </QueryList>]]>
+    </Query>
+
+    <ReadExistingEvents>true</ReadExistingEvents>
+    <TransportName>http</TransportName>
+    <ContentFormat>RenderedText</ContentFormat>
+    <Locale Language="en-US"/>
+    <LogFile>ForwardedEvents</LogFile>
+    <AllowedSourceNonDomainComputers></AllowedSourceNonDomainComputers>
+    <AllowedSourceDomainComputers>O:NSG:NSD:(A;;GA;;;DC)(A;;GA;;;NS)</AllowedSourceDomainComputers>
+</Subscription>

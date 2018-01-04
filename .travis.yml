@@ -3,8 +3,9 @@ dist: trusty
 language: python
 python: "2.7"
 before_install:
- - ln -s ansible-harden-windows ../harden-windows
+ - ln -s ansible-harden-windows ../juju4.harden-windows
 install:
+  - sudo apt-get install libxml2-utils
   - pip install ansible ansible-lint
   - ansible --version
   - "{ echo '[defaults]'; echo 'roles_path = ../'; } >> ansible.cfg"
@@ -18,4 +19,6 @@ script:
 
 # Check osquery templates pack
   - "for f in templates/osquery-*.conf.j2; do echo \"== $f\"; egrep -v '//.*' $f | python -mjson.tool > /dev/null; done"
+# Applocker templates
+  - "for f in templates/applocker-*.xml.j2; do echo \"== $f\"; xmllint $f > /dev/null; done"
 

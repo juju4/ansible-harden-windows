@@ -1,0 +1,14 @@
+---
+
+- name: upload extra registry files
+  win_template:
+    src: "{{ item }}.j2"
+    dest: "{{ harden_win_temp_dir }}\\{{ item }}"
+  with_items: "{{ harden_win_extra_reg }}"
+
+# ignore_errors else got rc 1 even if entries are all inserted...
+- name: merge extra registry
+  win_regmerge:
+    path: "{{ harden_win_temp_dir }}\\{{ item }}"
+  with_items: "{{ harden_win_extra_reg }}"
+  ignore_errors: true

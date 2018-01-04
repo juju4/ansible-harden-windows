@@ -17,5 +17,8 @@
 - name: Disable Windows Optional Feature
 #  win_shell: "Disable-WindowsOptionalFeature -FeatureName {{ item }} -Online"
 ## FIXME! not idempotent
-  win_command: "Dism /online /Disable-Feature /FeatureName:{{ item }}"
+  win_command: "Dism /online /Disable-Feature /FeatureName:{{ item }} /NoRestart"
   with_items: "{{ harden_win_disable_winfeature }}"
+  register: dism
+  failed_when: "'The operation completed successfully' not in dism.stdout"
+- debug: var=dism

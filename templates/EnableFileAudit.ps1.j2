@@ -1,0 +1,22 @@
+# {{ ansible_managed }}
+# https://technochat.in/2014/05/set-file-system-auditing-via-powershell/
+# https://powershell.org/forums/topic/setting-up-audit-rules-with-ps/
+# https://pcnettips.blogspot.ca/2012/07/powershell-v3-adding-sacl-auditing-to.html
+# https://justanothertechnicalblog.blogspot.ca/2013/04/adding-audit-rules-sacls-to-active.html
+$TargetFolder = [string]$Args
+
+$AuditUser = "Everyone"
+$AuditRules = "{{ harden_win_FileAuditRules }}"
+$InheritType = "ContainerInherit,ObjectInherit"
+$AuditType = "Success"
+$AccessRule = New-Object System.Security.AccessControl.FileSystemAuditRule($AuditUser,$AuditRules,$InheritType,"None",$AuditType)
+
+try {
+  $ACL = Get-Acl -Audit -ErrorAction Stop $TargetFolder
+  $ACL.SetAuditRule($AccessRule)
+  Write-Host "Processing >",$TargetFolder
+  $ACL | Set-Acl $TargetFolder -ErrorAction Stop
+} catch {
+  Write-Error -ErrorRecord $_
+}
+Write-Host "Audit Policy applied successfully."

@@ -1,0 +1,28 @@
+---
+## https://docs.microsoft.com/en-us/windows/threat-protection/use-windows-event-forwarding-to-assist-in-instrusion-detection
+## https://msdn.microsoft.com/en-us/library/cc748890(v=ws.11).aspx
+## https://msdn.microsoft.com/en-us/library/bb870973(v=vs.85).aspx
+## https://blogs.technet.microsoft.com/jepayne/2015/11/23/monitoring-what-matters-windows-event-forwarding-for-everyone-even-if-you-already-have-a-siem/
+## https://blogs.technet.microsoft.com/wincat/2008/08/11/quick-and-dirty-large-scale-eventing-for-windows/
+## https://medium.com/@palantir/windows-event-forwarding-for-network-defense-cb208d5ff86f
+## https://github.com/palantir/windows-event-forwarding
+
+- name: Add wef collector server to Event Log readers local group
+  win_user:
+    name: "{{ harden_win_wef_collector_server_user }}"
+    state: present
+    groups_action: add
+    groups:
+      - Event Log Readers
+    when: harden_win_wef_collector_server_user is defined and harden_win_wef_collector_server_user != ''
+
+- name: upload WEF configuration template
+  win_template:
+    src: "{{ item }}"
+    dest: "{{ harden_win_temp_dir }}\\{{ item | win_basename }}"
+    backup: yes
+  with_items: "{{ harden_win_wef_templates_list }}"
+
+- name: Configure WEF subscriptions
+  win_command: "wecutil cs {{ harden_win_temp_dir }}\\{{ item | win_basename }}"
+  with_items: "{{ harden_win_wef_templates_list }}"

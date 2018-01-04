@@ -1,0 +1,35 @@
+---
+
+- block:
+    - name: testing | Ensure inspec is present
+      win_chocolatey:
+        name: inspec
+        state: present
+
+    - name: testing | run windows-baseline
+      win_command: "c:\\opscode\\inspec\\bin\\inspec.bat exec https://github.com/juju4/windows-baseline >{{ harden_win_log_dir }}\\inspec.log"
+      ignore_errors: true
+
+  when: harden_win_testing_inspec
+
+# https://blog.malwarebytes.com/security-world/technology/2017/11/when-you-shouldnt-trust-a-trusted-root-certificate/
+- name: Export trusted root certificates
+  shell: Get-ChildItem -Path cert:\currentuser\AuthRoot -Recurse | select Thumbprint, FriendlyName, Subject | ConvertTo-Html | Set-Content c:\users\public\desktop\certificates.html
+
+- include: testing-applocker.yml
+  when: harden_win_testing_applocker
+
+- include: testing-uac.yml
+  when: harden_win_testing_uac
+
+- include: testing-opf.yml
+  when: harden_win_testing_opf
+
+- include: testing-privesc.yml
+  when: harden_win_testing_privesc
+
+- include: testing-mimikatz.yml
+  when: harden_win_testing_mimikatz
+
+- include: testing-msoffice.yml
+  when: harden_win_testing_msoffice

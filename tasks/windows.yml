@@ -9,10 +9,14 @@
 # http://iase.disa.mil/stigs/Pages/index.aspx
 # http://iase.disa.mil/stigs/Pages/stig-viewing-guidance.aspx
 
-- name: Create temp dir
-## FIXME! "msg": "Illegal characters in path."
-  win_file: path='{{ harden_win_temp_dir }}' state=directory
-#  raw: "mkdir {{ harden_win_temp_dir }}"
+- name: Create ansible directories
+  win_file:
+    path: "{{ item }}"
+    state: directory
+#  raw: "mkdir {{ item }}"
+  with_items:
+    - "{{ harden_win_temp_dir }}"
+    - "{{ harden_win_log_dir }}"
   ignore_errors: true
 
 ## [WARNING]: Module invocation had junk after the JSON data:
@@ -41,6 +45,23 @@
   tags:
     - packages
 
+## FIXME!
+#- name: Ensure no users-writeable dir in general paths
+#  win_acl:
+#    path: "{{ item }}"
+#    user: Users
+#    rights: AppendData,WriteData,Write,FullControl
+#    type: allow
+#    state: absent
+#    inherit: ContainerInherit,ObjectInherit
+##    propagation: InheritOnly
+#    propagation: None
+#  win_command: "icacls \"{{ item }}\" /remove:g Users:(W)(AD)(WD) /T /inheritance:d"
+#  with_items:
+#    - 'c:\opscode\inspec'
+#    - 'c:\ProgramData'
+#    - "{{ harden_win_temp_dir }}"
+#    - "{{ harden_win_log_dir }}"
 
 - name: check ipv4 interface status
   raw: "netsh interface ipv4 show global | findstr MLD | findstr Level"
@@ -58,6 +79,11 @@
   tags:
     - registry
 
+- include: windows-audit.yml
+- include: windows-audit-files.yml
+  when: harden_win_audit_files
+- include: windows-audit-reg.yml
+  when: harden_win_audit_registry
 - include: windows-services.yml
 - include: windows-ie.yml
 - include: windows-smb.yml
@@ -65,6 +91,7 @@
 - include: windows-wmi.yml
 - include: windows-online.yml
 - include: windows-ipv6.yml
+- include: windows-rdp.yml
 
 - include: windows-emet.yml
   when: harden_win_emet_conf != ''
@@ -106,6 +133,9 @@
 #- name: Enable Windows Firewall
 #  win_firewall_rule: enable=yes
 
+- include: windows-adminshares.yml
+  when: harden_win_disable_adminshares
+
 - include: windows-local-gpo.yml
   when: harden_win_gpo_local is defined and harden_win_gpo_local
 
@@ -130,6 +160,9 @@
 - include: windows-firewall.yml
   when: harden_win_firewall is defined and harden_win_firewall
 
+- include: windows-error-reporting.yml
+  when: harden_win_configure_errorreporting
+
 - include: mbrfilter.yml
   when: harden_win_mbrfilter
 
@@ -147,6 +180,29 @@
 - include: windows-certificates.yml
   when: harden_win_certificates_review
 
+- include: windows-disallowrun.yml
+  when: harden_win_disallowrun
+
 - include: windows-msoffice.yml
 - include: windows-msproject.yml
 - include: windows-feature.yml
+
+- include: windows-sticky-keys.yml
+  when: harden_win_stickykeys_disable
+
+- include: windows-laps.yml
+  when: harden_win_laps_enable
+
+- include: windows-wef.yml
+  when: harden_win_wef_enable
+
+- include: passwd-filters.yml
+  when: harden_win_passwd_filters
+
+- include: windows-whitelist.yml
+  when: harden_win_applocker_enable
+
+- include: extras.yml
+
+- include: palantir-AutorunsToWinEventLog.yml
+  when: harden_win_palantir_AutorunsToWinEventLog

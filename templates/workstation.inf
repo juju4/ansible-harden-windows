@@ -1,3 +1,4 @@
+; {{ ansible_managed }}
 ; (c) Microsoft Corporation 1997-2000
 ;
 ; Security Configuration Template for Security Configuration Editor

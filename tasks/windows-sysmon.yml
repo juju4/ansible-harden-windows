@@ -6,19 +6,34 @@
 #PS > Get-WinEvent -FilterHashtable @{logname="Microsoft-Windows-Sysmon/Operational";}
 ## native alternative for process auditing (not network?) on Windows Server 2016, Windows Server 2012 R2, Windows Server 2012 (ID 4688)
 
-- name: check if sysmon archive is present
-  win_stat: path="{{ harden_win_temp_dir }}\\{{ harden_win_sysmon_url | basename }}"
-  register: sysmondl
-- name: download sysmon
-  win_get_url:
-    url: "{{ harden_win_sysmon_url }}"
-    dest: "{{ harden_win_temp_dir }}\\{{ harden_win_sysmon_url | basename }}"
-  when: not sysmondl.stat.exists
-- name: unzip sysmon
-  win_unzip:
-    src: "{{ harden_win_temp_dir }}\\{{ harden_win_sysmon_url | basename }}"
-    dest: "{{ harden_win_temp_dir }}\\sysmon"
-    creates: "{{ harden_win_temp_dir }}\\sysmon\\sysmon.exe"
+- block:
+    - name: check if sysmon archive is present
+      win_stat: path="{{ harden_win_temp_dir }}\\{{ harden_win_sysmon_url | basename }}"
+      register: sysmondl
+    - name: download sysmon
+      win_get_url:
+        url: "{{ harden_win_sysmon_url }}"
+        dest: "{{ harden_win_temp_dir }}\\{{ harden_win_sysmon_url | basename }}"
+      when: not sysmondl.stat.exists
+    - name: unzip sysmon
+      win_unzip:
+        src: "{{ harden_win_temp_dir }}\\{{ harden_win_sysmon_url | basename }}"
+        dest: "{{ harden_win_temp_dir }}\\sysmon"
+        creates: "{{ harden_win_temp_dir }}\\sysmon\\sysmon.exe"
+    - set_fact:
+        sysmon_path: "{{ harden_win_temp_dir }}\\sysmon\\sysmon"
+  when: harden_win_sysmon_direct
+- block:
+    - name: install sysmon with chocolatey
+      win_chocolatey:
+        name: sysmon
+        state: present
+        ignore_checksums: yes
+        ## FIXME!
+        #install_args: "--checksum {{ harden_win_sysmon_sha256 }}"
+    - set_fact:
+        sysmon_path: "c:\\ProgramData\\chocolatey\\lib\\sysmon\\tools\\sysmon"
+  when: not harden_win_sysmon_direct
 
 - block:
     - name: Copy Sysmon template
@@ -26,17 +41,13 @@
         src: "{{ harden_win_sysmon_template }}.j2"
         dest: "{{ harden_win_temp_dir }}\\{{ harden_win_sysmon_template }}"
     - name: install sysmon with defined config
-    #  raw: '{{ harden_win_temp_dir }}\sysmon\sysmon -n -accepteula -i c:\SysmonConfig.xml'
-    ## ansible v2.2
-      win_command: "{{ harden_win_temp_dir }}\\sysmon\\sysmon -n -accepteula -i {{ harden_win_temp_dir }}\\{{ harden_win_sysmon_template }}"
+      win_command: "{{ sysmon_path }} -n -accepteula -i {{ harden_win_temp_dir }}\\{{ harden_win_sysmon_template }}"
       ignore_errors: true
   when: harden_win_sysmon_template != ''
 
 - block:
     - name: install sysmon
-    #  raw: "{{ harden_win_temp_dir }}\\sysmon\\sysmon -i -n -accepteula"
-    ## ansible v2.2
-      win_command: "{{ harden_win_temp_dir }}\\sysmon\\sysmon -i -n -accepteula"
+      win_command: "{{ sysmon_path }} -i -n -accepteula"
       ignore_errors: true
   when: harden_win_sysmon_template == ''
 

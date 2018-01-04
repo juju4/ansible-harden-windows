@@ -1,0 +1,10 @@
+---
+## https://social.technet.microsoft.com/Forums/windowsserver/en-US/6ba301df-5e3a-49ce-900a-c6b8c20217f3/disable-sticky-keys-via-gpo
+
+# default: 510
+- name: Disable Sticky Keys (per user)
+  win_regedit:
+    key: HKCU:\Control Panel\Accessibility\StickyKeys
+    value: Flags
+    data: 506
+    datatype: dword

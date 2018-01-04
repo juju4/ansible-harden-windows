@@ -1,0 +1,44 @@
+Windows Registry Editor Version 5.00
+
+; GIT
+
+[HKEY_CLASSES_ROOT\Directory\shell\03MenuGit]
+"MUIVerb"="GIT Prompts"
+"Icon"="C:\\Program Files\\Git\\mingw64\\share\\git\\git-for-windows.ico"
+"ExtendedSubCommandsKey"="Directory\\ContextMenus\\MenuGit"
+
+[HKEY_CLASSES_ROOT\Directory\background\shell\03MenuGit]
+"MUIVerb"="GIT Prompts"
+"Icon"="C:\\Program Files\\Git\\mingw64\\share\\git\\git-for-windows.ico"
+"ExtendedSubCommandsKey"="Directory\\ContextMenus\\MenuGit"
+
+
+[HKEY_CLASSES_ROOT\Directory\ContextMenus\MenuGit\shell\git_gui]
+"MUIVerb"="GIT GUI"
+"Icon"="C:\\Program Files\\Git\\mingw64\\share\\git\\git-for-windows.ico"
+
+[HKEY_CLASSES_ROOT\Directory\ContextMenus\MenuGit\shell\git_gui\command]
+@="\"C:\\Program Files\\Git\\cmd\\git-gui.exe\" \"--working-dir\" \"%v.\""
+
+
+[HKEY_CLASSES_ROOT\Directory\ContextMenus\MenuGit\shell\git_shell]
+"MUIVerb"="GIT BASH"
+"Icon"="C:\\Program Files\\Git\\mingw64\\share\\git\\git-for-windows.ico"
+
+[HKEY_CLASSES_ROOT\Directory\ContextMenus\MenuGit\shell\git_shell\command]
+@="\"C:\\Program Files\\Git\\git-bash.exe\" \"--cd=%v.\""
+
+
+; Move Official GIT Entries to the Extended Menu (Shift-Right Click)
+
+[HKEY_CLASSES_ROOT\Directory\shell\git_gui]
+"Extended"=""
+
+[HKEY_CLASSES_ROOT\Directory\background\shell\git_gui]
+"Extended"=""
+
+[HKEY_CLASSES_ROOT\Directory\shell\git_shell]
+"Extended"=""
+
+[HKEY_CLASSES_ROOT\Directory\background\shell\git_shell]
+"Extended"=""

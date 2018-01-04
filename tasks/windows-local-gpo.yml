@@ -1,6 +1,13 @@
 ---
 ## https://blogs.windows.com/msedgedev/2015/08/26/how-microsoft-edge-and-internet-explorer-11-on-windows-10-work-better-together-in-the-enterprise/#s4vAKTKvz328jwjY.97 Enterprise Mode Site List
 ## http://www.morgantechspace.com/2013/11/Enable-File-System-Auditing-in-Windows.html
+## https://4sysops.com/archives/deny-and-allow-workstation-logons-with-group-policy/
+## https://www.reddit.com/r/sysadmin/comments/1yzjul/restricting_interactive_logon_but_allow_runas/
+## http://www.authlite.com/kb/allow-runas-but-block-interactive-logon/
+## * Remove Debug Privileges
+## https://technet.microsoft.com/en-us/library/dn221969(v=ws.11).aspx
+## https://blogs.msdn.microsoft.com/oldnewthing/20080314-00/?p=23113/
+## https://www.sans.org/reading-room/whitepapers/testing/passthehash-attacks-tools-and-mitigation-33283
 
 - name: copy gpo template to target computer
   win_template:

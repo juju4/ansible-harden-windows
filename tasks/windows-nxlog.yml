@@ -1,16 +1,20 @@
 ---
 
-- win_stat: path="C:\\temp\\{{ harden_win_remotelogging_nxlog_url | basename }}"
+- win_stat: path="{{ harden_win_temp_dir }}\\{{ harden_win_remotelogging_nxlog_url | basename }}"
   register: nxlogdl
 - name: Download NXLog CE
   win_get_url:
     url: "{{ harden_win_remotelogging_nxlog_url }}"
-    dest: "C:\\temp\\{{ harden_win_remotelogging_nxlog_url | basename }}"
+    dest: "{{ harden_win_temp_dir }}\\{{ harden_win_remotelogging_nxlog_url | basename }}"
 ## FIXME! no checksum option
   when: not nxlogdl.stat.exists
 
 - name: Install NXLog CE
-  win_msi: path="C:\\temp\\{{ harden_win_remotelogging_nxlog_url | basename }}" wait=true
+## ansible 2.4+
+#  win_package:
+  win_msi:
+    path: "{{ harden_win_temp_dir }}\\{{ harden_win_remotelogging_nxlog_url | basename }}"
+    wait: true
 
 ## nxlog configuration or graylog sidecar?
 ## http://www.systeen.com/2016/05/12/install-graylog-2-0-centos-7-collect-windows-logs/

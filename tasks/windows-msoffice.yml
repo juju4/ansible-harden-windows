@@ -4,7 +4,6 @@
 ## https://www.asd.gov.au/publications/protect/ms-office-macro-security.htm
 ## http://www.asd.gov.au/publications/protect/Microsoft_Office_Macro_Security.pdf
 ## https://blogs.technet.microsoft.com/mmpc/2016/03/22/new-feature-in-office-2016-can-block-macros-and-help-prevent-infection/
-## https://blogs.technet.microsoft.com/diana_tudor/2014/12/02/microsoft-project-how-to-control-macro-settings-using-registry-keys/
 ## https://technet.microsoft.com/en-us/library/cc179076.aspx    ActiveX in Office
 ## https://technet.microsoft.com/en-us/library/cc179039.aspx
 
@@ -17,6 +16,7 @@
   with_items:
     - Access
     - Excel
+    - Outlook
     - PowerPoint
     - Visio
     - Word
@@ -28,3 +28,119 @@
     name: ShowOLEPackageObj
     data: 0
     type: dword
+
+## https://blogs.technet.microsoft.com/mmpc/2016/06/14/wheres-the-macro-malware-author-are-now-using-ole-embedding-to-deliver-malicious-files/
+- name: Ms Office | Prevent activation of OLE packages
+  win_regedit:
+    key: "HKCU:\\Software\\Microsoft\\Office\\{{ harden_win_msoffice_version_reg }}\\{{ item }}\\Security"
+    name: PackagerPrompt
+    data: "{{ harden_win_msoffice_packagerprompt }}"
+    type: dword
+  with_items:
+    - Access
+    - Excel
+    - Outlook
+    - PowerPoint
+    - Visio
+
+- name: Ms Office | Update Macro settings
+  win_regedit:
+    key: "HKCU:\\Software\\Policies\\Microsoft\\Office\\{{ harden_win_msoffice_version_reg }}\\msproject\\security"
+    name: VBAWarnings
+    data: "{{ harden_win_msoffice_vbawarnings }}"
+    type: dword
+  with_items:
+    - { k: "HKCU:\\SOFTWARE\\Policies\\Microsoft\\Office\\{{ harden_win_msoffice_version_reg }}\\Word\\Security", n: 'VBAWarnings', d: "{{ harden_win_msoffice_vbawarnings }}" }
+    - { k: "HKCU:\\SOFTWARE\\Policies\\Microsoft\\Office\\{{ harden_win_msoffice_version_reg }}\\Word\\Security", n: 'blockcontentexecutionfrominternet', d: 1 }
+    - { k: "HKCU:\\SOFTWARE\\Policies\\Microsoft\\Office\\{{ harden_win_msoffice_version_reg }}\\Excel\\Security", n: 'VBAWarnings', d: "{{ harden_win_msoffice_vbawarnings }}" }
+    - { k: "HKCU:\\SOFTWARE\\Policies\\Microsoft\\Office\\{{ harden_win_msoffice_version_reg }}\\Excel\\Security", n: 'blockcontentexecutionfrominternet', d: 1 }
+    - { k: "HKCU:\\SOFTWARE\\Policies\\Microsoft\\Office\\{{ harden_win_msoffice_version_reg }}\\Powerpoint\\Security", n: 'VBAWarnings', d: "{{ harden_win_msoffice_vbawarnings }}" }
+    - { k: "HKCU:\\SOFTWARE\\Policies\\Microsoft\\Office\\{{ harden_win_msoffice_version_reg }}\\Powerpoint\\Security", n: 'blockcontentexecutionfrominternet', d: 1 }
+    - { k: "HKCU:\\SOFTWARE\\Policies\\Microsoft\\Office\\{{ harden_win_msoffice_version_reg }}\\Access\\Security", n: 'VBAWarnings', d: "{{ harden_win_msoffice_vbawarnings }}" }
+    - { k: "HKCU:\\SOFTWARE\\Policies\\Microsoft\\Office\\{{ harden_win_msoffice_version_reg }}\\Access\\Security", n: 'blockcontentexecutionfrominternet', d: 1 }
+    - { k: "HKCU:\\SOFTWARE\\Policies\\Microsoft\\Office\\{{ harden_win_msoffice_version_reg }}\\Publisher\\Security", n: 'VBAWarnings', d: "{{ harden_win_msoffice_vbawarnings }}" }
+    - { k: "HKCU:\\SOFTWARE\\Policies\\Microsoft\\Office\\{{ harden_win_msoffice_version_reg }}\\Publisher\\Security", n: 'blockcontentexecutionfrominternet', d: 1 }
+    - { k: "HKCU:\\SOFTWARE\\Policies\\Microsoft\\Office\\{{ harden_win_msoffice_version_reg }}\\Visio\\Security", n: 'VBAWarnings', d: "{{ harden_win_msoffice_vbawarnings }}" }
+    - { k: "HKCU:\\SOFTWARE\\Policies\\Microsoft\\Office\\{{ harden_win_msoffice_version_reg }}\\Visio\\Security", n: 'blockcontentexecutionfrominternet', d: 1 }
+
+- name: Ms Office | Ensure Protected view is enabled
+  win_regedit:
+    key: "{{ item.k }}"
+    name: "{{ item.n }}"
+    data: "{{ item.d }}"
+    type: dword
+  with_items:
+    - { k: "HKCU:\\SOFTWARE\\Microsoft\\Office\\{{ harden_win_msoffice_version_reg }}\\Outlook\\Security", n: 'MarkInternalAsUnsafe', d: 1 }
+    - { k: "HKCU:\\SOFTWARE\\Policies\\Microsoft\\Office\\{{ harden_win_msoffice_version_reg }}\\Outlook\\Security", n: 'MarkInternalAsUnsafe', d: 1 }
+    - { k: "HKCU:\\SOFTWARE\\Microsoft\\Office\\{{ harden_win_msoffice_version_reg }}\\Word\\Security\\ProtectedView", n: 'DisableAttachementsInPV', d: 0 }
+    - { k: "HKCU:\\SOFTWARE\\Microsoft\\Office\\{{ harden_win_msoffice_version_reg }}\\Word\\Security\\ProtectedView", n: 'DisableInternetFilesInPV', d: 0 }
+    - { k: "HKCU:\\SOFTWARE\\Microsoft\\Office\\{{ harden_win_msoffice_version_reg }}\\Word\\Security\\ProtectedView", n: 'DisableUnsafeLocationsInPV', d: 0 }
+    - { k: "HKCU:\\SOFTWARE\\Microsoft\\Office\\{{ harden_win_msoffice_version_reg }}\\Excel\\Security\\ProtectedView", n: 'DisableAttachementsInPV', d: 0 }
+    - { k: "HKCU:\\SOFTWARE\\Microsoft\\Office\\{{ harden_win_msoffice_version_reg }}\\Excel\\Security\\ProtectedView", n: 'DisableInternetFilesInPV', d: 0 }
+    - { k: "HKCU:\\SOFTWARE\\Microsoft\\Office\\{{ harden_win_msoffice_version_reg }}\\Excel\\Security\\ProtectedView", n: 'DisableUnsafeLocationsInPV', d: 0 }
+    - { k: "HKCU:\\SOFTWARE\\Microsoft\\Office\\{{ harden_win_msoffice_version_reg }}\\Powerpoint\\Security\\ProtectedView", n: 'DisableAttachementsInPV', d: 0 }
+    - { k: "HKCU:\\SOFTWARE\\Microsoft\\Office\\{{ harden_win_msoffice_version_reg }}\\Powerpoint\\Security\\ProtectedView", n: 'DisableInternetFilesInPV', d: 0 }
+    - { k: "HKCU:\\SOFTWARE\\Microsoft\\Office\\{{ harden_win_msoffice_version_reg }}\\Powerpoint\\Security\\ProtectedView", n: 'DisableUnsafeLocationsInPV', d: 0 }
+#    - { k: '', n: '', d: '' }
+
+# https://www.endgame.com/blog/technical-blog/bug-feature-debate-back-yet-again-ddeauto-root-cause-analysis
+# https://blog.barkly.com/microsoft-office-malware-attack-no-macros
+# https://gist.github.com/wdormann/732bb88d9b5dd5a66c9f1e1498f31a1b
+# https://technet.microsoft.com/en-us/library/security/4053440
+- name: Ms Office | Disable DDE - Link auto update
+  win_regedit:
+    key: "{{ item }}"
+    name: DontUpdateLinks
+    data: 1
+    type: dword
+  with_items:
+    - "HKCU:\\Software\\Microsoft\\Office\\{{ harden_win_msoffice_version_reg }}\\Word\\Options"
+    - "HKCU:\\Software\\Microsoft\\Office\\{{ harden_win_msoffice_version_reg }}\\Word\\Options\\WordMail"
+    - "HKCU:\\Software\\Microsoft\\Office\\{{ harden_win_msoffice_version_reg }}\\Excel\\Options"
+  when: harden_win_msoffice_disable_dde_updatelink
+
+- name: Ms Office | Disable DDE - OneNote DisableEmbeddedFiles
+  win_regedit:
+    key: "{{ item }}"
+    name: DisableEmbeddedFiles
+    data: 1
+    type: dword
+  with_items:
+    - "HKCU:\\Software\\Microsoft\\Office\\{{ harden_win_msoffice_version_reg }}\\OneNote\\Options"
+    - "HKCU:\\Software\\Microsoft\\Office\\{{ harden_win_msoffice_version_reg }}\\Word\\Options\\WordMail"
+    - "HKCU:\\Software\\Microsoft\\Office\\{{ harden_win_msoffice_version_reg }}\\Excel\\Options"
+  when: harden_win_msoffice_disable_dde_embeddedfiles
+
+- name: Ms Office | Disable DDE - Excel extras
+  win_regedit:
+    key: "HKCU:\\Software\\Microsoft\\Office\\{{ harden_win_msoffice_version_reg }}\\Excel\\Options"
+    name: "{{ item.n }}"
+    data: "{{ item.d }}"
+    type: dword
+  with_items:
+    - { n: "DDEAllowed", d: 0 }
+    - { n: "DDECleaned", d: 1 }
+    - { n: "Options", d: 117 }
+  when: harden_win_msoffice_disable_dde_excel_extras
+
+- name: Ms Office | Disable DDE - Excel WorkbookLinkWarnings
+  win_regedit:
+    key: "HKCU:\\Software\\Microsoft\\Office\\{{ harden_win_msoffice_version_reg }}\\Excel\\Security"
+    name: "{{ item.n }}"
+    data: "{{ item.d }}"
+    type: dword
+  with_items:
+    - { n: "WorkbookLinkWarnings", d: 2 }
+  when: harden_win_msoffice_disable_dde_excel_workbooklink
+
+# https://embedi.com/blog/skeleton-closet-ms-office-vulnerability-you-didnt-know-about
+- name: Disable Equation Editor - CVE-2017-11882
+  win_regedit:
+    key: "{{ item }}"
+    name: "Compatibility Flags"
+    data: '0x400'
+    type: dword
+  with_items:
+    - "HKLM:\\SOFTWARE\\Microsoft\\Office\\{{ harden_win_msoffice_version_reg }}\\Common\\COM Compatibility\\{0002CE02-0000- 0000-C000-000000000046}"
+    - "HKLM:\\SOFTWARE\\Wow6432Node\\Microsoft\\Office\\{{ harden_win_msoffice_version_reg }}\\Common\\COM Compatibility\\{0002CE02-0000-0000-C000-000000000046}"
+  when: harden_win_msoffice_disable_equation_editor

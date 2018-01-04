@@ -1,5 +1,6 @@
 ---
 
+## https://docs.microsoft.com/en-us/windows/device-security/device-guard/deploy-device-guard-enable-virtualization-based-security
 ## https://technet.microsoft.com/en-us/itpro/windows/keep-secure/device-guard-deployment-guide
 ## Requires hardware, firmware (UEFI, Secure Boot) and software (win10+, ws2016+, application code signing)
 

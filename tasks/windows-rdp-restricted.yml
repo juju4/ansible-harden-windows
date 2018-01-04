@@ -1,0 +1,13 @@
+---
+## https://docs.microsoft.com/en-us/windows/access-protection/remote-credential-guard
+## https://social.technet.microsoft.com/wiki/contents/articles/32905.how-to-enable-restricted-admin-mode-for-remote-desktop.aspx
+## need this patch installed, May 2014
+## https://technet.microsoft.com/en-us/library/security/2871997.aspx
+
+## This will enable RestrictedAdmin mode, so that the destination system will accept incoming RestrictedAdmin-enabled connections)
+- name: Enable Remote Desktop RestrictedAdmin
+  win_regedit:
+    key: HKLM:\System\CurrentControlSet\Control\Lsa
+    value: DisableRestrictedAdmin
+    data: 0
+    datatype: dword

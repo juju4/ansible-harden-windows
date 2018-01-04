@@ -7,5 +7,5 @@
   win_regedit:
     key: "HKCU:\\Software\\Policies\\Microsoft\\Office\\{{ harden_win_msoffice_version_reg }}\\msproject\\security"
     name: VBAWarnings
-    data: 2
+    data: "{{ harden_win_msoffice_vbawarnings }}"
     type: dword
