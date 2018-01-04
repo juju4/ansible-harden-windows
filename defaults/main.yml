@@ -787,3 +787,4 @@ harden_win_testing_opf: false
 harden_win_testing_privesc: false
 harden_win_testing_mimikatz: false
 harden_win_testing_msoffice: false
+harden_win_testing_speculative: false

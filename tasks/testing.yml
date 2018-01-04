@@ -33,3 +33,6 @@
 
 - include: testing-msoffice.yml
   when: harden_win_testing_msoffice
+
+- include: testing-speculative.yml
+  when: harden_win_testing_speculative

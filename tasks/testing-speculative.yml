@@ -1,0 +1,11 @@
+---
+
+# https://support.microsoft.com/en-us/help/4072698/windows-server-guidance-to-protect-against-the-speculative-execution-s
+- name: retrieve Module SpeculationControl
+  win_shell: "Install-Module SpeculationControl"
+
+- name: execute kernelpop
+  win_shell: "Get-SpeculationControlSettings"
+  register: speculation
+
+- debug: var=speculation
