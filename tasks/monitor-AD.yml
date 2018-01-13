@@ -30,7 +30,8 @@
 
 - name: Monitor daily run | Inspec windows-baseline
   win_command: "c:\\opscode\\inspec\\bin\\inspec.bat exec https://github.com/juju4/windows-baseline >{{ harden_win_log_dir }}\\inspec.log"
-      ignore_errors: true
+  ignore_errors: true
+
 - name: Monitor daily run | Inspec
   win_scheduled_task:
     name: Daily-Security-Monitoring-Inspec
