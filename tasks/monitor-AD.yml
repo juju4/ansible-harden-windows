@@ -52,7 +52,7 @@
     name: Daily-Security-Monitoring-PingCastle
     description: AD state check
     executable: "{{ harden_win_temp_dir }}\\PingCastle\\PingCastle.exe"
-    arguments: "--healthcheck --server \"{{ harden_win_domain }}\" --log
+    arguments: "--healthcheck --server \"{{ harden_win_domain }}\" --log"
     time: 6am
     frequency: daily
     state: present
