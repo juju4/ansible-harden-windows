@@ -69,6 +69,10 @@ harden_win_winevt_channels:
   - Microsoft-Windows-TaskScheduler\/Operational
   - Microsoft-Windows-DNS-Client\/Operational
 
+
+## current domain (monitor-AD: does not require to be on DC)
+harden_win_domain: WORKGROUP
+
 ## ActiveDirectory DomainController?
 harden_win_Is_DC: false
 
