@@ -13,7 +13,7 @@
    
    See Windows server base config: https://gist.github.com/Neo23x0/a4b4af9481e01e749409
 --> 
-<Sysmon schemaversion="3.20">
+<Sysmon schemaversion="4.00">
     <!-- Capture MD5 Hashes -->
     <HashAlgorithms>MD5,SHA1,SHA256</HashAlgorithms>
     <EventFiltering>
@@ -66,6 +66,7 @@
 <!-- https://www.eideon.com/2017-09-09-THL01-Mimikatz/ -->
       <!--SYSMON EVENT ID 10 : INTER-PROCESS ACCESS-->
       <!--DATA: UtcTime, SourceProcessGuid, SourceProcessId, SourceThreadId, SourceImage, TargetProcessGuid, TargetProcessId, TargetImage, GrantedAccess, CallTrace-->
+<!-- FIXME! issue with Sysmon v7/schema version 4
       <ProcessAccess onmatch="include">
           <TargetImage condition="contains">lsass.exe</TargetImage>
       </ProcessAccess>
@@ -82,5 +83,6 @@
           <SourceImage condition="end with">Microsoft.Identity.AadConnect.Health.AadSync.Host.exe</SourceImage> # Microsoft Azure AD Connect Health Sync Agent
           <SourceImage condition="begin with">C:\Program Files (x86)\Symantec\Symantec Endpoint Protection</SourceImage> # Symantec
       </ProcessAccess>
+-->
     </EventFiltering>
 </Sysmon>
