@@ -36,9 +36,8 @@
   win_scheduled_task:
     name: Daily-Security-Monitoring-Inspec
     description: Win state check
-    executable: "{{ harden_win_temp_dir }}\\PingCastle\\PingCastle.exe"
-    executable: "c:\\opscode\\inspec\\bin\\inspec.bat exec"
-    arguments: "https://github.com/juju4/windows-baseline --format=json >{{ harden_win_log_dir }}\\inspec.log"
+    executable: "c:\\opscode\\inspec\\bin\\inspec.bat"
+    arguments: "exec https://github.com/juju4/windows-baseline --format=json >{{ harden_win_log_dir }}\\inspec.log"
     time: 6am
     frequency: daily
     state: present
