@@ -1,0 +1,21 @@
+---
+
+# Intel Q3’17 ME 6.x/7.x/8.x/9.x/10.x/11.x, SPS 4.0, and TXE 3.0 Security Review Cumulative Update
+# https://downloadcenter.intel.com/download/27150
+- name: Download Intel-SA-00086 Detection Tool
+  win_get_url:
+    url: https://downloadmirror.intel.com/27150/eng/SA00086_Windows.zip
+    dest: "{{ harden_win_temp_dir }}/SA00086_Windows.zip"
+
+- name: Unarchive Intel-SA-00086 Detection Tool
+  win_unarchive:
+    src: "{{ harden_win_temp_dir }}/SA00086_Windows.zip"
+    dest: "{{ harden_win_temp_dir }}/SA00086_Windows"
+    creates: "{{ harden_win_temp_dir }}/SA00086_Windows/DiscoveryTool/Intel-SA-00086-console.exe"
+
+- name: Execute Intel-SA-00086 Detection Tool
+  win_shell: "{{ harden_win_temp_dir }}/SA00086_Windows/DiscoveryTool/Intel-SA-00086-console.exe -n -f Intel-SA-00086-results-{{ ansible_date_time.iso8601 }}.xml"
+  register: intel
+
+- debug: var=intel.stdout_lines
+  when: 'This system is vulnerable' in speculationintel.stdout

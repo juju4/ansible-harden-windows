@@ -56,6 +56,7 @@
     - harden_win_testing_privesc: true
     - harden_win_testing_mimikatz: true
     - harden_win_testing_speculative: true
+    - harden_win_testing_intelme: true
   roles:
     - juju4.harden-windows
 
