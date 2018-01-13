@@ -1,0 +1,64 @@
+---
+# https://cloudblogs.microsoft.com/microsoftsecure/2015/02/11/krbtgt-account-password-reset-scripts-now-available-for-customers/
+# https://gallery.technet.microsoft.com/Reset-the-krbtgt-account-581a9e51
+# https://gallery.technet.microsoft.com/Reset-the-krbtgt-account-581a9e51/file/142338/1/New-CtmADKrbtgtKeys.zip
+# https://social.technet.microsoft.com/Forums/windows/en-US/53033b4d-766b-4588-95fc-aadd93d8a053/impact-of-resetting-the-password-of-the-krbtgt-account
+# https://github.com/MicrosoftDocs/windowsserverdocs/blob/master/WindowsServerDocs/identity/ad-ds/manage/AD-Forest-Recovery-Resetting-the-krbtgt-password.md
+# https://technet.microsoft.com/en-us/library/cc733991(WS.10).aspx      EventID 14
+# https://adsecurity.org/?p=1441
+# https://adsecurity.org/?p=483
+# https://cert.europa.eu/static/WhitePapers/CERT-EU-SWP_14_07_PassTheGolden_Ticket_v1_1.pdf
+
+# Schedule each month: Information mode on 1st day, simulation on 2nd day, reset mode on 3rd, second reset on 4th
+
+# No checksums options
+- name: DC krgtbt | download reset script
+  win_get_url:
+    url: "https://gallery.technet.microsoft.com/Reset-the-krbtgt-account-581a9e51/file/142338/1/New-CtmADKrbtgtKeys.zip"
+    dest: "{{ harden_win_temp_dir }}\\New-CtmADKrbtgtKeys.zip"
+
+- name: DC krgtbt | unarchive reset script
+  win_unzip:
+    src: "{{ harden_win_temp_dir }}\\New-CtmADKrbtgtKeys.zip"
+    dest: "{{ harden_win_temp_dir }}\\New-CtmADKrbtgtKeys"
+
+# upstream script is interactive
+
+- name: DC krgtbt | duplicate reset script to be non-interactive
+  win_copy:
+    src: "{{ harden_win_temp_dir }}\\New-CtmADKrbtgtKeys\\New-CtmADKrbtgtKeys.ps1"
+    dest: "{{ item }}"
+  with_items:
+    - "{{ harden_win_temp_dir }}\\New-CtmADKrbtgtKeys\\New-CtmADKrbtgtKeys-1.ps1"
+    - "{{ harden_win_temp_dir }}\\New-CtmADKrbtgtKeys\\New-CtmADKrbtgtKeys-2.ps1"
+
+- name: DC krgtbt | review reset script
+  replace:
+    dest: "{{ harden_win_temp_dir }}\\New-CtmADKrbtgtKeys\\New-CtmADKrbtgtKeys-{{ item }}.ps1"
+    regexp: '-Value \(Read-Host \$MenuPrompt\)$'
+    replace: '-Value {{ item }}'
+  with_items:
+    - 1
+    - 2
+
+- name: DC krgtbt | Scheduled task Information
+  win_scheduled_task:
+    name: Monthly-Security-Reset-krgtbt-1
+    description: Run krgtbt reset - informational mode
+    executable: C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe
+    arguments: "-ExecutionPolicy Unrestricted -NonInteractive -File {{ harden_win_log_dir }}\\New-CtmADKrbtgtKeys\\New-CtmADKrbtgtKeys-1.ps1 >{{ harden_win_log_dir }}\\reset-krgtbt-1.log"
+    time: 5am
+    frequency: weekly
+    state: present
+    enabled: yes
+
+- name: DC krgtbt | Scheduled task Simulation
+  win_scheduled_task:
+    name: Monthly-Security-Reset-krgtbt-2
+    description: Run krgtbt reset - simulation mode
+    executable: C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe
+    arguments: "-ExecutionPolicy Unrestricted -NonInteractive -File {{ harden_win_log_dir }}\\New-CtmADKrbtgtKeys\\New-CtmADKrbtgtKeys-2.ps1 >{{ harden_win_log_dir }}\\reset-krgtbt-2.log"
+    time: 6am
+    frequency: weekly
+    state: present
+    enabled: yes

@@ -206,3 +206,6 @@
 
 - include: palantir-AutorunsToWinEventLog.yml
   when: harden_win_palantir_AutorunsToWinEventLog
+
+- include: dc-krgtbt-reset.yml
+  when: harden_win_Is_DC

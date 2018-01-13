@@ -69,6 +69,9 @@ harden_win_winevt_channels:
   - Microsoft-Windows-TaskScheduler\/Operational
   - Microsoft-Windows-DNS-Client\/Operational
 
+## ActiveDirectory DomainController?
+harden_win_Is_DC: false
+
 ## use 0 on DC, MemberServer and fixed systems. 1-x for laptops
 ## GPO: https://technet.microsoft.com/library/jj852185.aspx
 ## https://github.com/gentilkiwi/mimikatz/wiki/howto-~-credential-manager-saved-credentials#what-you-can-do
