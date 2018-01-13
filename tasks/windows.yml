@@ -209,3 +209,6 @@
 
 - include: dc-krgtbt-reset.yml
   when: harden_win_Is_DC
+
+- include: monitor-AD.yml
+  when: harden_win_Is_DC
