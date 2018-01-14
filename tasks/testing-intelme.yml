@@ -8,7 +8,7 @@
     dest: "{{ harden_win_temp_dir }}/SA00086_Windows.zip"
 
 - name: Unarchive Intel-SA-00086 Detection Tool
-  win_unarchive:
+  win_unzip:
     src: "{{ harden_win_temp_dir }}/SA00086_Windows.zip"
     dest: "{{ harden_win_temp_dir }}/SA00086_Windows"
     creates: "{{ harden_win_temp_dir }}/SA00086_Windows/DiscoveryTool/Intel-SA-00086-console.exe"
