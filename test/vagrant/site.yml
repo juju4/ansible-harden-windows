@@ -52,9 +52,9 @@
     - harden_win_testing_applocker: true
     - harden_win_testing_uac: false
     - harden_win_testing_opf: false
-    - harden_win_testing_privesc: true
+    - harden_win_testing_privesc: false
     - harden_win_testing_mimikatz: true
-    - harden_win_testing_msoffice: true
+    - harden_win_testing_msoffice: false
     - harden_win_testing_speculative: true
   roles:
     - juju4.harden-windows
