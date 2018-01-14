@@ -28,9 +28,6 @@
 - include: testing-privesc.yml
   when: harden_win_testing_privesc
 
-- include: testing-mimikatz.yml
-  when: harden_win_testing_mimikatz
-
 - include: testing-msoffice.yml
   when: harden_win_testing_msoffice
 
@@ -39,3 +36,7 @@
 
 - include: testing-intelme.yml
   when: harden_win_testing_intelme
+
+# keep last. if defender catches it, may need to restart to complete cleaning/have ansible working again
+- include: testing-mimikatz.yml
+  when: harden_win_testing_mimikatz
