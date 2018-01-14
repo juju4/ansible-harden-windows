@@ -18,4 +18,4 @@
   register: intel
 
 - debug: var=intel.stdout_lines
-  when: 'This system is vulnerable' in speculationintel.stdout
+  when: "'This system is vulnerable' in speculationintel.stdout"
