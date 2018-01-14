@@ -154,6 +154,11 @@
         <FilePathCondition Path="%OSDRIVE%\ProgramData\chocolatey\bin\cinst.exe" />
       </Conditions>
     </FilePathRule>
+    <FilePathRule Id="ad97211b-90b8-47bc-a10e-af8f8e5512c5" Name="Allow NuGet from Chocolatey (ProgramData)" Description="" UserOrGroupSid="S-1-5-32-544" Action="Allow">
+      <Conditions>
+        <FilePathCondition Path="%OSDRIVE%\ProgramData\chocolatey\bin\NuGet.exe" />
+      </Conditions>
+    </FilePathRule>
     <FilePathRule Id="67309d72-496a-44fd-bd10-721c796e295d" Name="Allow chocolatey choco.exe" Description="" UserOrGroupSid="S-1-5-32-544" Action="Allow">
       <Conditions>
         <FilePathCondition Path="%OSDRIVE%\ProgramData\chocolatey\choco.exe" />
@@ -172,6 +177,11 @@
     <FilePathRule Id="d84d0604-3a7f-4229-a322-f748e24bfc86" Name="Allow Adobe reader install through chocolatey" Description="" UserOrGroupSid="S-1-5-32-544" Action="Allow">
       <Conditions>
         <FilePathCondition Path="%OSDRIVE%\ProgramData\Adobe\Setup\*" />
+      </Conditions>
+    </FilePathRule>
+    <FilePathRule Id="b7b7979b-3a7f-4229-a322-f748e24bfc86" Name="Allow chocolatey package installation from ProgramData" Description="ex: python3" UserOrGroupSid="S-1-5-32-544" Action="Allow">
+      <Conditions>
+        <FilePathCondition Path="%OSDRIVE%\ProgramData\chocolatey\lib\*" />
       </Conditions>
     </FilePathRule>
     <FilePublisherRule Id="bf998be8-18e0-49ff-bd19-3da6d468a9c9" Name="Allow DISMHOST.EXE" Description="Copied to User directory \APPDATA\LOCAL\TEMP\* when using dism command" UserOrGroupSid="S-1-5-32-544" Action="Allow">
