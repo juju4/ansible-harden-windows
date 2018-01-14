@@ -1,11 +1,26 @@
 ---
 
+- name: Ensure nuget dependency is present
+#  win_chocolatey:
+#    name: nuget.commandline
+#    state: present
+  win_shell: "Install-PackageProvider -Name NuGet -MinimumVersion 2.8.5.201 -Force"
+
+- name: Temporarily trust PSGallery repository
+  win_shell: Set-PSRepository -Name PSGallery -InstallationPolicy Trusted
+
 # https://support.microsoft.com/en-us/help/4072698/windows-server-guidance-to-protect-against-the-speculative-execution-s
 - name: retrieve Module SpeculationControl
-  win_shell: "Install-Module SpeculationControl"
+#  win_shell: "Install-Module SpeculationControl"
+  win_psmodule:
+    name: SpeculationControl
+    state: present
 
-- name: execute kernelpop
+- name: execute SpeculationControl
   win_shell: "Get-SpeculationControlSettings"
   register: speculation
 
 - debug: var=speculation
+
+- name: untrust PSGallery repository
+  win_shell: Set-PSRepository -Name PSGallery -InstallationPolicy Untrusted
