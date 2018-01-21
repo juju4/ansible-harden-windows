@@ -159,7 +159,12 @@
         <FilePathCondition Path="%OSDRIVE%\ProgramData\chocolatey\bin\NuGet.exe" />
       </Conditions>
     </FilePathRule>
-    <FilePathRule Id="67309d72-496a-44fd-bd10-721c796e295d" Name="Allow chocolatey choco.exe" Description="" UserOrGroupSid="S-1-5-32-544" Action="Allow">
+    <FilePathRule Id="ad48307b-90b8-47bc-a10e-af8f8e5512c5" Name="Allow Programs from Chocolatey\bin (ProgramData)" Description="" UserOrGroupSid="S-1-5-32-544" Action="Allow">
+      <Conditions>
+        <FilePathCondition Path="%OSDRIVE%\ProgramData\chocolatey\bin\*" />
+      </Conditions>
+    </FilePathRule>
+    <FilePathRule Id="67309d72-496a-44fd-bd10-721c796e295d" Name="Allow chocolatey choco.exe (ProgramData)" Description="" UserOrGroupSid="S-1-5-32-544" Action="Allow">
       <Conditions>
         <FilePathCondition Path="%OSDRIVE%\ProgramData\chocolatey\choco.exe" />
       </Conditions>
