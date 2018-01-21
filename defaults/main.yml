@@ -231,7 +231,7 @@ harden_win_osquery_snapshot_interval2: 604800
 harden_win_mbrfilter: false
 harden_win_mbrfilter_url: https://github.com/yyounan/MBRFilter/files/536998/64.zip
 harden_win_restrict_usb: false
-harden_win_palantir_AutorunsToWinEventLog: true
+harden_win_palantir_AutorunsToWinEventLog: false
 
 # Attack Surface Reduction, b1709+
 # action: Enabled, AuditMode, Disabled
