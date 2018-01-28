@@ -43,7 +43,7 @@
     state: present
     enabled: yes
     user: "{{ harden_win_domain }}\\_monitorsec"
-    password: passwordGoesHere
+    password: "{{ ansible_become_password }}"
 #    runlevel: highest
 
 - name: Monitor daily run | PingCastle
@@ -57,7 +57,7 @@
     state: present
     enabled: yes
     user: "{{ harden_win_domain }}\\_monitorsec"
-    password: passwordGoesHere
+    password: "{{ ansible_become_password }}"
 #    runlevel: highest
 
 - name: Monitor daily run | BloodHound-Sharphound
@@ -70,5 +70,20 @@
     state: present
     enabled: yes
     user: "{{ harden_win_domain }}\\_monitorsec"
-    password: passwordGoesHere
+    password: "{{ ansible_become_password }}"
+#    runlevel: highest
+
+# https://github.com/l0ss/Grouper
+- name: Monitor daily run | Get-GPOReport
+  win_scheduled_task:
+    name: Daily-Security-Monitoring-Get-GPOReport
+    description: AD state check
+    executable: C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe
+    arguments: "-ExecutionPolicy Unrestricted -NonInteractive -Command 'Get-GPOReport -All -ReportType xml -Path {{ harden_win_temp_dir }}\\gporeport.xml'"
+    time: 4am
+    frequency: daily
+    state: present
+    enabled: yes
+    user: "{{ harden_win_domain }}\\_monitorsec"
+    password: "{{ ansible_become_password }}"
 #    runlevel: highest
