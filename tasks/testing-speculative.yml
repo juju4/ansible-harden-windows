@@ -11,10 +11,10 @@
 
 # https://support.microsoft.com/en-us/help/4072698/windows-server-guidance-to-protect-against-the-speculative-execution-s
 - name: retrieve Module SpeculationControl
-#  win_shell: "Install-Module SpeculationControl"
-  win_psmodule:
-    name: SpeculationControl
-    state: present
+  win_shell: "Install-Module SpeculationControl"
+#  win_psmodule:
+#    name: SpeculationControl
+#    state: present
 
 - name: execute SpeculationControl
   win_shell: "Get-SpeculationControlSettings"
