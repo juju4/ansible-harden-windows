@@ -69,7 +69,7 @@
   win_shell: >
     wmic process call create '"C:\\program files (x86)\\Teamviewer\\TeamViewer13_Logfile.log:bginfo.exe"'
 
-#- name: Check log for blocked apps
-#  win_shell: Get-WinEvent -LogName 'Microsoft-Windows-AppLocker/EXE and DLL' | Where { $_.ID -eq 8004 }
-#  register: winevt
-#- debug: var=winevt.stdout_lines
+- name: Check log for blocked apps
+  win_shell: Get-WinEvent -LogName 'Microsoft-Windows-AppLocker/EXE and DLL' | Where { $_.ID -eq 8004 }
+  register: winevt
+- debug: var=winevt.stdout_lines
