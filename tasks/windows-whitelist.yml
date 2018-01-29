@@ -37,7 +37,7 @@
     dest: "{{ harden_win_temp_dir }}\\{{ harden_win_applocker_policy }}"
 
 - name: Configure Applocker policy
-  win_shell: "Set-AppLockerPolicy -XMLPolicy {{ harden_win_temp_dir }}\\{{ harden_win_applocker_policy }}"
+  win_shell: "Set-AppLockerPolicy -XMLPolicy \"{{ harden_win_temp_dir }}\\{{ harden_win_applocker_policy }}\""
 
 - name: Check current Applocker policy
   win_shell: Get-AppLockerPolicy -Local -Xml

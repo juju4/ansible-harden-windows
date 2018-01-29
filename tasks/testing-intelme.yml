@@ -10,11 +10,12 @@
 - name: Unarchive Intel-SA-00086 Detection Tool
   win_unzip:
     src: "{{ harden_win_temp_dir }}/SA00086_Windows.zip"
-    dest: "{{ harden_win_temp_dir }}/SA00086_Windows"
+    dest: "{{ harden_win_temp_dir }}"
     creates: "{{ harden_win_temp_dir }}/SA00086_Windows/DiscoveryTool/Intel-SA-00086-console.exe"
 
+# does not seem to work in ansible. UAC?
 - name: Execute Intel-SA-00086 Detection Tool
-  win_shell: "{{ harden_win_temp_dir }}/SA00086_Windows/DiscoveryTool/Intel-SA-00086-console.exe -n -f Intel-SA-00086-results-{{ ansible_date_time.iso8601 }}.xml"
+  win_shell: "\"{{ harden_win_temp_dir }}\\SA00086_Windows\\DiscoveryTool\\Intel-SA-00086-console.exe\" -n -f Intel-SA-00086-results-{{ ansible_date_time.iso8601 }}.xml"
   register: intel
 
 - debug: var=intel.stdout_lines

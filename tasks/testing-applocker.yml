@@ -47,7 +47,7 @@
 
 ## FIXME! ProgramData dir is user writeable! opscode\inspec
 - name: AppLockerBypassChecker-v1 for user?
-  win_shell: "Powershell -Exec Bypass -File {{ harden_win_temp_dir }}\\AppLockerBypassChecker-v1.ps1 \"{{ item }}\""
+  win_shell: "Powershell -Exec Bypass -File \"{{ harden_win_temp_dir }}\\AppLockerBypassChecker-v1.ps1\" \"{{ item }}\""
   become: yes
   become_user: _test
   with_items:

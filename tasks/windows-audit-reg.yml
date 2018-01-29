@@ -6,7 +6,7 @@
     dest: "{{ harden_win_temp_dir }}\\EnableRegistryAudit.ps1"
 
 - name: Enable Registry auditing for selected paths
-  win_shell: "Powershell -Exec Bypass -File {{ harden_win_temp_dir }}\\EnableRegistryAudit.ps1 \"{{ item }}\""
+  win_shell: "Powershell -Exec Bypass -File \"{{ harden_win_temp_dir }}\\EnableRegistryAudit.ps1\" \"{{ item }}\""
   with_items: "{{ harden_win_audit_regpaths }}"
   register: setacl_results
 - debug: var=setacl_results

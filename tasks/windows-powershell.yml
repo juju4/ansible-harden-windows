@@ -65,7 +65,7 @@
     dest: "{{ harden_win_temp_dir }}\\PowershellTranscripts-dir.ps1"
 
 - name: Validate permissions for Transcript directory
-  win_shell: "{{ harden_win_temp_dir }}\\PowershellTranscripts-dir.ps1"
+  win_shell: "\"{{ harden_win_temp_dir }}\\PowershellTranscripts-dir.ps1\""
 
 - name: enable transcription - PowerShell5 (3)
   win_regedit:
