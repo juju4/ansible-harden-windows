@@ -21,6 +21,12 @@
       "platform": "windows",
       "description": "Certificate Authorities installed in Keychains/ca-bundles"
     },
+    "win_crashes": {
+      "query": "select * from windows_crashes;",
+      "interval" : "3600",
+      "platform": "windows",
+      "description": "Extracted information from Windows crash logs (Minidumps)."
+    },
     "win_drivers": {
       "query" : "select * from drivers;",
       "interval": "3600",
