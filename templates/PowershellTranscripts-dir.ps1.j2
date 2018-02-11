@@ -26,6 +26,7 @@ $acl.AddAccessRule($accessRule)
 
 ## Deny "Creator Owner" everything. This prevents users from
 ## viewing the content of previously written files.
+## Note: on some Windows servers, it might create problems and less risky than for workstations
 $creatorOwner = [System.Security.Principal.NTAccount] "Creator Owner"
 $permission = $creatorOwner,"FullControl","ObjectInherit,ContainerInherit","InheritOnly","Deny"
 $accessRule = New-Object System.Security.AccessControl.FileSystemAccessRule $permission
