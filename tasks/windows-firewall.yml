@@ -66,7 +66,7 @@
 #  ignore_errors: true
 
 - name: Firewall | allow outgoing web program
-  include: "windows-firewall-unit.yml action=allow direction=Out profile=public ports={{ harden_win_fw_web_ports }} program={{ outer_item }}"
+  include_tasks: "windows-firewall-unit.yml action=allow direction=Out profile=public ports={{ harden_win_fw_web_ports }} program={{ outer_item }}"
   with_items: "{{ harden_win_fw_program_allowed_web_out_public }}"
   loop_control:
     loop_var: outer_item
@@ -121,6 +121,7 @@
     action: allow
     state: present
     enable: no
+    force: yes
   with_items: "{{ harden_win_fw_rules_disable }}"
 #  ignore_errors: true
 

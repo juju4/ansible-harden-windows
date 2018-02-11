@@ -17,33 +17,33 @@
 #- name: Export trusted root certificates
 #  shell: Get-ChildItem -Path cert:\currentuser\AuthRoot -Recurse | select Thumbprint, FriendlyName, Subject | ConvertTo-Html | Set-Content c:\users\public\desktop\certificates.html
 
-- include: testing-applocker.yml
+- include_tasks: testing-applocker.yml
   when: harden_win_testing_applocker
 
-- include: testing-uac.yml
+- include_tasks: testing-uac.yml
   when: harden_win_testing_uac
 
-- include: testing-opf.yml
+- include_tasks: testing-opf.yml
   when: harden_win_testing_opf
 
-- include: testing-privesc.yml
+- include_tasks: testing-privesc.yml
   when: harden_win_testing_privesc
 
-- include: testing-msoffice.yml
+- include_tasks: testing-msoffice.yml
   when: harden_win_testing_msoffice
 
-- include: testing-speculative.yml
+- include_tasks: testing-speculative.yml
   when: harden_win_testing_speculative
 
-- include: testing-intelme.yml
+- include_tasks: testing-intelme.yml
   when: harden_win_testing_intelme
 
-- include: testing-iad.yml
+- include_tasks: testing-iad.yml
   when: harden_win_testing_iad
 
-- include: testing-detections.yml
+- include_tasks: testing-detections.yml
   when: harden_win_testing_detections
 
 # keep last. if defender catches it, may need to restart to complete cleaning/have ansible working again
-- include: testing-mimikatz.yml
+- include_tasks: testing-mimikatz.yml
   when: harden_win_testing_mimikatz
