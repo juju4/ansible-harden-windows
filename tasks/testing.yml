@@ -41,6 +41,9 @@
 - include: testing-iad.yml
   when: harden_win_testing_iad
 
+- include: testing-detections.yml
+  when: harden_win_testing_detections
+
 # keep last. if defender catches it, may need to restart to complete cleaning/have ansible working again
 - include: testing-mimikatz.yml
   when: harden_win_testing_mimikatz
