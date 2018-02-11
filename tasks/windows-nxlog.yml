@@ -10,9 +10,7 @@
   when: not nxlogdl.stat.exists
 
 - name: Install NXLog CE
-## ansible 2.4+
-#  win_package:
-  win_msi:
+  win_package:
     path: "{{ harden_win_temp_dir }}\\{{ harden_win_remotelogging_nxlog_url | basename }}"
     wait: true
 

@@ -12,9 +12,7 @@
 
 ## FIXME! not idempotent
 - name: Install dnscrypt
-## ansible 2.4+
-#  win_package:
-  win_msi:
+  win_package:
     path: "{{ harden_win_temp_dir }}\\{{ harden_win_simplednscrypt_url | basename }}"
     state: present
     wait: true
