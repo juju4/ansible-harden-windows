@@ -783,6 +783,7 @@ harden_win_certificates_removed:
 harden_win_extra_reg:
   - directory_prompt.reg
 #  - directory_prompt_git.reg
+  - run-no-uac.reg
 
 harden_win_monitorsec_tools:
   - { u: 'https://github.com/BloodHoundAD/BloodHound/releases/download/1.4/BloodHound-win32-x64.zip', c: '' }

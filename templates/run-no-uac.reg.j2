@@ -1,0 +1,12 @@
+Windows Registry Editor Version 5.00
+
+;
+; https://superuser.com/questions/171917/force-a-program-to-run-without-administrator-privileges-or-uac
+;
+
+[HKEY_CLASSES_ROOT\*\shell\forcerunasinvoker]
+@="Run without admin rights (UAC)"
+
+[HKEY_CLASSES_ROOT\*\shell\forcerunasinvoker\command]
+@="cmd /min /C \"set __COMPAT_LAYER=RUNASINVOKER && start \"\" \"%1\"\""
+
