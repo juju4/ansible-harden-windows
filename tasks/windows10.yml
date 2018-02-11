@@ -19,3 +19,23 @@
     data: 3000000000000
 #    data: 1000000000000
     datatype: qword
+
+# https://twitter.com/wdormann/status/962815557732102144
+# https://gist.github.com/wdormann/49f1807431b0d5b5cd151337e6478f20
+# https://winaero.com/blog/disable-ads-windows-10/
+- name: Win10 | Disabling Windows 10 automatic installation of 3rd-party foistware
+  win_regedit:
+    key: "{{ item.k }}"
+    value: "{{ item.v }}"
+    data: "{{ item.d }}"
+    datatype: "{{ item.t }}"
+  with_items:
+    - { k: 'HKCU:\Software\Microsoft\Windows\CurrentVersion\BackgroundAccessApplications\Microsoft.Windows.ContentDeliveryManager_cw5n1h2txyewy', v: 'Disabled', d: 1, t: dword }
+    - { k: 'HKCU:\Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager', v: 'SubscribedContent-338388Enabled', d: 0, t: dword }
+    - { k: 'HKCU:\Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager', v: 'SilentInstalledAppsEnabled', d: 0, t: dword }
+    - { k: 'HKCU:\Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager', v: 'SystemPaneSuggestionsEnabled', d: 0, t: dword }
+    - { k: 'HKCU:\Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager', v: 'ShowSyncProviderNotifications', d: 0, t: dword }
+    - { k: 'HKCU:\Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager', v: 'SoftLandingEnabled', d: 0, t: dword }
+    - { k: 'HKCU:\Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager', v: 'RotatingLockScreenEnabled', d: 0, t: dword }
+    - { k: 'HKCU:\Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager', v: 'RotatingLockScreenOverlayEnabled', d: 0, t: dword }
+    - { k: 'HKCU:\Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager', v: 'SubscribedContent-310093Enabled', d: 0, t: dword }
