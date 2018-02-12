@@ -19,9 +19,8 @@
 #  script: "{{ harden_win_temp_dir }}\\WMIMonitor.ps1"
 #  raw: "PowerShell.exe -ExecutionPolicy Bypass -File {{ harden_win_temp_dir }}\\WMIMonitor.ps1"
 ## ansible v2.2
-  win_command: "PowerShell.exe -ExecutionPolicy Bypass -File {{ harden_win_temp_dir }}\\WMIMonitor.ps1"
+  win_command: "PowerShell.exe -ExecutionPolicy Bypass -File \\\"{{ harden_win_temp_dir }}\\WMIMonitor.ps1\\\""
   register: wmiout
   ignore_errors: true
+
 - debug: var=wmiout
-
-

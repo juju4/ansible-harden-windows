@@ -23,7 +23,7 @@
     dest: "{{ harden_win_temp_dir }}\\Remove-TrustedRootCA.ps1"
 
 - name: Remove some TrustedRootCA
-  win_shell: "{{ harden_win_temp_dir }}\\Remove-TrustedRootCA.ps1"
+  win_shell: "\"{{ harden_win_temp_dir }}\\Remove-TrustedRootCA.ps1\""
   register: removetrusted
 - debug: var=removetrusted
 

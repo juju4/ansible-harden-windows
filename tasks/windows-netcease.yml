@@ -25,6 +25,4 @@
 #  script: "NetCease.ps1"
 #  raw: "PowerShell.exe -ExecutionPolicy Bypass -File {{ harden_win_temp_dir }}\\Netcease\\NetCease.ps1"
 ## ansible v2.2
-  win_command: "PowerShell.exe -ExecutionPolicy Bypass -File {{ harden_win_temp_dir }}\\Netcease\\NetCease.ps1"
-
-
+  win_command: "PowerShell.exe -ExecutionPolicy Bypass -File \\\"{{ harden_win_temp_dir }}\\Netcease\\NetCease.ps1\\\""
