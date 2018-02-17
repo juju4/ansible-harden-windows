@@ -5,6 +5,7 @@
 ## https://github.com/ansible/ansible-modules-extras/issues/2882        win_firewall_rule fails if rule already exists
 ## https://github.com/ansible/ansible/issues/18807                      win_firewall_rule fails when locale isn't English
 ## https://github.com/ansible/ansible/issues/18861                      After commit 9392943 win_firewall_rules rules default to services only
+## https://github.com/ansible/ansible/issues/31576                      win_firewall_rule works in 2.3.2.0, fails in 2.4.0.0
 ## FIXME! Rules not visible in management console or
 ##      HKLM:\SYSTEM\CurrentControlSet\Services\SharedAccess\Parameters\FirewallPolicy\<profilename>
 ##      HKLM\Software\Policies\Microsoft\WindowsFirewall\<Profilename>  (if set by gpo)
@@ -23,7 +24,6 @@
     - PublicProfile
 
 ## FIXME! win_firewall_rule not idempotent
-
 - name: Firewall | allow svchost dns and ntp requests out
   win_firewall_rule:
     name: "{{ harden_win_fw_prefix }}-allow-outgoing-svchost-{{ item }}"
