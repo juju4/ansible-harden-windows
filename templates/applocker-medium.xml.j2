@@ -407,9 +407,30 @@
         </FilePublisherCondition>
       </Conditions>
     </FilePublisherRule>
+    <FilePublisherRule Id="f042b80e-2703-4b44-4939-a0b878c219d6" Name="Block Microsoft bcdedit.exe" Description="Boot configuration change: avoid malicious usage by allowing only one non-standard user" UserOrGroupSid="S-1-1-0" Action="Deny">
+      <Conditions>
+        <FilePublisherCondition PublisherName="O=MICROSOFT CORPORATION, L=REDMOND, S=WASHINGTON, C=US" ProductName="MICROSOFT (R) WINDOWS (R) OPERATING SYSTEM" BinaryName="BCDEDIT.EXE">
+          <BinaryVersionRange LowSection="*" HighSection="*" />
+        </FilePublisherCondition>
+      </Conditions>
+    </FilePublisherRule>
+    <FilePublisherRule Id="f042b80e-2390-4b44-0462-a0b878c219d6" Name="Block Microsoft wbadmin.exe" Description="backup config: avoid malicious usage by allowing only one non-standard user" UserOrGroupSid="S-1-1-0" Action="Deny">
+      <Conditions>
+        <FilePublisherCondition PublisherName="O=MICROSOFT CORPORATION, L=REDMOND, S=WASHINGTON, C=US" ProductName="MICROSOFT (R) WINDOWS (R) OPERATING SYSTEM" BinaryName="WBADMIN.EXE">
+          <BinaryVersionRange LowSection="*" HighSection="*" />
+        </FilePublisherCondition>
+      </Conditions>
+    </FilePublisherRule>
     <FilePathRule Id="8791c32b-eb80-42ed-881b-5c64a164bf7c" Name="Allow Inspec" Description="" UserOrGroupSid="S-1-1-0" Action="Allow">
       <Conditions>
         <FilePathCondition Path="%OSDRIVE%\opscode\inspec\*" />
+      </Conditions>
+    </FilePathRule>
+    <FilePathRule Id="0753c63b-eb80-42ed-894b-5c64a164bf7c" Name="Allow Intel Vulnerability assessment (INTEL-SA-00086-CONSOLE.EXE)" Description="Intel ME vulnerability" UserOrGroupSid="S-1-5-32-544" Action="Allow">
+      <Conditions>
+        <FilePublisherCondition PublisherName="O=INTEL CORPORATION, L=SANTA CLARA, S=CA, C=US" ProductName="INTEL-SA-00086-CLI" BinaryName="INTEL-SA-00086-CONSOLE.EXE">
+          <BinaryVersionRange LowSection="*" HighSection="*" />
+        </FilePublisherCondition>
       </Conditions>
     </FilePathRule>
   </RuleCollection>
