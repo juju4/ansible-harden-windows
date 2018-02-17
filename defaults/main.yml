@@ -324,8 +324,10 @@ harden_win_services_disable:
     - SharedAccess
     - lltdsvc
     - wlidsvc
-    - NgcSvc
-    - NgcCtnrSvc
+# Access is denied
+#    - NgcSvc
+# Access is denied
+#    - NgcCtnrSvc
     - NcbService
     - PhoneSvc
     - PcaSvc
