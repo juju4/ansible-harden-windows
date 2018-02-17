@@ -1,0 +1,11 @@
+---
+
+- name: Temporarily trust PSGallery repository
+  win_shell: Set-PSRepository -Name PSGallery -InstallationPolicy Trusted
+
+- name: Install desired Powershell modules
+  win_shell: "Install-Module {{ item }}"
+  with_items: "{{ harden_win_powershellmodules }}"
+
+- name: untrust PSGallery repository
+  win_shell: Set-PSRepository -Name PSGallery -InstallationPolicy Untrusted

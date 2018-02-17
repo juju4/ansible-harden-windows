@@ -133,6 +133,8 @@
 #- name: Enable Windows Firewall
 #  win_firewall_rule: enable=yes
 
+- include_tasks: windows-psmodules.yml
+
 - include_tasks: windows-adminshares.yml
   when: harden_win_disable_adminshares
 

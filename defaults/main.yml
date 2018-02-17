@@ -169,10 +169,12 @@ harden_win_chocolateypkgs:
 #    - gpg4win
 #    - gpg4usb
 #    - osquery
-## for 7z uncompress
-    - pscx
 ## monitoring?
     - collectdwin
+
+harden_win_powershellmodules:
+## for 7z uncompress
+  - Pscx
 
 ## per user/HKCU...
 harden_win_disallowrun: false
