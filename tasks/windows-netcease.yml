@@ -21,8 +21,4 @@
 
 ## FIXME! Note: Ansible has no module to edit ACL on registry entry... not idempotent
 - name: Execute Netcease
-#  script: "{{ harden_win_temp_dir }}\\Netcease\\NetCease.ps1"
-#  script: "NetCease.ps1"
-#  raw: "PowerShell.exe -ExecutionPolicy Bypass -File {{ harden_win_temp_dir }}\\Netcease\\NetCease.ps1"
-## ansible v2.2
-  win_command: "PowerShell.exe -ExecutionPolicy Bypass -File \\\"{{ harden_win_temp_dir }}\\Netcease\\NetCease.ps1\\\""
+  win_shell: "\"{{ harden_win_temp_dir }}\\Netcease\\NetCease.ps1\""

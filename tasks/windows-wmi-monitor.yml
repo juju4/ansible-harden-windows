@@ -14,12 +14,8 @@
   win_get_url: url=https://raw.githubusercontent.com/realparisi/WMI_Monitor/master/WMIMonitor.ps1 dest="{{ harden_win_temp_dir }}\\WMIMonitor.ps1"
   when: not wmimondl.stat.exists
 
-## FIXME! got unix path???
 - name: Run WMIMonitor
-#  script: "{{ harden_win_temp_dir }}\\WMIMonitor.ps1"
-#  raw: "PowerShell.exe -ExecutionPolicy Bypass -File {{ harden_win_temp_dir }}\\WMIMonitor.ps1"
-## ansible v2.2
-  win_command: "PowerShell.exe -ExecutionPolicy Bypass -File \\\"{{ harden_win_temp_dir }}\\WMIMonitor.ps1\\\""
+  win_shell: "\"{{ harden_win_temp_dir }}\\WMIMonitor.ps1\""
   register: wmiout
   ignore_errors: true
 
