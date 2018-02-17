@@ -26,6 +26,7 @@
 ## https://helgeklein.com/blog/2012/08/applocker-solutions-to-common-problems/  UAC=NoAppLocker group
 ## https://hinchley.net/articles/an-approach-for-managing-microsoft-applocker-policies/
 ## https://mssec.wordpress.com/2015/10/22/applocker-bypass-checker/
+## https://posts.specterops.io/assessing-the-effectiveness-of-hash-based-application-whitelisting-blacklist-rules-fe1cb01975a9
 
 ## powershell downgrade
 ## C:\WINDOWS\assembly\GAC_MSIL\System.Management.Automation
