@@ -134,6 +134,8 @@
   when: harden_win_msoffice_disable_dde_excel_workbooklink
 
 # https://embedi.com/blog/skeleton-closet-ms-office-vulnerability-you-didnt-know-about
+# https://portal.msrc.microsoft.com/en-US/security-guidance/advisory/CVE-2017-11882
+# https://support.microsoft.com/en-ca/help/4055535/how-to-disable-equation-editor-3-0
 - name: Disable Equation Editor - CVE-2017-11882
   win_regedit:
     key: "{{ item }}"
@@ -141,6 +143,16 @@
     data: '0x400'
     type: dword
   with_items:
-    - "HKLM:\\SOFTWARE\\Microsoft\\Office\\{{ harden_win_msoffice_version_reg }}\\Common\\COM Compatibility\\{0002CE02-0000- 0000-C000-000000000046}"
+    - "HKLM:\\SOFTWARE\\Microsoft\\Office\\{{ harden_win_msoffice_version_reg }}\\Common\\COM Compatibility\\{0002CE02-0000-0000-C000-000000000046}"
     - "HKLM:\\SOFTWARE\\Wow6432Node\\Microsoft\\Office\\{{ harden_win_msoffice_version_reg }}\\Common\\COM Compatibility\\{0002CE02-0000-0000-C000-000000000046}"
+  when: harden_win_msoffice_disable_equation_editor
+
+- name: Disable Equation Editor - CVE-2017-11882
+  win_regedit:
+    key: "{{ item }}"
+    state: absent
+  with_items:
+    - 'HKCR:\CLSID\{0002CE02-0000-0000-C000-000000000046}'
+    - 'HKCR:\WOW6432Node\CLSID\{0002CE02-0000-0000-C000-000000000046}'
+    - 'HKLM:\SOFTWARE\Classes\Equation.3'
   when: harden_win_msoffice_disable_equation_editor
