@@ -4,8 +4,8 @@ harden_win_networkpath: ''
 harden_win_networkdrive: ''
 #harden_win_temp_dir: 'c:\ansible\temp'
 # to avoid applocker block :)
-harden_win_temp_dir: 'c:\Program Files\ansible-temp'
-harden_win_log_dir: 'c:\ansible\log'
+harden_win_temp_dir: 'c:\Program Files\ansible'
+harden_win_log_dir: 'c:\ProgramData\ansible\log'
 
 ## Windows
 harden_win_securityupdates: false
