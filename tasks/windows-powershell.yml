@@ -92,10 +92,10 @@
     rights: ReadKey
     type: allow
     state: absent
-    inherit: ContainerInherit, ObjectInherit
+#    type: deny
+#    state: present
+    inherit: 'None'
     propagation: 'None'
   with_items:
-#    - 'BUILTIN\Users'
-    - 'Users'
-#    - 'BUILTIN\INTERACTIVE'
+    - 'BUILTIN\Users'
   ignore_errors: true
