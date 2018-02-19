@@ -426,13 +426,13 @@
         <FilePathCondition Path="%OSDRIVE%\opscode\inspec\*" />
       </Conditions>
     </FilePathRule>
-    <FilePathRule Id="0753c63b-eb80-42ed-894b-5c64a164bf7c" Name="Allow Intel Vulnerability assessment (INTEL-SA-00086-CONSOLE.EXE)" Description="Intel ME vulnerability" UserOrGroupSid="S-1-5-32-544" Action="Allow">
+    <FilePublisherRule Id="0753c63b-eb80-42ed-894b-5c64a164bf7c" Name="Allow Intel Vulnerability assessment (INTEL-SA-00086-CONSOLE.EXE)" Description="Intel ME vulnerability" UserOrGroupSid="S-1-5-32-544" Action="Allow">
       <Conditions>
         <FilePublisherCondition PublisherName="O=INTEL CORPORATION, L=SANTA CLARA, S=CA, C=US" ProductName="INTEL-SA-00086-CLI" BinaryName="INTEL-SA-00086-CONSOLE.EXE">
           <BinaryVersionRange LowSection="*" HighSection="*" />
         </FilePublisherCondition>
       </Conditions>
-    </FilePathRule>
+    </FilePublisherRule>
   </RuleCollection>
   <RuleCollection Type="Msi" EnforcementMode="{{ harden_win_applocker_mode_msi }}">
     <FilePathRule Id="0b075828-da4a-41fc-b3b4-9ac83ad18add" Name="Allow everyone to run all Windows Installer files located in the Windows\Installer folder." Description="Allows members of the Everyone group to run all Windows Installer files located in %systemdrive%\Windows\Installer." UserOrGroupSid="S-1-1-0" Action="Allow">
