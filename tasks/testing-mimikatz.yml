@@ -39,3 +39,14 @@
 # downgrade powershell
 # PowerShell Version 2 Command [Your Command Here]
 
+# https://twitter.com/subTee/status/964585973995552768
+- name: testing | download mimikatz collider
+  win_get_url:
+    url: https://github.com/caseysmithrc/MimkatzCollider/blob/master/MimkatzCollider-master.zip?raw=true
+    dest: "{{ harden_win_temp_dir }}\\MimkatzCollider-master.zip"
+
+- name: testing | unzip mimikatz collider
+  win_unzip:
+    src: "{{ harden_win_temp_dir }}\\MimkatzCollider-master.zip"
+    dest: "{{ harden_win_temp_dir }}\\MimikatzCollider"
+    creates: "{{ harden_win_temp_dir }}\\MimikatzCollider\\angel.exe"
