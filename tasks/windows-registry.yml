@@ -103,6 +103,21 @@
     - "HKCR:\\wshfile\\shell\\open\\command"
     - "HKCR:\\scriptletfile\\shell\\open\\command"  ## default
 
+- name: Update file associations - HKCU
+  win_regedit:
+    key: "HKCU:\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\FileExts\\{{ item.ext }}"
+    value: "(Default)"
+    datatype: string
+    data: "{{ item.path }}"
+  with_items: "{{ harden_win_fileassoc }}"
+
+- name: Update file associations - HKCR
+  win_regedit:
+#    key: HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\FileExts\.hta
+    key: "HKCR:\\{{ item.ftype }}\\shell\\open\\command"
+    data: "{{ item.path }}"
+  with_items: "{{ harden_win_fileassoc }}"
+
 ## https://www.stigviewer.com/stig/windows_8_8.1/2014-06-27/finding/V-43239
 - name: Enable Cmdline in Audit Process creation
   win_regedit:
