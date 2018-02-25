@@ -216,12 +216,13 @@ harden_win_osquery_upload_packs:
   - osquery-windows-compliance-pack
 harden_win_osquery_packs:
   - "osquery-monitoring"
-  - "incident-response"
+#  - "incident-response"
   - "it-compliance"
   - "vuln-management"
   - "hardware-monitoring"
   - unwanted-chrome-extensions
-  - windows-attacks
+#  - windows-attacks
+  - windows-hardening
   - "osquery-windows-pack"
   - "osquery-windows-snapshots-pack"
   - "osquery-windows-compliance-pack"
@@ -524,6 +525,8 @@ harden_win_suspicious_ext:
     - pif
 #    - bat
     - jar
+harden_win_fileassoc:
+  - { ext: .pdf, ftype: pdffile, path: 'C:\Program Files (x86)\Google\Chrome\Application\chrome.exe' }
 
 ## https://support.microsoft.com/en-us/help/2696547/how-to-enable-and-disable-smbv1,-smbv2,-and-smbv3-in-windows-vista,-windows-server-2008,-windows-7,-windows-server-2008-r2,-windows-8,-and-windows-server-2012
 harden_win_disable_smb_proto:
