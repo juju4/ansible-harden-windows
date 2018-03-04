@@ -17,9 +17,3 @@ script:
 
 # Check the role/playbook's syntax.
   - "ansible-playbook -i inventory --syntax-check test/integration/default/default.yml"
-
-# Check osquery templates pack
-  - "for f in templates/osquery-*.conf.j2; do echo \"== $f\"; egrep -v '//.*' $f | python -mjson.tool > /dev/null; done"
-# Applocker templates
-  - "for f in templates/applocker-*.xml.j2; do echo \"== $f\"; xmllint $f > /dev/null; done"
-
