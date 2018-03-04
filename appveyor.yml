@@ -16,13 +16,13 @@ environment:
   CYGWIN: winsymlinks:nativestrict
 
   matrix:
-  - TARGET: cygwin64
-    CYG_ROOT: C:\cygwin64
-    CYG_SETUP: C:\cygwin64\setup-x86_64.exe
-    CYG_CACHE: C:\cygwin64\var\cache\setup
-    CYG_BASH: C:\cygwin64\bin\sh
-    ANSIBLE_VERSION: 2.3.3.0
-    ANSIBLE_EXTRA_VARS:
+#  - TARGET: cygwin64
+#    CYG_ROOT: C:\cygwin64
+#    CYG_SETUP: C:\cygwin64\setup-x86_64.exe
+#    CYG_CACHE: C:\cygwin64\var\cache\setup
+#    CYG_BASH: C:\cygwin64\bin\sh
+#    ANSIBLE_VERSION: 2.3.3.0
+#    ANSIBLE_EXTRA_VARS:
   - TARGET: cygwin64
     CYG_ROOT: C:\cygwin64
     CYG_SETUP: C:\cygwin64\setup-x86_64.exe
