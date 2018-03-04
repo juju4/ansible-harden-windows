@@ -1,5 +1,9 @@
 [![Build Status - Master](https://travis-ci.org/juju4/ansible-harden-windows.svg?branch=master)](https://travis-ci.org/juju4/ansible-harden-windows)
 [![Build Status - Devel](https://travis-ci.org/juju4/ansible-harden-windows.svg?branch=devel)](https://travis-ci.org/juju4/ansible-harden-windows/branches)(Syntax Only)
+
+[![Appveyor - Master](https://ci.appveyor.com/api/projects/status/xxx?svg=true)](https://ci.appveyor.com/project/juju4/ansible-harden-windows)
+![Appveyor - Devel](https://ci.appveyor.com/api/projects/status/xxx/branch/devel?svg=true)
+
 # Windows harden ansible role
 
 Ansible role to harden windows system.
