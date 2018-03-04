@@ -9,9 +9,10 @@ install:
   - pip install ansible ansible-lint
   - ansible --version
   - "{ echo '[defaults]'; echo 'roles_path = ../'; } >> ansible.cfg"
-script:
   - "echo \"[test-kitchen]\nlocalhost\" > inventory"
+  - "[ -f get-dependencies.sh ] && sh -x get-dependencies.sh"
 
+script:
   - "ansible-lint tasks/main.yml"
 
 # Check the role/playbook's syntax.
