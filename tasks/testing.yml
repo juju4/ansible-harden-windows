@@ -17,9 +17,6 @@
 #- name: Export trusted root certificates
 #  shell: Get-ChildItem -Path cert:\currentuser\AuthRoot -Recurse | select Thumbprint, FriendlyName, Subject | ConvertTo-Html | Set-Content c:\users\public\desktop\certificates.html
 
-- include_tasks: testing-applocker.yml
-  when: harden_win_testing_applocker
-
 - include_tasks: testing-uac.yml
   when: harden_win_testing_uac
 
@@ -28,9 +25,6 @@
 
 - include_tasks: testing-privesc.yml
   when: harden_win_testing_privesc
-
-- include_tasks: testing-msoffice.yml
-  when: harden_win_testing_msoffice
 
 - include_tasks: testing-speculative.yml
   when: harden_win_testing_speculative
