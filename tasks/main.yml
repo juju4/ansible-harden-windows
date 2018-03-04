@@ -1,7 +1,7 @@
 ---
 
 - name: Windows | Harden
-  include_tasks: windows.yml
+  include: windows.yml
   when: ansible_os_family == "Windows"
 
-- include_tasks: testing.yml
+- include: testing.yml

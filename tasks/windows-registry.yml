@@ -132,7 +132,7 @@
     data: 0
     datatype: dword
 
-- include_tasks: wpad-disable.yml
+- include: wpad-disable.yml
   when: harden_windows_disable_wpad is defined and harden_windows_disable_wpad
 
 - name: Disable CMD
@@ -152,7 +152,7 @@
     datatype: dword
     data: 30
 
-- include_tasks: windows-mimikatz.yml
+- include: windows-mimikatz.yml
 
 ## https://technet.microsoft.com/en-us/library/cc960646.aspx
 - name: Strong Windows NTLMv2 Authentication Enabled; Weak LM/NTLM Disabled
@@ -250,4 +250,4 @@
     datatype: dword
     data: 0
 
-- include_tasks: dc-ldap-signing.yml
+- include: dc-ldap-signing.yml

@@ -74,25 +74,25 @@
   when: not ("none" in ipv4if.stdout)
 
 ## win_regedit: New in ansible version 2.0
-- include_tasks: windows-registry.yml
+- include: windows-registry.yml
   when: harden_win_registry is defined and harden_win_registry
   tags:
     - registry
 
-- include_tasks: windows-services.yml
-- include_tasks: windows-ie.yml
-- include_tasks: windows-smb.yml
-- include_tasks: windows-wmi.yml
-- include_tasks: windows-online.yml
-- include_tasks: windows-ipv6.yml
-- include_tasks: windows-rdp.yml
+- include: windows-services.yml
+- include: windows-ie.yml
+- include: windows-smb.yml
+- include: windows-wmi.yml
+- include: windows-online.yml
+- include: windows-ipv6.yml
+- include: windows-rdp.yml
 
-- include_tasks: windows-emet.yml
+- include: windows-emet.yml
   when: harden_win_emet_conf != ''
 
-- include_tasks: adobereader.yml
+- include: adobereader.yml
   when: harden_win_adobereader is defined and harden_win_adobereader
-- include_tasks: windows-flash.yml
+- include: windows-flash.yml
   when: harden_win_flash is defined and harden_win_flash
 
 ## PECaptureSvc, https://isc.sans.edu/forums/diary/Hunting+for+Executable+Code+in+Windows+Environments/20745/
@@ -102,71 +102,71 @@
 ## central logging / windows event log forwarding
 ## https://blog.brankovucinec.com/2014/10/24/use-software-restriction-policies-to-block-viruses-and-malware/ = SRP lock on %APPDATA%
 
-- include_tasks: windows-adminshares.yml
+- include: windows-adminshares.yml
   when: harden_win_disable_adminshares
 
-- include_tasks: windows-local-gpo.yml
+- include: windows-local-gpo.yml
   when: harden_win_gpo_local is defined and harden_win_gpo_local
 
-- include_tasks: windows-nxlog.yml
+- include: windows-nxlog.yml
   when: harden_win_remotelogging is defined and harden_win_remotelogging
 
-- include_tasks: windows-vss.yml
+- include: windows-vss.yml
   when: harden_win_vss is defined and harden_win_vss
 
-- include_tasks: windows-wmi-monitor.yml
+- include: windows-wmi-monitor.yml
   when: harden_win_wmi_monitor is defined and harden_win_wmi_monitor
 
-- include_tasks: windows-netcease.yml
+- include: windows-netcease.yml
   when: harden_win_netcease is defined and harden_win_netcease
 
-- include_tasks: windows-dnscrypt.yml
+- include: windows-dnscrypt.yml
   when: harden_win_simplednscrypt
 
-- include_tasks: windows-error-reporting.yml
+- include: windows-error-reporting.yml
   when: harden_win_configure_errorreporting
 
-- include_tasks: mbrfilter.yml
+- include: mbrfilter.yml
   when: harden_win_mbrfilter
 
-- include_tasks: windows-usb.yml
+- include: windows-usb.yml
   when: harden_win_restrict_usb
 
-- include_tasks: windows10.yml
+- include: windows10.yml
   when: harden_windows_disable_win10cortana and ansible_distribution_major_version >= 10
-- include_tasks: windows-cortana.yml
+- include: windows-cortana.yml
   when: harden_windows_disable_win10cortana and ansible_distribution_major_version >= 10
 
-- include_tasks: windows-dma.yml
+- include: windows-dma.yml
   when: harden_win_restrict_dma
 
-- include_tasks: windows-certificates.yml
+- include: windows-certificates.yml
   when: harden_win_certificates_review
 
-- include_tasks: windows-disallowrun.yml
+- include: windows-disallowrun.yml
   when: harden_win_disallowrun
 
-- include_tasks: windows-feature.yml
+- include: windows-feature.yml
 
-- include_tasks: windows-sticky-keys.yml
+- include: windows-sticky-keys.yml
   when: harden_win_stickykeys_disable
 
-- include_tasks: windows-laps.yml
+- include: windows-laps.yml
   when: harden_win_laps_enable
 
-- include_tasks: windows-wef.yml
+- include: windows-wef.yml
   when: harden_win_wef_enable
 
-- include_tasks: passwd-filters.yml
+- include: passwd-filters.yml
   when: harden_win_passwd_filters
 
-- include_tasks: extras.yml
+- include: extras.yml
 
-- include_tasks: palantir-AutorunsToWinEventLog.yml
+- include: palantir-AutorunsToWinEventLog.yml
   when: harden_win_palantir_AutorunsToWinEventLog
 
-- include_tasks: dc-krgtbt-reset.yml
+- include: dc-krgtbt-reset.yml
   when: harden_win_Is_DC
 
-- include_tasks: monitor-AD.yml
+- include: monitor-AD.yml
   when: harden_win_Is_DC
