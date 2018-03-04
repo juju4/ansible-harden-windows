@@ -29,7 +29,7 @@ It was tested on the following versions:
  * 2.0 (min required for Win)
  * 2.2
  * 2.3 (required for testing part - become_method: runas)
- * 2.4 (required since s/include:/include_tasks:/)
+ * 2.4 ~~(required since s/include:/include_tasks:/)~~
 
 ### Operating systems
 
