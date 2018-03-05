@@ -10,6 +10,11 @@
       win_command: "c:\\opscode\\inspec\\bin\\inspec.bat exec https://github.com/juju4/windows-baseline >{{ harden_win_log_dir }}\\inspec.log"
       ignore_errors: true
 
+    - name: testing | inspec results
+      win_shell: "Get-Content -Path \"{{ harden_win_log_dir }}\\inspec.log\""
+      changed_when: false
+      ignore_errors: true
+
   when: harden_win_testing_inspec
 
 # https://blog.malwarebytes.com/security-world/technology/2017/11/when-you-shouldnt-trust-a-trusted-root-certificate/
