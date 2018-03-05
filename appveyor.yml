@@ -94,6 +94,7 @@ install:
 # NOK
 #- cmd: "%CYG_BASH% -lc 'ln -s /cygdrive/c/projects/ansible-harden-windows /etc/ansible/roles/juju4.harden-windows'"
 - cmd: "%CYG_BASH% -lc 'mkdir -p /etc/ansible/roles'"
+- cmd: "%CYG_BASH% -lc 'cp /cygdrive/c/projects/ansible-harden-windows/test/appveyor/ansible.cfg /etc/ansible'"
 - cmd: "%CYG_BASH% -lc 'cp -R /cygdrive/c/projects/ansible-harden-windows /etc/ansible/roles/juju4.harden-windows'"
 - cmd: "%CYG_BASH% -lc 'sh -x /cygdrive/c/projects/ansible-harden-windows/get-dependencies.sh'"
 
