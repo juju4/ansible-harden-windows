@@ -16,7 +16,7 @@
 # https://github.com/spencerdodd/kernelpop
 # FIXME: FATAL ERROR DURING FILE TRANSFER / winrm_send_input failed
 - name: retrieve kernelpop
-  win_command: "git.exe clone https://github.com/spencerdodd/kernelpop {{ harden_win_temp_dir }}\\kernelpop"
+  win_command: "git.exe clone https://github.com/spencerdodd/kernelpop \"{{ harden_win_temp_dir }}\\kernelpop\""
 #  git:
 #    name: 'https://github.com/spencerdodd/kernelpop'
 #    dest: "{{ harden_win_temp_dir }}/kernelpop"
