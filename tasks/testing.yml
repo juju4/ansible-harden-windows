@@ -22,6 +22,18 @@
 #- name: Export trusted root certificates
 #  shell: Get-ChildItem -Path cert:\currentuser\AuthRoot -Recurse | select Thumbprint, FriendlyName, Subject | ConvertTo-Html | Set-Content c:\users\public\desktop\certificates.html
 
+- set_fact:
+    ansible_become_password: "_Password_CI_CD_to_be_revoked1_"
+
+## FIXME! failing on second pass, https://groups.google.com/forum/#!topic/ansible-project/_ydkYXZibrM
+- name: Ensure user _test is present
+  win_user:
+    name: _test
+    password: "{{ ansible_become_password }}"
+    state: present
+    groups:
+      - Users
+
 - include: testing-uac.yml
   when: harden_win_testing_uac
 
@@ -46,3 +58,8 @@
 # keep last. if defender catches it, may need to restart to complete cleaning/have ansible working again
 - include: testing-mimikatz.yml
   when: harden_win_testing_mimikatz
+
+- name: Remove user _test
+  win_user:
+    name: _test
+    state: absent
