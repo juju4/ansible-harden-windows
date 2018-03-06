@@ -25,7 +25,7 @@
 #  become_user: _test
 
 - name: execute kernelpop
-  win_shell: "python3 kernelpop.py -b > kernelpop.out"
+  win_shell: "python3.exe kernelpop.py -b > kernelpop.out"
   args:
     chdir: "{{ harden_win_temp_dir }}/kernelpop"
   become: yes
