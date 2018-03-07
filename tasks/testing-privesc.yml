@@ -24,16 +24,6 @@
 #  become: yes
 #  become_user: _test
 
-- name: debug
-  win_shell: "Get-ChildItem -Recurse -Path {{ item }}"
-  with_items:
-    - c:\Python36
-    - c:\Python3
-    - c:\Python
-    - c:\ProgramData\chocolatey\lib
-  ignore_errors: true
-  changed_when: false
-
 - name: execute kernelpop
   win_shell: "c:\\Python36\\python.exe kernelpop.py -b > kernelpop.out"
   args:
