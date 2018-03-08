@@ -23,6 +23,7 @@ environment:
 #    CYG_BASH: C:\cygwin64\bin\sh
 #    ANSIBLE_VERSION: 2.3.3.0
 #    ANSIBLE_EXTRA_VARS:
+#    SUITE: default
   - TARGET: cygwin64
     CYG_ROOT: C:\cygwin64
     CYG_SETUP: C:\cygwin64\setup-x86_64.exe
@@ -30,6 +31,7 @@ environment:
     CYG_BASH: C:\cygwin64\bin\sh
     ANSIBLE_VERSION: 2.4.3.0
     ANSIBLE_EXTRA_VARS:
+    SUITE: default
   - TARGET: cygwin64
     CYG_ROOT: C:\cygwin64
     CYG_SETUP: C:\cygwin64\setup-x86_64.exe
@@ -37,6 +39,15 @@ environment:
     CYG_BASH: C:\cygwin64\bin\sh
     ANSIBLE_VERSION: 2.5.0b2
     ANSIBLE_EXTRA_VARS:
+    SUITE: default
+#  - TARGET: cygwin64
+#    CYG_ROOT: C:\cygwin64
+#    CYG_SETUP: C:\cygwin64\setup-x86_64.exe
+#    CYG_CACHE: C:\cygwin64\var\cache\setup
+#    CYG_BASH: C:\cygwin64\bin\sh
+#    ANSIBLE_VERSION: 2.5.0b2
+#    ANSIBLE_EXTRA_VARS:
+#    SUITE: full
 matrix:
   fast_finish: true
 
@@ -100,14 +111,14 @@ install:
 
 build: off
 test_script:
-- cmd: "%CYG_BASH% -lc 'ansible-playbook /cygdrive/c/projects/ansible-harden-windows/test/integration/default/default.yml --syntax-check'"
-- cmd: "%CYG_BASH% -lc 'ansible-playbook -i /cygdrive/c/projects/ansible-harden-windows/test/appveyor/inventory /cygdrive/c/projects/ansible-harden-windows/test/integration/default/default.yml -vvv $ANSIBLE_EXTRA_VARS'"
+- cmd: "%CYG_BASH% -lc 'ansible-playbook /cygdrive/c/projects/ansible-harden-windows/test/integration/$SUITE/default.yml --syntax-check'"
+- cmd: "%CYG_BASH% -lc 'ansible-playbook -i /cygdrive/c/projects/ansible-harden-windows/test/appveyor/inventory /cygdrive/c/projects/ansible-harden-windows/test/integration/$SUITE/default.yml -vvv $ANSIBLE_EXTRA_VARS'"
 
 after_test:
 # Test idempotence
-#    %CYG_BASH% -lc 'ansible-playbook -i /cygdrive/c/projects/ansible-harden-windows/test/appveyor/inventory /cygdrive/c/projects/ansible-harden-windows/test/integration/default/default.yml $ANSIBLE_EXTRA_VARS | tee /tmp/idempotency.log | grep -q "changed=0.*failed=0" && (echo "Idempotence test: pass" && exit 0) || (echo "Idempotence test: fail" && cat /tmp/idempotency.log && exit 0)'
+#    %CYG_BASH% -lc 'ansible-playbook -i /cygdrive/c/projects/ansible-harden-windows/test/appveyor/inventory /cygdrive/c/projects/ansible-harden-windows/test/integration/$SUITE/default.yml $ANSIBLE_EXTRA_VARS | tee /tmp/idempotency.log | grep -q "changed=0.*failed=0" && (echo "Idempotence test: pass" && exit 0) || (echo "Idempotence test: fail" && cat /tmp/idempotency.log && exit 0)'
 - cmd: |
-    %CYG_BASH% -lc 'ansible-playbook -i /cygdrive/c/projects/ansible-harden-windows/test/appveyor/inventory /cygdrive/c/projects/ansible-harden-windows/test/integration/default/default.yml $ANSIBLE_EXTRA_VARS'
+    %CYG_BASH% -lc 'ansible-playbook -i /cygdrive/c/projects/ansible-harden-windows/test/appveyor/inventory /cygdrive/c/projects/ansible-harden-windows/test/integration/$SUITE/default.yml $ANSIBLE_EXTRA_VARS'
 
 on_failure:
 - ps: Get-WinEvent -LogName 'Microsoft-Windows-AppLocker/EXE and DLL' | Where { $_.ID -eq 8004 }
