@@ -2,7 +2,7 @@
 
 # https://github.com/iadgov/Secure-Host-Baseline
 - name: IAD | retrieve Secure-Host-Baseline
-  win_command: "git.exe clone https://github.com/iadgov/Secure-Host-Baseline.git \"{{ harden_win_temp_dir }}\\ecure-Host-Baseline\""
+  win_command: "git.exe clone https://github.com/iadgov/Secure-Host-Baseline.git \"{{ harden_win_temp_dir }}\\Secure-Host-Baseline\""
 #  git:
 #    repo: https://github.com/iadgov/Secure-Host-Baseline.git
 #    dest: "{{ harden_win_temp_dir }}/Secure-Host-Baseline"
