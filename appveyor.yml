@@ -122,6 +122,7 @@ after_test:
 
 on_failure:
 - ps: Get-WinEvent -LogName 'Microsoft-Windows-AppLocker/EXE and DLL' | Where { $_.ID -eq 8004 }
+- ps: Get-ChildItem -Recurse -Path "c:\Program Files\ansible"
 
 notifications:
 - provider: Email
