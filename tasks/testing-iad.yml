@@ -2,10 +2,11 @@
 
 # https://github.com/iadgov/Secure-Host-Baseline
 - name: IAD | retrieve Secure-Host-Baseline
-  git:
-    repo: https://github.com/iadgov/Secure-Host-Baseline.git
-    dest: "{{ harden_win_temp_dir }}/Secure-Host-Baseline"
-    version: HEAD
+  win_command: "git.exe clone https://github.com/iadgov/Secure-Host-Baseline.git \"{{ harden_win_temp_dir }}\\ecure-Host-Baseline\""
+#  git:
+#    repo: https://github.com/iadgov/Secure-Host-Baseline.git
+#    dest: "{{ harden_win_temp_dir }}/Secure-Host-Baseline"
+#       version: HEAD
 #  become: yes
 #  become_user: _test
 # OR download
@@ -27,7 +28,7 @@
   win_shell: "{{ item }}"
   with_items:
     - Import-Module -Name .\\Secure-Host-Baseline\\Scripts\\GroupPolicy.psm1
-    - "Invoke-ApplySecureHostBaseline -Path {{ harden_win_temp_dir }}\\Secure-Host-Baseline -PolicyNames AppLocker,Chrome,Windows -PolicyMode Audit"
+    - "Invoke-ApplySecureHostBaseline -Path \"{{ harden_win_temp_dir }}\\Secure-Host-Baseline\" -PolicyNames AppLocker,Chrome,Windows -PolicyMode Audit"
   args:
     chdir: "{{ harden_win_temp_dir }}"
   when: harden_win_testing_iad_apply
