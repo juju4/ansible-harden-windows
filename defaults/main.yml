@@ -467,4 +467,3 @@ harden_win_testing_speculative: false
 harden_win_testing_intelme: false
 harden_win_testing_iad: false
 harden_win_testing_iad_apply: false
-harden_win_testing_detections: false

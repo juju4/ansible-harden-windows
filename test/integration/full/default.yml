@@ -53,7 +53,6 @@
     - harden_win_testing_intelme: true
     - harden_win_testing_iad: true
     - harden_win_testing_iad_apply: false
-    - harden_win_testing_detections: true
   roles:
 #  - juju4.win-firewall
     - juju4.win-eventlog
