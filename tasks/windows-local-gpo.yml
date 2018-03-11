@@ -25,6 +25,11 @@
 #  raw: "msiexec /qb /i c:\Program Files (x86)\Microsoft Security Compliance Manager\LGPO\LocalGPO.msi"
 #  raw: "csript c:\Program Files (x86)\LocalGPO\LocalGPO.wsf"
 
+- name: Check secedit log file
+  win_shell: "Get-Content -Path {{ harden_win_gpo_log }}"
+  changed_when: false
+  ignore_errors: true
+
 ## Microsoft Security Compliance Manager, https://technet.microsoft.com/library/cc677002.aspx
 ## https://technet.microsoft.com/en-us/library/jj966254%28v=ws.11%29.aspx
 
