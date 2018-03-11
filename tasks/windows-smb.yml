@@ -30,10 +30,9 @@
     data: 1
 
 ## FIXME! ansible 2.3+: https://github.com/ansible/ansible/issues/18885
-#- name: Prevent Anonymous Shares Access
-#  win_regedit:
-#    key: HKLM:\System\CurrentControlSet\Services\LanManServer\Parameters
-#    value: NullSessionShares
-#    datatype: multistring
-#    data: ""
-
+- name: Prevent Anonymous Shares Access
+  win_regedit:
+    key: HKLM:\System\CurrentControlSet\Services\LanManServer\Parameters
+    value: NullSessionShares
+    datatype: multistring
+    data: ""
