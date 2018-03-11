@@ -171,6 +171,8 @@ harden_win_chocolateypkgs:
 #    - osquery
 ## monitoring?
     - collectdwin
+## for testing
+    - git
 
 harden_win_powershellmodules:
 ## for 7z uncompress
