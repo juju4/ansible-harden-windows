@@ -8,6 +8,7 @@
 ## https://technet.microsoft.com/en-us/library/dn221969(v=ws.11).aspx
 ## https://blogs.msdn.microsoft.com/oldnewthing/20080314-00/?p=23113/
 ## https://www.sans.org/reading-room/whitepapers/testing/passthehash-attacks-tools-and-mitigation-33283
+## https://iase.disa.mil/stigs/gpo/Pages/index.aspx
 
 - name: copy gpo template to target computer
   win_template:
