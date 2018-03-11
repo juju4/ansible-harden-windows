@@ -13,6 +13,6 @@
 #    dest: "{{ harden_win_temp_dir }}/atomic-red-team"
 
 - name: Testing Detections | Executing Redcanary Atomic-red-team chain_reaction_DragonsTail.bat
-  win_shell: chain_reaction_DragonsTail.bat
+  win_command: cmd.exe /c chain_reaction_DragonsTail.bat
   args:
     chdir: "{{ harden_win_temp_dir }}/atomic-red-team/ARTifacts/Chain_Reactions"
