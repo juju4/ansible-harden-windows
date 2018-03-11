@@ -5,9 +5,12 @@
 # https://raw.githubusercontent.com/redcanaryco/atomic-red-team/master/ARTifacts/Chain_Reactions/chain_reaction_DragonsTail.bat
 
 - name: Testing Detections | Download Redcanary Atomic-red-team
-  git:
-    repo: https://github.com/redcanaryco/atomic-red-team.git
-    dest: "{{ harden_win_temp_dir }}/atomic-red-team"
+  win_command: "git.exe clone https://github.com/redcanaryco/atomic-red-team.git \"{{ harden_win_temp_dir }}\\atomic-red-team\""
+  args:
+    creates: "{{ harden_win_temp_dir }}\\atomic-red-team"
+#  git:
+#    repo: https://github.com/redcanaryco/atomic-red-team.git
+#    dest: "{{ harden_win_temp_dir }}/atomic-red-team"
 
 - name: Testing Detections | Executing Redcanary Atomic-red-team chain_reaction_DragonsTail.bat
   win_shell: chain_reaction_DragonsTail.bat
