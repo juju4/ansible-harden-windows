@@ -45,5 +45,7 @@
   args:
     chdir: "{{ harden_win_temp_dir }}\\Secure-Host-Baseline\\Compliance\\Scripts"
   register: iadresults
+  changed_when: false
+  ignore_errors: true
 - debug: var=iadresults
 
