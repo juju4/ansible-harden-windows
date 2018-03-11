@@ -12,8 +12,10 @@ rolesdir=$(dirname $0)/..
 [ ! -d $rolesdir/juju4.win-powershell ] && git clone https://github.com/juju4/ansible-win-powershell $rolesdir/juju4.win-powershell
 [ ! -d $rolesdir/juju4.win-sysmon ] && git clone https://github.com/juju4/ansible-win-sysmon $rolesdir/juju4.win-sysmon
 [ ! -d $rolesdir/juju4.win-applocker ] && git clone https://github.com/juju4/ansible-win-applocker $rolesdir/juju4.win-applocker
+[ ! -d $rolesdir/juju4.win-services ] && git clone https://github.com/juju4/ansible-win-services $rolesdir/juju4.win-services
 [ ! -d $rolesdir/juju4.win-msoffice ] && git clone https://github.com/juju4/ansible-win-msoffice $rolesdir/juju4.win-msoffice
 [ ! -d $rolesdir/juju4.win-aptsimulator ] && git clone https://github.com/juju4/ansible-win-aptsimulator $rolesdir/juju4.win-aptsimulator
+[ ! -d $rolesdir/juju4.win-atomic-red-team ] && git clone https://github.com/juju4/ansible-win-atomic-red-team $rolesdir/juju4.win-atomic-red-team
 [ ! -d $rolesdir/juju4.win-osquery ] && git clone https://github.com/juju4/ansible-win-osquery $rolesdir/juju4.win-osquery
 
 ## don't stop build on this script return code
