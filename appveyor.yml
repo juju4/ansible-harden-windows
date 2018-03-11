@@ -121,7 +121,7 @@ after_test:
     %CYG_BASH% -lc 'ansible-playbook -i /cygdrive/c/projects/ansible-harden-windows/test/appveyor/inventory /cygdrive/c/projects/ansible-harden-windows/test/integration/$SUITE/default.yml $ANSIBLE_EXTRA_VARS'
 
 on_failure:
-- ps: Get-ChildItem -Recurse -Path "c:\Program Files\ansible"
+#- ps: Get-ChildItem -Recurse -Path "c:\Program Files\ansible"
 - ps: |
     Get-WinEvent -LogName 'Microsoft-Windows-AppLocker/EXE and DLL' | Where { $_.ID -eq 8004 }
     True
