@@ -250,4 +250,32 @@
     datatype: dword
     data: 0
 
+- name: Crypto | ensure TLS 1.2 is enabled
+  win_regedit:
+    key: "{{ item.k }}"
+    value: "{{ item.v }}"
+    datatype: dword
+    data: "{{ item.d }}"
+  with_items:
+    - { k: 'HKLM:\SYSTEM\CurrentControlSet\Control\SecurityProviders\SCHANNEL\Protocols\TLS 1.2\Client', v: 'DisabledByDefault', d: 0 }
+    - { k: 'HKLM:\SYSTEM\CurrentControlSet\Control\SecurityProviders\SCHANNEL\Protocols\TLS 1.2\Client', v: 'Enabled', d: 1 }
+    - { k: 'HKLM:\SYSTEM\CurrentControlSet\Control\SecurityProviders\SCHANNEL\Protocols\TLS 1.2\Server', v: 'DisabledByDefault', d: 0 }
+    - { k: 'HKLM:\SYSTEM\CurrentControlSet\Control\SecurityProviders\SCHANNEL\Protocols\TLS 1.2\Server', v: 'Enabled', d: 1 }
+
+- name: Crypto | ensure SSL 2.0, 3.0 is disabled
+  win_regedit:
+    key: "{{ item.k }}"
+    value: "{{ item.v }}"
+    datatype: dword
+    data: "{{ item.d }}"
+  with_items:
+    - { k: 'HKLM:\SYSTEM\CurrentControlSet\Control\SecurityProviders\SCHANNEL\Protocols\SSL 2.0\Client', v: 'DisabledByDefault', d: 0 }
+    - { k: 'HKLM:\SYSTEM\CurrentControlSet\Control\SecurityProviders\SCHANNEL\Protocols\SSL 2.0\Client', v: 'Enabled', d: 0 }
+    - { k: 'HKLM:\SYSTEM\CurrentControlSet\Control\SecurityProviders\SCHANNEL\Protocols\SSL 2.0\Server', v: 'DisabledByDefault', d: 0 }
+    - { k: 'HKLM:\SYSTEM\CurrentControlSet\Control\SecurityProviders\SCHANNEL\Protocols\SSL 2.0\Server', v: 'Enabled', d: 0 }
+    - { k: 'HKLM:\SYSTEM\CurrentControlSet\Control\SecurityProviders\SCHANNEL\Protocols\SSL 2.0\Client', v: 'DisabledByDefault', d: 0 }
+    - { k: 'HKLM:\SYSTEM\CurrentControlSet\Control\SecurityProviders\SCHANNEL\Protocols\SSL 3.0\Client', v: 'Enabled', d: 0 }
+    - { k: 'HKLM:\SYSTEM\CurrentControlSet\Control\SecurityProviders\SCHANNEL\Protocols\SSL 3.0\Server', v: 'DisabledByDefault', d: 0 }
+    - { k: 'HKLM:\SYSTEM\CurrentControlSet\Control\SecurityProviders\SCHANNEL\Protocols\SSL 3.0\Server', v: 'Enabled', d: 1 }
+
 - include: dc-ldap-signing.yml
