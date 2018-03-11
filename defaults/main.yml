@@ -55,23 +55,6 @@ harden_windows_disable_wpad: true
 harden_win_disable_adminshares: true
 harden_win_configure_errorreporting: false
 
-harden_win_logging_retention: 0
-harden_win_winevt_channels:
-  - Microsoft-Windows-PowerShell\/Operational
-  - Internet Explorer
-  - Microsoft-Windows-WMI-Activity\/Operational
-## https://www.fireeye.com/content/dam/fireeye-www/global/en/current-threats/pdfs/wp-windows-management-instrumentation.pdf
-  - Microsoft-Windows-WinRM\/Operational
-  - Microsoft-Windows-DistributedCOM
-  - Microsoft-Windows-Sysmon
-  - Microsoft-Windows-AppLocker\/EXE and DLL
-  - Microsoft-Windows-AppLocker\/MSI and Script
-  - Microsoft-Windows-AppLocker\/Packaged app-Deployment
-  - Microsoft-Windows-AppLocker\/Packaged app-Execution
-  - Microsoft-Windows-TaskScheduler\/Operational
-  - Microsoft-Windows-DNS-Client\/Operational
-
-
 ## current domain (monitor-AD: does not require to be on DC)
 harden_win_domain: WORKGROUP
 
@@ -93,12 +76,6 @@ harden_win_ie_proxy_override: ''
 
 harden_win_dc_ldap_diag: false
 harden_win_dc_ldap_enforce_signing: false
-
-## if empty, will go in User documents
-## Note: env variable are not resolved
-#harden_win_powershell_transcription_dir: ''
-#harden_win_powershell_transcription_dir: "%USERPROFILE%\\AppData\\Roaming\\PowershellTranscripts"
-harden_win_powershell_transcription_dir: "c:\\Windows\\Logs\\PowershellTranscripts"
 
 harden_windows_disable_win10cortana: true
 
@@ -128,31 +105,6 @@ opf_url: https://github.com/brockrob/OpenPasswordFilter/raw/master/OPF-alpha.zip
 opf_passwd_list_url: https://raw.githubusercontent.com/danielmiessler/SecLists/master/Passwords/10_million_password_list_top_1000.txt
 opf_passwd_list_partial_url: https://raw.githubusercontent.com/danielmiessler/SecLists/master/Passwords/10_million_password_list_top_1000.txt
 
-## Warning! Enabling all those will generate *lot* of logs
-harden_win_auditpol_enable:
-  - Account Logon
-  - Object Access
-  - Privilege Use
-  - Detailed Tracking
-  - Policy Change
-  - DS Access
-
-# https://technet.microsoft.com/en-us/library/ff730951.aspx
-harden_win_audit_files: true
-harden_win_FileAuditRules: "Write,WriteData,Delete,DeleteSubdirectoriesAndFiles,ChangePermissions,Takeownership"
-harden_win_audit_filepaths:
-  - C:\Users\Administrator\AppData\Local
-  - C:\Users\Administrator\AppData\Roaming
-  - C:\Users\Public
-  - C:\Windows\System32\drivers\etc\hosts
-
-harden_win_audit_registry: true
-harden_win_RegAuditRules: "SetValue,Delete,ChangePermissions,TakeOwnership"
-harden_win_audit_regpaths:
-  - 'HKCU:\Control Panel\Desktop'
-  - 'HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Run'
-  - 'HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\RunOnce'
-
 harden_win_chocolateypkgs:
 # http://windows.microsoft.com/en-us/windows/security-essentials-all-versions
 ## FAIL since 4m: https://gist.github.com/choco-bot/85701f4e87e16efed5be
@@ -174,10 +126,6 @@ harden_win_chocolateypkgs:
 ## for testing
     - git
 
-harden_win_powershellmodules:
-## for 7z uncompress
-  - Pscx
-
 ## per user/HKCU...
 harden_win_disallowrun: false
 harden_win_disallowrun_list:
@@ -185,16 +133,6 @@ harden_win_disallowrun_list:
   - { v: "2", d: "powershell_ise.exe" }
   - { v: "3", d: "cmd.exe" }
   - { v: "4", d: "mshta.exe" }
-
-harden_win_sysmon: true
-## as sysmon link is updated and hash change, chocolatey install can fails
-## ansible win_get_url currently does not support checksum option
-harden_win_sysmon_direct: false
-harden_win_sysmon_url: 'https://download.sysinternals.com/files/Sysmon.zip'
-harden_win_sysmon_sha256: '848c3323324e8fa849024f87a2764f8575513463f339690056664861f99e4c5f'
-## note: file should be in current or template directory with .j2 extension
-harden_win_sysmon_template: SysmonConfig-Neo23x0-workstations.xml
-#harden_win_sysmon_template: SysmonConfig-moti.xml
 
 ## win_get_url missing checksum check
 harden_win_remotelogging: false
@@ -205,34 +143,6 @@ harden_win_netcease_url: 'https://gallery.technet.microsoft.com/Net-Cease-Blocki
 
 harden_win_simplednscrypt: true
 harden_win_simplednscrypt_url: https://github.com/bitbeans/SimpleDnsCrypt/releases/download/0.4.7/SimpleDNSCrypt64.msi
-
-harden_win_osquery: true
-#harden_win_osquery: false
-harden_win_osqueryd_service_enable: true
-harden_win_osquery_template: 'osquery.conf.j2'
-harden_win_osquery_flags_template: 'osquery.flags.j2'
-## extra files to upload as packs
-harden_win_osquery_upload_packs:
-  - osquery-windows-pack
-  - osquery-windows-snapshots-pack
-  - osquery-windows-compliance-pack
-harden_win_osquery_packs:
-  - "osquery-monitoring"
-#  - "incident-response"
-  - "it-compliance"
-  - "vuln-management"
-  - "hardware-monitoring"
-  - unwanted-chrome-extensions
-#  - windows-attacks
-  - windows-hardening
-  - "osquery-windows-pack"
-  - "osquery-windows-snapshots-pack"
-  - "osquery-windows-compliance-pack"
-## currently only chocolatey release
-harden_win_osquery_url: ''
-## full queries snapshot 1/week (maximum from code)
-harden_win_osquery_snapshot_interval: 604800
-harden_win_osquery_snapshot_interval2: 604800
 
 ## Experimental
 harden_win_mbrfilter: false
@@ -393,123 +303,6 @@ harden_win_services_automatic:
   - Superfetch
 ## Win Firewall
   - MpsSvc
-
-
-harden_win_msoffice_version_reg: "16.0"
-harden_win_msoffice_version_short: "16"
-harden_win_msoffice_trustedlocations: "%USERPROFILE%\\TrustedMacroDocuments"
-## 1: Enable All Macros, 2: Disable All macros with notification, 3: Disable all macros except those digitally signed, 4: Disable all without notification
-harden_win_msoffice_vbawarnings: 3
-## Prevent activation of OLE Packages
-## 0 no prompt+executes, 1 prompt+if click, executes, 2 no prompt+no execution
-harden_win_msoffice_packagerprompt: 2
-## DDE
-harden_win_msoffice_disable_dde_updatelink: true
-harden_win_msoffice_disable_dde_embeddedfiles: true
-harden_win_msoffice_disable_dde_excel_extras: true
-harden_win_msoffice_disable_dde_excel_workbooklink: true
-harden_win_msoffice_disable_equation_editor: true
-
-harden_win_applocker_enable: true
-harden_win_applocker_policy: "applocker-basic.xml"
-harden_win_applocker_mode_exe: "AuditOnly"
-#harden_win_applocker_mode_exe: "Enabled"
-harden_win_applocker_mode_script: "AuditOnly"
-harden_win_applocker_mode_msi: "AuditOnly"
-harden_win_applocker_mode_appx: "AuditOnly"
-harden_win_applocker_mode_dll: "AuditOnly"
-#harden_win_testing_applocker_filepath: []
-
-## Experimental. issue with ansible win_firewall_rule module
-harden_win_firewall: false
-#harden_win_firewall: true
-#harden_win_fw_default_action: 'allow'
-harden_win_fw_default_action: 'block'
-harden_win_fw_program_allowed_out_public:
-  - '%ProgramFiles%\bitbeans\Simple DNSCrypt\dnscrypt-proxy\dnscrypt-proxy.exe'
-  - '%ProgramFiles%\bitbeans\Simple DNSCrypt\dnscrypt-proxy\dnscrypt-proxy-secondary.exe'
-harden_win_fw_program_blocked_out_public:
-  - "C:\\Program Files\\Microsoft Office\\Office{{ harden_win_msoffice_version_short }}\\winword.exe"
-  - "C:\\Program Files\\Microsoft Office\\Office{{ harden_win_msoffice_version_short }}\\excel.exe"
-  - "C:\\Program Files\\Microsoft Office\\Office{{ harden_win_msoffice_version_short }}\\powerpoint.exe"
-  - "C:\\Program Files\\Microsoft Office\\Office{{ harden_win_msoffice_version_short }}\\msaccess.exe"
-  - '%SystemRoot%\System32\wscript.exe'
-  - '%SystemRoot%\Syswow64\wscript.exe'
-  - '%SystemRoot%\System32\cscript.exe'
-  - '%SystemRoot%\Syswow64\cscript.exe'
-  - '%SystemRoot%\system32\mshta.exe'
-  - '%SystemRoot%\SysWOW64\mshta.exe'
-  - '%SystemRoot%\system32\WindowsPowerShell\v1.0\powershell.exe'
-  - '%SystemRoot%\SysWOW64\WindowsPowerShell\v1.0\powershell.exe'
-  - '%SystemRoot%\system32\cmd.exe'
-  - '%SystemRoot%\SysWOW64\cmd.exe'
-  - '%SystemRoot%\system32\notepad.exe'
-  - '%SystemRoot%\SysWOW64\notepad.exe'
-  - '%SystemRoot%\system32\calc.exe'
-  - '%SystemRoot%\SysWOW64\calc.exe'
-  - '%SystemRoot%\system32\ftp.exe'
-  - '%SystemRoot%\SysWOW64\ftp.exe'
-## https://securityinaction.wordpress.com/2016/04/24/windows-applocker-bypass-disclosed/
-  - '%SystemRoot%\system32\regsvr32.exe'
-  - '%SystemRoot%\SysWOW64\regsvr64.exe'
-## https://github.com/MHaggis/hunt-detect-prevent/blob/master/Prevention/Windows%20Firewall.md
-  - '%SystemRoot%\system32\verclsid.exe'
-  - '%SystemRoot%\syswow64\verclsid.exe'
-## https://labs.nettitude.com/blog/fun-with-windows-binaries-application-whitelist-bypass-using-msiexec/
-  - '%SystemRoot%\system32\msiexec.exe'
-  - '%SystemRoot%\SysWOW64\msiexec.exe'
-#
-  - '%SystemRoot%\Microsoft.NET\Framework\v4.0.30319\InstallUtil.exe'
-  - '%SystemRoot%\Microsoft.NET\Framework64\v4.0.30319\InstallUtil.exe'
-  - '%SystemRoot%\Microsoft.NET\Framework\v4.0.30319\MSBuild.exe'
-  - '%SystemRoot%\Microsoft.NET\Framework64\v4.0.30319\MSBuild.exe'
-  - '%SystemRoot%\Microsoft.NET\Framework\v4.0.30319\regasm.exe'
-  - '%SystemRoot%\Microsoft.NET\Framework64\v4.0.30319\regasm.exe'
-## does it work? accepted in ansible 2.3, nok in 2.4
-##  https://social.technet.microsoft.com/Forums/windows/en-US/9d0f3230-2ead-47ee-9233-d5e94df98b90/using-a-wildcard-path-for-a-firewall-program-exception?forum=w7itprosecurity
-##  http://www.404techsupport.com/2009/01/09/windows-firewall-exceptions-through-group-policy/
-#  - '%UserProfile%\*.*'
-harden_win_fw_ports_allowed_out_public: []
-harden_win_fw_ports_blocked_out_public:
-  - 25
-  - 587
-  - 53
-  - 123
-  - 6881-6889
-## smb/llmnr?
-  - 137
-  - 138
-  - 5353
-  - 5355
-harden_win_fw_ports_allowed_in_public: []
-harden_win_fw_ports_blocked_in_public:
-  - 25
-  - 587
-  - 80
-  - 443
-  - 8080
-  - 53
-  - 123
-  - 6881-6889
-harden_win_fw_program_allowed_web_out_public:
-  - '%ProgramFiles\firefox.exe'
-  - '%ProgramFiles%\Google\Chrome\Application\chrome.exe'
-  - '%windir%\SystemApps\Microsoft.MicrosoftEdge_8wekyb3d8bbwe\MicrosoftEdge.exe'
-  - 'microsoftupdate.exe'
-  - '%windir%\System32\BackgroundTransferHost.exe'
-harden_win_fw_web_ports:
-  - 80
-  - 443
-  - 8080
-
-## FIXME! localized rule name...
-harden_win_fw_rules_disable:
-  - Xbox
-  - Xbox Game UI
-  - Xbox Identity Provider
-  - Cortana
-  - Candy Crush Soda Saga
-harden_win_fw_prefix: "A-Ansible"
 
 ## https://www.nccgroup.trust/uk/about-us/newsroom-and-events/blogs/2017/august/smuggling-hta-files-in-internet-exploreredge/
 harden_win_suspicious_ext:
@@ -802,12 +595,10 @@ harden_win_monitorsec_tools:
 #  - { u: '' }
 
 harden_win_testing_inspec: false
-harden_win_testing_applocker: false
 harden_win_testing_uac: false
 harden_win_testing_opf: false
 harden_win_testing_privesc: false
 harden_win_testing_mimikatz: false
-harden_win_testing_msoffice: false
 harden_win_testing_speculative: false
 harden_win_testing_intelme: false
 harden_win_testing_iad: false
