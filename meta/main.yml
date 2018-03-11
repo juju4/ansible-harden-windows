@@ -21,4 +21,5 @@ dependencies: []
 #  - juju4.win-applocker
 #  - juju4.win-msoffice
 #  - juju4.win-sysmon
+#  - juju4.win-services
 #  - juju4.win-osquery
