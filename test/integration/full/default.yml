@@ -56,7 +56,7 @@
   roles:
 #  - juju4.win-firewall
     - juju4.win-eventlog
-    - juju4.win-audit
+#    - juju4.win-audit
     - juju4.win-powershell
     - juju4.win-applocker
     - juju4.win-msoffice
