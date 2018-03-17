@@ -55,7 +55,7 @@
     - harden_win_testing_iad_apply: false
   roles:
 #  - juju4.win-firewall
-#    - juju4.win-eventlog
+    - juju4.win-eventlog
 #    - juju4.win-audit
 #    - juju4.win-powershell
 #    - juju4.win-applocker
