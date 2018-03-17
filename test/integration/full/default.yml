@@ -58,7 +58,7 @@
 #    - juju4.win-eventlog
 #    - juju4.win-audit
 #    - juju4.win-powershell
-    - juju4.win-applocker
+#    - juju4.win-applocker
     - juju4.win-msoffice
     - juju4.win-services
     - juju4.win-sysmon
