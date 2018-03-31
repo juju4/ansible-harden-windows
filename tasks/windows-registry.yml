@@ -62,25 +62,6 @@
 ## \HKEY_CLASSES_ROOT\Software\Microsoft\Windows\CurrentVersion\Explorer\FileExts
 ## Partially covered if Windows Script Host is disabled
 ## FIXME! NOK
-- name: disable suspicious executabled file extensions (HKCU)
-  win_regedit:
-#    key: HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\FileExts\.hta
-    key: "HKCU:\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\FileExts\\.{{ item }}"
-#    key: "HKLM:\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\FileExts\\.{{ item }}"    ## NOK
-#    key: "HKLM:\\Software\\Exts\\.{{ item }}"    ## NOK
-    value: "(Default)"
-    datatype: string
-    data: "%windir%\\system32\\notepad.exe"
-  with_items: "{{ harden_win_suspicious_ext }}"
-
-- name: disable suspicious executabled file extensions (HKCU)
-  win_regedit:
-    key: "HKCU:\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\FileExts\\.{{ item }}\\OpenWithList"
-    value: "a"
-    datatype: string
-    data: "%windir%\\system32\\notepad.exe"
-  with_items: "{{ harden_win_suspicious_ext }}"
-
 ## Note: HKCR only applies if HKCU doesn't exist. better enforcing with GPO
 - name: disable javascript execution by Windows Script Host (HKCR)
   win_regedit:
@@ -99,14 +80,6 @@
     - "HKCR:\\JSEFile\\shell\\open\\command"
     - "HKCR:\\wshfile\\shell\\open\\command"
     - "HKCR:\\scriptletfile\\shell\\open\\command"  ## default
-
-- name: Update file associations - HKCU
-  win_regedit:
-    key: "HKCU:\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\FileExts\\{{ item.ext }}"
-    value: "(Default)"
-    datatype: string
-    data: "{{ item.path }}"
-  with_items: "{{ harden_win_fileassoc }}"
 
 - name: Update file associations - HKCR
   win_regedit:
@@ -134,14 +107,6 @@
 
 - include: wpad-disable.yml
   when: harden_windows_disable_wpad is defined and harden_windows_disable_wpad
-
-- name: Disable CMD
-  win_regedit:
-    key: HKCU:\Software\Policies\Microsoft\Windows\System
-    value: DisableCMD
-    datatype: dword
-    data: 1
-  when: harden_windows_disable_cmd
 
 ## https://onedrive.live.com/view.aspx?resid=A352EBC5934F0254!3316&ithint=file%2cpptx&app=PowerPoint
 ## https://support.microsoft.com/en-us/help/2871997/microsoft-security-advisory-update-to-improve-credentials-protection-and-management-may-13,-2014
@@ -279,3 +244,8 @@
     - { k: 'HKLM:\SYSTEM\CurrentControlSet\Control\SecurityProviders\SCHANNEL\Protocols\SSL 3.0\Server', v: 'Enabled', d: 1 }
 
 - include: dc-ldap-signing.yml
+
+- include: windows-registry-hkcu.yml
+  become: yes
+  become_user: "{{ item }}"
+  with_items: "{{ harden_win_registry_hkcu_users }}"

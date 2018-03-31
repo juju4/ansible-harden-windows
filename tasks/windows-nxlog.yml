@@ -14,6 +14,12 @@
     path: "{{ harden_win_temp_dir }}\\{{ harden_win_remotelogging_nxlog_url | basename }}"
     wait: true
 
+- name: Ensure nxlog service is enabled and started
+  win_service:
+    name: nxlog
+    state: started
+    start_mode: auto
+
 ## nxlog configuration or graylog sidecar?
 ## https://github.com/SMAPPER/NXLog-AutoConfig
 ## http://www.systeen.com/2016/05/12/install-graylog-2-0-centos-7-collect-windows-logs/

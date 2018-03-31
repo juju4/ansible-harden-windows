@@ -1,0 +1,41 @@
+---
+
+## https://bluesoul.me/2016/05/12/use-gpo-to-change-the-default-behavior-of-potentially-malicious-file-extensions/
+## HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\FileExts\
+## \HKEY_CLASSES_ROOT\Software\Microsoft\Windows\CurrentVersion\Explorer\FileExts
+## Partially covered if Windows Script Host is disabled
+## FIXME! NOK
+- name: disable suspicious executabled file extensions (HKCU)
+  win_regedit:
+#    key: HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\FileExts\.hta
+    key: "HKCU:\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\FileExts\\.{{ item }}"
+#    key: "HKLM:\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\FileExts\\.{{ item }}"    ## NOK
+#    key: "HKLM:\\Software\\Exts\\.{{ item }}"    ## NOK
+    value: "(Default)"
+    datatype: string
+    data: "%windir%\\system32\\notepad.exe"
+  with_items: "{{ harden_win_suspicious_ext }}"
+
+- name: disable suspicious executabled file extensions (HKCU)
+  win_regedit:
+    key: "HKCU:\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\FileExts\\.{{ item }}\\OpenWithList"
+    value: "a"
+    datatype: string
+    data: "%windir%\\system32\\notepad.exe"
+  with_items: "{{ harden_win_suspicious_ext }}"
+
+- name: Update file associations - HKCU
+  win_regedit:
+    key: "HKCU:\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\FileExts\\{{ item.ext }}"
+    value: "(Default)"
+    datatype: string
+    data: "{{ item.path }}"
+  with_items: "{{ harden_win_fileassoc }}"
+
+- name: Disable CMD
+  win_regedit:
+    key: HKCU:\Software\Policies\Microsoft\Windows\System
+    value: DisableCMD
+    datatype: dword
+    data: 1
+  when: harden_windows_disable_cmd

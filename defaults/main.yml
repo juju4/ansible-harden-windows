@@ -11,6 +11,8 @@ harden_win_log_dir: 'c:\ProgramData\ansible\log'
 harden_win_securityupdates: false
 harden_win_services: true
 harden_win_registry: true
+harden_win_registry_hkcu_users:
+  - Administrator
 harden_win_gpo_local: true
 harden_win_gpo_inf: win7-computer-security.inf
 harden_win_gpo_db: "c:\\windows\\security\\database\\newdb.sdb"
