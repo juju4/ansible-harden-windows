@@ -10,6 +10,7 @@ init:
 environment:
   winrm_user: winrm_test_user
   winrm_password: WinRM_test_Pass@w0rd1
+  APPVEYOR_RDP_PASSWORD: WinRM_test_Pass@w0rd1
   user_cert: c:\projects\ansible-harden-windows\user.pem
   user_key: c:\projects\ansible-harden-windows\key.pem
   user_pfx: c:\projects\ansible-harden-windows\user.pfx

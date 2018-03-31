@@ -247,5 +247,6 @@
 
 - include: windows-registry-hkcu.yml
   become: yes
-  become_user: "{{ item }}"
+  become_user: "{{ item.u }}"
+  become_pass: "{{ item.p }}"
   with_items: "{{ harden_win_registry_hkcu_users }}"
