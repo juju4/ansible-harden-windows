@@ -126,6 +126,9 @@ on_failure:
     Get-WinEvent -LogName 'Microsoft-Windows-AppLocker/EXE and DLL' | Where { $_.ID -eq 8004 }
     True
 
+on_finish:
+- cmd: c:\opscode\inspec\bin\inspec.bat exec https://github.com/juju4/windows-baseline/
+
 notifications:
 - provider: Email
   to:
