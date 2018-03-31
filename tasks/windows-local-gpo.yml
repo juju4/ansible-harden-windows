@@ -20,6 +20,8 @@
 - name: load gpo configuration locally
 #  raw: "secedit /configure /cfg {{ harden_win_temp_dir }}\\{{ harden_win_gpo_inf | regex_replace('.j2$', '') }} /db {{ harden_win_gpo_db }} /log {{ harden_win_gpo_log }} /quiet"
   win_command: "secedit /configure /cfg {{ harden_win_temp_dir }}\\{{ harden_win_gpo_inf | regex_replace('.j2$', '') }} /db {{ harden_win_gpo_db }} /log {{ harden_win_gpo_log }} /quiet"
+  args:
+    creates: "{{ harden_win_gpo_log }}"
   ignore_errors: true
 ## require Windows Script Host
 #  raw: "msiexec /qb /i c:\Program Files (x86)\Microsoft Security Compliance Manager\LGPO\LocalGPO.msi"
