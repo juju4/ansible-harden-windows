@@ -2,7 +2,7 @@
 
 - set_fact:
     harden_win_registry_hkcu_users: [ 'winrm_test_user', 'appveyor']
-  when: ansible_env['APPVEYOR']
+  when: (ansible_env is defined and ansible_env.APPVEYOR is defined and ansible_env.APPVEYOR) or ansible_user == 'winrm_test_user'
 
 - name: Windows | Harden
   include: windows.yml
