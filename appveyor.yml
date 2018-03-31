@@ -127,6 +127,17 @@ on_failure:
     True
 
 on_finish:
+- ps: |
+    Get-ChildItem -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\FileExts\.hta" -Recurse
+    Get-PSDrive -PSProvider Registry
+    New-PSDrive -Name HKCR -PSProvider Registry -Root Registry::HKEY_CLASSES_ROOT
+    Get-ChildItem -Path "HKCR:\htafile\shell\open\command" -Recurse
+    Get-ChildItem -Path "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\ProfileList"
+    New-PSDrive -Name HKU -PSProvider Registry -Root Registry::HKEY_USERS
+    Get-ChildItem -Path "HKU:\*\Software\Microsoft\Windows\CurrentVersion\Explorer\FileExts\.hta" -Recurse
+    Get-ChildItem -Path "HKLM:\SOFTWARE\Microsoft\Office\16.0\Common\COM Compatibility\{0002CE02-0000- 0000-C000-000000000046}"
+    Get-ChildItem -Path "HKLM:\SYSTEM\CurrentControlSet\Control\SecurityProviders\SCHANNEL\Protocols\SSL 2.0\Server"
+    True
 - cmd: c:\opscode\inspec\bin\inspec.bat exec https://github.com/juju4/windows-baseline/ || exit 0
 
 notifications:
