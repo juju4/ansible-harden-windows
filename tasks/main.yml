@@ -1,5 +1,9 @@
 ---
 
+- set_fact:
+    harden_win_registry_hkcu_users: [ 'winrm_test_user', 'appveyor']
+  when: ansible_env['APPVEYOR']
+
 - name: Windows | Harden
   include: windows.yml
   when: ansible_os_family == "Windows"

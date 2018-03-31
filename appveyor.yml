@@ -30,7 +30,7 @@ environment:
     CYG_CACHE: C:\cygwin64\var\cache\setup
     CYG_BASH: C:\cygwin64\bin\sh
     ANSIBLE_VERSION: 2.4.3.0
-    ANSIBLE_EXTRA_VARS: "--extra-vars=\\\"{'harden_win_registry_hkcu_users': ['winrm_test_user','appveyor']}\\\""
+    ANSIBLE_EXTRA_VARS:
     SUITE: default
   - TARGET: cygwin64
     CYG_ROOT: C:\cygwin64
@@ -38,7 +38,7 @@ environment:
     CYG_CACHE: C:\cygwin64\var\cache\setup
     CYG_BASH: C:\cygwin64\bin\sh
     ANSIBLE_VERSION: 2.5.0b2
-    ANSIBLE_EXTRA_VARS: "--extra-vars=\\\"{'harden_win_registry_hkcu_users': ['winrm_test_user','appveyor']}\\\""
+    ANSIBLE_EXTRA_VARS:
     SUITE: default
   - TARGET: cygwin64
     CYG_ROOT: C:\cygwin64
@@ -46,7 +46,7 @@ environment:
     CYG_CACHE: C:\cygwin64\var\cache\setup
     CYG_BASH: C:\cygwin64\bin\sh
     ANSIBLE_VERSION: 2.5.0b2
-    ANSIBLE_EXTRA_VARS: "--extra-vars=\\\"{'harden_win_registry_hkcu_users': ['winrm_test_user','appveyor']}\\\""
+    ANSIBLE_EXTRA_VARS:
     SUITE: full
 matrix:
   fast_finish: true
