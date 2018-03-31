@@ -127,7 +127,7 @@ on_failure:
     True
 
 on_finish:
-- cmd: c:\opscode\inspec\bin\inspec.bat exec https://github.com/juju4/windows-baseline/
+- cmd: c:\opscode\inspec\bin\inspec.bat exec https://github.com/juju4/windows-baseline/ || exit 0
 
 notifications:
 - provider: Email
