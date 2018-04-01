@@ -1,10 +1,9 @@
 ---
 
-- set_fact:
-    harden_win_registry_hkcu_users:
-      - { u: 'winrm_test_user', p: 'WinRM_test_Pass@w0rd1' }
-      - { u: 'appveyor', p: 'WinRM_test_Pass@w0rd1' }
+- include_vars: appveyor.yml
   when: (ansible_env is defined and ansible_env.APPVEYOR is defined and ansible_env.APPVEYOR) or ansible_user == 'winrm_test_user'
+- include_vars: vagrant.yml
+  when: ansible_user == 'vagrant'
 
 - name: Windows | Harden
   include: windows.yml

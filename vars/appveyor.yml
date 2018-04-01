@@ -1,0 +1,5 @@
+---
+
+harden_win_registry_hkcu_users:
+  - { u: "{{ ansible_hostname }}\\winrm_test_user", p: 'WinRM_test_Pass@w0rd1' }
+  - { u: "{{ ansible_hostname }}\\appveyor", p: 'WinRM_test_Pass@w0rd1' }

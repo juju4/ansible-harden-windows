@@ -1,0 +1,4 @@
+---
+
+harden_win_registry_hkcu_users:
+  - { u: "{{ ansible_hostname }}\\vagrant", p: 'vagrant' }
