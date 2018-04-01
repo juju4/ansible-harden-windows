@@ -245,6 +245,9 @@
 
 - include: dc-ldap-signing.yml
 
+- include: windows-wsus.yml
+  when: harden_win_wsus_enable
+
 - block:
     - include: windows-registry-hkcu.yml
       become: yes

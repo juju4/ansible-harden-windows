@@ -1,0 +1,34 @@
+---
+
+- name: WSUS | Configure WUServer
+  win_regedit:
+    key: HKLM:\Software\Policies\Microsoft\Windows\WindowsUpdate
+    value: WUServer
+    data: "{{ harden_win_wsus_server }}"
+    datatype: string
+
+- name: WSUS | Configure WUStatusServer
+  win_regedit:
+    key: HKLM:\Software\Policies\Microsoft\Windows\WindowsUpdate
+    value: WUStatusServer
+    data: "{{ harden_win_wsus_server }}"
+    datatype: string
+
+- name: WSUS | Configure who can approve updates
+  win_regedit:
+    key: HKLM:\Software\Policies\Microsoft\Windows\WindowsUpdate
+    value: ElevateNonAdmins
+    data: "{{ harden_win_wsus_elevatenonadmins }}"
+    datatype: dword
+
+- name: WSUS | Configure Automatic updates
+  win_regedit:
+    key: HKLM:\Software\Policies\Microsoft\Windows\WindowsUpdate\AU
+    value: "{{ item.v }}"
+    data: "{{ item.d }}"
+    datatype: dword
+  with_items:
+    - { v: AUOptions, d: "{{ harden_win_wsus_AUOptions }}" }
+    - { v: NoAutoUpdate, d: "{{ harden_win_wsus_NoAutoUpdate }}" }
+    - { v: RebootWarningTimeoutEnabled, d: "{{ harden_win_wsus_RebootWarningTimeoutEnabled }}" }
+    - { v: UseWUServer, d: 1 }

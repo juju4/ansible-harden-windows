@@ -453,6 +453,13 @@ harden_win_extra_reg:
 #  - directory_prompt_git.reg
   - run-no-uac.reg
 
+harden_win_wsus_enable: true
+harden_win_wsus_server: 'https://wsus.example.com'
+harden_win_wsus_elevatenonadmins: 0
+harden_win_wsus_AUOptions: 3
+harden_win_wsus_NoAutoUpdate: 0
+harden_win_wsus_RebootWarningTimeoutEnabled: 1
+
 harden_win_testing_inspec: false
 harden_win_testing_uac: false
 harden_win_testing_opf: false
