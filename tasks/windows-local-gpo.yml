@@ -42,6 +42,7 @@
 - block:
 # https://blogs.msdn.microsoft.com/powershell/2017/02/21/managing-security-settings-on-nano-server-with-dsc/
 # https://docs.ansible.com/ansible/latest/modules/win_dsc_module.html   2.4+
+# FIXME! 'Resource SecurityPolicyDSC not found' but in appveyor, loaded by win-powershell without error
     - name: load gpo configuration locally - DSC
       win_dsc:
         resource_name: SecurityPolicyDSC
