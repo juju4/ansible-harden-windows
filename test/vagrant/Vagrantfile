@@ -50,8 +50,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 # $ nc -z -w1 localhost 55985; echo $?
 # $ openssl s_client -connect localhost:55986 -showcerts </dev/null 2>/dev/null|openssl x509 -outform PEM
 # $ ansible -i .vagrant/provisioners/ansible/inventory/vagrant_ansible_inventory -m win_ping -e ansible_winrm_server_cert_validation=ignore all
-# $ ansible -i .vagrant/provisioners/ansible/inventory/vagrant_ansible_inventory -m win_ping -e ansible_winrm_server_cert_validation=ignore -e ansible_ssh_port=55986 all
-# $ ansible-playbook -i .vagrant/provisioners/ansible/inventory/vagrant_ansible_inventory -e ansible_winrm_server_cert_validation=ignore -e ansible_ssh_port=55986 site.yml
+# $ ansible -i .vagrant/provisioners/ansible/inventory/vagrant_ansible_inventory -m win_ping -e ansible_winrm_server_cert_validation=ignore -e ansible_port=55986 all
+# $ ansible-playbook -i .vagrant/provisioners/ansible/inventory/vagrant_ansible_inventory -e ansible_winrm_server_cert_validation=ignore -e ansible_port=55986 site.yml
 
     config.vm.provision :ansible do |ansible|
        ansible.playbook = "site.yml"
