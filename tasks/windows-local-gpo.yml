@@ -39,6 +39,18 @@
       win_shell: "Restore-SecurityPolicy -Path \"{{ harden_win_temp_dir }}\\{{ harden_win_gpo_inf | regex_replace('.j2$', '') }}\""
   when: harden_win_gpo_local_action == 'ps'
 
+- block:
+# https://blogs.msdn.microsoft.com/powershell/2017/02/21/managing-security-settings-on-nano-server-with-dsc/
+# https://docs.ansible.com/ansible/latest/modules/win_dsc_module.html   2.4+
+    - name: load gpo configuration locally - DSC
+      win_dsc:
+        resource_name: SecurityPolicyDSC
+        Ensure: Present
+        Name: SecurityTemplate
+        Path: "{{ harden_win_temp_dir }}\\{{ harden_win_gpo_inf | regex_replace('.j2$', '') }}"
+        IsSingleInstance: "Yes"
+  when: harden_win_gpo_local_action == 'dsc'
+
 ## Microsoft Security Compliance Manager, https://technet.microsoft.com/library/cc677002.aspx
 ## https://technet.microsoft.com/en-us/library/jj966254%28v=ws.11%29.aspx
 

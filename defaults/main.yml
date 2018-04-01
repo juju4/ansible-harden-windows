@@ -15,7 +15,8 @@ harden_win_registry_hkcu_users:
   - Administrator
 harden_win_gpo_local: true
 #harden_win_gpo_local_action: 'secedit'
-harden_win_gpo_local_action: 'ps'
+#harden_win_gpo_local_action: 'ps'
+harden_win_gpo_local_action: 'dsc'
 harden_win_gpo_inf: win7-computer-security.inf
 harden_win_gpo_db: "c:\\windows\\security\\database\\newdb.sdb"
 harden_win_gpo_log: "{{ harden_win_log_dir }}\\secedit.txt"
