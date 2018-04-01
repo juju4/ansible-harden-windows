@@ -17,19 +17,27 @@
 
 ## Windows Server 2003, Windows Server 2003 R2, Windows Server 2003 with SP1, Windows Server 2003 with SP2
 ## https://technet.microsoft.com/en-ca/library/cc776625%28v=ws.10%29.aspx
-- name: load gpo configuration locally
-  win_command: "secedit /configure /cfg {{ harden_win_temp_dir }}\\{{ harden_win_gpo_inf | regex_replace('.j2$', '') }} /db {{ harden_win_gpo_db }} /log {{ harden_win_gpo_log }}"
-  args:
-    creates: "{{ harden_win_gpo_log }}"
-  ignore_errors: true
+- block:
+    - name: load gpo configuration locally - secedit
+      win_command: "secedit /configure /cfg {{ harden_win_temp_dir }}\\{{ harden_win_gpo_inf | regex_replace('.j2$', '') }} /db {{ harden_win_gpo_db }} /log {{ harden_win_gpo_log }} /verbose"
+      args:
+        creates: "{{ harden_win_gpo_log }}"
+      ignore_errors: true
 ## require Windows Script Host
 #  raw: "msiexec /qb /i c:\Program Files (x86)\Microsoft Security Compliance Manager\LGPO\LocalGPO.msi"
 #  raw: "csript c:\Program Files (x86)\LocalGPO\LocalGPO.wsf"
 
-- name: Check secedit log file
-  win_shell: "Get-Content -Path {{ harden_win_gpo_log }}"
-  changed_when: false
-  ignore_errors: true
+    - name: Check secedit log file
+      win_shell: "Get-Content -Path {{ harden_win_gpo_log }}"
+      changed_when: false
+      ignore_errors: true
+  when: harden_win_gpo_local_action == 'secedit'
+
+- block:
+# https://blogs.msdn.microsoft.com/powershell/2016/05/20/new-group-policy-cmdlets-for-nano-server/
+    - name: load gpo configuration locally - Restore-SecurityPolicy
+      win_shell: "Restore-SecurityPolicy -Path \"{{ harden_win_temp_dir }}\\{{ harden_win_gpo_inf | regex_replace('.j2$', '') }}\""
+  when: harden_win_gpo_local_action == 'ps'
 
 ## Microsoft Security Compliance Manager, https://technet.microsoft.com/library/cc677002.aspx
 ## https://technet.microsoft.com/en-us/library/jj966254%28v=ws.11%29.aspx
