@@ -45,7 +45,8 @@ harden_win_inf_SeTcbPrivilege_list: []
 harden_win_inf_SeMachineAccountPrivilege_list: [ 'Administrators' ]
 harden_win_inf_SeTrustedCredManAccessPrivilege_list: []
 harden_win_inf_SeNetworkLogonRight_list: [ 'Administrators' ]
-harden_win_inf_SeDenyNetworkLogonRight_list: [ 'Guests', 'Power Users', 'Domain Admins', 'Enterprise Admins' ]
+#harden_win_inf_SeDenyNetworkLogonRight_list: [ 'Guests', 'Power Users', 'DOMAIN\Domain Admins', 'DOMAIN\Enterprise Admins' ]
+harden_win_inf_SeDenyNetworkLogonRight_list: [ 'Guests', 'Power Users' ]
 ## Note: this one corrupts win10 eval currently...
 harden_win_lsa_harden: false
 ## win7
