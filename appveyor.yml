@@ -31,7 +31,7 @@ environment:
     CYG_CACHE: C:\cygwin64\var\cache\setup
     CYG_BASH: C:\cygwin64\bin\sh
     ANSIBLE_VERSION: 2.4.3.0
-    ANSIBLE_EXTRA_VARS: "-e harden_win_gpo_local_action='secedit'"
+    ANSIBLE_EXTRA_VARS:
     SUITE: default
   - TARGET: cygwin64
     CYG_ROOT: C:\cygwin64
@@ -39,7 +39,7 @@ environment:
     CYG_CACHE: C:\cygwin64\var\cache\setup
     CYG_BASH: C:\cygwin64\bin\sh
     ANSIBLE_VERSION: 2.5.0
-    ANSIBLE_EXTRA_VARS: "-e harden_win_gpo_local_action='secedit'"
+    ANSIBLE_EXTRA_VARS:
     SUITE: default
   - TARGET: cygwin64
     CYG_ROOT: C:\cygwin64
@@ -47,8 +47,7 @@ environment:
     CYG_CACHE: C:\cygwin64\var\cache\setup
     CYG_BASH: C:\cygwin64\bin\sh
     ANSIBLE_VERSION: 2.5.0
-# DSC requires win-powershell first with extra psmodules
-    ANSIBLE_EXTRA_VARS: "-e harden_win_gpo_local_action='dsc'"
+    ANSIBLE_EXTRA_VARS:
     SUITE: full
 matrix:
   fast_finish: true

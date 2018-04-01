@@ -52,6 +52,120 @@
         IsSingleInstance: "Yes"
   when: harden_win_gpo_local_action == 'dsc'
 
+- block:
+# https://docs.ansible.com/ansible/devel/modules/win_security_policy_module.html
+    - name: Disable Guest account
+      win_security_policy:
+        section: System Access
+        key: EnableGuestAccount
+        value: 0
+
+    - name: Disable LSAAnonymousNameLookup
+      win_security_policy:
+        section: System Access
+        key: LSAAnonymousNameLookup
+        value: 0
+
+    - name: Set MinimumPasswordAge
+      win_security_policy:
+        section: System Access
+        key: MinimumPasswordAge
+        value: "{{ harden_win_inf_MinimumPasswordAge }}"
+
+    - name: Set MaximumPasswordAge
+      win_security_policy:
+        section: System Access
+        key: MaximumPasswordAge
+        value: "{{ harden_win_inf_MaximumPasswordAge }}"
+
+    - name: Set MinimumPasswordLength
+      win_security_policy:
+        section: System Access
+        key: MinimumPasswordLength
+        value: "{{ harden_win_inf_MinimumPasswordLength }}"
+
+    - name: Set PasswordComplexity
+      win_security_policy:
+        section: System Access
+        key: PasswordComplexity
+        value: "{{ harden_win_inf_PasswordComplexity }}"
+
+    - name: Set PasswordHistorySize
+      win_security_policy:
+        section: System Access
+        key: PasswordHistorySize
+        value: "{{ harden_win_inf_PasswordHistorySize }}"
+
+    - name: Set LockoutBadCount
+      win_security_policy:
+        section: System Access
+        key: LockoutBadCount
+        value: "{{ harden_win_inf_LockoutBadCount }}"
+
+    - name: Set ResetLockoutCount
+      win_security_policy:
+        section: System Access
+        key: ResetLockoutCount
+        value: "{{ harden_win_inf_ResetLockoutCount }}"
+
+    - name: Set LockoutDuration
+      win_security_policy:
+        section: System Access
+        key: LockoutDuration
+        value: "{{ harden_win_inf_LockoutDuration }}"
+
+    - name: Set Take ownership of files or other objects
+      win_user_right:
+        name: SeTakeOwnershipPrivilege
+        users:
+          - Administrators
+        action: set
+
+    - name: replace the entries of Deny log on locally
+      win_user_right:
+        name: SeDenyInteractiveLogonRight
+        users:
+          - Guest
+        action: set
+
+    - name: Set account to log on remotely using the interactive logon type.
+      win_user_right:
+        name: SeRemoteInteractiveLogonRight
+        users: "{{ harden_win_inf_SeRemoteInteractiveLogonRight_list }}"
+        action: set
+
+    - name: Set account to log on remotely using the interactive logon type.
+      win_user_right:
+        name: SeTrustedCredManAccessPrivilege
+        users: "{{ harden_win_inf_SeTrustedCredManAccessPrivilege_list }}"
+        action: set
+
+    - name: Set account to log on using the network logon type
+      win_user_right:
+        name: SeNetworkLogonRight
+        users: "{{ harden_win_inf_SeNetworkLogonRight_list }}"
+        action: set
+
+    - name: Set Explicitly denies an account the right to log on using the network logon type.
+      win_user_right:
+        name: SeDenyNetworkLogonRight
+        users: "{{ harden_win_inf_SeDenyNetworkLogonRight_list }}"
+        action: set
+
+    - name: Set Act as part of the operating system
+      win_user_right:
+        name: SeTcbPrivilege
+        users: "{{ harden_win_inf_SeTcbPrivilege_list }}"
+        action: set
+
+    - name: Set Add workstations to domain
+      win_user_right:
+        name: SeMachineAccountPrivilege
+        users: "{{ harden_win_inf_SeMachineAccountPrivilege_list }}"
+        action: set
+
+  when: harden_win_gpo_local_action == 'security_policy'
+
 ## Microsoft Security Compliance Manager, https://technet.microsoft.com/library/cc677002.aspx
 ## https://technet.microsoft.com/en-us/library/jj966254%28v=ws.11%29.aspx
 
