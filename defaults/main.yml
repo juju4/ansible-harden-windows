@@ -32,7 +32,7 @@ harden_win_inf_LockoutBadCount: 4
 harden_win_inf_ResetLockoutCount: 15
 harden_win_inf_LockoutDuration: 15
 ## https://support.microsoft.com/en-us/help/243330/well-known-security-identifiers-in-windows-operating-systems
-## S-1-0-0=Nobody (ansible: use SID), S-1-5-32-544=Administrators, S-1-5-32-545=Users
+## S-1-0-0=Nobody (empty for ansible), S-1-5-32-544=Administrators, S-1-5-32-545=Users
 harden_win_inf_SeRemoteInteractiveLogonRight: '*S-1-5-32-544'
 harden_win_inf_SeTcbPrivilege: '*S-1-0-0'
 harden_win_inf_SeMachineAccountPrivilege: '*S-1-5-32-544'
@@ -40,11 +40,11 @@ harden_win_inf_SeTrustedCredManAccessPrivilege: '*S-1-0-0'
 ## Warning: Removing administrators here might impact your ansible/winrm connection. Be cautious!
 #harden_win_inf_SeNetworkLogonRight: '*S-1-5-32-545,*S-1-5-32-544'
 harden_win_inf_SeNetworkLogonRight: '*S-1-0-0,*S-1-5-32-544'
-harden_win_inf_SeRemoteInteractiveLogonRight_list: [ 'S-1-0-0' ]
-harden_win_inf_SeTcbPrivilege_list: [ 'S-1-0-0' ]
+harden_win_inf_SeRemoteInteractiveLogonRight_list: [ 'Administrators' ]
+harden_win_inf_SeTcbPrivilege_list: []
 harden_win_inf_SeMachineAccountPrivilege_list: [ 'Administrators' ]
-harden_win_inf_SeTrustedCredManAccessPrivilege_list: [ 'S-1-0-0' ]
-harden_win_inf_SeNetworkLogonRight_list: [ 'S-1-0-0' ]
+harden_win_inf_SeTrustedCredManAccessPrivilege_list: []
+harden_win_inf_SeNetworkLogonRight_list: [ 'Administrators' ]
 #harden_win_inf_SeDenyNetworkLogonRight_list: [ 'Guests', 'Power Users', 'DOMAIN\Domain Admins', 'DOMAIN\Enterprise Admins' ]
 harden_win_inf_SeDenyNetworkLogonRight_list: [ 'Guests', 'Power Users' ]
 ## Note: this one corrupts win10 eval currently...
