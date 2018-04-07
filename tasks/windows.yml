@@ -19,6 +19,19 @@
     - "{{ harden_win_log_dir }}"
   ignore_errors: true
 
+- name: Restrict permissions for ansible directories
+  win_acl:
+    path: "{{ item.p }}"
+    user: "{{ item.u }}"
+    rights: "{{ item.r }}"
+    type: "{{ item.t }}"
+    state: "{{ item.s }}"
+    inherit: "{{ item.i }}"
+    propagation: "{{ item.p }}"
+  with_items:
+    - { p: "{{ harden_win_temp_dir }}", u: 'BUILTIN\Users', r: 'ReadAndExecute,Write', t: allow, s: absent, i: 'ContainerInherit, ObjectInherit', p: 'InheritOnly' }
+    - { p: "{{ harden_win_log_dir }}", u: 'BUILTIN\Users', r: 'ReadAndExecute,Write', t: allow, s: absent, i: 'ContainerInherit, ObjectInherit', p: 'InheritOnly' }
+
 ## [WARNING]: Module invocation had junk after the JSON data:
 - name: Install all security/critical updates
   win_updates:
