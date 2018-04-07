@@ -45,8 +45,22 @@ harden_win_inf_SeTcbPrivilege_list: []
 harden_win_inf_SeMachineAccountPrivilege_list: [ 'Administrators' ]
 harden_win_inf_SeTrustedCredManAccessPrivilege_list: []
 harden_win_inf_SeNetworkLogonRight_list: [ 'Administrators' ]
-#harden_win_inf_SeDenyNetworkLogonRight_list: [ 'Guests', 'Power Users', 'DOMAIN\Domain Admins', 'DOMAIN\Enterprise Admins' ]
+# https://www.stigviewer.com/stig/windows_10/2016-11-03/finding/V-63871
+#harden_win_inf_SeDenyNetworkLogonRight_list: [ 'Guests', 'Power Users', 'Local account', 'DOMAIN\Domain Admins', 'DOMAIN\Enterprise Admins' ]
 harden_win_inf_SeDenyNetworkLogonRight_list: [ 'Guests', 'Power Users' ]
+# https://www.stigviewer.com/stig/windows_10/2016-11-03/finding/V-63865
+harden_win_inf_SeCreateSymbolicLinkPrivilege_list: [ 'Administrators' ]
+harden_win_inf_SeBatchLogonRight_list: []
+# https://www.stigviewer.com/stig/windows_10/2017-04-28/finding/V-63873
+#harden_win_inf_SeDenyBatchLogonRight_list: [ 'DOMAIN\Domain Admins', 'DOMAIN\Enterprise Admins' ]
+harden_win_inf_SeDenyBatchLogonRight_list: []
+# https://www.stigviewer.com/stig/windows_7/2014-04-02/finding/V-26485
+#harden_win_inf_SeDenyInteractiveLogonRight_list: [ 'Guests', 'DOMAIN\Domain Admins', 'DOMAIN\Enterprise Admins' ]
+harden_win_inf_SeDenyInteractiveLogonRight_list: [ 'Guests' ]
+# https://www.stigviewer.com/stig/windows_10/2015-11-30/finding/V-63879
+#harden_win_inf_SeDenyRemoteInteractiveLogonRight_list: [ 'Guests', 'DOMAIN\Domain Admins', 'DOMAIN\Enterprise Admins' ]
+harden_win_inf_SeDenyRemoteInteractiveLogonRight_list: [ 'Guests' ]
+
 ## Note: this one corrupts win10 eval currently...
 harden_win_lsa_harden: false
 ## win7

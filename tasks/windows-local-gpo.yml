@@ -140,6 +140,9 @@
         users: "{{ harden_win_inf_SeTrustedCredManAccessPrivilege_list }}"
         action: set
 
+    - set_fact:
+        harden_win_inf_SeNetworkLogonRight_list: "{{ harden_win_inf_SeNetworkLogonRight_list }} + [ '_test' ]"
+      when: harden_win_testing
     - name: Set account to log on using the network logon type
       win_user_right:
         name: SeNetworkLogonRight
@@ -162,6 +165,36 @@
       win_user_right:
         name: SeMachineAccountPrivilege
         users: "{{ harden_win_inf_SeMachineAccountPrivilege_list }}"
+        action: set
+
+    - name: Set Create symbolic links
+      win_user_right:
+        name: SeCreateSymbolicLinkPrivilege
+        users: "{{ harden_win_inf_SeCreateSymbolicLinkPrivilege_list }}"
+        action: set
+
+    - name: add account to Log on as a service
+      win_user_right:
+        name: SeBatchLogonRight
+        users: "{{ harden_win_inf_SeBatchLogonRight_list }}"
+        action: set
+
+    - name: add account to Deny log on as a batch job
+      win_user_right:
+        name: SeDenyBatchLogonRight
+        users: "{{ harden_win_inf_SeDenyBatchLogonRight_list }}"
+        action: set
+
+    - name: add account to Deny log on locally
+      win_user_right:
+        name: SeDenyInteractiveLogonRight
+        users: "{{ harden_win_inf_SeDenyInteractiveLogonRight_list }}"
+        action: set
+
+    - name: add account to Deny log on through Remote Desktop Services
+      win_user_right:
+        name: SeDenyRemoteInteractiveLogonRight
+        users: "{{ harden_win_inf_SeDenyRemoteInteractiveLogonRight_list }}"
         action: set
 
   when: harden_win_gpo_local_action == 'security_policy'
