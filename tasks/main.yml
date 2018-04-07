@@ -10,3 +10,4 @@
   when: ansible_os_family == "Windows"
 
 - include: testing.yml
+  when: harden_win_testing

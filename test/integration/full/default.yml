@@ -48,6 +48,7 @@
         - 'c:\windows\Microsoft.NET\Framework\v4.0.30319\regasm.exe'
         - 'c:\windows\Microsoft.NET\Framework64\v4.0.30319\regasm.exe'
     - win_testing_applocker: false
+    - harden_win_testing: true
     - harden_win_testing_inspec: true
     - harden_win_testing_uac: false
     - harden_win_testing_opf: false

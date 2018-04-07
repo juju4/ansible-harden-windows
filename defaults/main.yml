@@ -485,6 +485,7 @@ harden_win_wsus_AUOptions: 3
 harden_win_wsus_NoAutoUpdate: 0
 harden_win_wsus_RebootWarningTimeoutEnabled: 1
 
+harden_win_testing: false
 harden_win_testing_inspec: false
 harden_win_testing_uac: false
 harden_win_testing_opf: false
