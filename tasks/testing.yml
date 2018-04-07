@@ -6,6 +6,18 @@
         name: inspec
         state: present
 
+    - name: Restrict permissions for inspec directories
+      win_acl:
+        path: "{{ item.p }}"
+        user: "{{ item.u }}"
+        rights: "{{ item.r }}"
+        type: "{{ item.t }}"
+        state: "{{ item.s }}"
+        inherit: "{{ item.i }}"
+        propagation: "{{ item.p }}"
+      with_items:
+        - { p: "c:\\opscode", u: 'BUILTIN\Users', r: 'write,append', t: allow, s: absent, i: 'ContainerInherit, ObjectInherit', p: 'InheritOnly' }
+
     - name: testing | run windows-baseline
       win_command: "c:\\opscode\\inspec\\bin\\inspec.bat exec https://github.com/juju4/windows-baseline >{{ harden_win_log_dir }}\\inspec.log"
       ignore_errors: true
