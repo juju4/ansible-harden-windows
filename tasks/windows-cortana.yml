@@ -1,5 +1,5 @@
 ---
 
 - name: Win10 | Remove Cortana package
-  win_command: "powershell -Command 'Get-AppxPackage -Name Microsoft.Windows.Cortana | Remove-AppxPackage'"
+  win_shell: "Get-AppxPackage -Name Microsoft.Windows.Cortana | Remove-AppxPackage"
 
