@@ -37,15 +37,6 @@
 - set_fact:
     ansible_become_password: "_Password_CI_CD_to_be_revoked1_"
 
-## FIXME! failing on second pass, https://groups.google.com/forum/#!topic/ansible-project/_ydkYXZibrM
-- name: Ensure user _test is present
-  win_user:
-    name: _test
-    password: "{{ ansible_become_password }}"
-    state: present
-    groups:
-      - Users
-
 - include: testing-uac.yml
   when: harden_win_testing_uac
 
