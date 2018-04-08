@@ -117,6 +117,14 @@
     datatype: dword
     data: 30
 
+# https://www.stigviewer.com/stig/windows_10/2016-11-03/finding/V-63753
+- name: The system must be configured to prevent the storage of passwords and credentials.
+  win_regedit:
+    key: HKLM:\SYSTEM\CurrentControlSet\Control\Lsa
+    value: DisableDomainCreds
+    datatype: dword
+    data: 1
+
 - include: windows-mimikatz.yml
 
 ## https://technet.microsoft.com/en-us/library/cc960646.aspx
@@ -187,6 +195,8 @@
   with_items:
     - { v: NullSessionPipes, t: multistring, d: '', s: absent  }
     - { v: RestrictNullSessAccess, t: dword, d: 1, s: present }
+# https://www.stigviewer.com/stig/windows_10/2016-06-24/finding/V-63723
+    - { v: EnableSecuritySignature, t: dword, d: 1, s: present }
 
 - name: Limit number of cached logon accounts
   win_regedit:
@@ -253,6 +263,50 @@
   with_items:
     - { v: '\\*\NETLOGON', d: 'RequireMutualAuthentication=1, RequireIntegrity=1' }
     - { v: '\\*\SYSVOL', d: 'RequireMutualAuthentication=1, RequireIntegrity=1' }
+
+# https://www.stigviewer.com/stig/windows_10/2015-11-30/finding/V-63545
+# https://www.stigviewer.com/stig/windows_10/2016-06-24/finding/V-63549
+- name: Windows personalization - Disable Camera access and Slideshow from the lock screen
+  win_regedit:
+    key: 'HKLM:\SOFTWARE\Policies\Microsoft\Windows\Personalization'
+    value: "{{ item.v }}"
+    datatype: dword
+    data: "{{ item.d }}"
+  with_items:
+    - { v: 'NoLockScreenCamera', d: 1 }
+    - { v: 'NoLockScreenSlideshow', d: 1 }
+
+# https://www.stigviewer.com/stig/windows_10/2017-02-21/finding/V-63591
+- name: Wi-Fi Sense must be disabled.
+  win_regedit:
+    key: 'HKLM:\SOFTWARE\Microsoft\WcmSvc\wifinetworkmanager\config'
+    value: AutoConnectAllowedOEM
+    datatype: dword
+    data: 0
+
+# https://www.stigviewer.com/stig/windows_10/2017-02-21/finding/V-63667
+- name: Autoplay must be turned off for non-volume devices.
+  win_regedit:
+    key: 'HKLM:\SOFTWARE\Policies\Microsoft\Windows\Explorer'
+    value: NoAutoplayfornonVolume
+    datatype: dword
+    data: 1
+
+# https://www.stigviewer.com/stig/windows_10/2016-06-24/finding/V-63669
+- name: Configure machine inactivity limit and after locking the system with the screensaver.
+  win_regedit:
+    key: 'HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System'
+    value: InactivityTimeoutSecs
+    datatype: dword
+    data: "{{ harden_win_InactivityTimeoutSecs | default(900) }}"
+
+# https://www.stigviewer.com/stig/windows_10/2015-11-30/finding/V-63795
+- name: Kerberos encryption types must be configured to prevent the use of DES and RC4 encryption suites.
+  win_regedit:
+    key: 'HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System\Kerberos\Parameters'
+    value: SupportedEncryptionTypes
+    datatype: dword
+    data: 2147483640
 
 - include: dc-ldap-signing.yml
 

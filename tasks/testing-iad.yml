@@ -48,4 +48,7 @@
   changed_when: false
   ignore_errors: true
 - debug: var=iadresults
-
+- name: IAD | save audit results to file
+  win_copy:
+    content: "{{ iadresults.stdout }}"
+    dest: "{{ harden_win_log_dir }}\\iad-log.txt"

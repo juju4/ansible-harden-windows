@@ -8,6 +8,14 @@
     datatype: dword
   when: not harden_win_rdp_enable
 
+# https://www.stigviewer.com/stig/windows_10/2016-11-03/finding/V-63737
+- name: RDP must require secure RPC communications
+  win_regedit:
+    key: 'HKLM:\SOFTWARE\Policies\Microsoft\Windows NT\Terminal Services'
+    value: fEncryptRPCTraffic
+    data: 1
+    datatype: dword
+
 - name: Enforce Secure RDP connection (default ws2016)
   win_regedit:
     key: 'HKLM:\System\CurrentControlSet\Control\Terminal Server\WinStations\RDP-Tcp'
