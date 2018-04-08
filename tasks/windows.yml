@@ -36,7 +36,7 @@
 - name: Ensure user _test is present
   win_user:
     name: _test
-    password: "{{ ansible_become_password }}"
+    password: "{{ harden_win_test_password }}"
     state: present
     groups:
       - Users

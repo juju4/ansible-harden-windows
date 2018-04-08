@@ -34,9 +34,6 @@
 #- name: Export trusted root certificates
 #  shell: Get-ChildItem -Path cert:\currentuser\AuthRoot -Recurse | select Thumbprint, FriendlyName, Subject | ConvertTo-Html | Set-Content c:\users\public\desktop\certificates.html
 
-- set_fact:
-    ansible_become_password: "_Password_CI_CD_to_be_revoked1_"
-
 - include: testing-uac.yml
   when: harden_win_testing_uac
 
