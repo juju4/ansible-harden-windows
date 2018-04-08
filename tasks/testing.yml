@@ -14,9 +14,9 @@
         type: "{{ item.t }}"
         state: "{{ item.s }}"
         inherit: "{{ item.i }}"
-        propagation: "{{ item.p }}"
+        propagation: "{{ item.pr }}"
       with_items:
-        - { p: "c:\\opscode", u: 'BUILTIN\Users', r: 'write,append', t: allow, s: absent, i: 'ContainerInherit, ObjectInherit', p: 'InheritOnly' }
+        - { p: "c:\\opscode", u: 'BUILTIN\Users', r: 'write,append', t: allow, s: absent, i: 'ContainerInherit, ObjectInherit', pr: 'None' }
 
     - name: testing | run windows-baseline
       win_command: "c:\\opscode\\inspec\\bin\\inspec.bat exec https://github.com/juju4/windows-baseline >{{ harden_win_log_dir }}\\inspec.log"

@@ -27,10 +27,10 @@
     type: "{{ item.t }}"
     state: "{{ item.s }}"
     inherit: "{{ item.i }}"
-    propagation: "{{ item.p }}"
+    propagation: "{{ item.pr }}"
   with_items:
-    - { p: "{{ harden_win_temp_dir }}", u: 'BUILTIN\Users', r: 'ReadAndExecute,Write', t: allow, s: absent, i: 'ContainerInherit, ObjectInherit', p: 'None' }
-    - { p: "{{ harden_win_log_dir }}", u: 'BUILTIN\Users', r: 'ReadAndExecute,Write', t: allow, s: absent, i: 'ContainerInherit, ObjectInherit', p: 'None' }
+    - { p: "{{ harden_win_temp_dir }}", u: 'BUILTIN\Users', r: 'ReadAndExecute,Write', t: allow, s: absent, i: 'ContainerInherit, ObjectInherit', pr: 'None' }
+    - { p: "{{ harden_win_log_dir }}", u: 'BUILTIN\Users', r: 'ReadAndExecute,Write', t: allow, s: absent, i: 'ContainerInherit, ObjectInherit', pr: 'None' }
 
 ## [WARNING]: Module invocation had junk after the JSON data:
 - name: Install all security/critical updates
