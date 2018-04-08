@@ -29,8 +29,8 @@
     inherit: "{{ item.i }}"
     propagation: "{{ item.p }}"
   with_items:
-    - { p: "{{ harden_win_temp_dir }}", u: 'BUILTIN\Users', r: 'ReadAndExecute,Write', t: allow, s: absent, i: 'ContainerInherit, ObjectInherit', p: 'InheritOnly' }
-    - { p: "{{ harden_win_log_dir }}", u: 'BUILTIN\Users', r: 'ReadAndExecute,Write', t: allow, s: absent, i: 'ContainerInherit, ObjectInherit', p: 'InheritOnly' }
+    - { p: "{{ harden_win_temp_dir }}", u: 'BUILTIN\Users', r: 'ReadAndExecute,Write', t: allow, s: absent, i: 'ContainerInherit, ObjectInherit', p: 'None' }
+    - { p: "{{ harden_win_log_dir }}", u: 'BUILTIN\Users', r: 'ReadAndExecute,Write', t: allow, s: absent, i: 'ContainerInherit, ObjectInherit', p: 'None' }
 
 ## [WARNING]: Module invocation had junk after the JSON data:
 - name: Install all security/critical updates
