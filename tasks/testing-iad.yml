@@ -53,6 +53,6 @@
     content: "{{ iadresults.stdout }}"
     dest: "{{ harden_win_log_dir }}\\iad-log.txt"
 - name: IAD | count
-  win_shell: "[regex]::Matches(\"{{ iadresults.stdout }}\", \"{{ item }}\").count"
+  win_shell: "(get-content \"{{ harden_win_log_dir }}\\iad-log.txt\" | select-string -pattern \"{{ item }}\").length"
   changed_when: false
   with_items: [ 'PASSED', 'WARNING', 'FAILED' ]
