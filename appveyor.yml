@@ -120,6 +120,7 @@ after_test:
 #    %CYG_BASH% -lc 'ansible-playbook -i /cygdrive/c/projects/ansible-harden-windows/test/appveyor/inventory /cygdrive/c/projects/ansible-harden-windows/test/integration/$SUITE/default.yml $ANSIBLE_EXTRA_VARS | tee /tmp/idempotency.log | grep -q "changed=0.*failed=0" && (echo "Idempotence test: pass" && exit 0) || (echo "Idempotence test: fail" && cat /tmp/idempotency.log && exit 0)'
 - cmd: |
     %CYG_BASH% -lc 'ansible-playbook -i /cygdrive/c/projects/ansible-harden-windows/test/appveyor/inventory /cygdrive/c/projects/ansible-harden-windows/test/integration/$SUITE/default.yml $ANSIBLE_EXTRA_VARS'
+- cmd: cinst -y notepadplusplus
 
 on_failure:
 #- ps: Get-ChildItem -Recurse -Path "c:\Program Files\ansible"
