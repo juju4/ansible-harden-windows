@@ -2,4 +2,4 @@
 
 - name: Win10 | Remove Cortana package
   win_shell: "Get-AppxPackage -Name Microsoft.Windows.Cortana | Remove-AppxPackage"
-
+  ignore_errors: true
