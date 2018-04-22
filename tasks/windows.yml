@@ -185,6 +185,9 @@
 - include: windows-acl.yml
   when: harden_win_acl
 
+- include: windows-samri.yml
+  when: harden_win_samri
+
 - include: extras.yml
 
 - include: palantir-AutorunsToWinEventLog.yml

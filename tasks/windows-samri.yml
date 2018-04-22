@@ -1,0 +1,21 @@
+---
+# https://gallery.technet.microsoft.com/SAMRi10-Hardening-Remote-48d94b5b
+
+- name: check if SAMRi10 archive is present
+  win_stat: path="{{ harden_win_temp_dir }}\\SAMRi10.zip"
+  register: samridl
+- name: Download SAMRi10
+  win_get_url:
+    url: "https://gallery.technet.microsoft.com/SAMRi10-Hardening-Remote-48d94b5b/file/165593/1/SAMRi10.zip"
+    dest: "{{ harden_win_temp_dir }}\\SAMRi10.zip"
+## FIXME! no checksum option, https://github.com/ansible/ansible-modules-core/issues/4901
+  when: not samridl.stat.exists
+
+- name: Uncompress SAMRi10
+  win_unzip:
+    src: "{{ harden_win_temp_dir }}\\SAMRi10.zip
+    dest: "{{ harden_win_temp_dir }}\\SAMRi10"
+    creates: "{{ harden_win_temp_dir }}\\SAMRi10\\SAMRi10.ps1"
+
+- name: Execute SAMRi10
+  win_shell: "\"{{ harden_win_temp_dir }}\\SAMRi10\\SAMRi10.ps1\""
