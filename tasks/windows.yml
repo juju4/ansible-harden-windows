@@ -182,6 +182,9 @@
 - include: passwd-filters.yml
   when: harden_win_passwd_filters
 
+- include: windows-acl.yml
+  when: harden_win_acl
+
 - include: extras.yml
 
 - include: palantir-AutorunsToWinEventLog.yml
