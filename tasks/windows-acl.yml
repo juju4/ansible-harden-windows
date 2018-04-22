@@ -1,7 +1,7 @@
 ---
 
 # https://www.stigviewer.com/stig/windows_10/2016-11-03/finding/V-63373
-- name: Permissions for system files and directories must conform to minimum requirements. - C:
+- name: Permissions for system files and directories must conform to minimum requirements. - C
   win_acl:
     path: C:\
     user: "{{ item.u }}"
