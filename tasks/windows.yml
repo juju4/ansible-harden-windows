@@ -184,7 +184,7 @@
   when: harden_win_passwd_filters
 
 - include: windows-acl.yml
-  when: harden_win_acl
+  when: not (ansible_env is defined and ansible_env.APPVEYOR is defined and ansible_env.APPVEYOR) and harden_win_acl
 
 - include: windows-samri.yml
   when: harden_win_samri

@@ -17,7 +17,6 @@
     - { u: 'Authenticated Users', r: 'Modify', t: 'allow', i: 'ContainerInherit, ObjectInherit', p: 'InheritOnly', s: present }
 #    - { u: 'Authenticated Users', r: 'CreateDirectories, AppendData', t: 'allow', i: 'None', p: 'NoPropagateInherit', s: present }
     - { u: 'Users', r: 'CreateDirectories, AppendData', t: 'allow', i: 'None', p: 'NoPropagateInherit', s: absent }
-  when: not (ansible_env is defined and ansible_env.APPVEYOR is defined and ansible_env.APPVEYOR)
 
 # https://www.stigviewer.com/stig/windows_10/2015-11-30/finding/V-63593
 - name: Permissions for registry hive must conform to minimum requirements. - HKLM\Security
