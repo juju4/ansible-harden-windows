@@ -32,7 +32,7 @@ harden_win_inf_LockoutBadCount: 4
 harden_win_inf_ResetLockoutCount: 15
 harden_win_inf_LockoutDuration: 15
 ## https://support.microsoft.com/en-us/help/243330/well-known-security-identifiers-in-windows-operating-systems
-## S-1-0-0=Nobody (empty for ansible), S-1-5-32-544=Administrators, S-1-5-32-545=Users
+## S-1-0-0=Nobody ('Null SID' for ansible), S-1-5-32-544=Administrators, S-1-5-32-545=Users
 harden_win_inf_SeRemoteInteractiveLogonRight: '*S-1-5-32-544'
 harden_win_inf_SeTcbPrivilege: '*S-1-0-0'
 harden_win_inf_SeMachineAccountPrivilege: '*S-1-5-32-544'
@@ -41,16 +41,16 @@ harden_win_inf_SeTrustedCredManAccessPrivilege: '*S-1-0-0'
 #harden_win_inf_SeNetworkLogonRight: '*S-1-5-32-545,*S-1-5-32-544'
 harden_win_inf_SeNetworkLogonRight: '*S-1-0-0,*S-1-5-32-544'
 harden_win_inf_SeRemoteInteractiveLogonRight_list: [ 'Administrators' ]
-harden_win_inf_SeTcbPrivilege_list: []
+harden_win_inf_SeTcbPrivilege_list: [ 'Null SID' ]
 harden_win_inf_SeMachineAccountPrivilege_list: [ 'Administrators' ]
-harden_win_inf_SeTrustedCredManAccessPrivilege_list: []
+harden_win_inf_SeTrustedCredManAccessPrivilege_list: [ 'Null SID' ]
 harden_win_inf_SeNetworkLogonRight_list: [ 'Administrators' ]
 # https://www.stigviewer.com/stig/windows_10/2016-11-03/finding/V-63871
 #harden_win_inf_SeDenyNetworkLogonRight_list: [ 'Guests', 'Power Users', 'Local account', 'DOMAIN\Domain Admins', 'DOMAIN\Enterprise Admins' ]
 harden_win_inf_SeDenyNetworkLogonRight_list: [ 'Guests', 'Power Users' ]
 # https://www.stigviewer.com/stig/windows_10/2016-11-03/finding/V-63865
 harden_win_inf_SeCreateSymbolicLinkPrivilege_list: [ 'Administrators' ]
-harden_win_inf_SeBatchLogonRight_list: []
+harden_win_inf_SeBatchLogonRight_list: [ 'Null SID' ]
 # https://www.stigviewer.com/stig/windows_10/2017-04-28/finding/V-63873
 #harden_win_inf_SeDenyBatchLogonRight_list: [ 'DOMAIN\Domain Admins', 'DOMAIN\Enterprise Admins' ]
 harden_win_inf_SeDenyBatchLogonRight_list: []
