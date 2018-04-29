@@ -19,19 +19,20 @@
     - { u: 'Users', r: 'CreateDirectories, AppendData', t: 'allow', i: 'None', p: 'NoPropagateInherit', s: absent }
 
 # https://www.stigviewer.com/stig/windows_10/2015-11-30/finding/V-63593
-- name: Permissions for registry hive must conform to minimum requirements. - HKLM\Security
-  win_acl:
-    path: HKLM:\SECURITY
-    user: "{{ item.u }}"
-    rights: "{{ item.r }}"
-    type: "{{ item.t }}"
-    state: present
-    inherit: "{{ item.i }}"
-    propagation: "{{ item.p }}"
-  with_items:
-# Special?
-    - { u: 'Administrators', r: 'FullControl', t: 'allow', i: 'ContainerInherit, ObjectInherit', p: 'InheritOnly' }
-    - { u: 'SYSTEM', r: 'FullControl', t: 'allow', i: 'ContainerInherit, ObjectInherit', p: 'InheritOnly' }
+# FIXME!
+#- name: Permissions for registry hive must conform to minimum requirements. - HKLM\Security
+#  win_acl:
+#    path: HKLM:\SECURITY
+#    user: "{{ item.u }}"
+#    rights: "{{ item.r }}"
+#    type: "{{ item.t }}"
+#    state: present
+#    inherit: "{{ item.i }}"
+#    propagation: "{{ item.p }}"
+#  with_items:
+## Special?
+#    - { u: 'Administrators', r: 'FullControl', t: 'allow', i: 'ContainerInherit, ObjectInherit', p: 'InheritOnly' }
+#    - { u: 'SYSTEM', r: 'FullControl', t: 'allow', i: 'ContainerInherit, ObjectInherit', p: 'InheritOnly' }
 
 - name: Permissions for registry hive must conform to minimum requirements. - HKLM\Software
   win_acl:
