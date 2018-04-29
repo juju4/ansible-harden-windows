@@ -159,6 +159,42 @@
     datatype: dword
     data: 537395248
 
+# https://www.stigviewer.com/stig/windows_10/2017-04-28/finding/V-63703
+- name: The Windows SMB client must be configured to always perform SMB packet signing.
+  win_regedit:
+    key: HKLM:\SYSTEM\CurrentControlSet\Services\LanmanWorkstation\Parameters
+    value: RequireSecuritySignature
+    datatype: dword
+    data: 1
+
+- name: Services using Local System that use Negotiate when reverting to NTLM authentication must use the computer identity vs. authenticating anonymously.
+  win_regedit:
+    key: HKLM:\SYSTEM\CurrentControlSet\Control\LSA
+    value: UseMachineId
+    datatype: dword
+    data: 1
+
+- name: NTLM must be prevented from falling back to a Null session.
+  win_regedit:
+    key: HKLM:\SYSTEM\CurrentControlSet\Control\LSA\MSV1_0
+    value: allownullsessionfallback
+    datatype: dword
+    data: 0
+
+- name: PKU2U authentication using online identities must be prevented.
+  win_regedit:
+    key: HKLM:\SYSTEM\CurrentControlSet\Control\LSA\pku2u
+    value: AllowOnlineID
+    datatype: dword
+    data: 0
+
+- name: Network security - require LDAP client signing
+  win_regedit:
+    key: HKLM:\SYSTEM\CurrentControlSet\Services\LDAP
+    value: LDAPClientIntegrity
+    datatype: dword
+    data: 1
+
 - name: Windows Remote Desktop Configured to Always Prompt for Password
   win_regedit:
     key: HKLM:\SOFTWARE\Policies\Microsoft\Windows NT\Terminal Services
@@ -307,6 +343,30 @@
     value: SupportedEncryptionTypes
     datatype: dword
     data: 2147483640
+
+# https://www.stigviewer.com/stig/windows_10/2017-02-21/finding/V-63679
+- name: Administrator accounts must not be enumerated during elevation.
+  win_regedit:
+    key: 'HKLM:\Software\Microsoft\Windows\CurrentVersion\Policies\CredUI'
+    value: EnumerateAdministrators
+    datatype: dword
+    data: 0
+
+# https://www.stigviewer.com/stig/windows_10/2016-06-08/finding/V-63683
+- name: Windows Telemetry must be configured to the lowest level of data sent to Microsoft.
+  win_regedit:
+    key: 'HKLM:\SOFTWARE\Policies\Microsoft\Windows\DataCollection'
+    value: AllowTelemetry
+    datatype: dword
+    data: 1
+
+# https://www.stigviewer.com/stig/windows_10/2017-04-28/finding/V-63731
+- name: Local drives must be prevented from sharing with Remote Desktop Session Hosts.
+  win_regedit:
+    key: 'HKLM:\Software\Policies\Microsoft\Windows NT\Terminal Services'
+    value: fDisableCdm
+    datatype: dword
+    data: 1
 
 - include: dc-ldap-signing.yml
 
