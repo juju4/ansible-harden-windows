@@ -83,7 +83,7 @@ harden_win_InactivityTimeoutSecs: 900
 harden_windows_disable_wpad: true
 harden_win_disable_adminshares: true
 harden_win_configure_errorreporting: false
-harden_win_acl: true
+harden_win_acl: false
 harden_win_samri: true
 
 ## current domain (monitor-AD: does not require to be on DC)
