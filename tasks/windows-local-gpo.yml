@@ -9,6 +9,7 @@
 ## https://blogs.msdn.microsoft.com/oldnewthing/20080314-00/?p=23113/
 ## https://www.sans.org/reading-room/whitepapers/testing/passthehash-attacks-tools-and-mitigation-33283
 ## https://iase.disa.mil/stigs/gpo/Pages/index.aspx
+## https://theitbros.com/allow-non-admins-install-printer-drivers-via-gpo/
 
 - name: copy gpo template to target computer
   win_template:
