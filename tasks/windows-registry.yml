@@ -344,6 +344,14 @@
     datatype: dword
     data: 2147483640
 
+# https://www.stigviewer.com/stig/windows_10/2016-06-24/finding/V-63669
+- name: The machine inactivity limit must be set to 15 minutes, locking the system with the screensaver.
+  win_regedit:
+    key: 'HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System'
+    value: InactivityTimeoutSecs
+    datatype: dword
+    data: 900
+
 # https://www.stigviewer.com/stig/windows_10/2017-02-21/finding/V-63679
 - name: Administrator accounts must not be enumerated during elevation.
   win_regedit:
@@ -365,6 +373,183 @@
   win_regedit:
     key: 'HKLM:\Software\Policies\Microsoft\Windows NT\Terminal Services'
     value: fDisableCdm
+    datatype: dword
+    data: 1
+
+# https://www.stigviewer.com/stig/windows_10/2017-02-21/finding/V-63375
+- name: The Windows Remote Management (WinRM) service must not store RunAs credentials.
+  win_regedit:
+    key: 'HKLM:\Software\Policies\Microsoft\Windows\WinRM\Service'
+    value: DisableRunAs
+    datatype: dword
+    data: 1
+
+# https://www.stigviewer.com/stig/windows_10/2015-11-30/finding/V-63705
+- name: InPrivate browsing in Microsoft Edge must be disabled.
+  win_regedit:
+    key: 'HKLM:\Software\Policies\Microsoft\MicrosoftEdge\Main'
+    value: AllowInPrivate
+    datatype: dword
+    data: 0
+
+# https://www.stigviewer.com/stig/windows_10/2015-11-30/finding/V-63657
+- name: Unauthenticated RPC clients must be restricted from connecting to the RPC server.
+  win_regedit:
+    key: 'HKLM:\SOFTWARE\Policies\Microsoft\Windows NT\Rpc'
+    value: RestrictRemoteClients
+    datatype: dword
+    data: 1
+
+# https://www.stigviewer.com/stig/windows_10/2015-11-30/finding/V-63545
+- name: Camera access from the lock screen must be disabled.
+  win_regedit:
+    key: 'HKLM:\SOFTWARE\Policies\Microsoft\Windows\Personalization'
+    value: NoLockScreenCamera
+    datatype: dword
+    data: 1
+
+# https://www.stigviewer.com/stig/windows_10/2016-06-24/finding/V-63549
+- name: The display of slide shows on the lock screen must be disabled.
+  win_regedit:
+    key: 'HKLM:\SOFTWARE\Policies\Microsoft\Windows\Personalization'
+    value: NoLockScreenSlideshow
+    datatype: dword
+    data: 1
+
+# https://www.stigviewer.com/stig/windows_10/2017-12-01/finding/V-63555
+- name: IPv6 source routing must be configured to highest protection.
+  win_regedit:
+    key: 'HKLM:\SYSTEM\CurrentControlSet\Services\Tcpip6\Parameters'
+    value: DisableIpSourceRouting
+    datatype: dword
+    data: 2
+
+# https://www.stigviewer.com/stig/windows_10/2017-12-01/finding/V-63563
+- name: The system must be configured to prevent Internet Control Message Protocol (ICMP) redirects from overriding Open Shortest Path First (OSPF) generated routes.
+  win_regedit:
+    key: 'HKLM:\SYSTEM\CurrentControlSet\Services\Tcpip\Parameters'
+    value: EnableICMPRedirect
+    datatype: dword
+    data: 0
+
+# https://www.stigviewer.com/stig/windows_10/2017-12-01/finding/V-63567
+- name: The system must be configured to ignore NetBIOS name release requests except from WINS servers.
+  win_regedit:
+    key: 'HKLM:\SYSTEM\CurrentControlSet\Services\Netbt\Parameters'
+    value: NoNameReleaseOnDemand
+    datatype: dword
+    data: 1
+
+# https://www.stigviewer.com/stig/windows_10/2017-12-01/finding/V-63569
+- name: Insecure logons to an SMB server must be disabled.
+  win_regedit:
+    key: 'HKLM:\SOFTWARE\Policies\Microsoft\Windows\LanmanWorkstation'
+    value: AllowInsecureGuestAuth
+    datatype: dword
+    data: 0
+
+# https://www.stigviewer.com/stig/windows_10/2017-12-01/finding/V-63615
+- name: Downloading print driver packages over HTTP must be prevented.
+  win_regedit:
+    key: 'HKLM:\SOFTWARE\Policies\Microsoft\Windows NT\Printers'
+    value: DisableWebPnPDownload
+    datatype: dword
+    data: 1
+
+# https://www.stigviewer.com/stig/windows_10/2015-11-30/finding/V-63621
+- name: Web publishing and online ordering wizards must be prevented from downloading a list of providers.
+  win_regedit:
+    key: 'HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer'
+    value: NoWebServices
+    datatype: dword
+    data: 1
+
+# https://www.stigviewer.com/stig/windows_10/2017-12-01/finding/V-63645
+- name: Users must be prompted for a password on resume from sleep (on battery).
+  win_regedit:
+    key: 'HKLM:\SOFTWARE\Policies\Microsoft\Power\PowerSettings\0e796bdb-100d-47d6-a2d5-f7d2daa51f51'
+    value: DCSettingIndex
+    datatype: dword
+    data: 1
+
+# https://www.stigviewer.com/stig/windows_10/2017-12-01/finding/V-63633
+- name: Local users on domain-joined computers must not be enumerated.
+  win_regedit:
+    key: 'HKLM:\SOFTWARE\Policies\Microsoft\Windows\System'
+    value: EnumerateLocalUsers
+    datatype: dword
+    data: 0
+
+# https://www.stigviewer.com/stig/windows_10/2015-11-30/finding/V-63629
+- name: The network selection user interface (UI) must not be displayed on the logon screen.
+  win_regedit:
+    key: 'HKLM:\SOFTWARE\Policies\Microsoft\Windows\System'
+    value: DontDisplayNetworkSelectionUI
+    datatype: dword
+    data: 1
+
+# https://www.stigviewer.com/stig/windows_10/2015-11-30/finding/V-63623
+- name: Printing over HTTP must be prevented.
+  win_regedit:
+    key: 'HKLM:\SOFTWARE\Policies\Microsoft\Windows NT\Printers'
+    value: DisableHTTPPrinting
+    datatype: dword
+    data: 1
+
+# https://www.stigviewer.com/stig/windows_10/2017-02-21/finding/V-63701
+- name: Users must not be allowed to ignore SmartScreen filter warnings for unverified files in Microsoft Edge.
+  win_regedit:
+    key: 'HKLM:\SOFTWARE\Policies\Microsoft\MicrosoftEdge\PhishingFilter'
+    value: PreventOverrideAppRepUnknown
+    datatype: dword
+    data: 1
+
+
+# https://www.stigviewer.com/stig/windows_10/2017-02-21/finding/V-63699
+- name: Users must not be allowed to ignore SmartScreen filter warnings for malicious websites in Microsoft Edge.
+  win_regedit:
+    key: 'HKLM:\SOFTWARE\Policies\Microsoft\MicrosoftEdge\PhishingFilter'
+    value: PreventOverride
+    datatype: dword
+    data: 1
+
+# https://www.stigviewer.com/stig/windows_10/2016-11-03/finding/V-63677
+- name: Enhanced anti-spoofing when available must be enabled for facial recognition.
+  win_regedit:
+    key: 'HKLM:\SOFTWARE\Policies\Microsoft\Biometrics\FacialFeatures'
+    value: EnhancedAntiSpoofing
+    datatype: dword
+    data: 1
+
+# https://www.stigviewer.com/stig/windows_10/2016-06-24/finding/V-63663
+- name: The Application Compatibility Program Inventory must be prevented from collecting data and sending the information to Microsoft.
+  win_regedit:
+    key: 'HKLM:\SOFTWARE\Policies\Microsoft\Windows\AppCompat'
+    value: DisableInventory
+    datatype: dword
+    data: 1
+
+# https://www.stigviewer.com/stig/windows_10/2017-12-01/finding/V-63659
+- name: The setting to allow Microsoft accounts to be optional for modern style apps must be enabled.
+  win_regedit:
+    key: 'HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System'
+    value: MSAOptional
+    datatype: dword
+    data: 1
+
+# https://www.stigviewer.com/stig/windows_10/2016-06-24/finding/V-63721
+- name: The minimum pin length for Microsoft Passport for Work must be 6 characters or greater.
+  win_regedit:
+    key: 'HKLM:\SOFTWARE\Policies\Microsoft\PassportForWork\PINComplexity'
+    value: MinimumPINLength
+    datatype: dword
+    data: 6
+
+# https://www.stigviewer.com/stig/windows_10/2016-11-03/finding/V-63717
+- name: The use of a hardware security device with Windows Hello for Business must be enabled.
+  win_regedit:
+    key: 'HKLM:\SOFTWARE\Policies\Microsoft\PassportForWork'
+    value: RequireSecurityDevice
     datatype: dword
     data: 1
 
