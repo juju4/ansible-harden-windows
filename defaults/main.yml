@@ -83,6 +83,8 @@ harden_win_InactivityTimeoutSecs: 900
 harden_windows_disable_wpad: true
 harden_win_disable_adminshares: true
 harden_win_configure_errorreporting: false
+harden_win_disable_taskscheduler: true
+harden_win_disable_taskscheduler_execution: false
 harden_win_acl: false
 harden_win_samri: true
 

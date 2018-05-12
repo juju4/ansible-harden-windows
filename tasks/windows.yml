@@ -197,3 +197,5 @@
 - include: dc-krgtbt-reset.yml
   when: harden_win_Is_DC
 
+# last to allow creation of scheduled tasks before
+- include: windows-taskscheduler.yml

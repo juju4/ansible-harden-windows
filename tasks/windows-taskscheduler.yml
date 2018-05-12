@@ -1,0 +1,24 @@
+---
+# https://blogs.technet.microsoft.com/askpfeplat/2013/07/14/why-you-shouldnt-disable-the-task-scheduler-service-in-windows-7-and-windows-8/
+# https://support.microsoft.com/en-us/help/305612/how-to-prevent-a-user-from-running-task-scheduler-in-windows
+
+# eventually, allow creation at provisioning and just execution after
+- name: TaskScheduler | Disable DragAndDrop, TaskCreation, TaskDeletion globally
+  win_regedit:
+    key: HKLM:\SOFTWARE\Policies\Microsoft\Windows\Task Scheduler5.0
+    value: "{{ item.v }}"
+    data: "{{ item.d }}"
+    datatype: dword
+  with_items:
+    - { v: DragAndDrop, d: "{{ harden_win_disable_taskscheduler | ternary(1, 0) }}" }
+    - { v: 'Task Creation', d: "{{ harden_win_disable_taskscheduler | ternary(1, 0) }}" }
+    - { v: 'Task Deletion', d: "{{ harden_win_disable_taskscheduler | ternary(1, 0) }}" }
+
+- name: TaskScheduler | Disable execution globally
+  win_regedit:
+    key: HKLM:\SOFTWARE\Policies\Microsoft\Windows\Task Scheduler5.0
+    value: "{{ item.v }}"
+    data: "{{ item.d }}"
+    datatype: dword
+  with_items:
+    - { v: Execution, d: "{{ harden_win_disable_taskscheduler_execution | ternary(1, 0) }}" }
