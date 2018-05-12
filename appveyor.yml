@@ -6,7 +6,6 @@ init:
 - SET
 - 'echo System architecture: %PLATFORM%'
 - 'echo %APPVEYOR_REPO_NAME%'
-- ps: iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
 
 environment:
   winrm_user: winrm_test_user
@@ -148,8 +147,6 @@ on_finish:
     #Get-Eventlog -LogName security -Newest 100 -EntryType FailureAudit
     True
 - cmd: c:\opscode\inspec\bin\inspec.bat exec https://github.com/juju4/windows-baseline/ || exit 0
-- ps: $blockRdp = $true; iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
-
 
 notifications:
 - provider: Email
