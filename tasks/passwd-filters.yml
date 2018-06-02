@@ -4,6 +4,7 @@
 ## https://github.com/jephthai/OpenPasswordFilter
 ## https://haveibeenpwned.com/passwords
 ## https://jacksonvd.com/checking-for-breached-passwords-in-active-directory/
+## https://github.com/ryanries/PassFiltEx
 
 - name: check if OpenPasswordFilter archive is present
   win_stat: path="{{ harden_win_temp_dir }}\\{{ opf_url | basename }}"
