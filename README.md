@@ -30,6 +30,7 @@ It was tested on the following versions:
  * 2.2
  * 2.3 (required for testing part - become_method: runas)
  * 2.4 ~~(required since s/include:/include_tasks:/)~~
+ * 2.5
 
 ### Operating systems
 
