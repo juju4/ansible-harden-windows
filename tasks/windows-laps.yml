@@ -17,6 +17,7 @@
 #PS> Get-ADComputer -Filter {OperatingSystem -Like “Windows Server*”} -Property * | Format-Table Name,OperatingSystem,OperatingSystemServicePack -Wrap -Auto | Export-CSV AllWindows.csv -NoTypeInformation -Encoding UTF8
 ## Audit with Configuration Manager: https://4sysops.com/archives/monitoring-laps-with-configuration-manager/
 ## https://room362.com/post/2017/dump-laps-passwords-with-ldapsearch/
+## http://archive.hack.lu/2017/HackLU_2017_Malicious_use_LAPS_Clementz_Goichot.pdf
 
 ## https://www.microsoft.com/en-us/download/details.aspx?id=46899
 - name: Download LAPS
@@ -52,5 +53,5 @@
   win_regedit:
     key: 'HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\GPExtensions\{D76B9641-3288-4f75-942D-087DE603E3EA}'
     value: ExtensionDebugLevel
-    data: 1
+    data: 2
     datatype: dword
