@@ -192,6 +192,9 @@
 - include: windows-deviceguard.yml
   when: harden_win_deviceguard
 
+- include: windows-taskmanager.yml
+  when: harden_win_disable_taskmanager
+
 - include: extras.yml
 
 - include: palantir-AutorunsToWinEventLog.yml

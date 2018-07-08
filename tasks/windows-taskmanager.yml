@@ -1,0 +1,22 @@
+---
+
+# https://support.microsoft.com/en-us/help/555480
+- name: TaskManager | Disable globally
+  win_regedit:
+    key: HKLM:\SOFTWARE\Policies\Microsoft\Windows\Task Scheduler5.0
+    value: "{{ item.v }}"
+    data: "{{ item.d }}"
+    datatype: dword
+  with_items:
+    - { k: 'HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\policies\system', v: DisableTaskMgr, d: 1 }
+    - { k: 'HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon', v: DisableCAD, d: 1 }
+
+- name: TaskManager | Disable for current user
+  win_regedit:
+    key: "{{ item.k }}"
+    value: "{{ item.v }}"
+    data: "{{ item.d }}"
+    datatype: dword
+  with_items:
+    - { k: 'HKCU:\Software\Microsoft\Windows\CurrentVersion\Policies\System', v: DisableTaskMgr, d: 0 }
+    - { k: 'HKCU:\Software\Microsoft\Windows\CurrentVersion\Group Policy Objects\LocalUser\Software\Microsoft\Windows\CurrentVersion\Policies\System', v: DisableTaskMgr, d: 0 }

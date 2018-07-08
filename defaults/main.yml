@@ -103,6 +103,7 @@ harden_win_Is_DC: false
 harden_win_cachedlogonscount: 1
 
 harden_windows_disable_cmd: false
+harden_win_disable_taskmanager: false
 
 harden_win_certificates_review: true
 
