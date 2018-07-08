@@ -217,6 +217,10 @@ harden_win_suspicious_ext:
     - pif
 #    - bat
     - jar
+# https://posts.specterops.io/the-tale-of-settingcontent-ms-files-f1ea253e4d39
+    - SettingContent-ms
+# https://1337red.wordpress.com/using-a-scf-file-to-gather-hashes/
+    - scf
 harden_win_fileassoc:
   - { ext: .pdf, ftype: pdffile, path: 'C:\Program Files (x86)\Google\Chrome\Application\chrome.exe' }
 
