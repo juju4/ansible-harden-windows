@@ -14,4 +14,8 @@
     dest: "{{ harden_win_temp_dir }}\\{{ harden_win_deviceguard_policy | win_basename }}"
 
 - name: Load deviceguard policy
-  win_shell: "Merge-CIPolicy {{ harden_win_temp_dir }}\\{{ harden_win_deviceguard_policy | win_basename }}"
+  win_shell: "{{ item }}"
+  with_items:
+    - "New-CIPolicy -FilePath \"{{ harden_win_temp_dir }}\\{{ harden_win_deviceguard_policy | win_basename }}\" -Level Publisher -UserPEs -ScanPath c:\\ -NoScript"
+    - "ConvertFrom-CIPolicy \"{{ harden_win_temp_dir }}\\{{ harden_win_deviceguard_policy | win_basename }}\" \"{{ harden_win_temp_dir }}\\{{ harden_win_deviceguard_policy | win_basename }}.bin\""
+#  win_shell: "Merge-CIPolicy {{ harden_win_temp_dir }}\\{{ harden_win_deviceguard_policy | win_basename }}"
