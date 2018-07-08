@@ -3,5 +3,15 @@
 ## https://docs.microsoft.com/en-us/windows/device-security/device-guard/deploy-device-guard-enable-virtualization-based-security
 ## https://technet.microsoft.com/en-us/itpro/windows/keep-secure/device-guard-deployment-guide
 ## Requires hardware, firmware (UEFI, Secure Boot) and software (win10+, ws2016+, application code signing)
+## http://www.exploit-monday.com/2018/06/device-guard-and-application.html
+## https://docs.microsoft.com/en-us/windows/security/threat-protection/windows-defender-application-control/select-types-of-rules-to-create
+## https://docs.microsoft.com/en-us/windows/security/threat-protection/windows-defender-application-control/microsoft-recommended-block-rules
+## https://github.com/Microsoft/WSLab/tree/master/Scenarios/DeviceGuard/SmartLocker
 
+- name: upload deviceguard policy
+  win_template:
+    src: "{{ harden_win_deviceguard_policy }}.j2"
+    dest: "{{ harden_win_temp_dir }}\\{{ harden_win_deviceguard_policy | win_basename }}"
 
+- name: Load deviceguard policy
+  win_shell: "Merge-CIPolicy {{ harden_win_temp_dir }}\\{{ harden_win_deviceguard_policy | win_basename }}"

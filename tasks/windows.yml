@@ -189,6 +189,9 @@
 - include: windows-samri.yml
   when: harden_win_samri
 
+- include: windows-deviceguard.yml
+  when: harden_win_deviceguard
+
 - include: extras.yml
 
 - include: palantir-AutorunsToWinEventLog.yml
