@@ -80,6 +80,7 @@ harden_win_eventlogs_maxsize: 315801600
 
 harden_win_InactivityTimeoutSecs: 900
 
+harden_win_mimikatz_mitigations: true
 harden_windows_disable_wpad: true
 harden_win_disable_adminshares: true
 harden_win_configure_errorreporting: false

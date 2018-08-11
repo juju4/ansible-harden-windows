@@ -126,6 +126,7 @@
     data: 1
 
 - include: windows-mimikatz.yml
+  when: harden_win_mimikatz_mitigations
 
 ## https://technet.microsoft.com/en-us/library/cc960646.aspx
 - name: Strong Windows NTLMv2 Authentication Enabled; Weak LM/NTLM Disabled
