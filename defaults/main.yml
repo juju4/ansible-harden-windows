@@ -175,6 +175,9 @@ harden_win_disallowrun_list:
 ## win_get_url missing checksum check
 harden_win_remotelogging: false
 harden_win_remotelogging_nxlog_url: 'https://nxlog.co/system/files/products/files/348/nxlog-ce-2.9.1716.msi'
+#harden_win_nxlog_conf:
+#  - { s: nxlog.conf }
+#  - { s: IIS.conf, d: "conf\\IIS.conf" }
 
 harden_win_netcease: true
 harden_win_netcease_url: 'https://gallery.technet.microsoft.com/Net-Cease-Blocking-Net-1e8dcb5b/file/165596/1/NetCease.zip'

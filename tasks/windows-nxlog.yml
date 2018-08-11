@@ -14,6 +14,12 @@
     path: "{{ harden_win_temp_dir }}\\{{ harden_win_remotelogging_nxlog_url | basename }}"
     wait: true
 
+- name: Configure NXLog CE
+  templates:
+    src: "{{ item.s }}.j2"
+    dest: "c:\\Program Files (x86)\\nxlog\\{{ item.d | default(item.s | basename) }}"
+  with_items: "{{ harden_win_nxlog_conf | default([]) }}"
+
 - name: Ensure nxlog service is enabled and started
   win_service:
     name: nxlog
