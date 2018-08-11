@@ -12,7 +12,7 @@ harden_win_securityupdates: false
 harden_win_services: true
 harden_win_registry: true
 harden_win_registry_hkcu_users:
-  - Administrator
+  - { u: Administrator, p: '' }
 harden_win_gpo_local: true
 #harden_win_gpo_local_action: 'secedit'
 #harden_win_gpo_local_action: 'ps'
