@@ -5,6 +5,7 @@
 ##      Local Computer Policy, Computer Configuration, Administrative Templates, Network, and Network Connections.
 ##      Prohibit installation and configuration of Network Bridge on your DNS domain network
 ## https://technet.microsoft.com/en-us/library/cc732103(v=ws.10).aspx
+## https://docs.microsoft.com/en-us/previous-versions/windows/it-pro/windows-server-2012-R2-and-2012/jj679890(v=ws.11)
 ## + Enable or disable Internet Connection Sharing with Group Policy
 ##      Local Computer Policy, Computer Configuration, Administrative Templates, Network, and Network Connections.
 ##      Prohibit use of Internet Connection Sharing on your DNS domain network
