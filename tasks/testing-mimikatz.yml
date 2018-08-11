@@ -50,3 +50,20 @@
     src: "{{ harden_win_temp_dir }}\\MimkatzCollider-master.zip"
     dest: "{{ harden_win_temp_dir }}\\MimikatzCollider"
     creates: "{{ harden_win_temp_dir }}\\MimikatzCollider\\angel.exe"
+
+# https://github.com/skelsec/pypykatz
+- name: testing | Ensure python is present
+  win_chocolatey:
+    name: python
+    state: present
+
+# pip module under windows?
+- name: testing | install pypykatz
+  pip:
+    name: pypykatz
+    state: present
+  ignore_errors: true
+
+- name: testing | run pypykatz
+  command: "pypykatz live lsa"
+  ignore_errors: true
