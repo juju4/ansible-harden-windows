@@ -5,13 +5,13 @@
 - name: Download Intel-SA-00086 Detection Tool
   win_get_url:
     url: https://downloadmirror.intel.com/27150/eng/SA00086_Windows.zip
-    dest: "{{ harden_win_temp_dir }}/SA00086_Windows.zip"
+    dest: "{{ harden_win_temp_dir }}\\SA00086_Windows.zip"
 
 - name: Unarchive Intel-SA-00086 Detection Tool
   win_unzip:
-    src: "{{ harden_win_temp_dir }}/SA00086_Windows.zip"
-    dest: "{{ harden_win_temp_dir }}"
-    creates: "{{ harden_win_temp_dir }}/SA00086_Windows/DiscoveryTool/Intel-SA-00086-console.exe"
+    src: "{{ harden_win_temp_dir }}\\SA00086_Windows.zip"
+    dest: "{{ harden_win_temp_dir }}\\SA00086_Windows"
+    creates: "{{ harden_win_temp_dir }}\\SA00086_Windows\\DiscoveryTool\\Intel-SA-00086-console.exe"
 
 - name: Execute Intel-SA-00086 Detection Tool
   win_command: "\"{{ harden_win_temp_dir }}\\SA00086_Windows\\DiscoveryTool\\Intel-SA-00086-console.exe\" -n -f \"{{ harden_win_log_dir }}\\Intel-SA-00086-results-{{ ansible_date_time.iso8601 }}.xml\""
@@ -20,4 +20,4 @@
   changed_when: false
 
 - debug: var=intel.stdout_lines
-  when: "'This system is vulnerable' in intel.stdout"
+  when: intel is defined and "'This system is vulnerable' in intel.stdout"
