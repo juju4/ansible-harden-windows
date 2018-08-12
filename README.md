@@ -87,7 +87,16 @@ $ packer build *.json
 $ packer build -only=virtualbox-iso *.json
 ## if you want to enable extra log
 $ PACKER_LOG_PATH="packerlog.txt" PACKER_LOG=1 packer build *.json
+# for Azure, ensure you download and setup connection plugin
+$ . ~/.azure/credentials
+$ packer build azure-windows_server_2016.json
+$ packer build -var-file=variables.json azure-windows_server_2016.json
 ```
+
+See also
+* https://github.com/hashicorp/packer/tree/master/examples/ansible/connection-plugin
+* https://www.packer.io/docs/provisioners/ansible.html#winrm-communicator
+* https://www.packer.io/docs/templates/user-variables.html
 
 ## Troubleshooting & Known issues
 

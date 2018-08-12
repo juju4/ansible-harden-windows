@@ -27,3 +27,4 @@
     value: LocalAccountTokenFilterPolicy
     data: 0
     datatype: dword
+  when: harden_win_mimikatz_LocalAccountTokenFilterPolicy0

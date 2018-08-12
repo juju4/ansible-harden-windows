@@ -55,6 +55,10 @@
     - harden_win_testing_iad: true
     - harden_win_testing_iad_apply: false
     - harden_win_testing_detections: true
+# if Azure
+#    - harden_win_NtlmMinServerSec: 536870912
+#    - harden_win_testing_mimikatz: false
+#    - harden_win_testing_detections: false
   roles:
     - juju4.harden-windows
 

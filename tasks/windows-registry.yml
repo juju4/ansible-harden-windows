@@ -158,7 +158,7 @@
     key: HKLM:\SYSTEM\CurrentControlSet\Control\Lsa\MSV1_0
     value: NtlmMinServerSec
     datatype: dword
-    data: 537395248
+    data: "{{ harden_win_NtlmMinServerSec | default(537395248) }}"
 
 # https://www.stigviewer.com/stig/windows_10/2017-04-28/finding/V-63703
 - name: The Windows SMB client must be configured to always perform SMB packet signing.
