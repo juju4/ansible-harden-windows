@@ -15,7 +15,7 @@
     wait: true
 
 - name: Configure NXLog CE
-  templates:
+  win_template:
     src: "{{ item.s }}.j2"
     dest: "c:\\Program Files (x86)\\nxlog\\{{ item.d | default(item.s | basename) }}"
   with_items: "{{ harden_win_nxlog_conf | default([]) }}"
