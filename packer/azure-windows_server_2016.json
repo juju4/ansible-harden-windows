@@ -21,7 +21,7 @@
       "vm_size": "Standard_D1",
 
       "managed_image_resource_group_name": "Testing",
-      "managed_image_name": "packer-win2016-{{isotime \"2006-01-02\"}}-ansible2",
+      "managed_image_name": "packer-win2016-{{isotime \"2006-01-02\"}}-ansible",
 
       "os_type": "Windows",
       "image_publisher": "MicrosoftWindowsServer",
@@ -63,7 +63,7 @@
     },
     {
       "type":  "ansible",
-      "playbook_file": "../test/integration/default/default.yml",
+      "playbook_file": "./playbook-azure.yml",
       "extra_arguments": [
         "-v",
         "--connection", "packer",
