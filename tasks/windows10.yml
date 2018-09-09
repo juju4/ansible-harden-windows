@@ -39,3 +39,6 @@
     - { k: 'HKCU:\Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager', v: 'RotatingLockScreenEnabled', d: 0, t: dword }
     - { k: 'HKCU:\Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager', v: 'RotatingLockScreenOverlayEnabled', d: 0, t: dword }
     - { k: 'HKCU:\Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager', v: 'SubscribedContent-310093Enabled', d: 0, t: dword }
+
+- include: tasks/process-mitigation.yml
+  when: harden_win_exploitmitigation
