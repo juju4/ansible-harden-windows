@@ -145,6 +145,28 @@
     datatype: dword
     data: 8
 
+- name: Check powershell.exe process mitigation
+  win_shell: Get-ProcessMitigation -Name powershell.exe
+
+# https://twitter.com/mattifestation/status/1034510764642467840
+# https://github.com/MicrosoftDocs/windows-itpro-docs/blob/master/windows/security/threat-protection/windows-defender-exploit-guard/troubleshoot-exploit-protection-mitigations.md
+# https://docs.microsoft.com/en-us/windows/security/threat-protection/override-mitigation-options-for-app-related-security-policies
+# https://docs.microsoft.com/en-us/windows/security/threat-protection/windows-defender-exploit-guard/customize-exploit-protection
+- win_shell: Get-ItemPropertyValue -Path 'HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Image File Execution Options\powershell.exe' -Name MitigationOptions
+- name: Enable Exploit protection mitigation for powershell.exe
+  win_regedit:
+    key: HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Image File Execution Options\powershell.exe
+    value: MitigationOptions
+    datatype: qword
+    data: '???????????????1???????1???????1'
+  when: false
+
+- name: Set powershell.exe process mitigation
+  win_shell: Set-ProcessMitigation -Name powershell.exe -Enable DEP, EmulateAtlThunks, AuditDynamicCode, EnableExportAddressFilter
+
+- name: Check powershell.exe process mitigation
+  win_shell: Get-ProcessMitigation -Name powershell.exe
+
 ## check also templates/win7-computer-security.inf
 - name: Network security - Minimum session security for NTLM SSP based clients
   win_regedit:
