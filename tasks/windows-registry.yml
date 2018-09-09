@@ -337,6 +337,14 @@
     datatype: dword
     data: 0
 
+# https://www.stigviewer.com/stig/windows_10/2015-11-30/finding/V-63637
+- name: Signing in using a PIN must be turned off.
+  win_regedit:
+    key: 'HKLM:\SOFTWARE\Policies\Microsoft\Windows\System'
+    value: AllowDomainPINLogon
+    datatype: dword
+    data: 0
+
 # https://www.stigviewer.com/stig/windows_10/2017-02-21/finding/V-63667
 - name: Autoplay must be turned off for non-volume devices.
   win_regedit:
@@ -393,6 +401,14 @@
     datatype: dword
     data: 1
 
+# https://www.stigviewer.com/stig/windows_10/2015-11-30/finding/V-63321
+- name: Users must be prevented from changing installation options.
+  win_regedit:
+    key: 'HKLM:\SOFTWARE\Policies\Microsoft\Windows\Installer'
+    value: EnableUserControl
+    datatype: dword
+    data: 0
+
 # https://www.stigviewer.com/stig/windows_10/2017-02-21/finding/V-63375
 - name: The Windows Remote Management (WinRM) service must not store RunAs credentials.
   win_regedit:
@@ -406,6 +422,14 @@
   win_regedit:
     key: 'HKLM:\Software\Policies\Microsoft\MicrosoftEdge\Main'
     value: AllowInPrivate
+    datatype: dword
+    data: 0
+
+# https://www.stigviewer.com/stig/windows_10/2016-11-03/finding/V-63651
+- name: Solicited Remote Assistance must not be allowed.
+  win_regedit:
+    key: 'HKLM:\SOFTWARE\Policies\Microsoft\Windows NT\Terminal Services'
+    value: fAllowToGetHelp
     datatype: dword
     data: 0
 
@@ -521,12 +545,27 @@
     datatype: dword
     data: 1
 
+# https://www.stigviewer.com/stig/windows_10/2018-04-06/finding/V-63697
+- name: The Smart Card removal option must be configured to Force Logoff or Lock Workstation.
+  win_regedit:
+    key: 'HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon'
+    value: SCRemoveOption
+    datatype: dword
+    data: 1
 
 # https://www.stigviewer.com/stig/windows_10/2017-02-21/finding/V-63699
 - name: Users must not be allowed to ignore SmartScreen filter warnings for malicious websites in Microsoft Edge.
   win_regedit:
     key: 'HKLM:\SOFTWARE\Policies\Microsoft\MicrosoftEdge\PhishingFilter'
     value: PreventOverride
+    datatype: dword
+    data: 1
+
+# https://www.stigviewer.com/stig/windows_10/2016-11-03/finding/V-63671
+- name: The default autorun behavior must be configured to prevent autorun commands.
+  win_regedit:
+    key: 'HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer'
+    value: NoAutorun
     datatype: dword
     data: 1
 
@@ -567,6 +606,22 @@
   win_regedit:
     key: 'HKLM:\SOFTWARE\Policies\Microsoft\PassportForWork'
     value: RequireSecurityDevice
+    datatype: dword
+    data: 1
+
+# https://www.stigviewer.com/stig/windows_10/2017-12-01/finding/V-63729
+- name: Passwords must not be saved in the Remote Desktop Client.
+  win_regedit:
+    key: 'HKLM:\SOFTWARE\Policies\Microsoft\Windows NT\Terminal Services'
+    value: DisablePasswordSaving
+    datatype: dword
+    data: 1
+
+# https://www.stigviewer.com/stig/windows_10/2016-06-24/finding/V-63743
+- name: Attachments must be prevented from being downloaded from RSS feeds.
+  win_regedit:
+    key: 'HKLM:\SOFTWARE\Policies\Microsoft\Internet Explorer\Feeds'
+    value: DisableEnclosureDownload
     datatype: dword
     data: 1
 
