@@ -149,7 +149,10 @@
 # https://github.com/MicrosoftDocs/windows-itpro-docs/blob/master/windows/security/threat-protection/windows-defender-exploit-guard/troubleshoot-exploit-protection-mitigations.md
 # https://docs.microsoft.com/en-us/windows/security/threat-protection/override-mitigation-options-for-app-related-security-policies
 # https://docs.microsoft.com/en-us/windows/security/threat-protection/windows-defender-exploit-guard/customize-exploit-protection
-- win_shell: Get-ItemPropertyValue -Path 'HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Image File Execution Options\powershell.exe' -Name MitigationOptions
+- name: check Exploit protection mitigation for powershell.exe
+  win_shell: Get-ItemPropertyValue -Path 'HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Image File Execution Options\powershell.exe' -Name MitigationOptions
+  ignore_errors: true
+  changed_when: false
 - name: Enable Exploit protection mitigation for powershell.exe
   win_regedit:
     key: HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Image File Execution Options\powershell.exe
