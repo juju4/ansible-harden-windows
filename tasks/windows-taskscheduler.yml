@@ -22,3 +22,8 @@
     datatype: dword
   with_items:
     - { v: Execution, d: "{{ harden_win_disable_taskscheduler_execution | ternary(1, 0) }}" }
+
+# https://cert.ssi.gouv.fr/alerte/CERTFR-2018-ALE-009/
+- name: TaskScheduler | Disable by ACL
+  win_command: cacls c:\Windows\Tasks /S:"D:PAI(D;OICI;DCLC;;;WD)(A;;0x1200ab;;;AU)(A;;FA;;;BA)(A;OICIIO;GA;;;BA)(A;;FA;;;SY)(A;OICIIO;GA;;;SY)(A;OICIIO;GA;;;CO)"
+  when: harden_win_disable_taskscheduler_by_acl
