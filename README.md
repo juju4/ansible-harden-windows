@@ -87,7 +87,7 @@ $ packer build *.json
 $ packer build -only=virtualbox-iso *.json
 ## if you want to enable extra log
 $ PACKER_LOG_PATH="packerlog.txt" PACKER_LOG=1 packer build *.json
-# for Azure, ensure you download and setup connection plugin
+# for Azure, ensure you download and setup connection plugin. Default is for v2.6, Sep 2018
 $ . ~/.azure/credentials
 $ packer build azure-windows_server_2016.json
 $ packer build -var-file=variables.json azure-windows_server_2016.json
