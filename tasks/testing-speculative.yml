@@ -24,3 +24,19 @@
 
 - name: untrust PSGallery repository
   win_shell: Set-PSRepository -Name PSGallery -InstallationPolicy Untrusted
+
+# https://github.com/ionescu007/SpecuCheck
+- name: Download SpecuCheck
+  win_get_url:
+    url: https://github.com/ionescu007/SpecuCheck/releases/download/v1.1.0/SpecuCheck.exe
+    dest: "{{ harden_win_temp_dir }}\\SpecuCheck.exe"
+
+- name: Execute SpecuCheck
+  win_command: "\"{{ harden_win_temp_dir }}\\SpecuCheck.exe\""
+  register: specucheck
+  ignore_errors: true
+  changed_when: false
+  async: 60
+  poll: 5
+
+- debug: var=specucheck.stdout_lines
