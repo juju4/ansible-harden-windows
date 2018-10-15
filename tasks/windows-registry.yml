@@ -143,7 +143,8 @@
     key: HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Image File Execution Options\LSASS.exe
     value: AuditLevel
     datatype: dword
-    data: 8
+    data: "{{ harden_win_lsass_auditlevel | default(8) }}"
+  when: harden_win_lsass_auditlevel is not defined or harden_win_lsass_auditlevel != ''
 
 # https://twitter.com/mattifestation/status/1034510764642467840
 # https://github.com/MicrosoftDocs/windows-itpro-docs/blob/master/windows/security/threat-protection/windows-defender-exploit-guard/troubleshoot-exploit-protection-mitigations.md

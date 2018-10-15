@@ -99,6 +99,9 @@ harden_win_NtlmMinServerSec: 537395248
 # https://groups.google.com/forum/#!msg/packer-tool/sF3MBYHkvso/QMkn2bCaAwAJ
 #harden_win_NtlmMinServerSec: 536870912
 
+# undefined or 8 would enable feature. empty would disable. possible issue with google cloud when enable.
+#harden_win_lsass_auditlevel: ''
+
 harden_win_deviceguard: false
 harden_win_deviceguard_policy: deviceguard-deny-cipolicy.xml
 
