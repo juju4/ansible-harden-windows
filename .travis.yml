@@ -60,7 +60,7 @@ matrix:
         - bash -c 'echo $BASH_VERSION'
         - df -h
         # setup cygwin
-        - cinst -y cygwin --params "/InstallDir:%CYG_ROOT% /NoStartMenu"
+        - travis_wait 30 cinst -y cygwin --params "/InstallDir:%CYG_ROOT% /NoStartMenu"
         - cinst -y cyg-get
         - cinst -y openssl.light
         - cyg-get openssl-devel,python2-devel,python3-devel,curl,python-jinja,python-crypto,python-openssl,python-setuptools,git,libffi-devel
