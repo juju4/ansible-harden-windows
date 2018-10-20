@@ -32,16 +32,26 @@ matrix:
         - "ansible-playbook -i inventory --syntax-check test/integration/default/default.yml"
 
     - os: windows
+      language: shell
       env:
         - ANSIBLE_VERSION: 2.7.0
           ANSIBLE_EXTRA_VARS:
           SUITE: default
+    - os: windows
+      language: shell
+      env:
         - ANSIBLE_VERSION: 2.6.5
           ANSIBLE_EXTRA_VARS:
           SUITE: default
+    - os: windows
+      language: shell
+      env:
         - ANSIBLE_VERSION: 2.5.10
           ANSIBLE_EXTRA_VARS:
           SUITE: default
+    - os: windows
+      language: shell
+      env:
         - ANSIBLE_VERSION: 2.7.0
           ANSIBLE_EXTRA_VARS:
           SUITE: full
