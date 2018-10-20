@@ -2,18 +2,100 @@
 dist: trusty
 language: python
 python: "2.7"
-before_install:
- - ln -s ansible-harden-windows ../juju4.harden-windows
-install:
-  - sudo apt-get install libxml2-utils
-  - pip install ansible ansible-lint
-  - ansible --version
-  - "{ echo '[defaults]'; echo 'roles_path = ../'; } >> ansible.cfg"
-  - "echo \"[test-kitchen]\nlocalhost\" > inventory"
-  - "[ -f get-dependencies.sh ] && sh -x get-dependencies.sh"
 
-script:
-  - "ansible-lint tasks/main.yml"
+env:
+  global:
+    - user_cert: c:\projects\ansible-harden-windows\user.pem
+    - user_key: c:\projects\ansible-harden-windows\key.pem
+    - user_pfx: c:\projects\ansible-harden-windows\user.pfx
+    - CYGWIN: winsymlinks:nativestrict
+    - CYG_ROOT: C:\cygwin64
+    - CYG_CACHE: C:\cygwin64\var\cache\setup
+    - CYG_BASH: C:\cygwin64\bin\sh
 
-# Check the role/playbook's syntax.
-  - "ansible-playbook -i inventory --syntax-check test/integration/default/default.yml"
+matrix:
+  include:
+
+    - os: linux
+      before_install:
+        - ln -s ansible-harden-windows ../juju4.harden-windows
+      install:
+        - sudo apt-get install libxml2-utils
+        - pip install ansible ansible-lint
+        - ansible --version
+        - "{ echo '[defaults]'; echo 'roles_path = ../'; } >> ansible.cfg"
+        - "echo \"[test-kitchen]\nlocalhost\" > inventory"
+        - "[ -f get-dependencies.sh ] && sh -x get-dependencies.sh"
+      script:
+        - "ansible-lint tasks/main.yml"
+        # Check the role/playbook's syntax.
+        - "ansible-playbook -i inventory --syntax-check test/integration/default/default.yml"
+
+    - os: windows
+      env:
+        - ANSIBLE_VERSION: 2.7.0
+          ANSIBLE_EXTRA_VARS:
+          SUITE: default
+        - ANSIBLE_VERSION: 2.6.5
+          ANSIBLE_EXTRA_VARS:
+          SUITE: default
+        - ANSIBLE_VERSION: 2.5.10
+          ANSIBLE_EXTRA_VARS:
+          SUITE: default
+        - ANSIBLE_VERSION: 2.7.0
+          ANSIBLE_EXTRA_VARS:
+          SUITE: full
+
+      before_install:
+        - bash -c 'echo $BASH_VERSION'
+        - df -h
+        # setup cygwin
+        - cinst -y cygwin --params "/InstallDir:%CYG_ROOT% /NoStartMenu"
+        - cinst -y cyg-get
+        - cinst -y openssl.light
+        - cyg-get openssl-devel,python2-devel,python3-devel,curl,python-jinja,python-crypto,python-openssl,python-setuptools,git,libffi-devel
+        # setup winrm
+        - net user /Y /add $env:winrm_user $env:winrm_password
+        - net localgroup administrators $env:winrm_user /add
+        - set
+        - powershell.exe -File test\appveyor\create_cert.ps1
+        - winrm set winrm/config/client/auth '@{Basic="true"}'
+        - winrm set winrm/config/service/auth '@{Basic="true"}'
+        - winrm set winrm/config/service/auth '@{Certificate="true"}'
+        - winrm set winrm/config/service/auth '@{CbtHardeningLevel="Strict"}'
+        - winrm set winrm/config/service '@{AllowUnencrypted="true"}'
+        - powershell -Command "Write-Host $env:PATH"
+        - powershell -Command "($pwd).path"
+
+      install:
+        # setup ansible
+        - "%CYG_BASH% -lc 'uname -a'"
+        - "%CYG_BASH% -lc 'python -m ensurepip'"
+        - "%CYG_BASH% -lc 'python3 -m ensurepip'"
+        - "%CYG_BASH% -lc 'python3 -m pip install --upgrade pip'"
+        - "%CYG_BASH% -lc 'python3 -m pip install pywinrm'"
+        - "%CYG_BASH% -lc 'python3 -m pip install ansible==%ANSIBLE_VERSION%'"
+        - "%CYG_BASH% -lc 'ansible --version'"
+        - "%CYG_BASH% -lc 'echo localhost ansible_user=$winrm_user ansible_password=$winrm_password ansible_connection=winrm'"
+        - "%CYG_BASH% -lc 'ls /'"
+        - "%CYG_BASH% -lc 'ls -l /cygdrive/c/'"
+        - "%CYG_BASH% -lc 'ls -l /cygdrive/c/projects/ansible-harden-windows'"
+        - "%CYG_BASH% -lc pwd"
+        - "%CYG_BASH% -lc 'ansible -i /cygdrive/c/projects/ansible-harden-windows/test/appveyor/inventory -m win_ping -vvv localhost'"
+        - "%CYG_BASH% -lc 'mkdir -p /etc/ansible/roles'"
+        - "%CYG_BASH% -lc 'cp /cygdrive/c/projects/ansible-harden-windows/test/appveyor/ansible.cfg /etc/ansible'"
+        - "%CYG_BASH% -lc 'cp -R /cygdrive/c/projects/ansible-harden-windows /etc/ansible/roles/juju4.harden-windows'"
+        - "%CYG_BASH% -lc 'sh -x /cygdrive/c/projects/ansible-harden-windows/get-dependencies.sh'"
+
+      script:
+        - "%CYG_BASH% -lc 'ansible-playbook /cygdrive/c/projects/ansible-harden-windows/test/integration/$SUITE/default.yml --syntax-check'"
+        - "%CYG_BASH% -lc 'ansible-playbook -i /cygdrive/c/projects/ansible-harden-windows/test/appveyor/inventory /cygdrive/c/projects/ansible-harden-windows/test/integration/$SUITE/default.yml -vvv $ANSIBLE_EXTRA_VARS'"
+
+      after_failure:
+        - powershell -Command "Get-WinEvent -LogName 'Microsoft-Windows-AppLocker/EXE and DLL' | Where { $_.ID -eq 8004 }"
+        - "%CYG_BASH% -lc 'ansible -i /cygdrive/c/projects/ansible-harden-windows/test/appveyor/inventory -m setup -vvv localhost'"
+
+      after_script:
+        - powershell -Command 'Get-ChildItem -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\FileExts\.hta" -Recurse'
+        - powershell -Command 'Get-ChildItem -Path "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\ProfileList"'
+        - c:\opscode\inspec\bin\inspec.bat exec https://github.com/juju4/windows-baseline/ || exit 0
