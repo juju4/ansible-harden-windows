@@ -315,8 +315,8 @@
     datatype: string
     data: "{{ item.d }}"
   with_items:
-    - { v: '\\*\NETLOGON', d: 'RequireMutualAuthentication=1,RequireIntegrity=1' }
-    - { v: '\\*\SYSVOL', d: 'RequireMutualAuthentication=1,RequireIntegrity=1' }
+    - { v: '\\*\NETLOGON', d: "RequireMutualAuthentication=1,RequireIntegrity=1{% if harden_win_hardenedunc_requireprivacy %},RequirePrivacy=1{% endif %}" }
+    - { v: '\\*\SYSVOL', d: "RequireMutualAuthentication=1,RequireIntegrity=1{% if harden_win_hardenedunc_requireprivacy %},RequirePrivacy=1{% endif %}" }
 
 # https://www.stigviewer.com/stig/windows_10/2015-11-30/finding/V-63545
 # https://www.stigviewer.com/stig/windows_10/2016-06-24/finding/V-63549

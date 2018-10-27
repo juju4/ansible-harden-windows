@@ -256,6 +256,12 @@ harden_win_disable_winfeature:
   - MicrosoftWindowsPowerShellV2
 #  - MicrosoftWindowsPowerShellV2Root
 
+# +RequirePrivacy: requires Win8/2010+/Samba4.1+ (SMBv3).
+#   https://support.microsoft.com/en-ca/help/3000483/ms15-011-vulnerability-in-group-policy-could-allow-remote-code-executi
+#   https://adsecurity.org/?p=1405
+#   https://blogs.technet.microsoft.com/leesteve/2017/08/09/demystifying-the-unc-hardening-dilemma/
+harden_win_hardenedunc_requireprivacy: false
+
 ## For now, unused. refer directly to templates/Remove-TrustedRootCA.ps1.j2
 ## You might want to double check this to your usage. Test, test and test!
 harden_win_certificates_removed:
