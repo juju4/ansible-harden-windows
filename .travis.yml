@@ -6,10 +6,6 @@ env:
     - user_cert: c:\projects\ansible-harden-windows\user.pem
     - user_key: c:\projects\ansible-harden-windows\key.pem
     - user_pfx: c:\projects\ansible-harden-windows\user.pfx
-    - CYGWIN: winsymlinks:nativestrict
-    - CYG_ROOT: C:\cygwin64
-    - CYG_CACHE: C:\cygwin64\var\cache\setup
-    - CYG_BASH: C:\cygwin64\bin\sh
 
 matrix:
   include:
@@ -59,11 +55,8 @@ matrix:
       before_install:
         - bash -c 'echo $BASH_VERSION'
         - df -h
-        # setup cygwin
-        - travis_wait 30 cinst -y cygwin --params "/InstallDir:%CYG_ROOT% /NoStartMenu"
-        - cinst -y cyg-get
-        - cinst -y openssl.light
-        - cyg-get openssl-devel,python2-devel,python3-devel,curl,python-jinja,python-crypto,python-openssl,python-setuptools,git,libffi-devel
+        - wslconfig /l /all
+        - wsl pwd
         # setup winrm
         - net user /Y /add $env:winrm_user $env:winrm_password
         - net localgroup administrators $env:winrm_user /add
@@ -78,32 +71,29 @@ matrix:
         - powershell -Command "($pwd).path"
 
       install:
+        # setup environment
+        - wsl sudo apt-get update
+        - wsl sudo env DEBIAN_FRONTEND=noninteractive apt-get install -y python sudo python-pip python-dev libffi-dev python-apt aptitude libssl-dev
         # setup ansible
-        - "%CYG_BASH% -lc 'uname -a'"
-        - "%CYG_BASH% -lc 'python -m ensurepip'"
-        - "%CYG_BASH% -lc 'python3 -m ensurepip'"
-        - "%CYG_BASH% -lc 'python3 -m pip install --upgrade pip'"
-        - "%CYG_BASH% -lc 'python3 -m pip install pywinrm'"
-        - "%CYG_BASH% -lc 'python3 -m pip install ansible==%ANSIBLE_VERSION%'"
-        - "%CYG_BASH% -lc 'ansible --version'"
-        - "%CYG_BASH% -lc 'echo localhost ansible_user=$winrm_user ansible_password=$winrm_password ansible_connection=winrm'"
-        - "%CYG_BASH% -lc 'ls /'"
-        - "%CYG_BASH% -lc 'ls -l /cygdrive/c/'"
-        - "%CYG_BASH% -lc 'ls -l /cygdrive/c/projects/ansible-harden-windows'"
-        - "%CYG_BASH% -lc pwd"
-        - "%CYG_BASH% -lc 'ansible -i /cygdrive/c/projects/ansible-harden-windows/test/appveyor/inventory -m win_ping -vvv localhost'"
-        - "%CYG_BASH% -lc 'mkdir -p /etc/ansible/roles'"
-        - "%CYG_BASH% -lc 'cp /cygdrive/c/projects/ansible-harden-windows/test/appveyor/ansible.cfg /etc/ansible'"
-        - "%CYG_BASH% -lc 'cp -R /cygdrive/c/projects/ansible-harden-windows /etc/ansible/roles/juju4.harden-windows'"
-        - "%CYG_BASH% -lc 'sh -x /cygdrive/c/projects/ansible-harden-windows/get-dependencies.sh'"
+        - wsl uname -a
+        - wsl sudo pip install --upgrade pip
+        - wsl sudo pip install ansible==$ANSIBLE_VERSION
+        - wsl ansible --version
+        - wsl echo localhost ansible_user=$winrm_user ansible_password=$winrm_password ansible_connection=winrm
+        - wsl ls /
+        - wsl ansible -i /mnt/c/projects/ansible-harden-windows/test/appveyor/inventory -m win_ping -vvv localhost'"
+        - wsl mkdir -p /etc/ansible/roles
+        - wsl cp /mnt/c/projects/ansible-harden-windows/test/appveyor/ansible.cfg /etc/ansible
+        - wsl cp -R /mnt/c/projects/ansible-harden-windows /etc/ansible/roles/juju4.harden-windows
+        - wsl sh -x /mnt/c/projects/ansible-harden-windows/get-dependencies.sh
 
       script:
-        - "%CYG_BASH% -lc 'ansible-playbook /cygdrive/c/projects/ansible-harden-windows/test/integration/$SUITE/default.yml --syntax-check'"
-        - "%CYG_BASH% -lc 'ansible-playbook -i /cygdrive/c/projects/ansible-harden-windows/test/appveyor/inventory /cygdrive/c/projects/ansible-harden-windows/test/integration/$SUITE/default.yml -vvv $ANSIBLE_EXTRA_VARS'"
+        - wsl ansible-playbook /mnt/c/projects/ansible-harden-windows/test/integration/$SUITE/default.yml --syntax-check
+        - wsl ansible-playbook -i /mnt/c/projects/ansible-harden-windows/test/appveyor/inventory /mnt/c/projects/ansible-harden-windows/test/integration/$SUITE/default.yml -vvv $ANSIBLE_EXTRA_VARS
 
       after_failure:
         - powershell -Command "Get-WinEvent -LogName 'Microsoft-Windows-AppLocker/EXE and DLL' | Where { $_.ID -eq 8004 }"
-        - "%CYG_BASH% -lc 'ansible -i /cygdrive/c/projects/ansible-harden-windows/test/appveyor/inventory -m setup -vvv localhost'"
+        - wsl ansible -i /mnt/c/projects/ansible-harden-windows/test/appveyor/inventory -m setup -vvv localhost
 
       after_script:
         - powershell -Command 'Get-ChildItem -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\FileExts\.hta" -Recurse'
