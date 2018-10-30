@@ -55,7 +55,7 @@ matrix:
       before_install:
         - bash -c 'echo $BASH_VERSION'
         - df -h
-        - wslconfig /list /all
+        - wslconfig /list
         - wsl pwd
         # setup winrm
         - net user /Y /add $env:winrm_user $env:winrm_password
