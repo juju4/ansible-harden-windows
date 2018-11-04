@@ -55,7 +55,10 @@ matrix:
       before_install:
         - bash -c 'echo $BASH_VERSION'
         - df -h
-        - wslconfig /list
+        - curl -L -o ubuntu-1804.zip https://aka.ms/wsl-ubuntu-1804
+        - powershell.exe -NoProfile -Command "Expand-Archive -Path ubuntu-1804.zip -DestinationPath Ubuntu"
+        - Ubuntu/ubuntu1804.exe install --root
+#        - wslconfig /list
         - wsl pwd
         # setup winrm
         - net user /Y /add $env:winrm_user $env:winrm_password
@@ -73,7 +76,7 @@ matrix:
       install:
         # setup environment
         - wsl sudo apt-get update
-        - wsl sudo env DEBIAN_FRONTEND=noninteractive apt-get install -y python sudo python-pip python-dev libffi-dev python-apt aptitude libssl-dev
+        - wsl sudo env DEBIAN_FRONTEND=noninteractive apt-get install -y python3 sudo python3-pip python-dev libffi-dev python-apt aptitude libssl-dev
         # setup ansible
         - wsl uname -a
         - wsl sudo pip install --upgrade pip
