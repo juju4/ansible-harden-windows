@@ -63,8 +63,8 @@ matrix:
 #        - wslconfig /list
         - wsl pwd
         # setup winrm
-        - net user /Y /add $env:winrm_user $env:winrm_password
-        - net localgroup administrators $env:winrm_user /add
+        - net user /Y /add %winrm_user% %winrm_password%
+        - net localgroup administrators %winrm_user% /add
         - set
         - powershell.exe -File test\appveyor\create_cert.ps1
         - winrm set winrm/config/client/auth '@{Basic="true"}'
@@ -84,7 +84,7 @@ matrix:
         - wsl sudo pip install --upgrade pip
         - wsl sudo pip install ansible==$ANSIBLE_VERSION
         - wsl ansible --version
-        - wsl echo localhost ansible_user=$winrm_user ansible_password=$winrm_password ansible_connection=winrm
+        - wsl echo localhost ansible_user=%winrm_user% ansible_password=%winrm_password% ansible_connection=winrm
         - wsl ls /
         - wsl ansible -i /mnt/c/projects/ansible-harden-windows/test/appveyor/inventory -m win_ping -vvv localhost'"
         - wsl mkdir -p /etc/ansible/roles
