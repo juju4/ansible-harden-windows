@@ -13,7 +13,7 @@
 #    key: "HKLM:\\Software\\Exts\\.{{ item }}"    ## NOK
     value: "(Default)"
     datatype: string
-    data: "%windir%\\system32\\notepad.exe"
+    data: "\"%windir%\\system32\\notepad.exe\" %1"
   with_items: "{{ harden_win_suspicious_ext }}"
 
 - name: disable suspicious executabled file extensions (HKCU)
@@ -21,7 +21,7 @@
     key: "HKCU:\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\FileExts\\.{{ item }}\\OpenWithList"
     value: "a"
     datatype: string
-    data: "%windir%\\system32\\notepad.exe"
+    data: "\"%windir%\\system32\\notepad.exe\" %1"
   with_items: "{{ harden_win_suspicious_ext }}"
 
 - name: Update file associations - HKCU

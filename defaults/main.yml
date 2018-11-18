@@ -243,7 +243,7 @@ harden_win_suspicious_ext:
 # https://1337red.wordpress.com/using-a-scf-file-to-gather-hashes/
     - scf
 harden_win_fileassoc:
-  - { ext: .pdf, ftype: pdffile, path: 'C:\Program Files (x86)\Google\Chrome\Application\chrome.exe' }
+  - { ext: .pdf, ftype: pdffile, path: '"C:\Program Files (x86)\Google\Chrome\Application\chrome.exe" %1' }
 
 ## https://support.microsoft.com/en-us/help/2696547/how-to-enable-and-disable-smbv1,-smbv2,-and-smbv3-in-windows-vista,-windows-server-2008,-windows-7,-windows-server-2008-r2,-windows-8,-and-windows-server-2012
 harden_win_disable_smb_proto:
