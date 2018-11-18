@@ -19,10 +19,10 @@
     ## 'add' option not available on win10
     - name: enable shadow copy for c
       raw: "vssadmin.exe add shadowstorage /for=c: /on=c: /maxsize=15%"
-      when: vssstor.stdout.find("Shadow Copy Storage volume{{ ':' }} (C{{ ':' }})") == -1 and ansible_distribution_major_version < 10
+      when: vssstor.stdout.find("Shadow Copy Storage volume{{ ':' }} (C{{ ':' }})") == -1 and ansible_distribution_major_version|int < 10
       ignore_errors: true
 
-  when: ansible_distribution_major_version < 10
+  when: ansible_distribution_major_version|int < 10
 
 - name: ensure VSS service enabled
   win_service:
@@ -43,7 +43,7 @@
     state: present
     user: SYSTEM
   ignore_errors: true
-#  when: ansible_distribution_major_version < 10
+#  when: ansible_distribution_major_version|int < 10
 
 - name: Remove access permission vssadmin.exe
   win_acl:
