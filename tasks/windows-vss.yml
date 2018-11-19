@@ -52,3 +52,4 @@
     type: deny
     rights: ExecuteFile,Read,Write,Modify
     state: present
+  when: ansible_distribution_major_version|int >= 10
