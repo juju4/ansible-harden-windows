@@ -68,11 +68,11 @@ matrix:
         - set
         - wsl find || true
         - powershell.exe -ExecutionPolicy Bypass -File test/appveyor/create_cert.ps1
-        - winrm set winrm/config/client/auth '@{Basic="true"}'
-        - winrm set winrm/config/service/auth '@{Basic="true"}'
-        - winrm set winrm/config/service/auth '@{Certificate="true"}'
-        - winrm set winrm/config/service/auth '@{CbtHardeningLevel="Strict"}'
-        - winrm set winrm/config/service '@{AllowUnencrypted="true"}'
+#        - winrm set winrm/config/client/auth '@{Basic="true"}'
+#        - winrm set winrm/config/service/auth '@{Basic="true"}'
+#        - winrm set winrm/config/service/auth '@{Certificate="true"}'
+#        - winrm set winrm/config/service/auth '@{CbtHardeningLevel="Strict"}'
+#        - winrm set winrm/config/service '@{AllowUnencrypted="true"}'
         - powershell -Command "Write-Host $env:PATH"
         - powershell -Command "($pwd).path"
 
