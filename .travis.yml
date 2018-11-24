@@ -67,7 +67,7 @@ matrix:
 #        - net localgroup administrators %winrm_user% /add
         - set
         - wsl find || true
-        - powershell.exe -File test/appveyor/create_cert.ps1
+        - powershell.exe -ExecutionPolicy Bypass -File test/appveyor/create_cert.ps1
         - winrm set winrm/config/client/auth '@{Basic="true"}'
         - winrm set winrm/config/service/auth '@{Basic="true"}'
         - winrm set winrm/config/service/auth '@{Certificate="true"}'
