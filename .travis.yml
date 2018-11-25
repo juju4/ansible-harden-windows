@@ -101,7 +101,7 @@ matrix:
 
       script:
         - wsl ansible-playbook /mnt/c/Users/travis/build/juju4/ansible-harden-windows/test/integration/$SUITE/default.yml --syntax-check
-        - wsl ansible-playbook -i /mnt/c/Users/travis/build/juju4/ansible-harden-windows/test/appveyor/inventory /mnt/c/Users/travis/build/juju4/ansible-harden-windows/test/integration/$SUITE/default.yml -vvv $ANSIBLE_EXTRA_VARS
+        - wsl ansible-playbook -i /mnt/c/Users/travis/build/juju4/ansible-harden-windows/test/appveyor/inventory /mnt/c/Users/travis/build/juju4/ansible-harden-windows/test/integration/$SUITE/default.yml -vvv $ANSIBLE_EXTRA_VARS --connection local
 
       after_failure:
         - powershell -Command "Get-WinEvent -LogName 'Microsoft-Windows-AppLocker/EXE and DLL' | Where { $_.ID -eq 8004 }"
