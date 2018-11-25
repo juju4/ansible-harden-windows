@@ -88,8 +88,8 @@ matrix:
         - wsl sudo env DEBIAN_FRONTEND=noninteractive apt-get install -y python3 sudo python3-pip python-dev libffi-dev python-apt aptitude libssl-dev
         # setup ansible
         - wsl uname -a
-        - wsl sudo pip install --upgrade pip
-        - wsl sudo pip install ansible==$ANSIBLE_VERSION
+        - wsl sudo pip3 install --upgrade pip
+        - wsl sudo pip3 install ansible==$ANSIBLE_VERSION
         - wsl ansible --version
         - wsl echo localhost ansible_user=%winrm_user% ansible_password=%winrm_password% ansible_connection=winrm
         - wsl ls /
