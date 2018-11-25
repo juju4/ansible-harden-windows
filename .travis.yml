@@ -74,7 +74,6 @@ matrix:
         - powershell -Command "Get-ChildItem WSMan:\localhost\Client\DefaultPorts"
         - powershell -Command "Get-ChildItem WSMan:\localhost\Listener"
         - powershell -Command "Get-Service -Name winrm | Select Status"
-        - reg query HKLM\software\Microsoft\Windows\CurrentVersion\Policies\system
 #        - winrm set winrm/config/client/auth '@{Basic="true"}'
 #        - winrm set winrm/config/service/auth '@{Basic="true"}'
 #        - winrm set winrm/config/service/auth '@{Certificate="true"}'
