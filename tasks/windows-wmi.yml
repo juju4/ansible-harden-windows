@@ -12,5 +12,5 @@
 - name: Enabling WMI Tracing
 #  raw: "Wevtutil.exe sl Microsoft-Windows-WMI-Activity/Trace /e:true"
   raw: "echo y | Wevtutil.exe sl Microsoft-Windows-WMI-Activity/Trace /e:true /ms:512000 /q"
-  when: "enabled{{ ':' }} false" in wmlogging.stdout
+  when: '"enabled: false" in wmlogging.stdout'
   ignore_errors: true
