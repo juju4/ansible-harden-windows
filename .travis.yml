@@ -5,9 +5,9 @@ env:
   global:
     - winrm_user: winrm_test_user
     - winrm_password: WinRM_test_Pass@w0rd1
-    - user_cert: c:\projects\ansible-harden-windows\user.pem
-    - user_key: c:\projects\ansible-harden-windows\key.pem
-    - user_pfx: c:\projects\ansible-harden-windows\user.pfx
+    - user_cert: %TRAVIS_BUILD_DIR%\user.pem
+    - user_key: %TRAVIS_BUILD_DIR%\key.pem
+    - user_pfx: %TRAVIS_BUILD_DIR%\user.pfx
 
 matrix:
   include:
@@ -67,7 +67,7 @@ matrix:
 #        - net localgroup administrators %winrm_user% /add
         - set
         - wsl find || true
-        - powershell.exe -ExecutionPolicy Bypass -File test/appveyor/create_cert.ps1
+        - powershell.exe -ExecutionPolicy Bypass -File test/travis/create_cert.ps1
         - powershell -Command "Test-WSMan -Authentication default"
         - powershell -Command "Get-PSSessionConfiguration"
         - powershell -Command "Get-Item WSMan:\localhost\Client\TrustedHosts"
@@ -89,6 +89,7 @@ matrix:
         # setup ansible
         - wsl uname -a
         - wsl sudo pip3 install --upgrade pip
+        - wsl sudo pip3 install pywinrm
         - wsl sudo pip3 install ansible==$ANSIBLE_VERSION
         - wsl ansible --version
         - wsl echo localhost ansible_user=%winrm_user% ansible_password=%winrm_password% ansible_connection=winrm
