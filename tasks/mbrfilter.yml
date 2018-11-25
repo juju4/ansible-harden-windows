@@ -26,4 +26,3 @@
   win_command: "RUNDLL32.EXE SETUPAPI.DLL,InstallHinfSection DefaultInstall 132 {{ harden_win_temp_dir }}\\mbrfilter\\64\\mbrfilter.sys"
 
 - debug: msg="WARNING! Talos Mbrfilter - You will need to reboot for driver to be effective."
-

@@ -65,4 +65,3 @@
     - harden_win_testing_detections: false
   roles:
     - juju4.harden-windows
-

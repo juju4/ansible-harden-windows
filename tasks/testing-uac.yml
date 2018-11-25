@@ -18,4 +18,3 @@
 
 - name: Test UAC bypass - launch fodhelper
   win_command: "C:\\Windows\\System32\\fodhelper.exe"
-

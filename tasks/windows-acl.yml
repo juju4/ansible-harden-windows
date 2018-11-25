@@ -67,4 +67,3 @@
     - { u: 'CREATOR OWNER', r: 'FullControl', t: 'allow', i: 'ContainerInherit, ObjectInherit', p: 'InheritOnly' }
     - { u: 'ALL APPLICATION PACKAGES', r: 'QueryValues,EnumerateSubKeys,Notify,ReadPermissions', t: 'allow', i: 'ContainerInherit, ObjectInherit', p: 'InheritOnly' }
     - { u: 'Users', r: 'QueryValues,EnumerateSubKeys,Notify,ReadPermissions', t: 'allow', i: 'ContainerInherit, ObjectInherit', p: 'InheritOnly' }
-

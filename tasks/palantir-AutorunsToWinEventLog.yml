@@ -7,4 +7,4 @@
     version: HEAD
 
 - name: install AutorunsToWinEventLog
-  shell: "{{ harden_win_temp_dir }}/windows-event-forwarding/AutorunsToWinEventLog/Install.ps1"
+  win_shell: "{{ harden_win_temp_dir }}/windows-event-forwarding/AutorunsToWinEventLog/Install.ps1"

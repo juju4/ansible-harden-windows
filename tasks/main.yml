@@ -1,13 +1,16 @@
 ---
 
-- include_vars: appveyor.yml
+- name: Appveyor environment variables
+  include_vars: appveyor.yml
   when: (ansible_env is defined and ansible_env.APPVEYOR is defined and ansible_env.APPVEYOR) or ansible_user == 'winrm_test_user'
-- include_vars: vagrant.yml
+- name: Vagrant environment variables
+  include_vars: vagrant.yml
   when: ansible_user == 'vagrant'
 
 - name: Windows | Harden
   include: windows.yml
   when: ansible_os_family == "Windows"
 
-- include: testing.yml
+- name: Testing
+  include: testing.yml
   when: harden_win_testing

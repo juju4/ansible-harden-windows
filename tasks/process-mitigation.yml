@@ -5,4 +5,3 @@
 
 - name: Check powershell.exe process mitigation
   win_shell: Get-ProcessMitigation -Name powershell.exe
-

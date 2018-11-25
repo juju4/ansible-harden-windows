@@ -79,7 +79,8 @@
   win_shell: "reg query \"HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Control\\Lsa\" /v \"Notification Packages\" | findstr REG_MULTI_SZ"
   changed_when: false
   register: reg1
-- set_fact:
+- name: Set NotifPackages
+  set_fact:
     NotifPackages: "{{ reg1.stdout | regex_replace('^\\s+Notification Packages\\s+REG_MULTI_SZ\\s+(.*)\\r\\n$', '\\1') }}"
 - debug: var=reg1.stdout_lines
 - debug: var=NotifPackages

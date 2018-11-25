@@ -1,6 +1,7 @@
 ---
 
-- win_stat: path="{{ harden_win_temp_dir }}\\{{ harden_win_remotelogging_nxlog_url | basename }}"
+- name: Check if Nxlog archive already downloaded
+  win_stat: path="{{ harden_win_temp_dir }}\\{{ harden_win_remotelogging_nxlog_url | basename }}"
   register: nxlogdl
 - name: Download NXLog CE
   win_get_url:
@@ -36,4 +37,3 @@
 ## https://github.com/Graylog2/collector-sidecar/releases
 #"C:\Program Files (x86)\graylog\collector-sidecar\graylog-collector-sidecar.exe" -service install
 #"C:\Program Files (x86)\graylog\collector-sidecar\graylog-collector-sidecar.exe" -service start
-
