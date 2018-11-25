@@ -63,8 +63,8 @@ matrix:
 #        - wslconfig /list
         - wsl pwd
         # setup winrm
-        - net user /Y /add $winrm_user $winrm_password
-        - net localgroup administrators $winrm_user /add
+#        - net user /Y /add %winrm_user% %winrm_password%
+#        - net localgroup administrators %winrm_user% /add
         - set
         - wsl find || true
         - powershell.exe -ExecutionPolicy Bypass -File test/travis/create_cert.ps1
@@ -92,21 +92,21 @@ matrix:
         - wsl sudo pip3 install pywinrm
         - wsl sudo pip3 install ansible==$ANSIBLE_VERSION
         - wsl ansible --version
-        - wsl echo localhost ansible_user=$winrm_user ansible_password=$winrm_password ansible_connection=winrm > test/travis/inventory
+        - wsl echo localhost ansible_user=%winrm_user% ansible_password=%winrm_password% ansible_connection=winrm
 #        - wsl ls /
-        - wsl ansible -i $TRAVIS_BUILD_DIR/test/travis/inventory -m win_ping -vvv localhost
+        - wsl ansible -i /mnt/c/Users/travis/build/juju4/ansible-harden-windows/test/appveyor/inventory -m win_ping -vvv localhost
         - wsl mkdir -p /etc/ansible/roles
-        - wsl cp $TRAVIS_BUILD_DIR/test/appveyor/ansible.cfg /etc/ansible
-        - wsl cp -R $TRAVIS_BUILD_DIR /etc/ansible/roles/juju4.harden-windows
-        - wsl sh -x $TRAVIS_BUILD_DIR/get-dependencies.sh
+        - wsl cp /mnt/c/Users/travis/build/juju4/ansible-harden-windows/test/appveyor/ansible.cfg /etc/ansible
+        - wsl cp -R /mnt/c/Users/travis/build/juju4/ansible-harden-windows /etc/ansible/roles/juju4.harden-windows
+        - wsl sh -x /mnt/c/Users/travis/build/juju4/ansible-harden-windows/get-dependencies.sh
 
       script:
-        - wsl ansible-playbook $TRAVIS_BUILD_DIR/test/integration/$SUITE/default.yml --syntax-check
-        - wsl ansible-playbook -i $TRAVIS_BUILD_DIR/test/travis/inventory $TRAVIS_BUILD_DIR/test/integration/$SUITE/default.yml -vvv $ANSIBLE_EXTRA_VARS
+        - wsl ansible-playbook /mnt/c/Users/travis/build/juju4/ansible-harden-windows/test/integration/$SUITE/default.yml --syntax-check
+        - wsl ansible-playbook -i /mnt/c/Users/travis/build/juju4/ansible-harden-windows/test/appveyor/inventory /mnt/c/Users/travis/build/juju4/ansible-harden-windows/test/integration/$SUITE/default.yml -vvv $ANSIBLE_EXTRA_VARS --connection local
 
       after_failure:
         - powershell -Command "Get-WinEvent -LogName 'Microsoft-Windows-AppLocker/EXE and DLL' | Where { $_.ID -eq 8004 }"
-        - wsl ansible -i $TRAVIS_BUILD_DIR/test/travis/inventory -m setup -vvv localhost
+        - wsl ansible -i /mnt/c/Users/travis/build/juju4/ansible-harden-windows/test/appveyor/inventory -m setup -vvv localhost
 
       after_script:
         - powershell -Command 'Get-ChildItem -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\FileExts\.hta" -Recurse'
