@@ -93,7 +93,7 @@ matrix:
         - wsl ansible --version
         - wsl echo localhost ansible_user=%winrm_user% ansible_password=%winrm_password% ansible_connection=winrm
         - wsl ls /
-        - wsl ansible -i /mnt/c/Users/travis/build/juju4/ansible-harden-windows/test/appveyor/inventory -m win_ping -vvv localhost'"
+        - wsl ansible -i /mnt/c/Users/travis/build/juju4/ansible-harden-windows/test/appveyor/inventory -m win_ping -vvv localhost
         - wsl mkdir -p /etc/ansible/roles
         - wsl cp /mnt/c/Users/travis/build/juju4/ansible-harden-windows/test/appveyor/ansible.cfg /etc/ansible
         - wsl cp -R /mnt/c/Users/travis/build/juju4/ansible-harden-windows /etc/ansible/roles/juju4.harden-windows
