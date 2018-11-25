@@ -63,8 +63,8 @@ matrix:
 #        - wslconfig /list
         - wsl pwd
         # setup winrm
-        - net user /Y /add $winrm_user $winrm_password
-        - net localgroup administrators $winrm_user /add
+        - powershell -Command "net user /Y /add $winrm_user $winrm_password"
+        - powershell -Command "net localgroup administrators $winrm_user /add"
         - set
         - wsl find || true
         - powershell.exe -ExecutionPolicy Bypass -File test/travis/create_cert.ps1
