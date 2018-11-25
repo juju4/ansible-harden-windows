@@ -5,9 +5,9 @@ env:
   global:
     - winrm_user: winrm_test_user
     - winrm_password: WinRM_test_Pass@w0rd1
-    - user_cert: %TRAVIS_BUILD_DIR%\user.pem
-    - user_key: %TRAVIS_BUILD_DIR%\key.pem
-    - user_pfx: %TRAVIS_BUILD_DIR%\user.pfx
+    - user_cert: c:\Users\travis\build\juju4\ansible-harden-windows\user.pem
+    - user_key: c:\Users\travis\build\juju4\ansible-harden-windows\key.pem
+    - user_pfx: c:\Users\travis\build\juju4\ansible-harden-windows\user.pfx
 
 matrix:
   include:
