@@ -80,7 +80,7 @@ matrix:
 #        - winrm set winrm/config/service/auth '@{CbtHardeningLevel="Strict"}'
 #        - winrm set winrm/config/service '@{AllowUnencrypted="true"}'
         - powershell -Command "Write-Host $env:PATH"
-        - powershell -Command "($pwd).path"
+#        - powershell -Command "($pwd).path"
 
       install:
         # setup environment
