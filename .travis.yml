@@ -93,6 +93,7 @@ matrix:
         - wsl sudo pip3 install ansible==$ANSIBLE_VERSION
         - wsl ansible --version
         - wsl echo localhost ansible_user=$winrm_user ansible_password=$winrm_password ansible_connection=winrm > test/travis/inventory
+        - cat test/travis/inventory
 #        - wsl ls /
         - wsl ansible -i $TRAVIS_BUILD_DIR/test/travis/inventory -m win_ping -vvv localhost
         - wsl mkdir -p /etc/ansible/roles
