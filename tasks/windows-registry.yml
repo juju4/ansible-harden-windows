@@ -247,7 +247,7 @@
     data: "{{ item.d }}"
     state: "{{ item.s }}"
   with_items:
-    - { v: NullSessionPipes, t: multistring, d: '', s: absent  }
+    - { v: NullSessionPipes, t: multistring, d: '', s: absent }
     - { v: RestrictNullSessAccess, t: dword, d: 1, s: present }
 # https://www.stigviewer.com/stig/windows_10/2016-06-24/finding/V-63723
     - { v: EnableSecuritySignature, t: dword, d: 1, s: present }
