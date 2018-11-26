@@ -66,8 +66,10 @@ matrix:
         - powershell -Command "net user /Y /add $winrm_user $winrm_password"
         - powershell -Command "net localgroup administrators $winrm_user /add"
         - set
+        - curl -L -o winpty-0.4.3-cygwin-2.8.0-x64.zip https://github.com/rprichard/winpty/releases/download/0.4.3/winpty-0.4.3-cygwin-2.8.0-x64.zip
+        - powershell.exe -NoProfile -Command "Expand-Archive -Path winpty-0.4.3-cygwin-2.8.0-x64.zip -DestinationPath winpty"
         - wsl find || true
-        - winpty powershell.exe -ExecutionPolicy Bypass -File test/travis/create_cert.ps1
+        - ./winpty/bin/winpty powershell.exe -ExecutionPolicy Bypass -File test/travis/create_cert.ps1
         - powershell -Command "Test-WSMan -Authentication default"
         - powershell -Command "Get-PSSessionConfiguration"
         - powershell -Command "Get-Item WSMan:\localhost\Client\TrustedHosts"
