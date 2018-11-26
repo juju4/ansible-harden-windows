@@ -67,7 +67,7 @@ matrix:
         - powershell -Command "net localgroup administrators $winrm_user /add"
         - set
         - wsl find || true
-        - powershell.exe -ExecutionPolicy Bypass -File test/travis/create_cert.ps1
+        - winpty powershell.exe -ExecutionPolicy Bypass -File test/travis/create_cert.ps1
         - powershell -Command "Test-WSMan -Authentication default"
         - powershell -Command "Get-PSSessionConfiguration"
         - powershell -Command "Get-Item WSMan:\localhost\Client\TrustedHosts"
