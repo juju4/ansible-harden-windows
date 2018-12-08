@@ -139,7 +139,7 @@
 - include: windows-rdp.yml
 
 - include: windows-emet.yml
-  when: harden_win_emet_conf
+  when: harden_win_emet_conf != ''
 
 - include: adobereader.yml
   when: harden_win_adobereader is defined and harden_win_adobereader
