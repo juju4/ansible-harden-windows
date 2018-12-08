@@ -11,12 +11,48 @@
     inherit: "{{ item.i }}"
     propagation: "{{ item.p }}"
   with_items:
-    - { u: 'Administrators', r: 'FullControl', t: 'allow', i: 'ContainerInherit, ObjectInherit', p: 'InheritOnly', s: present }
-    - { u: 'SYSTEM', r: 'FullControl', t: 'allow', i: 'ContainerInherit, ObjectInherit', p: 'InheritOnly', s: present }
-    - { u: 'Users', r: 'ReadAndExecute', t: 'allow', i: 'ContainerInherit, ObjectInherit', p: 'InheritOnly', s: present }
-    - { u: 'Authenticated Users', r: 'Modify', t: 'allow', i: 'ContainerInherit, ObjectInherit', p: 'InheritOnly', s: present }
-#    - { u: 'Authenticated Users', r: 'CreateDirectories, AppendData', t: 'allow', i: 'None', p: 'NoPropagateInherit', s: present }
-    - { u: 'Users', r: 'CreateDirectories, AppendData', t: 'allow', i: 'None', p: 'NoPropagateInherit', s: absent }
+    - { u: 'Administrators',
+        r: 'FullControl',
+        t: 'allow',
+        i: 'ContainerInherit, ObjectInherit',
+        p: 'InheritOnly',
+        s: present
+      }
+    - { u: 'SYSTEM',
+        r: 'FullControl',
+        t: 'allow',
+        i: 'ContainerInherit, ObjectInherit',
+        p: 'InheritOnly',
+        s: present
+      }
+    - { u: 'Users',
+        r: 'ReadAndExecute',
+        t: 'allow',
+        i: 'ContainerInherit, ObjectInherit',
+        p: 'InheritOnly',
+        s: present
+      }
+    - { u: 'Authenticated Users',
+        r: 'Modify',
+        t: 'allow',
+        i: 'ContainerInherit, ObjectInherit',
+        p: 'InheritOnly',
+        s: present
+      }
+#    - { u: 'Authenticated Users',
+#        r: 'CreateDirectories, AppendData',
+#        t: 'allow',
+#        i: 'None',
+#        p: 'NoPropagateInherit',
+#        s: present
+#      }
+    - { u: 'Users',
+        r: 'CreateDirectories, AppendData',
+        t: 'allow',
+        i: 'None',
+        p: 'NoPropagateInherit',
+        s: absent
+      }
 
 # https://www.stigviewer.com/stig/windows_10/2015-11-30/finding/V-63593
 # FIXME!
@@ -48,8 +84,18 @@
     - { u: 'Administrators', r: 'FullControl', t: 'allow', i: 'ContainerInherit, ObjectInherit', p: 'InheritOnly' }
     - { u: 'SYSTEM', r: 'FullControl', t: 'allow', i: 'ContainerInherit, ObjectInherit', p: 'InheritOnly' }
     - { u: 'CREATOR OWNER', r: 'FullControl', t: 'allow', i: 'ContainerInherit, ObjectInherit', p: 'InheritOnly' }
-    - { u: 'ALL APPLICATION PACKAGES', r: 'QueryValues,EnumerateSubKeys,Notify,ReadPermissions', t: 'allow', i: 'ContainerInherit, ObjectInherit', p: 'InheritOnly' }
-    - { u: 'Users', r: 'QueryValues,EnumerateSubKeys,Notify,ReadPermissions', t: 'allow', i: 'ContainerInherit, ObjectInherit', p: 'InheritOnly' }
+    - { u: 'ALL APPLICATION PACKAGES',
+        r: 'QueryValues,EnumerateSubKeys,Notify,ReadPermissions',
+        t: 'allow',
+        i: 'ContainerInherit, ObjectInherit',
+        p: 'InheritOnly'
+      }
+    - { u: 'Users',
+        r: 'QueryValues,EnumerateSubKeys,Notify,ReadPermissions',
+        t: 'allow',
+        i: 'ContainerInherit, ObjectInherit',
+        p: 'InheritOnly'
+      }
 
 - name: Permissions for registry hive must conform to minimum requirements. - HKLM\System
   win_acl:
@@ -65,5 +111,15 @@
     - { u: 'Administrators', r: 'FullControl', t: 'allow', i: 'ContainerInherit, ObjectInherit', p: 'InheritOnly' }
     - { u: 'SYSTEM', r: 'FullControl', t: 'allow', i: 'ContainerInherit, ObjectInherit', p: 'InheritOnly' }
     - { u: 'CREATOR OWNER', r: 'FullControl', t: 'allow', i: 'ContainerInherit, ObjectInherit', p: 'InheritOnly' }
-    - { u: 'ALL APPLICATION PACKAGES', r: 'QueryValues,EnumerateSubKeys,Notify,ReadPermissions', t: 'allow', i: 'ContainerInherit, ObjectInherit', p: 'InheritOnly' }
-    - { u: 'Users', r: 'QueryValues,EnumerateSubKeys,Notify,ReadPermissions', t: 'allow', i: 'ContainerInherit, ObjectInherit', p: 'InheritOnly' }
+    - { u: 'ALL APPLICATION PACKAGES',
+        r: 'QueryValues,EnumerateSubKeys,Notify,ReadPermissions',
+        t: 'allow',
+        i: 'ContainerInherit, ObjectInherit',
+        p: 'InheritOnly'
+      }
+    - { u: 'Users',
+        r: 'QueryValues,EnumerateSubKeys,Notify,ReadPermissions',
+        t: 'allow',
+        i: 'ContainerInherit, ObjectInherit',
+        p: 'InheritOnly'
+      }

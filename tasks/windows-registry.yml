@@ -28,7 +28,8 @@
 ##    value: NetbiosOptions
 ##    data: 2
 ## FIXME! doesn't seem to work
-#  win_command: 'powershell -Command "set-ItemProperty HKLM:SYSTEMCurrentControlSetservicesNetBTParametersInterfacestcpip* -Name NetbiosOptions -Value 2"'
+#  win_shell: >
+#    set-ItemProperty HKLM:SYSTEMCurrentControlSetservicesNetBTParametersInterfacestcpip* -Name NetbiosOptions -Value 2
 ### This one is working fine
       win_command: "wmic /interactive:off nicconfig where TcpipNetbiosOptions={{ item }} call SetTcpipNetbios 2"
       with_items:
@@ -144,14 +145,17 @@
     value: AuditLevel
     datatype: dword
     data: "{{ harden_win_lsass_auditlevel | default(8) }}"
-  when: harden_win_lsass_auditlevel is not defined or harden_win_lsass_auditlevel != ''
+  when: harden_win_lsass_auditlevel is not defined or harden_win_lsass_auditlevel
 
 # https://twitter.com/mattifestation/status/1034510764642467840
 # https://github.com/MicrosoftDocs/windows-itpro-docs/blob/master/windows/security/threat-protection/windows-defender-exploit-guard/troubleshoot-exploit-protection-mitigations.md
 # https://docs.microsoft.com/en-us/windows/security/threat-protection/override-mitigation-options-for-app-related-security-policies
 # https://docs.microsoft.com/en-us/windows/security/threat-protection/windows-defender-exploit-guard/customize-exploit-protection
 - name: check Exploit protection mitigation for powershell.exe
-  win_shell: Get-ItemPropertyValue -Path 'HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Image File Execution Options\powershell.exe' -Name MitigationOptions
+  win_shell: >
+    Get-ItemPropertyValue
+      -Path 'HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Image File Execution Options\powershell.exe'
+      -Name MitigationOptions
   ignore_errors: true
   changed_when: false
 - name: Enable Exploit protection mitigation for powershell.exe
@@ -185,7 +189,9 @@
     datatype: dword
     data: 1
 
-- name: Services using Local System that use Negotiate when reverting to NTLM authentication must use the computer identity vs. authenticating anonymously.
+- name: >
+    Services using Local System that use Negotiate when reverting to NTLM authentication must use the
+    computer identity vs. authenticating anonymously.
   win_regedit:
     key: HKLM:\SYSTEM\CurrentControlSet\Control\LSA
     value: UseMachineId
@@ -286,10 +292,22 @@
     datatype: dword
     data: "{{ item.d }}"
   with_items:
-    - { k: 'HKLM:\SYSTEM\CurrentControlSet\Control\SecurityProviders\SCHANNEL\Protocols\TLS 1.2\Client', v: 'DisabledByDefault', d: 0 }
-    - { k: 'HKLM:\SYSTEM\CurrentControlSet\Control\SecurityProviders\SCHANNEL\Protocols\TLS 1.2\Client', v: 'Enabled', d: 1 }
-    - { k: 'HKLM:\SYSTEM\CurrentControlSet\Control\SecurityProviders\SCHANNEL\Protocols\TLS 1.2\Server', v: 'DisabledByDefault', d: 0 }
-    - { k: 'HKLM:\SYSTEM\CurrentControlSet\Control\SecurityProviders\SCHANNEL\Protocols\TLS 1.2\Server', v: 'Enabled', d: 1 }
+    - { k: 'HKLM:\SYSTEM\CurrentControlSet\Control\SecurityProviders\SCHANNEL\Protocols\TLS 1.2\Client',
+        v: 'DisabledByDefault',
+        d: 0
+      }
+    - { k: 'HKLM:\SYSTEM\CurrentControlSet\Control\SecurityProviders\SCHANNEL\Protocols\TLS 1.2\Client',
+        v: 'Enabled',
+        d: 1
+      }
+    - { k: 'HKLM:\SYSTEM\CurrentControlSet\Control\SecurityProviders\SCHANNEL\Protocols\TLS 1.2\Server',
+        v: 'DisabledByDefault',
+        d: 0
+      }
+    - { k: 'HKLM:\SYSTEM\CurrentControlSet\Control\SecurityProviders\SCHANNEL\Protocols\TLS 1.2\Server',
+        v: 'Enabled',
+        d: 1
+      }
 
 - name: Crypto | ensure SSL 2.0, 3.0 is disabled
   win_regedit:
@@ -298,25 +316,55 @@
     datatype: dword
     data: "{{ item.d }}"
   with_items:
-    - { k: 'HKLM:\SYSTEM\CurrentControlSet\Control\SecurityProviders\SCHANNEL\Protocols\SSL 2.0\Client', v: 'DisabledByDefault', d: 0 }
-    - { k: 'HKLM:\SYSTEM\CurrentControlSet\Control\SecurityProviders\SCHANNEL\Protocols\SSL 2.0\Client', v: 'Enabled', d: 0 }
-    - { k: 'HKLM:\SYSTEM\CurrentControlSet\Control\SecurityProviders\SCHANNEL\Protocols\SSL 2.0\Server', v: 'DisabledByDefault', d: 0 }
-    - { k: 'HKLM:\SYSTEM\CurrentControlSet\Control\SecurityProviders\SCHANNEL\Protocols\SSL 2.0\Server', v: 'Enabled', d: 0 }
-    - { k: 'HKLM:\SYSTEM\CurrentControlSet\Control\SecurityProviders\SCHANNEL\Protocols\SSL 3.0\Client', v: 'DisabledByDefault', d: 0 }
-    - { k: 'HKLM:\SYSTEM\CurrentControlSet\Control\SecurityProviders\SCHANNEL\Protocols\SSL 3.0\Client', v: 'Enabled', d: 0 }
-    - { k: 'HKLM:\SYSTEM\CurrentControlSet\Control\SecurityProviders\SCHANNEL\Protocols\SSL 3.0\Server', v: 'DisabledByDefault', d: 0 }
-    - { k: 'HKLM:\SYSTEM\CurrentControlSet\Control\SecurityProviders\SCHANNEL\Protocols\SSL 3.0\Server', v: 'Enabled', d: 0 }
+    - { k: 'HKLM:\SYSTEM\CurrentControlSet\Control\SecurityProviders\SCHANNEL\Protocols\SSL 2.0\Client',
+        v: 'DisabledByDefault',
+        d: 0
+      }
+    - { k: 'HKLM:\SYSTEM\CurrentControlSet\Control\SecurityProviders\SCHANNEL\Protocols\SSL 2.0\Client',
+        v: 'Enabled',
+        d: 0
+      }
+    - { k: 'HKLM:\SYSTEM\CurrentControlSet\Control\SecurityProviders\SCHANNEL\Protocols\SSL 2.0\Server',
+        v: 'DisabledByDefault',
+        d: 0
+      }
+    - { k: 'HKLM:\SYSTEM\CurrentControlSet\Control\SecurityProviders\SCHANNEL\Protocols\SSL 2.0\Server',
+        v: 'Enabled',
+        d: 0
+      }
+    - { k: 'HKLM:\SYSTEM\CurrentControlSet\Control\SecurityProviders\SCHANNEL\Protocols\SSL 3.0\Client',
+        v: 'DisabledByDefault',
+        d: 0
+      }
+    - { k: 'HKLM:\SYSTEM\CurrentControlSet\Control\SecurityProviders\SCHANNEL\Protocols\SSL 3.0\Client',
+        v: 'Enabled',
+        d: 0
+      }
+    - { k: 'HKLM:\SYSTEM\CurrentControlSet\Control\SecurityProviders\SCHANNEL\Protocols\SSL 3.0\Server',
+        v: 'DisabledByDefault',
+        d: 0
+      }
+    - { k: 'HKLM:\SYSTEM\CurrentControlSet\Control\SecurityProviders\SCHANNEL\Protocols\SSL 3.0\Server',
+        v: 'Enabled',
+        d: 0
+      }
 
 # https://www.stigviewer.com/stig/windows_10/2016-06-24/finding/V-63577
-- name: Hardened UNC Paths must be defined to require mutual authentication and integrity for at least the \\*\SYSVOL and \\*\NETLOGON shares.
+- name: >
+    Hardened UNC Paths must be defined to require mutual authentication and integrity for at least
+    the \\*\SYSVOL and \\*\NETLOGON shares.
   win_regedit:
     key: 'HKLM:\SOFTWARE\Policies\Microsoft\Windows\NetworkProvider\HardenedPaths'
     value: "{{ item.v }}"
     datatype: string
     data: "{{ item.d }}"
   with_items:
-    - { v: '\\*\NETLOGON', d: "RequireMutualAuthentication=1,RequireIntegrity=1{% if harden_win_hardenedunc_requireprivacy %},RequirePrivacy=1{% endif %}" }
-    - { v: '\\*\SYSVOL', d: "RequireMutualAuthentication=1,RequireIntegrity=1{% if harden_win_hardenedunc_requireprivacy %},RequirePrivacy=1{% endif %}" }
+    - { v: '\\*\NETLOGON',
+        d: "RequireMutualAuthentication=1,RequireIntegrity=1{% if harden_win_hardenedunc_requireprivacy %},RequirePrivacy=1{% endif %}"
+      }
+    - { v: '\\*\SYSVOL',
+        d: "RequireMutualAuthentication=1,RequireIntegrity=1{% if harden_win_hardenedunc_requireprivacy %},RequirePrivacy=1{% endif %}"
+      }
 
 # https://www.stigviewer.com/stig/windows_10/2015-11-30/finding/V-63545
 # https://www.stigviewer.com/stig/windows_10/2016-06-24/finding/V-63549
@@ -467,7 +515,9 @@
     data: 2
 
 # https://www.stigviewer.com/stig/windows_10/2017-12-01/finding/V-63563
-- name: The system must be configured to prevent Internet Control Message Protocol (ICMP) redirects from overriding Open Shortest Path First (OSPF) generated routes.
+- name: >
+    The system must be configured to prevent Internet Control Message Protocol (ICMP) redirects from
+    overriding Open Shortest Path First (OSPF) generated routes.
   win_regedit:
     key: 'HKLM:\SYSTEM\CurrentControlSet\Services\Tcpip\Parameters'
     value: EnableICMPRedirect
@@ -579,7 +629,9 @@
     data: 1
 
 # https://www.stigviewer.com/stig/windows_10/2016-06-24/finding/V-63663
-- name: The Application Compatibility Program Inventory must be prevented from collecting data and sending the information to Microsoft.
+- name: >
+    The Application Compatibility Program Inventory must be prevented from collecting data and
+    sending the information to Microsoft.
   win_regedit:
     key: 'HKLM:\SOFTWARE\Policies\Microsoft\Windows\AppCompat'
     value: DisableInventory

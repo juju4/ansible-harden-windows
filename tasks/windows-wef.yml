@@ -14,7 +14,7 @@
     groups_action: add
     groups:
       - Event Log Readers
-    when: harden_win_wef_collector_server_user is defined and harden_win_wef_collector_server_user != ''
+    when: harden_win_wef_collector_server_user is defined and harden_win_wef_collector_server_user
 
 - name: upload WEF configuration template
   win_template:

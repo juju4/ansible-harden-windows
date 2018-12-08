@@ -5,7 +5,8 @@
 ## * http://www.serveradventures.com/the-adventures/disabling-adobe-reader-xi-protected-mode-with-group-policy
 ## * Recommendations for Configuring Adobe Acrobat Reader XI in a Windows Environment, NSA
 ##   http://www.nsa.gov/ia/_files/app/Recommendations_for_Configuring_Adobe_Acrobat_Reader_XI_in_a_Windows_Environment.pdf
-##   Enhanced security and protected mode are turned on by default in ARXI, but they are not locked, meaning a user can disable them through the GUI. Protected view is not turned on by default.
+##   Enhanced security and protected mode are turned on by default in ARXI, but they are not locked, meaning
+##      a user can disable them through the GUI. Protected view is not turned on by default.
 
 - name: Win | FeatureLockDown Acrobat reader
   win_regedit:

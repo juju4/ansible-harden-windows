@@ -3,7 +3,8 @@
 ## http://www.talosintelligence.com/mbrfilter/
 ## https://github.com/vrtadmin/MBRFilter
 ## uninstall? pnputil.exe, https://technet.microsoft.com/en-us/library/cc730875(v=ws.11).aspx
-##            RUNDLL32.EXE SETUPAPI.DLL,InstallHinfSection DefaultUninstall 132 path-to-uninstall-dir\infname.inf       https://msdn.microsoft.com/en-us/windows/hardware/drivers/ifs/using-an-inf-file-to-uninstall-a-file-system-filter-driver
+##            RUNDLL32.EXE SETUPAPI.DLL,InstallHinfSection DefaultUninstall 132 path-to-uninstall-dir\infname.inf
+##  https://msdn.microsoft.com/en-us/windows/hardware/drivers/ifs/using-an-inf-file-to-uninstall-a-file-system-filter-driver
 
 - name: check if mbrfilter archive is present
   win_stat: path="{{ harden_win_temp_dir }}\\{{ harden_win_mbrfilter_url | basename }}"
@@ -21,8 +22,10 @@
     dest: "{{ harden_win_temp_dir }}\\mbrfilter"
     creates: "{{ harden_win_temp_dir }}\\mbrfilter\\64\\mbrfilter.sys"
 
-## https://msdn.microsoft.com/en-us/windows/hardware/drivers/ifs/using-an-inf-file-to-install-a-file-system-filter-driver
+# https://msdn.microsoft.com/en-us/windows/hardware/drivers/ifs/using-an-inf-file-to-install-a-file-system-filter-driver
 - name: Install mbrfilter driver
-  win_command: "RUNDLL32.EXE SETUPAPI.DLL,InstallHinfSection DefaultInstall 132 {{ harden_win_temp_dir }}\\mbrfilter\\64\\mbrfilter.sys"
+  win_command: >
+    RUNDLL32.EXE SETUPAPI.DLL,InstallHinfSection DefaultInstall 132
+        {{ harden_win_temp_dir }}\\mbrfilter\\64\\mbrfilter.sys
 
 - debug: msg="WARNING! Talos Mbrfilter - You will need to reboot for driver to be effective."

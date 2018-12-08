@@ -29,9 +29,30 @@
     inherit: "{{ item.i }}"
     propagation: "{{ item.pr }}"
   with_items:
-    - { p: "{{ harden_win_temp_dir }}", u: 'BUILTIN\Users', r: 'ReadAndExecute,Write,AppendData', t: allow, s: absent, i: 'ContainerInherit, ObjectInherit', pr: 'None' }
-    - { p: "{{ harden_win_temp_dir }}", u: 'Authenticated Users', r: 'ReadAndExecute,Write,AppendData', t: allow, s: absent, i: 'ContainerInherit, ObjectInherit', pr: 'None' }
-    - { p: "{{ harden_win_log_dir }}", u: 'BUILTIN\Users', r: 'ReadAndExecute,Write,AppendData', t: allow, s: absent, i: 'ContainerInherit, ObjectInherit', pr: 'None' }
+    - { p: "{{ harden_win_temp_dir }}",
+        u: 'BUILTIN\Users',
+        r: 'ReadAndExecute,Write,AppendData',
+        t: allow,
+        s: absent,
+        i: 'ContainerInherit, ObjectInherit',
+        pr: 'None'
+      }
+    - { p: "{{ harden_win_temp_dir }}",
+        u: 'Authenticated Users',
+        r: 'ReadAndExecute,Write,AppendData',
+        t: allow,
+        s: absent,
+        i: 'ContainerInherit, ObjectInherit',
+        pr: 'None'
+      }
+    - { p: "{{ harden_win_log_dir }}",
+        u: 'BUILTIN\Users',
+        r: 'ReadAndExecute,Write,AppendData',
+        t: allow,
+        s: absent,
+        i: 'ContainerInherit, ObjectInherit',
+        pr: 'None'
+      }
 
 ## FIXME! failing on second pass, https://groups.google.com/forum/#!topic/ansible-project/_ydkYXZibrM
 - name: Ensure user _test is present
@@ -53,7 +74,14 @@
     - updates
 
 ## https://github.com/ansible/ansible/issues/13856
-## FIXME! FAILED! => {"changed": false, "choco_bootstrap_output": ["Getting latest version of the Chocolatey package for download.", "Getting Chocolatey from https://chocolatey.org/api/v2/package/chocolatey/0.10.3.", "Downloading 7-Zip commandline tool prior to extraction.", "Extracting C:\\Users\\ADMINI~1\\AppData\\Local\\Temp\\chocolatey\\chocInstall\\chocolatey.zip to C:\\Users\\ADMINI~1\\AppData\\Local\\Temp\\chocolatey\\chocInstall...", "Installing chocolatey on this machine", "Creating ChocolateyInstall as an environment variable (targeting 'Machine') ", "  Setting ChocolateyInstall to 'C:\\ProgramData\\chocolatey'", "WARNING: It's very likely you will need to close and reopen your shell ", "  before you can use choco."], "failed": true, "msg": "Chocolatey bootstrap installation failed."}
+## FIXME! FAILED! => {"changed": false, "choco_bootstrap_output": ["Getting latest version of the Chocolatey
+##  package for download.", "Getting Chocolatey from https://chocolatey.org/api/v2/package/chocolatey/0.10.3.",
+##  "Downloading 7-Zip commandline tool prior to extraction.", "Extracting
+##  C:\\Users\\ADMINI~1\\AppData\\Local\\Temp\\chocolatey\\chocInstall\\chocolatey.zip to
+##  C:\\Users\\ADMINI~1\\AppData\\Local\\Temp\\chocolatey\\chocInstall...", "Installing chocolatey on this machine",
+##  "Creating ChocolateyInstall as an environment variable (targeting 'Machine') ", "  Setting ChocolateyInstall to
+##  'C:\\ProgramData\\chocolatey'", "WARNING: It's very likely you will need to close and reopen your shell ", "
+##  before you can use choco."], "failed": true, "msg": "Chocolatey bootstrap installation failed."}
 - name: Chocolatey installation
   win_chocolatey: name=chocolatey state=present upgrade=no
 
@@ -111,7 +139,7 @@
 - include: windows-rdp.yml
 
 - include: windows-emet.yml
-  when: harden_win_emet_conf != ''
+  when: harden_win_emet_conf
 
 - include: adobereader.yml
   when: harden_win_adobereader is defined and harden_win_adobereader
@@ -123,7 +151,8 @@
 ## access time within Ntfs
 ## volume shadow copies
 ## central logging / windows event log forwarding
-## https://blog.brankovucinec.com/2014/10/24/use-software-restriction-policies-to-block-viruses-and-malware/ = SRP lock on %APPDATA%
+## https://blog.brankovucinec.com/2014/10/24/use-software-restriction-policies-to-block-viruses-and-malware/
+##      = SRP lock on %APPDATA%
 
 - include: windows-adminshares.yml
   when: harden_win_disable_adminshares

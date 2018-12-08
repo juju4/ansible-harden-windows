@@ -7,7 +7,9 @@
 ## https://blogs.technet.microsoft.com/askpfeplat/2013/06/16/ipv6-for-the-windows-administrator-why-you-need-to-care-about-ipv6/
 
 ## https://docs.microsoft.com/en-us/windows/deployment/planning/windows-10-1803-removed-features
-## "6to4 has been disabled by default since Windows 10, version 1607 (the Anniversary Update), ISATAP has been disabled by default since Windows 10, version 1703 (the Creators Update), and Direct Tunnels has always been disabled by default. Please use native IPv6 support instead."
+## "6to4 has been disabled by default since Windows 10, version 1607 (the Anniversary Update), ISATAP has been
+##  disabled by default since Windows 10, version 1703 (the Creators Update), and Direct Tunnels has always
+##  been disabled by default. Please use native IPv6 support instead."
 - name: Disable Non-native IPv6 (Tunnels)
   win_regedit:
     key: HKLM:\SYSTEM\CurrentControlSet\Services\Tcpip6\Parameters

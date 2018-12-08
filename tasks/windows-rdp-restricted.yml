@@ -5,7 +5,8 @@
 ## https://technet.microsoft.com/en-us/library/security/2871997.aspx
 ## https://michael-eder.net/post/2018/native_rdp_pass_the_hash/
 
-## This will enable RestrictedAdmin mode, so that the destination system will accept incoming RestrictedAdmin-enabled connections)
+## This will enable RestrictedAdmin mode, so that the destination system will accept incoming
+##  RestrictedAdmin-enabled connections)
 - name: Enable Remote Desktop RestrictedAdmin
   win_regedit:
     key: HKLM:\System\CurrentControlSet\Control\Lsa

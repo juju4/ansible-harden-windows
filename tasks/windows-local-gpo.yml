@@ -20,7 +20,9 @@
 ## https://technet.microsoft.com/en-ca/library/cc776625%28v=ws.10%29.aspx
 - block:
     - name: load gpo configuration locally - secedit
-      win_command: "secedit /configure /cfg {{ harden_win_temp_dir }}\\{{ harden_win_gpo_inf | regex_replace('.j2$', '') }} /db {{ harden_win_gpo_db }} /log {{ harden_win_gpo_log }} /verbose"
+      win_command: >
+        secedit /configure /cfg {{ harden_win_temp_dir }}\{{ harden_win_gpo_inf | regex_replace('.j2$', '') }}
+          /db {{ harden_win_gpo_db }} /log {{ harden_win_gpo_log }} /verbose
       args:
         creates: "{{ harden_win_gpo_log }}"
       ignore_errors: true
@@ -37,7 +39,8 @@
 - block:
 # https://blogs.msdn.microsoft.com/powershell/2016/05/20/new-group-policy-cmdlets-for-nano-server/
     - name: load gpo configuration locally - Restore-SecurityPolicy
-      win_shell: "Restore-SecurityPolicy -Path \"{{ harden_win_temp_dir }}\\{{ harden_win_gpo_inf | regex_replace('.j2$', '') }}\""
+      win_shell: >
+        Restore-SecurityPolicy -Path "{{ harden_win_temp_dir }}\{{ harden_win_gpo_inf | regex_replace('.j2$', '') }}"
   when: harden_win_gpo_local_action == 'ps'
 
 - block:
@@ -141,7 +144,8 @@
         users: "{{ harden_win_inf_SeTrustedCredManAccessPrivilege_list }}"
         action: set
 
-    - set_fact:
+    - name: Update SeNetworkLogonRight users list if testing
+      set_fact:
         harden_win_inf_SeNetworkLogonRight_list: "{{ harden_win_inf_SeNetworkLogonRight_list }} + [ '_test' ]"
       when: harden_win_testing
     - name: Set account to log on using the network logon type

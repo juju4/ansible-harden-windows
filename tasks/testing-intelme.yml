@@ -14,7 +14,9 @@
     creates: "{{ harden_win_temp_dir }}\\SA00086_Windows\\DiscoveryTool\\Intel-SA-00086-console.exe"
 
 - name: Execute Intel-SA-00086 Detection Tool
-  win_command: "\"{{ harden_win_temp_dir }}\\SA00086_Windows\\DiscoveryTool\\Intel-SA-00086-console.exe\" -n -f \"{{ harden_win_log_dir }}\\Intel-SA-00086-results-{{ ansible_date_time.iso8601 }}.xml\""
+  win_command: >
+    "{{ harden_win_temp_dir }}\\SA00086_Windows\\DiscoveryTool\\Intel-SA-00086-console.exe" -n
+      -f "{{ harden_win_log_dir }}\\Intel-SA-00086-results-{{ ansible_date_time.iso8601 }}.xml"
   register: intel
   ignore_errors: true
   changed_when: false

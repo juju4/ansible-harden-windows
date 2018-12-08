@@ -1,6 +1,7 @@
 ---
 
-## Trusted root certificates that are required by Windows Server 2008 R2, by Windows 7, by Windows Server 2008, by Windows Vista, by Windows Server 2003, by Windows XP, and by Windows 2000
+## Trusted root certificates that are required by Windows Server 2008 R2, by Windows 7,
+##  by Windows Server 2008, by Windows Vista, by Windows Server 2003, by Windows XP, and by Windows 2000
 ## https://support.microsoft.com/en-us/kb/293781
 
 ## Configure Trusted Roots and Disallowed Certificates

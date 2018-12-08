@@ -63,10 +63,15 @@
 #    path: "c:\\windows\\system32\\OPFService.exe"
 #    start_mode: auto
 #    state: started
-  win_shell: "New-Service -Name OpenPasswordFilter -BinaryPathName c:\\windows\\system32\\OPFService.exe -Description \"OpenPasswordFilter service to prevent dictionary passwords\" -StartupType Automatic"
+  win_shell: >
+    New-Service -Name OpenPasswordFilter
+      -BinaryPathName c:\\windows\\system32\\OPFService.exe
+      -Description "OpenPasswordFilter service to prevent dictionary passwords"
+      -StartupType Automatic
   ignore_errors: true
 
-## FIXME! error 'SHIM_GOTO_CONTROLPANEL', https://support.microsoft.com/en-us/help/2715633/shim-errors-for-the--net-framework-version-and-platform-support
+## FIXME! error 'SHIM_GOTO_CONTROLPANEL'
+##    https://support.microsoft.com/en-us/help/2715633/shim-errors-for-the--net-framework-version-and-platform-support
 ##  NOK ws2016: without or with .Net Framework 3.5
 ##  NOK amarkulo, ws2016: service started and stopped. no error message
 - name: Ensure OPF service is started
@@ -76,7 +81,9 @@
 
 ## ws2016: initial value = 'rassfm\0scecli'
 - name: retrieving Notification registry value
-  win_shell: "reg query \"HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Control\\Lsa\" /v \"Notification Packages\" | findstr REG_MULTI_SZ"
+  win_shell: >
+    reg query "HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Control\\Lsa" /v "Notification Packages" |
+    findstr REG_MULTI_SZ
   changed_when: false
   register: reg1
 - name: Set NotifPackages

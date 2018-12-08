@@ -46,7 +46,10 @@
     name: Monthly-Security-Reset-krgtbt-1
     description: Run krgtbt reset - informational mode
     executable: C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe
-    arguments: "-ExecutionPolicy Unrestricted -NonInteractive -File {{ harden_win_log_dir }}\\New-CtmADKrbtgtKeys\\New-CtmADKrbtgtKeys-1.ps1 >{{ harden_win_log_dir }}\\reset-krgtbt-1.log"
+    arguments: >
+      -ExecutionPolicy Unrestricted -NonInteractive
+      -File {{ harden_win_log_dir }}\\New-CtmADKrbtgtKeys\\New-CtmADKrbtgtKeys-1.ps1
+      >{{ harden_win_log_dir }}\\reset-krgtbt-1.log
     time: 5am
     frequency: weekly
     state: present
@@ -57,7 +60,10 @@
     name: Monthly-Security-Reset-krgtbt-2
     description: Run krgtbt reset - simulation mode
     executable: C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe
-    arguments: "-ExecutionPolicy Unrestricted -NonInteractive -File {{ harden_win_log_dir }}\\New-CtmADKrbtgtKeys\\New-CtmADKrbtgtKeys-2.ps1 >{{ harden_win_log_dir }}\\reset-krgtbt-2.log"
+    arguments: >
+      -ExecutionPolicy Unrestricted -NonInteractive
+      -File {{ harden_win_log_dir }}\\New-CtmADKrbtgtKeys\\New-CtmADKrbtgtKeys-2.ps1
+        >{{ harden_win_log_dir }}\\reset-krgtbt-2.log
     time: 6am
     frequency: weekly
     state: present

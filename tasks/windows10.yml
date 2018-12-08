@@ -1,6 +1,7 @@
 ---
 ## https://twitter.com/dwizzzleMSFT/status/853079695520284674
-## If you instal Windows 10 1703 and enable HVCI we now also enable kCFG.  Kernel mode exploits are subject to control flow integrity in Win10
+## If you instal Windows 10 1703 and enable HVCI we now also enable kCFG.  Kernel mode exploits are
+##      subject to control flow integrity in Win10
 ## https://docs.microsoft.com/en-us/windows/device-security/device-guard/deploy-device-guard-enable-virtualization-based-security
 ## https://docs.microsoft.com/en-us/windows/device-security/device-guard/deploy-code-integrity-policies-steps
 
@@ -30,15 +31,51 @@
     data: "{{ item.d }}"
     datatype: "{{ item.t }}"
   with_items:
-    - { k: 'HKCU:\Software\Microsoft\Windows\CurrentVersion\BackgroundAccessApplications\Microsoft.Windows.ContentDeliveryManager_cw5n1h2txyewy', v: 'Disabled', d: 1, t: dword }
-    - { k: 'HKCU:\Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager', v: 'SubscribedContent-338388Enabled', d: 0, t: dword }
-    - { k: 'HKCU:\Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager', v: 'SilentInstalledAppsEnabled', d: 0, t: dword }
-    - { k: 'HKCU:\Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager', v: 'SystemPaneSuggestionsEnabled', d: 0, t: dword }
-    - { k: 'HKCU:\Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager', v: 'ShowSyncProviderNotifications', d: 0, t: dword }
-    - { k: 'HKCU:\Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager', v: 'SoftLandingEnabled', d: 0, t: dword }
-    - { k: 'HKCU:\Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager', v: 'RotatingLockScreenEnabled', d: 0, t: dword }
-    - { k: 'HKCU:\Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager', v: 'RotatingLockScreenOverlayEnabled', d: 0, t: dword }
-    - { k: 'HKCU:\Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager', v: 'SubscribedContent-310093Enabled', d: 0, t: dword }
+    - { k: 'HKCU:\Software\Microsoft\Windows\CurrentVersion\BackgroundAccessApplications\Microsoft.Windows.ContentDeliveryManager_cw5n1h2txyewy',
+        v: 'Disabled',
+        d: 1,
+        t: dword
+      }
+    - { k: 'HKCU:\Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager',
+        v: 'SubscribedContent-338388Enabled',
+        d: 0,
+        t: dword
+      }
+    - { k: 'HKCU:\Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager',
+        v: 'SilentInstalledAppsEnabled',
+        d: 0,
+        t: dword
+      }
+    - { k: 'HKCU:\Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager',
+        v: 'SystemPaneSuggestionsEnabled',
+        d: 0,
+        t: dword
+      }
+    - { k: 'HKCU:\Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager',
+        v: 'ShowSyncProviderNotifications',
+        d: 0,
+        t: dword
+      }
+    - { k: 'HKCU:\Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager',
+        v: 'SoftLandingEnabled',
+        d: 0,
+        t: dword
+      }
+    - { k: 'HKCU:\Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager',
+        v: 'RotatingLockScreenEnabled',
+        d: 0,
+        t: dword
+      }
+    - { k: 'HKCU:\Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager',
+        v: 'RotatingLockScreenOverlayEnabled',
+        d: 0,
+        t: dword
+      }
+    - { k: 'HKCU:\Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager',
+        v: 'SubscribedContent-310093Enabled',
+        d: 0,
+        t: dword
+      }
 
 - include: tasks/process-mitigation.yml
   when: harden_win_exploitmitigation

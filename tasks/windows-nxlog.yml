@@ -22,7 +22,8 @@
   with_items: "{{ harden_win_nxlog_conf | default([]) }}"
 
 - name: Validate NXLog CE configuration
-  win_command: "\"c:\\Program Files (x86)\\nxlog\\nxlog.exe\" -c \"c:\\Program Files (x86)\\nxlog\\conf\\nxlog.conf\" -v"
+  win_command: >
+    "c:\Program Files (x86)\nxlog\nxlog.exe" -c "c:\Program Files (x86)\nxlog\conf\nxlog.conf" -v
   changed_when: false
 
 - name: Ensure nxlog service is enabled and started
