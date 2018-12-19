@@ -8,6 +8,7 @@
 ## works if executed manually
 - name: EMET Configuration
   win_command: >
-    "{{ harden_win_emet_path }}\EMET_Conf.exe" -import "{{ harden_win_emet_conf }}" --system DEP=AlwaysOn SEHOP=ApplicationOptOut
+    "{{ harden_win_emet_path }}\EMET_Conf.exe" -import "{{ harden_win_emet_conf }}" \
+        --system DEP=AlwaysOn SEHOP=ApplicationOptOut
   when: emetconf.stat.exists
   ignore_errors: true
