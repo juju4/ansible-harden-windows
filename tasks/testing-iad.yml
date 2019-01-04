@@ -31,7 +31,8 @@
   win_shell: "{{ item }}"
   with_items:
     - Import-Module -Name .\\Secure-Host-Baseline\\Scripts\\GroupPolicy.psm1
-    - "Invoke-ApplySecureHostBaseline -Path \"{{ harden_win_temp_dir }}\\Secure-Host-Baseline\" -PolicyNames AppLocker,Chrome,Windows -PolicyMode Audit"
+    - "Invoke-ApplySecureHostBaseline -Path \"{{ harden_win_temp_dir }}\\Secure-Host-Baseline\"
+        -PolicyNames AppLocker,Chrome,Windows -PolicyMode Audit"
   args:
     chdir: "{{ harden_win_temp_dir }}"
   when: harden_win_testing_iad_apply

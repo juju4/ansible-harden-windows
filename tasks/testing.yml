@@ -49,7 +49,10 @@
 # https://blog.malwarebytes.com/security-world/technology/2017/11/when-you-shouldnt-trust-a-trusted-root-certificate/
 # FIXME! FATAL ERROR DURING FILE TRANSFER: ...
 #- name: Export trusted root certificates
-#  shell: Get-ChildItem -Path cert:\currentuser\AuthRoot -Recurse | select Thumbprint, FriendlyName, Subject | ConvertTo-Html | Set-Content c:\users\public\desktop\certificates.html
+#  win_shell: >
+#    Get-ChildItem -Path cert:\currentuser\AuthRoot -Recurse |
+#      select Thumbprint, FriendlyName, Subject | ConvertTo-Html |
+#      Set-Content c:\users\public\desktop\certificates.html
 
 - include: testing-uac.yml
   when: harden_win_testing_uac
