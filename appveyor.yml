@@ -1,6 +1,10 @@
 version: 0.1.x.{build}
 skip_commits:
-  message: /^\(?doc\)?.*/
+  message:
+    - /^\(?doc\)?.*/
+    - /^\(?travis\)?.*/
+    - [skip ci]
+    - [ci skip]
 clone_depth: 10
 init:
 - SET
