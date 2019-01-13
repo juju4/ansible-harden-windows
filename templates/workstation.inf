@@ -1,4 +1,4 @@
-; {{ ansible_managed }}
+{{ ansible_managed | comment(decoration="; ") }}
 ; (c) Microsoft Corporation 1997-2000
 ;
 ; Security Configuration Template for Security Configuration Editor
