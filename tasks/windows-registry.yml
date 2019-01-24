@@ -68,7 +68,7 @@
   win_regedit:
 #    key: HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\FileExts\.hta
     key: "{{ item }}"
-    data: "\"%windir%\\system32\\notepad.exe\" %1"
+    data: "\"%windir%\\system32\\notepad.exe\" \"%1\""
   with_items:
     - "HKCR:\\htafile\\shell\\open\\command"
     - "HKCR:\\VBSFile\\shell\\edit\\command"
