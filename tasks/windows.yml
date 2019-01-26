@@ -200,6 +200,9 @@
 
 - include: windows-feature.yml
 
+- include: windows-paging.yml
+  when: harden_win_paging
+
 - include: windows-sticky-keys.yml
   when: harden_win_stickykeys_disable
 

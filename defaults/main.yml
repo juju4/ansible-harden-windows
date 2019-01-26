@@ -134,6 +134,7 @@ harden_windows_disable_win10cortana: true
 harden_win_restrict_dma: false
 harden_win_disable_dma: false
 harden_win_stickykeys_disable: true
+harden_win_paging: true
 
 harden_win_wef_enable: false
 harden_win_wef_collector_server_user: 'DOMAIN\mycollector'
