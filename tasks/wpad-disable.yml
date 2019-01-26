@@ -1,6 +1,4 @@
 ---
-## https://it.slashdot.org/story/16/08/13/0149241/disable-wpad-now-or-have-your-accounts-compromised-researchers-warn
-## http://www.csoonline.com/article/3106076/data-protection/disable-wpad-now-or-have-your-accounts-and-private-data-compromised.html
 
 - name: disable wpad - HKCU
   win_regedit:

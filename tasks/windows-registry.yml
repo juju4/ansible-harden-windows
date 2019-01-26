@@ -1,11 +1,5 @@
 ---
 
-## http://windowsitpro.com/networking/q-how-can-i-disable-netbios-over-tcpip-windows-server-core-installations
-## https://technet.microsoft.com/en-us/library/cc775874%28v=ws.10%29.aspx
-## https://technet.microsoft.com/en-us/library/ee692589.aspx
-## https://www.4armed.com/blog/llmnr-nbtns-poisoning-using-responder/
-## https://www.surecloud.com/newsletter/local-network-vulnerabilities-llmnr-and-nbt-ns-poisoning
-## https://support.microsoft.com/en-us/help/313314/how-to-disable-netbios-over-tcp-ip-by-using-dhcp-server-options
 - name: Disable Windows Link-Local Multicast Name Resolution (LLMNR)
   win_regedit:
     key: HKLM:\Software\Policies\Microsoft\Windows NT\DNSClient
@@ -37,8 +31,6 @@
         - 1
   when: nbtstate.results[0].stdout != "\r\r\n\r\r\n" and nbtstate.results[1].stdout != "\r\r\n\r\r\n"
 
-## http://news.softpedia.com/news/how-to-prevent-zip-files-from-executing-malicious-javascript-behind-your-back-503226.shtml
-## https://labsblog.f-secure.com/2016/04/19/how-to-disable-windows-script-host/
 - name: disable Windows Script Host (1)
   win_regedit:
     key: HKLM:\SOFTWARE\Microsoft\Windows Script Host\Settings
@@ -58,10 +50,6 @@
 #    value: UseWinSAFER
 #    data: 0
 
-## https://bluesoul.me/2016/05/12/use-gpo-to-change-the-default-behavior-of-potentially-malicious-file-extensions/
-## HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\FileExts\
-## \HKEY_CLASSES_ROOT\Software\Microsoft\Windows\CurrentVersion\Explorer\FileExts
-## Partially covered if Windows Script Host is disabled
 ## FIXME! NOK
 ## Note: HKCR only applies if HKCU doesn't exist. better enforcing with GPO
 - name: disable javascript execution by Windows Script Host (HKCR)
@@ -97,8 +85,6 @@
     data: 1
     datatype: dword
 
-## https://blogs.technet.microsoft.com/fdcc/2011/01/24/alwaysinstallelevated-is-equivalent-to-granting-administrative-rights/
-## https://msdn.microsoft.com/en-us/library/windows/desktop/aa367561(v=vs.85).aspx
 - name: Ensure Msiexec only executes with current user privileges
   win_regedit:
     key: HKLM:\Software\Policies\Microsoft\Windows\Installer
@@ -109,8 +95,6 @@
 - include: wpad-disable.yml
   when: harden_windows_disable_wpad is defined and harden_windows_disable_wpad
 
-## https://onedrive.live.com/view.aspx?resid=A352EBC5934F0254!3316&ithint=file%2cpptx&app=PowerPoint
-## https://support.microsoft.com/en-us/help/2871997/microsoft-security-advisory-update-to-improve-credentials-protection-and-management-may-13,-2014
 - name: Win7/KB2871997 | trigger the clearing of any credentials of logged off users after 30 seconds
   win_regedit:
     key: HKLM:\SYSTEM\CurrentControlSet\Control\Lsa
@@ -147,10 +131,6 @@
     data: "{{ harden_win_lsass_auditlevel | default(8) }}"
   when: harden_win_lsass_auditlevel is not defined or harden_win_lsass_auditlevel
 
-# https://twitter.com/mattifestation/status/1034510764642467840
-# https://github.com/MicrosoftDocs/windows-itpro-docs/blob/master/windows/security/threat-protection/windows-defender-exploit-guard/troubleshoot-exploit-protection-mitigations.md
-# https://docs.microsoft.com/en-us/windows/security/threat-protection/override-mitigation-options-for-app-related-security-policies
-# https://docs.microsoft.com/en-us/windows/security/threat-protection/windows-defender-exploit-guard/customize-exploit-protection
 - name: check Exploit protection mitigation for powershell.exe
   win_shell: >
     Get-ItemPropertyValue

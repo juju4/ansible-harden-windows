@@ -108,5 +108,61 @@ PS> Get-ADComputer -Filter {OperatingSystem -Like “Windows Server*”} -Proper
 * https://iase.disa.mil/stigs/gpo/Pages/index.aspx
 * https://theitbros.com/allow-non-admins-install-printer-drivers-via-gpo/
 
+# Registry
 
+* netbios, llmnr
+  * http://windowsitpro.com/networking/q-how-can-i-disable-netbios-over-tcpip-windows-server-core-installations
+  * https://technet.microsoft.com/en-us/library/cc775874%28v=ws.10%29.aspx
+  * https://technet.microsoft.com/en-us/library/ee692589.aspx
+  * https://www.4armed.com/blog/llmnr-nbtns-poisoning-using-responder/
+  * https://www.surecloud.com/newsletter/local-network-vulnerabilities-llmnr-and-nbt-ns-poisoning
+  * https://support.microsoft.com/en-us/help/313314/how-to-disable-netbios-over-tcp-ip-by-using-dhcp-server-options
+* windows script host
+  * http://news.softpedia.com/news/how-to-prevent-zip-files-from-executing-malicious-javascript-behind-your-back-503226.shtml
+  * https://labsblog.f-secure.com/2016/04/19/how-to-disable-windows-script-host/
+* file association
+  * https://bluesoul.me/2016/05/12/use-gpo-to-change-the-default-behavior-of-potentially-malicious-file-extensions/
+  * Partially covered if Windows Script Host is disabled
+* msiexec
+  * https://blogs.technet.microsoft.com/fdcc/2011/01/24/alwaysinstallelevated-is-equivalent-to-granting-administrative-rights/
+  * https://msdn.microsoft.com/en-us/library/windows/desktop/aa367561(v=vs.85).aspx
+* credentials in memory
+  * https://onedrive.live.com/view.aspx?resid=A352EBC5934F0254!3316&ithint=file%2cpptx&app=PowerPoint
+  * https://support.microsoft.com/en-us/help/2871997/microsoft-security-advisory-update-to-improve-credentials-protection-and-management-may-13,-2014
+* exploit process mitigation for powershell
+  * https://twitter.com/mattifestation/status/1034510764642467840
+  * https://github.com/MicrosoftDocs/windows-itpro-docs/blob/master/windows/security/threat-protection/windows-defender-exploit-guard/troubleshoot-exploit-protection-mitigations.md
+  * https://docs.microsoft.com/en-us/windows/security/threat-protection/override-mitigation-options-for-app-related-security-policies
+  * https://docs.microsoft.com/en-us/windows/security/threat-protection/windows-defender-exploit-guard/customize-exploit-protection
 
+# WEF
+
+* https://docs.microsoft.com/en-us/windows/threat-protection/use-windows-event-forwarding-to-assist-in-instrusion-detection
+* https://msdn.microsoft.com/en-us/library/cc748890(v=ws.11).aspx
+* https://msdn.microsoft.com/en-us/library/bb870973(v=vs.85).aspx
+* https://blogs.technet.microsoft.com/jepayne/2015/11/23/monitoring-what-matters-windows-event-forwarding-for-everyone-even-if-you-already-have-a-siem/
+* https://blogs.technet.microsoft.com/wincat/2008/08/11/quick-and-dirty-large-scale-eventing-for-windows/
+* https://medium.com/@palantir/windows-event-forwarding-for-network-defense-cb208d5ff86f
+* https://github.com/palantir/windows-event-forwarding
+
+# Windows 10
+
+* https://twitter.com/dwizzzleMSFT/status/853079695520284674
+  If you instal Windows 10 1703 and enable HVCI we now also enable kCFG.  Kernel mode exploits are
+  subject to control flow integrity in Win10
+* https://docs.microsoft.com/en-us/windows/device-security/device-guard/deploy-device-guard-enable-virtualization-based-security
+* https://docs.microsoft.com/en-us/windows/device-security/device-guard/deploy-code-integrity-policies-steps
+* https://blogs.technet.microsoft.com/the_microsoft_excel_support_team_blog/2015/08/19/blocked-access-to-files-with-windows-10/
+
+# WMI
+
+* http://la.trendmicro.com/media/misc/understanding-wmi-malware-research-paper-en.pdf
+* https://files.sans.org/summit/Digital_Forensics_and_Incident_Response_Summit_2015/PDFs/TheresSomethingAboutWMIDevonKerr.pdf
+* https://ics-cert.us-cert.gov/sites/default/files/documents/WMI_for_Detection_and_Response_S508C.pdf
+* FIXME! cover root\subscription, root\default
+* https://www.fireeye.com/blog/threat-research/2016/08/wmi_vs_wmi_monitor.html
+
+# WPAD
+
+* https://it.slashdot.org/story/16/08/13/0149241/disable-wpad-now-or-have-your-accounts-compromised-researchers-warn
+* http://www.csoonline.com/article/3106076/data-protection/disable-wpad-now-or-have-your-accounts-and-private-data-compromised.html
