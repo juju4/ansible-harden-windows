@@ -136,6 +136,8 @@ harden_win_disable_dma: false
 harden_win_stickykeys_disable: true
 harden_win_paging: true
 harden_win_defender: true
+harden_win_forcing_afterhours_logoff: false
+#harden_win_forcing_afterhours_logoff_time: '7.15pm'
 
 harden_win_wef_enable: false
 harden_win_wef_collector_server_user: 'DOMAIN\mycollector'

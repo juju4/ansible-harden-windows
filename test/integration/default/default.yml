@@ -23,6 +23,7 @@
     - win_firewall: false
     - harden_win_configure_errorreporting: true
     - harden_win_restrict_dma: true
+    - harden_win_forcing_afterhours_logoff: true
 #    - harden_win_wef_enable: true
 #    - harden_win_wef_collector_server_user: ''
     - win_applocker_enable: true

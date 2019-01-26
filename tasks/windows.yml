@@ -230,6 +230,9 @@
 - include: windows-defender.yml
   when: harden_win_defender
 
+- include: forcing-afterhours-user-logoffs.yml
+  when: harden_win_forcing_afterhours_logoff
+
 - include: extras.yml
 
 - include: palantir-AutorunsToWinEventLog.yml
