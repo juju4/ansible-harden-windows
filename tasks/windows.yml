@@ -227,6 +227,9 @@
 - include: windows-taskmanager.yml
   when: harden_win_disable_taskmanager
 
+- include: windows-defender.yml
+  when: harden_win_defender
+
 - include: extras.yml
 
 - include: palantir-AutorunsToWinEventLog.yml
