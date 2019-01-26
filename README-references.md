@@ -94,6 +94,14 @@ PS> Get-ADComputer -Filter {OperatingSystem -Like “Windows Server*”} -Proper
 * https://room362.com/post/2017/dump-laps-passwords-with-ldapsearch/
 * http://archive.hack.lu/2017/HackLU_2017_Malicious_use_LAPS_Clementz_Goichot.pdf
 
+# Mimikatz
+
+* https://jimshaver.net/2016/02/14/defending-against-mimikatz/
+* https://blogs.technet.microsoft.com/askpfeplat/2016/04/18/the-importance-of-kb2871997-and-kb2928120-for-credential-protection/
+* https://posts.specterops.io/pass-the-hash-is-dead-long-live-localaccounttokenfilterpolicy-506c25a7c167
+* http://www.harmj0y.net/blog/redteaming/pass-the-hash-is-dead-long-live-localaccounttokenfilterpolicy/
+* https://technet.microsoft.com/en-us/library/dd835564(v=ws.10).aspx#BKMK_BuiltInAdmin
+
 # GPO
 
 * https://blogs.windows.com/msedgedev/2015/08/26/how-microsoft-edge-and-internet-explorer-11-on-windows-10-work-better-together-in-the-enterprise/#s4vAKTKvz328jwjY.97 Enterprise Mode Site List
@@ -107,6 +115,14 @@ PS> Get-ADComputer -Filter {OperatingSystem -Like “Windows Server*”} -Proper
 * https://www.sans.org/reading-room/whitepapers/testing/passthehash-attacks-tools-and-mitigation-33283
 * https://iase.disa.mil/stigs/gpo/Pages/index.aspx
 * https://theitbros.com/allow-non-admins-install-printer-drivers-via-gpo/
+
+# RDP
+
+* https://docs.microsoft.com/en-us/windows/access-protection/remote-credential-guard
+* https://social.technet.microsoft.com/wiki/contents/articles/32905.how-to-enable-restricted-admin-mode-for-remote-desktop.aspx
+* need this patch installed, May 2014
+* https://technet.microsoft.com/en-us/library/security/2871997.aspx
+* https://michael-eder.net/post/2018/native_rdp_pass_the_hash/
 
 # Registry
 
@@ -134,6 +150,49 @@ PS> Get-ADComputer -Filter {OperatingSystem -Like “Windows Server*”} -Proper
   * https://github.com/MicrosoftDocs/windows-itpro-docs/blob/master/windows/security/threat-protection/windows-defender-exploit-guard/troubleshoot-exploit-protection-mitigations.md
   * https://docs.microsoft.com/en-us/windows/security/threat-protection/override-mitigation-options-for-app-related-security-policies
   * https://docs.microsoft.com/en-us/windows/security/threat-protection/windows-defender-exploit-guard/customize-exploit-protection
+
+# SMB
+
+* https://support.microsoft.com/en-ca/help/2696547/how-to-enable-and-disable-smbv1,-smbv2,-and-smbv3-in-windows-vista,-windows-server-2008,-windows-7,-windows-server-2008-r2,-windows-8,-and-windows-server-2012
+* https://www.us-cert.gov/ncas/current-activity/2017/01/16/SMB-Security-Best-Practices
+* https://packetstormsecurity.com/files/130981/Microsoft-Windows-Local-WebDAV-NTLM-Reflection-Privilege-Escalation.html
+* https://community.tenable.com/thread/8723
+* https://www.stigviewer.com/stig/windows_8_8.1/2015-06-16/finding/V-21950
+* https://gnawgnu.blogspot.ca/2016/08/the-return-of-unchardenedpath-problems.html
+* https://technet.microsoft.com/en-us/library/security/ms16-075.aspx
+
+# Sticky keys
+
+* https://social.technet.microsoft.com/Forums/windowsserver/en-US/6ba301df-5e3a-49ce-900a-c6b8c20217f3/disable-sticky-keys-via-gpo
+
+# USB
+
+* https://www.reddit.com/r/sysadmin/comments/3ti7r8/protect_against_usb_to_ethernet_adapters/
+  + Enable or disable Network Bridge with Group Policy
+        Local Computer Policy, Computer Configuration, Administrative Templates, Network, and Network Connections.
+        Prohibit installation and configuration of Network Bridge on your DNS domain network
+* https://technet.microsoft.com/en-us/library/cc732103(v=ws.10).aspx
+* https://docs.microsoft.com/en-us/previous-versions/windows/it-pro/windows-server-2012-R2-and-2012/jj679890(v=ws.11)
+  + Enable or disable Internet Connection Sharing with Group Policy
+        Local Computer Policy, Computer Configuration, Administrative Templates, Network, and Network Connections.
+        Prohibit use of Internet Connection Sharing on your DNS domain network
+* https://technet.microsoft.com/en-us/library/cc770930(v=ws.10).aspx
+  + Locking down Windows Vista and Windows 7 against Malicious USB devices
+        registry HKEY_LOCAL_MACHINE\System\CurrentControlSet\Control\StorageDevicePolicies\WriteProtect
+        Computer Configuration->Administrative Templates->System->Device Installation->Device Installation Restrictions
+        Prevent installation of devices...
+        [HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Group Policy Objects\{55803F47-01A6-4A85-89CE-74357A125D17}Machine\Software\Policies\Microsoft\Windows\DeviceInstall\Restrictions]: "AllowAdminInstall"=dword:00000001
+* http://www.irongeek.com/i.php?page=security/locking-down-windows-vista-and-windows-7-against-malicious-usb-devices
+* https://apple.slashdot.org/story/16/09/07/2048237/modified-usb-ethernet-adapter-can-steal-windows-and-mac-credentials
+* http://arstechnica.com/security/2016/11/meet-poisontap-the-5-tool-that-ransacks-password-protected-computers/
+* https://support.microsoft.com/en-ca/help/2516445/blocking-the-sbp-2-driver-and-thunderbolt-controllers-to-reduce-1394-d
+
+3rd party tool
+* https://www.elevenpaths.com/labstools/latch-usb-monitor/
+* http://www.binisoft.org/usbc.php
+* http://www.binisoft.org/download/usbc4setup.exe
+* https://github.com/pmsosa/duckhunt
+* https://beamgun.io/
 
 # WEF
 
