@@ -54,6 +54,9 @@
 #      select Thumbprint, FriendlyName, Subject | ConvertTo-Html |
 #      Set-Content c:\users\public\desktop\certificates.html
 
+- include: testing-defender.yml
+  when: harden_win_testing_defender
+
 - include: testing-uac.yml
   when: harden_win_testing_uac
 
