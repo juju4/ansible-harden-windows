@@ -1,0 +1,8 @@
+# not available/approved in chocolatey, https://chocolatey.org/packages/laps
+laps_present: false
+# CI/Appveyor
+windows_deviceguard: false
+windows_defaultpassword: false
+windows_suspicous_fileassoc_hkcu_check: false
+# ansible
+windows_networklogonrights: false
