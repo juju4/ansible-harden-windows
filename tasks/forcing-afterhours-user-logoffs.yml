@@ -28,4 +28,4 @@
     frequency: daily
     state: present
     enabled: yes
-    user: "%LogonDomain%\\%LogonUser%"
+    user: "{{ harden_win_forcing_afterhours_logoff_user | default('Administrator') }}"
