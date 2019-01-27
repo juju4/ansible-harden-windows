@@ -9,7 +9,7 @@
 
 - name: Ensure Windows Defender MAPS can communicate with cloud
   win_command: "\"C:\\ProgramFiles\\Windows Defender\\MpCmdRun.exe\" -validatemapsconnection"
-  when: mpcmdrun.stats.exists
+  when: mpcmdrun.stat.exists
 
 - name: Check Defender status
   win_shell: Get-MpComputerStatus
