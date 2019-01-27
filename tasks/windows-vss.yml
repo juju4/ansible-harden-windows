@@ -35,10 +35,13 @@
 - name: schedule regular shadow copy
   win_scheduled_task:
     name: "VSS_Snapshot"
-    execute: "Wmic.exe /Namespace:\\root\\default Path SystemRestore Call CreateRestorePoint \"%DATE%\", 100, 7"
-    frequency: "daily"
-    time: "9am"
     description: "Take daily shadow copy for c"
+    actions:
+      - path: wmic.exe
+        arguments: "/Namespace:\\root\\default Path SystemRestore Call CreateRestorePoint \"%DATE%\", 100, 7"
+    triggers:
+      - type: daily
+        start_boundary: '2019-01-01T09:00:00'
     enable: yes
     state: present
     user: SYSTEM

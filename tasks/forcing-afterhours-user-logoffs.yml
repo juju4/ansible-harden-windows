@@ -8,14 +8,15 @@
 #  win_scheduled_task:
 #    name: DisplayLogoffMessage
 #    description: Display a logoff warning to the user 15min before logoff
-#    executable: cmd
-#    arguments: -opt1 -opt2
-#    path: \example
-#    time: 6pm
-#    frequency: daily
+#    actions:
+#      - path: cmd
+#         arguments: -opt1 -opt2
+#    triggers:
+#      - type: daily
+#        start_boundary: '2019-01-01T07:00:00'
 #    state: present
 #    enabled: yes
-#    user: "%LogonDomain%\\%LogonUser%"
+#    username: "{{ harden_win_forcing_afterhours_logoff_user | default('Administrator') }}"
 # FIXME! how to restrict case only if user is logged on.
 # FIXME! No display message option "Windows will logoff your session in 15 minutes. Please save your work."
 
@@ -23,9 +24,11 @@
   win_scheduled_task:
     name: ForceAfterHoursLogoff
     description: Afterhours logoff
-    executable: "%systemdir%\\logoff.exe"
-    time: "{{ harden_win_forcing_afterhours_logoff_time | default('7.15pm') }}"
-    frequency: daily
+    actions:
+      - path: "%systemdir%\\logoff.exe"
+    triggers:
+      - type: daily
+        start_boundary: "{{ harden_win_forcing_afterhours_logoff_time | default('2019-01-01T07:15:00') }}"
     state: present
     enabled: yes
-    user: "{{ harden_win_forcing_afterhours_logoff_user | default('Administrator') }}"
+    username: "{{ harden_win_forcing_afterhours_logoff_user | default('Administrator') }}"
