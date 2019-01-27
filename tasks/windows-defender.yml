@@ -6,5 +6,5 @@
   win_environment:
     state: present
     name: MP_FORCE_USE_SANDBOX
-    value: "{{ harden_win_defender_sandbox | ternary(1, 0) }}"
+    value: "{{ harden_win_defender_sandbox | default(1) | ternary(1, 0) }}"
     level: machine
