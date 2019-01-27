@@ -8,7 +8,7 @@
   register: mpcmdrun
 
 - name: Ensure Windows Defender MAPS can communicate with cloud
-  win_command: "C:\\ProgramFiles\\Windows Defender\\MpCmdRun.exe" -validatemapsconnection
+  win_command: "\"C:\\ProgramFiles\\Windows Defender\\MpCmdRun.exe\" -validatemapsconnection"
   when: mpcmdrun.stats.exists
 
 - name: Check Defender status
