@@ -7,6 +7,13 @@
     data: 0
     datatype: dword
 
+- name: Pre-Win server 2012 Mimikatz Protection - Negotiate
+  win_regedit:
+    key: HKLM:\System\CurrentControlSet\Control\SecurityProviders\WDigest
+    value: Negotiate
+    data: 0
+    datatype: dword
+
 ## default: 0
 - name: enabled User Account Control - Admin Approval Mode for the built-in Administrator account
   win_regedit:
@@ -14,6 +21,7 @@
     value: FilterAdministratorToken
     data: 1
     datatype: dword
+
 ## default: does not exist
 - name: Ensure Local admininistrators are filtered against Pass-The-Hash
   win_regedit:
@@ -22,3 +30,11 @@
     data: 0
     datatype: dword
   when: harden_win_mimikatz_LocalAccountTokenFilterPolicy0
+
+- name: Enable LSA protection - RunAsPPL
+  win_regedit:
+    key: HKLM:\SYSTEM\CurrentControlSet\Control\LSA
+    value: RunAsPPL
+    data: 1
+    datatype: dword
+  when: harden_win_mimikatz_RunAsPPL
