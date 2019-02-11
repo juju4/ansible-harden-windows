@@ -1,6 +1,13 @@
 
 References links for role tasks
 
+# General
+
+* MVPDays - Hardening Windows Server - Orin Thomas, Jan 2019
+https://www.youtube.com/watch?v=me7QlDyEF7E
+* Using PowerShell DSC for Windows Hardening, Jun 2018
+https://luke.geek.nz/Using-dsc-for-windows-hardening
+
 # Adobe reader
 
 * http://www.serveradventures.com/the-adventures/disabling-adobe-reader-xi-protected-mode-with-group-policy
@@ -101,6 +108,8 @@ PS> Get-ADComputer -Filter {OperatingSystem -Like “Windows Server*”} -Proper
 * https://posts.specterops.io/pass-the-hash-is-dead-long-live-localaccounttokenfilterpolicy-506c25a7c167
 * http://www.harmj0y.net/blog/redteaming/pass-the-hash-is-dead-long-live-localaccounttokenfilterpolicy/
 * https://technet.microsoft.com/en-us/library/dd835564(v=ws.10).aspx#BKMK_BuiltInAdmin
+* https://isc.sans.edu/forums/diary/Mitigations+against+Mimikatz+Style+Attacks/24612/
+* https://docs.microsoft.com/en-us/windows-server/security/credentials-protection-and-management/configuring-additional-lsa-protection
 
 # GPO
 
