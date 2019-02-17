@@ -6,6 +6,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.9.0] - 2019-02-17
+
 ### Added
 - testing speculative: add SpecuCheck
 - DeviceGuard CodeIntegrity: microsoft recommended policy
