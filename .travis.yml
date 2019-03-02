@@ -1,5 +1,5 @@
 ---
-dist: trusty
+dist: xenial
 language: python
 python: "2.7"
 before_install:
