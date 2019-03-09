@@ -101,7 +101,7 @@
     {
       "type": "vagrant",
       "keep_input_artifact": false,
-      "output": "builds/windows_2019_{{.Provider}}-{{isotime \"2006-01-02\"}}.box",
+      "output": "builds/{{.Provider}}-juju4.harden-windows-win2019-{{isotime \"2006-01-02\"}}.box",
       "vagrantfile_template": "vagrantfile-windows_2019.template"
     }
   ]
