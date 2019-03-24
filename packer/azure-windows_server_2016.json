@@ -27,7 +27,7 @@
       "image_publisher": "MicrosoftWindowsServer",
       "image_offer": "WindowsServer",
       "image_sku": "2016-Datacenter",
-      "image_version": "latest", 
+      "image_version": "latest",
 
       "communicator": "winrm",
       "winrm_use_ssl": "true",
