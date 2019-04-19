@@ -23,14 +23,14 @@
       win_shell: "Get-Content -Path {{ harden_win_gpo_log }}"
       changed_when: false
       ignore_errors: true
-  when: harden_win_gpo_local_action == 'secedit'
+  when: harden_win_gpo_action == 'secedit'
 
 - block:
 # https://blogs.msdn.microsoft.com/powershell/2016/05/20/new-group-policy-cmdlets-for-nano-server/
     - name: load gpo configuration locally - Restore-SecurityPolicy
       win_shell: >
         Restore-SecurityPolicy -Path "{{ harden_win_temp_dir }}\{{ harden_win_gpo_inf | regex_replace('.j2$', '') }}"
-  when: harden_win_gpo_local_action == 'ps'
+  when: harden_win_gpo_action == 'ps'
 
 - block:
 # https://blogs.msdn.microsoft.com/powershell/2017/02/21/managing-security-settings-on-nano-server-with-dsc/
@@ -43,7 +43,7 @@
         Name: SecurityTemplate
         Path: "{{ harden_win_temp_dir }}\\{{ harden_win_gpo_inf | regex_replace('.j2$', '') }}"
         IsSingleInstance: "Yes"
-  when: harden_win_gpo_local_action == 'dsc'
+  when: harden_win_gpo_action == 'dsc'
 
 - block:
 # https://docs.ansible.com/ansible/devel/modules/win_security_policy_module.html
@@ -191,7 +191,7 @@
         users: "{{ harden_win_inf_SeDenyRemoteInteractiveLogonRight_list }}"
         action: set
 
-  when: harden_win_gpo_local_action == 'security_policy'
+  when: harden_win_gpo_action == 'security_policy'
 
 ## Microsoft Security Compliance Manager, https://technet.microsoft.com/library/cc677002.aspx
 ## https://technet.microsoft.com/en-us/library/jj966254%28v=ws.11%29.aspx
