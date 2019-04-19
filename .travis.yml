@@ -1,7 +1,7 @@
 ---
 dist: xenial
 language: python
-python: "2.7"
+
 before_install:
  - ln -s ansible-harden-windows ../juju4.harden-windows
 install:
