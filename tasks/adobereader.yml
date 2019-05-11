@@ -2,11 +2,6 @@
 ## Adobe Reader Protected mode
 ## FIXME! not idempotent
 
-## * http://www.serveradventures.com/the-adventures/disabling-adobe-reader-xi-protected-mode-with-group-policy
-## * Recommendations for Configuring Adobe Acrobat Reader XI in a Windows Environment, NSA
-##   http://www.nsa.gov/ia/_files/app/Recommendations_for_Configuring_Adobe_Acrobat_Reader_XI_in_a_Windows_Environment.pdf
-##   Enhanced security and protected mode are turned on by default in ARXI, but they are not locked, meaning a user can disable them through the GUI. Protected view is not turned on by default.
-
 - name: Win | FeatureLockDown Acrobat reader
   win_regedit:
     key: HKLM:\SOFTWARE\Policies\Adobe\Acrobat Reader\{{ harden_win_adobereader_v }}\FeatureLockDown
@@ -61,7 +56,8 @@
     - { value: bEnableFlash, data: 0 }
     - { value: bEnable3D, data: 0 }
 
-- win_regedit:
+- name: Acrobat reader - cDefaultLaunchAttachmentPerms
+  win_regedit:
     key: HKLM:\SOFTWARE\Policies\Adobe\Acrobat Reader\{{ harden_win_adobereader_v }}\FeatureLockDown\cDefaultLaunchAttachmentPerms
     value: "{{ item.value }}"
     data: "{{ item.data }}"
@@ -70,7 +66,8 @@
     - { value: iUnlistedAttachmentTypePerm, data: 3, datatype: dword }
     - { value: "tBuiltInPermList", data: "version:1|.docx:2|.xls:2|.exe:3|.hs:3", datatype: string }
 
-- win_regedit:
+- name: Acrobat reader - TrustManager
+  win_regedit:
     key: HKCU:\Software\Adobe\Acrobat Reader\{{ harden_win_adobereader_v }}\TrustManager
     value: "{{ item.value }}"
     data: "{{ item.data }}"
@@ -80,7 +77,8 @@
 ## For Outlook Office 2010+
     - { value: bEnableAlwaysOutlookAttachmentProtectedView, data: 0 }
 
-- win_regedit:
+- name: Acrobat reader - Workflows
+  win_regedit:
     key: HKCU:\Software\Adobe\Acrobat Reader\{{ harden_win_adobereader_v }}\Workflows
     value: "{{ item.value }}"
     data: "{{ item.data }}"
@@ -92,7 +90,8 @@
     - { value: bEnableShareFile, data: 0 }
     - { value: bEnableDocCtrInit, data: 0 }
 
-- win_regedit:
+- name: Acrobat reader - cCloud
+  win_regedit:
     key: HKLM:\SOFTWARE\Policies\Adobe\Acrobat Reader\{{ harden_win_adobereader_v }}\cCloud
     value: "{{ item.value }}"
     data: "{{ item.data }}"
@@ -100,7 +99,8 @@
   with_items:
     - { value: bDisableADCFileStore, data: 1 }
 
-- win_regedit:
+- name: Acrobat reader - cServices
+  win_regedit:
     key: HKLM:\SOFTWARE\Policies\Adobe\Acrobat Reader\{{ harden_win_adobereader_v }}\cServices
     value: "{{ item.value }}"
     data: "{{ item.data }}"
@@ -108,7 +108,8 @@
   with_items:
     - { value: bEnableSignPane, data: 1 }
 
-- win_regedit:
+- name: Acrobat reader - cWebmailProfiles
+  win_regedit:
     key: HKLM:\SOFTWARE\Policies\Adobe\Acrobat Reader\{{ harden_win_adobereader_v }}\cWebmailProfiles
     value: "{{ item.value }}"
     data: "{{ item.data }}"
@@ -118,12 +119,11 @@
 
 ## Logging ?
 ## https://www.adobe.com/devnet-docs/acrobatetk/tools/AppSec/protectedmode.html
-- win_regedit:
+- name: Acrobat reader - Privileged
+  win_regedit:
     key: HKLM:\SOFTWARE\Policies\Adobe\Acrobat Reader\{{ harden_win_adobereader_v }}\Privileged
     value: "{{ item.value }}"
     data: "{{ item.data }}"
     datatype: string
   with_items:
     - { value: tBrokerLogfilePath, data: 'c:\temp\BrokerLogfile.log' }
-
-

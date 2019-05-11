@@ -9,7 +9,6 @@
 - name: Temporarily trust PSGallery repository
   win_shell: Set-PSRepository -Name PSGallery -InstallationPolicy Trusted
 
-# https://support.microsoft.com/en-us/help/4072698/windows-server-guidance-to-protect-against-the-speculative-execution-s
 - name: retrieve Module SpeculationControl
   win_shell: "Install-Module SpeculationControl"
 #  win_psmodule:

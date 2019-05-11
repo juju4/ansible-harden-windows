@@ -1,24 +1,28 @@
 ---
+# https://www.bleepingcomputer.com/news/security/why-everyone-should-disable-vssadmin-exe-now/
 
-- name: list state of shadow volumes
-  raw: "vssadmin.exe list volumes"
-  changed_when: false
-  register: vssvol
-- debug: var=vssvol
-- name: list state of shadowstorage
-  raw: "vssadmin.exe list shadowstorage"
-  changed_when: false
-  register: vssstor
-  ignore_errors: true
-- debug: var=vssstor
+- block:
+    - name: list state of shadow volumes
+      raw: "vssadmin.exe list volumes"
+      changed_when: false
+      register: vssvol
+    - debug: var=vssvol
+    - name: list state of shadowstorage
+      raw: "vssadmin.exe list shadowstorage"
+      changed_when: false
+      register: vssstor
+      ignore_errors: true
+    - debug: var=vssstor
 
-## https://technet.microsoft.com/en-us/library/cc788051(v=ws.11).aspx
-##  but return 'invalid command' in some cases??? only on server?
-## 'add' option not available on win10
-- name: enable shadow copy for c
-  raw: "vssadmin.exe add shadowstorage /for=c: /on=c: /maxsize=15%"
-  when: vssstor.stdout.find("Shadow Copy Storage volume{{ ':' }} (C{{ ':' }})") == -1 and ansible_distribution_major_version < 10
-  ignore_errors: true
+    ## https://technet.microsoft.com/en-us/library/cc788051(v=ws.11).aspx
+    ##  but return 'invalid command' in some cases??? only on server?
+    ## 'add' option not available on win10
+    - name: enable shadow copy for c
+      raw: "vssadmin.exe add shadowstorage /for=c: /on=c: /maxsize=15%"
+      when: vssstor.stdout.find("Shadow Copy Storage volume{{ ':' }} (C{{ ':' }})") == -1 and ansible_distribution_major_version|int < 10
+      ignore_errors: true
+
+  when: ansible_distribution_major_version|int < 10
 
 - name: ensure VSS service enabled
   win_service:
@@ -29,8 +33,26 @@
 ## FIXME! UnicodeDecodeError: 'ascii' codec can't decode byte 0xc3 in position 139: ordinal not in range(128)
 ## FIXME! win10: not idempotent
 - name: schedule regular shadow copy
-#  raw: "schtasks /create /SC daily /TN VSS_Snapshot /TR \"c:vssadmin create shadow /for=c:\" /ST 12:30"
-  win_scheduled_task: name="VSS_Snapshot" execute="vssadmin create shadow /for=c:" frequency="daily" time="9am" description="Take daily shadow copy for c" enable=yes state=present user=SYSTEM
+  win_scheduled_task:
+    name: "VSS_Snapshot"
+    description: "Take daily shadow copy for c"
+    actions:
+      - path: wmic.exe
+        arguments: "/Namespace:\\root\\default Path SystemRestore Call CreateRestorePoint \"%DATE%\", 100, 7"
+    triggers:
+      - type: daily
+        start_boundary: '2019-01-01T09:00:00'
+    enable: yes
+    state: present
+    user: SYSTEM
   ignore_errors: true
-  when: ansible_distribution_major_version < 10
+#  when: ansible_distribution_major_version|int < 10
 
+- name: Remove access permission vssadmin.exe
+  win_acl:
+    path: C:\Windows\system32\vssadmin.exe
+    user: Everyone
+    type: deny
+    rights: ExecuteFile,Read,Write,Modify
+    state: present
+  when: ansible_distribution_major_version|int >= 10

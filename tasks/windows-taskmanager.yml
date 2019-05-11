@@ -18,5 +18,11 @@
     data: "{{ item.d }}"
     datatype: dword
   with_items:
-    - { k: 'HKCU:\Software\Microsoft\Windows\CurrentVersion\Policies\System', v: DisableTaskMgr, d: 0 }
-    - { k: 'HKCU:\Software\Microsoft\Windows\CurrentVersion\Group Policy Objects\LocalUser\Software\Microsoft\Windows\CurrentVersion\Policies\System', v: DisableTaskMgr, d: 0 }
+    - { k: 'HKCU:\Software\Microsoft\Windows\CurrentVersion\Policies\System',
+        v: DisableTaskMgr,
+        d: 0
+      }
+    - { k: 'HKCU:\Software\Microsoft\Windows\CurrentVersion\Group Policy Objects\LocalUser\Software\Microsoft\Windows\CurrentVersion\Policies\System',
+        v: DisableTaskMgr,
+        d: 0
+      }

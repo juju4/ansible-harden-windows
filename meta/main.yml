@@ -1,5 +1,6 @@
 ---
 galaxy_info:
+  role_name: harden-windows
   author: juju4
   description: Windows Hardening role
   license: BSD

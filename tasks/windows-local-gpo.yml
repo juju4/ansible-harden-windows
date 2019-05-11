@@ -1,15 +1,4 @@
 ---
-## https://blogs.windows.com/msedgedev/2015/08/26/how-microsoft-edge-and-internet-explorer-11-on-windows-10-work-better-together-in-the-enterprise/#s4vAKTKvz328jwjY.97 Enterprise Mode Site List
-## http://www.morgantechspace.com/2013/11/Enable-File-System-Auditing-in-Windows.html
-## https://4sysops.com/archives/deny-and-allow-workstation-logons-with-group-policy/
-## https://www.reddit.com/r/sysadmin/comments/1yzjul/restricting_interactive_logon_but_allow_runas/
-## http://www.authlite.com/kb/allow-runas-but-block-interactive-logon/
-## * Remove Debug Privileges
-## https://technet.microsoft.com/en-us/library/dn221969(v=ws.11).aspx
-## https://blogs.msdn.microsoft.com/oldnewthing/20080314-00/?p=23113/
-## https://www.sans.org/reading-room/whitepapers/testing/passthehash-attacks-tools-and-mitigation-33283
-## https://iase.disa.mil/stigs/gpo/Pages/index.aspx
-## https://theitbros.com/allow-non-admins-install-printer-drivers-via-gpo/
 
 - name: copy gpo template to target computer
   win_template:
@@ -20,7 +9,9 @@
 ## https://technet.microsoft.com/en-ca/library/cc776625%28v=ws.10%29.aspx
 - block:
     - name: load gpo configuration locally - secedit
-      win_command: "secedit /configure /cfg {{ harden_win_temp_dir }}\\{{ harden_win_gpo_inf | regex_replace('.j2$', '') }} /db {{ harden_win_gpo_db }} /log {{ harden_win_gpo_log }} /verbose"
+      win_command: >
+        secedit /configure /cfg {{ harden_win_temp_dir }}\{{ harden_win_gpo_inf | regex_replace('.j2$', '') }}
+          /db {{ harden_win_gpo_db }} /log {{ harden_win_gpo_log }} /verbose
       args:
         creates: "{{ harden_win_gpo_log }}"
       ignore_errors: true
@@ -32,13 +23,14 @@
       win_shell: "Get-Content -Path {{ harden_win_gpo_log }}"
       changed_when: false
       ignore_errors: true
-  when: harden_win_gpo_local_action == 'secedit'
+  when: harden_win_gpo_action == 'secedit'
 
 - block:
 # https://blogs.msdn.microsoft.com/powershell/2016/05/20/new-group-policy-cmdlets-for-nano-server/
     - name: load gpo configuration locally - Restore-SecurityPolicy
-      win_shell: "Restore-SecurityPolicy -Path \"{{ harden_win_temp_dir }}\\{{ harden_win_gpo_inf | regex_replace('.j2$', '') }}\""
-  when: harden_win_gpo_local_action == 'ps'
+      win_shell: >
+        Restore-SecurityPolicy -Path "{{ harden_win_temp_dir }}\{{ harden_win_gpo_inf | regex_replace('.j2$', '') }}"
+  when: harden_win_gpo_action == 'ps'
 
 - block:
 # https://blogs.msdn.microsoft.com/powershell/2017/02/21/managing-security-settings-on-nano-server-with-dsc/
@@ -51,7 +43,7 @@
         Name: SecurityTemplate
         Path: "{{ harden_win_temp_dir }}\\{{ harden_win_gpo_inf | regex_replace('.j2$', '') }}"
         IsSingleInstance: "Yes"
-  when: harden_win_gpo_local_action == 'dsc'
+  when: harden_win_gpo_action == 'dsc'
 
 - block:
 # https://docs.ansible.com/ansible/devel/modules/win_security_policy_module.html
@@ -141,7 +133,8 @@
         users: "{{ harden_win_inf_SeTrustedCredManAccessPrivilege_list }}"
         action: set
 
-    - set_fact:
+    - name: Update SeNetworkLogonRight users list if testing
+      set_fact:
         harden_win_inf_SeNetworkLogonRight_list: "{{ harden_win_inf_SeNetworkLogonRight_list }} + [ '_test' ]"
       when: harden_win_testing
     - name: Set account to log on using the network logon type
@@ -198,7 +191,7 @@
         users: "{{ harden_win_inf_SeDenyRemoteInteractiveLogonRight_list }}"
         action: set
 
-  when: harden_win_gpo_local_action == 'security_policy'
+  when: harden_win_gpo_action == 'security_policy'
 
 ## Microsoft Security Compliance Manager, https://technet.microsoft.com/library/cc677002.aspx
 ## https://technet.microsoft.com/en-us/library/jj966254%28v=ws.11%29.aspx
@@ -210,4 +203,3 @@
 ## https://technet.microsoft.com/en-us/library/cc732713%28v=ws.11%29.aspx
 
 ## (LLMNR) Computer Configuration->Administrative Templates->Network->DNS client: Turn off multicast name resolution
-

@@ -1,0 +1,18 @@
+---
+# https://docs.microsoft.com/en-us/windows-server/administration/windows-commands/fsutil-behavior
+# https://www.tenforums.com/tutorials/77782-enable-disable-virtual-memory-pagefile-encryption-windows-10-a.html
+
+- name: Encrypts the memory paging file in the Windows operating system - registry
+  win_regedit:
+    key: HKLM:\SYSTEM\CurrentControlSet\Control\FileSystem
+    value: NtfsEncryptPagingFile
+    data: 1
+
+#- name: Check encryppagingfile setting
+#  win_command: fsutil behavior query encryppagingfile
+#  changed_when: false
+#  register: encryppagingfile
+
+#- name: Encrypts the memory paging file in the Windows operating system - fsutil
+#  win_command: fsutil behavior set encryppagingfile 1
+#  when: encryppagingfile.stdout == 0

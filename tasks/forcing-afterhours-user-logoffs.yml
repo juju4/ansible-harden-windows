@@ -1,0 +1,34 @@
+---
+# https://chrissanders.org/2017/11/forcing-attacker-decisions/
+# https://blogs.technet.microsoft.com/askds/2010/08/24/forcing-afterhours-user-logoffs/
+# https://technet.microsoft.com/en-us/library/jj852195(v=ws.11).aspx
+# Review carefully where applicable to you: User endpoint, member server, DC server
+
+#- name: Add schedule task to notify users of afterhours logoffs
+#  win_scheduled_task:
+#    name: DisplayLogoffMessage
+#    description: Display a logoff warning to the user 15min before logoff
+#    actions:
+#      - path: cmd
+#         arguments: -opt1 -opt2
+#    triggers:
+#      - type: daily
+#        start_boundary: '2019-01-01T07:00:00'
+#    state: present
+#    enabled: yes
+#    username: "{{ harden_win_forcing_afterhours_logoff_user | default('Administrator') }}"
+# FIXME! how to restrict case only if user is logged on.
+# FIXME! No display message option "Windows will logoff your session in 15 minutes. Please save your work."
+
+- name: Add schedule task to force afterhours logoffs
+  win_scheduled_task:
+    name: ForceAfterHoursLogoff
+    description: Afterhours logoff
+    actions:
+      - path: "%systemdir%\\logoff.exe"
+    triggers:
+      - type: daily
+        start_boundary: "{{ harden_win_forcing_afterhours_logoff_time | default('2019-01-01T07:15:00') }}"
+    state: present
+    enabled: yes
+    username: "{{ harden_win_forcing_afterhours_logoff_user | default('Administrator') }}"

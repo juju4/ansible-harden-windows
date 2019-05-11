@@ -1,6 +1,6 @@
 version: 0.1.x.{build}
 skip_commits:
-  message: /^\(?doc\)?.*/
+  message: /^\(?doc|travis\)?.*/
 clone_depth: 10
 init:
 - SET
@@ -17,38 +17,46 @@ environment:
   CYGWIN: winsymlinks:nativestrict
 
   matrix:
-  - TARGET: cygwin64
+  - SUITE: default
+    ANSIBLE_VERSION: 2.7.5
+    ANSIBLE_EXTRA_VARS:
+    TARGET: cygwin64
     CYG_ROOT: C:\cygwin64
     CYG_SETUP: C:\cygwin64\setup-x86_64.exe
     CYG_CACHE: C:\cygwin64\var\cache\setup
     CYG_BASH: C:\cygwin64\bin\sh
-    ANSIBLE_VERSION: 2.7.0
+  - SUITE: default
+    ANSIBLE_VERSION: 2.6.11
     ANSIBLE_EXTRA_VARS:
-    SUITE: default
-  - TARGET: cygwin64
+    TARGET: cygwin64
     CYG_ROOT: C:\cygwin64
     CYG_SETUP: C:\cygwin64\setup-x86_64.exe
     CYG_CACHE: C:\cygwin64\var\cache\setup
     CYG_BASH: C:\cygwin64\bin\sh
-    ANSIBLE_VERSION: 2.6.5
+  - SUITE: default
+    ANSIBLE_VERSION: 2.5.14
     ANSIBLE_EXTRA_VARS:
-    SUITE: default
-  - TARGET: cygwin64
+    TARGET: cygwin64
     CYG_ROOT: C:\cygwin64
     CYG_SETUP: C:\cygwin64\setup-x86_64.exe
     CYG_CACHE: C:\cygwin64\var\cache\setup
     CYG_BASH: C:\cygwin64\bin\sh
-    ANSIBLE_VERSION: 2.5.10
+  - SUITE: default-HEAD
+    ANSIBLE_VERSION: 2.7.5
     ANSIBLE_EXTRA_VARS:
-    SUITE: default
-  - TARGET: cygwin64
+    TARGET: cygwin64
     CYG_ROOT: C:\cygwin64
     CYG_SETUP: C:\cygwin64\setup-x86_64.exe
     CYG_CACHE: C:\cygwin64\var\cache\setup
     CYG_BASH: C:\cygwin64\bin\sh
-    ANSIBLE_VERSION: 2.7.0
+  - SUITE: full
+    ANSIBLE_VERSION: 2.7.5
     ANSIBLE_EXTRA_VARS:
-    SUITE: full
+    TARGET: cygwin64
+    CYG_ROOT: C:\cygwin64
+    CYG_SETUP: C:\cygwin64\setup-x86_64.exe
+    CYG_CACHE: C:\cygwin64\var\cache\setup
+    CYG_BASH: C:\cygwin64\bin\sh
 matrix:
   fast_finish: true
 
@@ -73,7 +81,8 @@ install:
 - ps: Write-Host $env:PATH
 - ps: ($pwd).path
 # setup ansible
-- cmd: "%CYG_SETUP% -qgnNdO -l %CYG_CACHE% -R %CYG_ROOT% -s http://cygwin.mirror.constant.com -P openssl-devel -P python2-devel -P python3-devel -P curl -P python-jinja -P python-crypto -P python-openssl -P python-setuptools -P git -P libffi-devel"
+- cmd: "%CYG_SETUP% -qgnNdO -l %CYG_CACHE% -R %CYG_ROOT% -s http://cygwin.mirror.constant.com -P libssl-devel -P python2-devel -P python3-devel -P curl -P python-jinja -P python-crypto -P python-openssl -P python-setuptools -P git -P libffi-devel -P libcrypt-devel -P openssl-devel -P python36-cryptography"
+- cmd: "%CYG_BASH% -lc 'openssl version'"
 - cmd: "%CYG_BASH% -lc 'uname -a'"
 - cmd: "%CYG_BASH% -lc 'python -m ensurepip'"
 - cmd: "%CYG_BASH% -lc 'python3 -m ensurepip'"
@@ -150,7 +159,7 @@ on_finish:
     Get-ChildItem -Path "HKLM:\SYSTEM\CurrentControlSet\Control\SecurityProviders\SCHANNEL\Protocols\SSL 2.0\Server"
     #Get-Eventlog -LogName security -Newest 100 -EntryType FailureAudit
     True
-- cmd: c:\opscode\inspec\bin\inspec.bat exec https://github.com/juju4/windows-baseline/ || exit 0
+- cmd: c:\opscode\inspec\bin\inspec.bat exec %APPVEYOR_BUILD_FOLDER%\test\inspec --attrs %APPVEYOR_BUILD_FOLDER%\test\inspec\profile-attributes-Windows.yml | tee c:\inspec.log || exit 0
 
 notifications:
 - provider: Email

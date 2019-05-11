@@ -1,23 +1,4 @@
 ---
-## Only domain joined station
-## https://blogs.technet.microsoft.com/askpfeplat/2015/12/28/local-administrator-password-solution-laps-implementation-hints-and-security-nerd-commentary-including-mini-threat-model/
-## https://adsecurity.org/?p=1790
-## https://adsecurity.org/?p=3164
-#PS> Get-ADComputer -Filter {ms-McsAdmPwdExpirationTime -Like “*”} -Property ms-McsAdmPwdExpirationTime
-## https://flamingkeys.com/deploying-the-local-administrator-password-solution-part-1/
-## https://blogs.technet.microsoft.com/kfalde/2015/11/18/laps-audit-reporting-via-wef-posh-and-powerbi/
-## https://github.com/kurtfalde/LAPS-Reporting
-## https://blog.netspi.com/running-laps-around-cleartext-passwords/
-## https://github.com/kfosaaen/Get-LAPSPasswords
-#PS> Get-ADObject 'CN=ms-mcs-admpwd,CN=Schema,CN=Configuration,DC=mydomain,DC=com'
-#PS> Find-AdmPwdExtendedrights
-#PS> Get-AdmPwdPassword -ComputerName <computername>
-#PS> Get-LAPSPasswords -DomainController 192.168.1.1 -Credential DEMO\karl | Format-Table -AutoSize
-#PS> Get-ADComputer -Filter * -Property * | Format-Table Name,OperatingSystem,OperatingSystemServicePack,OperatingSystemVersion -Wrap Auto
-#PS> Get-ADComputer -Filter {OperatingSystem -Like “Windows Server*”} -Property * | Format-Table Name,OperatingSystem,OperatingSystemServicePack -Wrap -Auto | Export-CSV AllWindows.csv -NoTypeInformation -Encoding UTF8
-## Audit with Configuration Manager: https://4sysops.com/archives/monitoring-laps-with-configuration-manager/
-## https://room362.com/post/2017/dump-laps-passwords-with-ldapsearch/
-## http://archive.hack.lu/2017/HackLU_2017_Malicious_use_LAPS_Clementz_Goichot.pdf
 
 ## https://www.microsoft.com/en-us/download/details.aspx?id=46899
 - name: Download LAPS

@@ -11,13 +11,14 @@ harden_win_log_dir: 'c:\ProgramData\ansible\log'
 harden_win_securityupdates: false
 harden_win_services: true
 harden_win_registry: true
+harden_win_registry_hkcu_ansible_user: true
 harden_win_registry_hkcu_users:
   - { u: Administrator, p: '' }
 harden_win_gpo_local: true
-#harden_win_gpo_local_action: 'secedit'
-#harden_win_gpo_local_action: 'ps'
-#harden_win_gpo_local_action: 'dsc'
-harden_win_gpo_local_action: 'security_policy'
+#harden_win_gpo_action: 'secedit'
+#harden_win_gpo_action: 'ps'
+#harden_win_gpo_action: 'dsc'
+harden_win_gpo_action: 'security_policy'
 harden_win_gpo_inf: win7-computer-security.inf
 harden_win_gpo_db: "c:\\windows\\security\\database\\newdb.sdb"
 harden_win_gpo_log: "{{ harden_win_log_dir }}\\secedit.txt"
@@ -82,6 +83,7 @@ harden_win_InactivityTimeoutSecs: 900
 
 harden_win_mimikatz_mitigations: true
 harden_win_mimikatz_LocalAccountTokenFilterPolicy0: true
+harden_win_mimikatz_RunAsPPL: true
 harden_windows_disable_wpad: true
 harden_win_disable_adminshares: true
 harden_win_configure_errorreporting: false
@@ -133,6 +135,11 @@ harden_windows_disable_win10cortana: true
 harden_win_restrict_dma: false
 harden_win_disable_dma: false
 harden_win_stickykeys_disable: true
+harden_win_paging: true
+harden_win_defender: true
+harden_win_forcing_afterhours_logoff: false
+#harden_win_forcing_afterhours_logoff_time: '7.15pm'
+#harden_win_forcing_afterhours_logoff_user: 'Administrator'
 
 harden_win_wef_enable: false
 harden_win_wef_collector_server_user: 'DOMAIN\mycollector'
@@ -243,7 +250,7 @@ harden_win_suspicious_ext:
 # https://1337red.wordpress.com/using-a-scf-file-to-gather-hashes/
     - scf
 harden_win_fileassoc:
-  - { ext: .pdf, ftype: pdffile, path: 'C:\Program Files (x86)\Google\Chrome\Application\chrome.exe' }
+  - { ext: .pdf, ftype: pdffile, path: '"C:\Program Files (x86)\Google\Chrome\Application\chrome.exe" "%1"' }
 
 ## https://support.microsoft.com/en-us/help/2696547/how-to-enable-and-disable-smbv1,-smbv2,-and-smbv3-in-windows-vista,-windows-server-2008,-windows-7,-windows-server-2008-r2,-windows-8,-and-windows-server-2012
 harden_win_disable_smb_proto:
@@ -525,6 +532,7 @@ harden_win_wsus_RebootWarningTimeoutEnabled: 1
 harden_win_testing: false
 harden_win_test_password: "_Password_CI_CD_to_be_revoked1_"
 harden_win_testing_inspec: false
+harden_win_testing_defender: true
 harden_win_testing_uac: false
 harden_win_testing_opf: false
 harden_win_testing_privesc: false

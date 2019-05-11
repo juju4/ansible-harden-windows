@@ -1,9 +1,5 @@
 ---
 
-## https://jimshaver.net/2016/02/14/defending-against-mimikatz/
-## https://blogs.technet.microsoft.com/askpfeplat/2016/04/18/the-importance-of-kb2871997-and-kb2928120-for-credential-protection/
-## https://posts.specterops.io/pass-the-hash-is-dead-long-live-localaccounttokenfilterpolicy-506c25a7c167
-
 - name: Pre-Win server 2012 Mimikatz Protection - UseLogonCredential
   win_regedit:
     key: HKLM:\System\CurrentControlSet\Control\SecurityProviders\WDigest
@@ -11,8 +7,13 @@
     data: 0
     datatype: dword
 
-## http://www.harmj0y.net/blog/redteaming/pass-the-hash-is-dead-long-live-localaccounttokenfilterpolicy/
-## https://technet.microsoft.com/en-us/library/dd835564(v=ws.10).aspx#BKMK_BuiltInAdmin
+- name: Pre-Win server 2012 Mimikatz Protection - Negotiate
+  win_regedit:
+    key: HKLM:\System\CurrentControlSet\Control\SecurityProviders\WDigest
+    value: Negotiate
+    data: 0
+    datatype: dword
+
 ## default: 0
 - name: enabled User Account Control - Admin Approval Mode for the built-in Administrator account
   win_regedit:
@@ -20,6 +21,7 @@
     value: FilterAdministratorToken
     data: 1
     datatype: dword
+
 ## default: does not exist
 - name: Ensure Local admininistrators are filtered against Pass-The-Hash
   win_regedit:
@@ -28,3 +30,11 @@
     data: 0
     datatype: dword
   when: harden_win_mimikatz_LocalAccountTokenFilterPolicy0
+
+- name: Enable LSA protection - RunAsPPL
+  win_regedit:
+    key: HKLM:\SYSTEM\CurrentControlSet\Control\LSA
+    value: RunAsPPL
+    data: 1
+    datatype: dword
+  when: harden_win_mimikatz_RunAsPPL

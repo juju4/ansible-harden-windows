@@ -15,4 +15,3 @@
     datatype: dword
     data: "{{ item.d }}"
   with_items: "{{ harden_win_disallowrun_list }}"
-

@@ -1,6 +1,4 @@
 ---
-dist: trusty
-
 env:
   global:
     - winrm_user: winrm_test_user
@@ -29,60 +27,29 @@ matrix:
         # Check the role/playbook's syntax.
         - "ansible-playbook -i inventory --syntax-check test/integration/default/default.yml"
 
-    - os: windows
-      language: shell
-      env:
-        - ANSIBLE_VERSION: 2.7.0
-          ANSIBLE_EXTRA_VARS:
-          SUITE: default
-    - os: windows
-      language: shell
-      env:
-        - ANSIBLE_VERSION: 2.6.5
-          ANSIBLE_EXTRA_VARS:
-          SUITE: default
-    - os: windows
-      language: shell
-      env:
-        - ANSIBLE_VERSION: 2.5.10
-          ANSIBLE_EXTRA_VARS:
-          SUITE: default
-    - os: windows
-      language: shell
-      env:
-        - ANSIBLE_VERSION: 2.7.0
-          ANSIBLE_EXTRA_VARS:
-          SUITE: full
-
+    - image: Windows Server 2019
       before_install:
-        - bash -c 'echo $BASH_VERSION'
-        - df -h
-        - curl -L -o ubuntu-1804.zip https://aka.ms/wsl-ubuntu-1804
-        - powershell.exe -NoProfile -Command "Expand-Archive -Path ubuntu-1804.zip -DestinationPath Ubuntu"
-        - Ubuntu/ubuntu1804.exe install --root
-#        - wslconfig /list
+        - wslconfig /list
+        - wslconfig /setdefault ubuntu-18.04
+        - wsl lsb_release -a
         - wsl pwd
         # setup winrm
-        - powershell -Command "net user /Y /add $winrm_user $winrm_password"
-        - powershell -Command "net localgroup administrators $winrm_user /add"
+        - ps: net user /Y /add $winrm_user $winrm_password
+        - ps: net localgroup administrators $winrm_user /add
         - set
-        - curl -L -o winpty-0.4.3-msys2-2.7.0-x64.tar.gz https://github.com/rprichard/winpty/releases/download/0.4.3/winpty-0.4.3-msys2-2.7.0-x64.tar.gz
-        - tar xzf winpty-0.4.3-msys2-2.7.0-x64.tar.gz
-        - wsl find || true
-        - ./winpty-0.4.3-msys2-2.7.0-x64/bin/winpty powershell.exe -ExecutionPolicy Bypass -File test/travis/create_cert.ps1
-        - powershell -Command "Test-WSMan -Authentication default"
-        - powershell -Command "Get-PSSessionConfiguration"
-        - powershell -Command "Get-Item WSMan:\localhost\Client\TrustedHosts"
-        - powershell -Command "Get-ChildItem WSMan:\localhost\Client\DefaultPorts"
-        - powershell -Command "Get-ChildItem WSMan:\localhost\Listener"
-        - powershell -Command "Get-Service -Name winrm | Select Status"
+        - ps: Test-WSMan -Authentication default
+        - ps: Get-PSSessionConfiguration
+        - ps: Get-Item WSMan:\localhost\Client\TrustedHosts
+        - ps: Get-ChildItem WSMan:\localhost\Client\DefaultPorts
+        - ps: Get-ChildItem WSMan:\localhost\Listener
+        - ps: Get-Service -Name winrm | Select Status
 #        - winrm set winrm/config/client/auth '@{Basic="true"}'
 #        - winrm set winrm/config/service/auth '@{Basic="true"}'
 #        - winrm set winrm/config/service/auth '@{Certificate="true"}'
 #        - winrm set winrm/config/service/auth '@{CbtHardeningLevel="Strict"}'
 #        - winrm set winrm/config/service '@{AllowUnencrypted="true"}'
-        - powershell -Command "Write-Host $env:PATH"
-#        - powershell -Command "($pwd).path"
+        - ps: Write-Host $env:PATH
+        - ps: ($pwd).path
 
       install:
         # setup environment
@@ -96,7 +63,7 @@ matrix:
         - wsl ansible --version
         - echo "localhost ansible_user=$winrm_user ansible_password=$winrm_password ansible_connection=winrm ansible_port=5985" > test/travis/inventory
         - cat test/travis/inventory
-#        - wsl ls /
+        - wsl ls /
         - wsl ansible -i $TRAVIS_BUILD_DIR/test/travis/inventory -m win_ping -vvv localhost
         - wsl mkdir -p /etc/ansible/roles
         - wsl cp $TRAVIS_BUILD_DIR/test/appveyor/ansible.cfg /etc/ansible
@@ -108,10 +75,10 @@ matrix:
         - wsl ansible-playbook -i $TRAVIS_BUILD_DIR/test/travis/inventory $TRAVIS_BUILD_DIR/test/integration/$SUITE/default.yml -vvv $ANSIBLE_EXTRA_VARS
 
       after_failure:
-        - powershell -Command "Get-WinEvent -LogName 'Microsoft-Windows-AppLocker/EXE and DLL' | Where { $_.ID -eq 8004 }"
+        - ps: Get-WinEvent -LogName 'Microsoft-Windows-AppLocker/EXE and DLL' | Where { $_.ID -eq 8004 }
         - wsl ansible -i $TRAVIS_BUILD_DIR/test/travis/inventory -m setup -vvv localhost
 
       after_script:
-        - powershell -Command 'Get-ChildItem -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\FileExts\.hta" -Recurse'
-        - powershell -Command 'Get-ChildItem -Path "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\ProfileList"'
+        - ps: Get-ChildItem -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\FileExts\.hta" -Recurse
+        - ps: Get-ChildItem -Path "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\ProfileList"
         - c:\opscode\inspec\bin\inspec.bat exec https://github.com/juju4/windows-baseline/ || exit 0
