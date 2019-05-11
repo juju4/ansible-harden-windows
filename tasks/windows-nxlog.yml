@@ -1,7 +1,6 @@
 ---
 
-- name: Check if Nxlog archive already downloaded
-  win_stat: path="{{ harden_win_temp_dir }}\\{{ harden_win_remotelogging_nxlog_url | basename }}"
+- win_stat: path="{{ harden_win_temp_dir }}\\{{ harden_win_remotelogging_nxlog_url | basename }}"
   register: nxlogdl
 - name: Download NXLog CE
   win_get_url:
@@ -22,8 +21,7 @@
   with_items: "{{ harden_win_nxlog_conf | default([]) }}"
 
 - name: Validate NXLog CE configuration
-  win_command: >
-    "c:\Program Files (x86)\nxlog\nxlog.exe" -c "c:\Program Files (x86)\nxlog\conf\nxlog.conf" -v
+  win_command: "\"c:\\Program Files (x86)\\nxlog\\nxlog.exe\" -c \"c:\\Program Files (x86)\\nxlog\\conf\\nxlog.conf\" -v"
   changed_when: false
 
 - name: Ensure nxlog service is enabled and started
@@ -38,3 +36,4 @@
 ## https://github.com/Graylog2/collector-sidecar/releases
 #"C:\Program Files (x86)\graylog\collector-sidecar\graylog-collector-sidecar.exe" -service install
 #"C:\Program Files (x86)\graylog\collector-sidecar\graylog-collector-sidecar.exe" -service start
+

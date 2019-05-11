@@ -1,4 +1,4 @@
----
 
 - name: check windows dir permissions
   win_command: "accesschk.exe -d -w paranoid C:\\Windows\\*"
+

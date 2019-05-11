@@ -9,7 +9,7 @@ driver:
 
 provisioner:
   name: ansible_playbook
-  roles_path: ../
+  roles_path: ../../roles
   hosts: test-kitchen
 #  ansible_verbose: true
   ansible_verbose: false
@@ -55,3 +55,4 @@ suites:
     provisioner:
       name: ansible_playbook
       playbook: test/integration/default/default.yml
+

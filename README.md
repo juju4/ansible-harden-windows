@@ -76,7 +76,7 @@ $ vagrant destroy
 $ ansible -i .vagrant/provisioners/ansible/inventory/vagrant_ansible_inventory -m win_ping -e ansible_winrm_server_cert_validation=ignore -e ansible_ssh_port=55986 all
 ```
 
-Role has also a packer config which allows to create image for virtualbox and vmware based on https://github.com/jonashackt/ansible-windows-docker-springboot/, https://github.com/boxcutter/windows and https://github.com/gusztavvargadr/packer.
+Role has also a packer config which allows to create image for virtualbox and vmware based on https://github.com/jonashackt/ansible-windows-docker-springboot/ and https://github.com/boxcutter/windows.
 Plan for about 50GB of free disk space and 1h to build one image.
 ```
 $ cd /path/to/packer-build
@@ -97,7 +97,6 @@ See also
 * https://github.com/hashicorp/packer/tree/master/examples/ansible/connection-plugin
 * https://www.packer.io/docs/provisioners/ansible.html#winrm-communicator
 * https://www.packer.io/docs/templates/user-variables.html
-* https://docs.microsoft.com/en-us/windows-hardware/customize/desktop/unattend/
 
 ## Troubleshooting & Known issues
 

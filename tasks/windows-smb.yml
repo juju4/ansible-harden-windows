@@ -1,5 +1,7 @@
 ---
 
+## https://support.microsoft.com/en-ca/help/2696547/how-to-enable-and-disable-smbv1,-smbv2,-and-smbv3-in-windows-vista,-windows-server-2008,-windows-7,-windows-server-2008-r2,-windows-8,-and-windows-server-2012
+## https://www.us-cert.gov/ncas/current-activity/2017/01/16/SMB-Security-Best-Practices
 - name: Disable Older SMB
   win_regedit:
     key: HKLM:\SYSTEM\CurrentControlSet\Services\LanmanServer\Parameters
@@ -8,6 +10,11 @@
     data: 0
   with_items: "{{ harden_win_disable_smb_proto }}"
 
+## https://packetstormsecurity.com/files/130981/Microsoft-Windows-Local-WebDAV-NTLM-Reflection-Privilege-Escalation.html
+## https://community.tenable.com/thread/8723
+## https://www.stigviewer.com/stig/windows_8_8.1/2015-06-16/finding/V-21950
+## https://gnawgnu.blogspot.ca/2016/08/the-return-of-unchardenedpath-problems.html
+## https://technet.microsoft.com/en-us/library/security/ms16-075.aspx
 - name: Enable SmbServerNameHardeningLevel - SPN validation
   win_regedit:
     key: HKLM:\System\CurrentControlSet\Services\LanManServer\Parameters

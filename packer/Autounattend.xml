@@ -19,7 +19,7 @@
                             <Letter>C</Letter>
                             <Order>1</Order>
                             <PartitionID>1</PartitionID>
-                            <Label>System</Label>
+                            <Label>Windows 10</Label>
                         </ModifyPartition>
                     </ModifyPartitions>
                     <DiskID>0</DiskID>
@@ -46,8 +46,8 @@
                 -->
 
                 <!-- Product Key from http://technet.microsoft.com/en-us/library/jj612867.aspx -->
-                <ProductKey>
-                    <WillShowUI>OnError</WillShowUI>
+                <ProductKey>NPPR9-FWDCX-D2C8J-H872K-2YT43
+                    <WillShowUI>Never</WillShowUI>
                 </ProductKey>
             </UserData>
             <ImageInstall>
@@ -61,7 +61,7 @@
                     <InstallFrom>
                         <MetaData wcm:action="add">
                             <Key>/IMAGE/NAME</Key>
-                            <Value>Windows Server SERVERSTANDARD</Value>
+                            <Value>Windows Server 2016 SERVERSTANDARD</Value>
                         </MetaData>
                     </InstallFrom>
                 </OSImage>
@@ -105,12 +105,9 @@
             </UserAccounts>
             <OOBE>
                 <HideEULAPage>true</HideEULAPage>
-                <HideLocalAccountScreen>true</HideLocalAccountScreen>
-                <HideOEMRegistrationScreen>true</HideOEMRegistrationScreen>
-                <HideOnlineAccountScreens>true</HideOnlineAccountScreens>
                 <HideWirelessSetupInOOBE>true</HideWirelessSetupInOOBE>
                 <NetworkLocation>Home</NetworkLocation>
-                <ProtectYourPC>3</ProtectYourPC>
+                <ProtectYourPC>1</ProtectYourPC>
             </OOBE>
             <AutoLogon>
                 <Password>
@@ -262,19 +259,9 @@
                 <HelpCustomized>false</HelpCustomized>
             </OEMInformation>
             <!-- Rename computer here. -->
-            <ComputerName>vagrant-ws</ComputerName>
-            <TimeZone>UTC</TimeZone>
+            <ComputerName>vagrant-10</ComputerName>
+            <TimeZone>Pacific Standard Time</TimeZone>
             <RegisteredOwner/>
-        </component>
-        <component xmlns:wcm="http://schemas.microsoft.com/WMIConfig/2002/State" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="Microsoft-Windows-ServerManager-SvrMgrNc" processorArchitecture="amd64" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS">
-            <DoNotOpenServerManagerAtLogon>true</DoNotOpenServerManagerAtLogon>
-        </component>
-        <component xmlns:wcm="http://schemas.microsoft.com/WMIConfig/2002/State" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="Microsoft-Windows-IE-ESC" processorArchitecture="amd64" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS">
-            <IEHardenAdmin>true</IEHardenAdmin>
-            <IEHardenUser>true</IEHardenUser>
-        </component>
-        <component xmlns:wcm="http://schemas.microsoft.com/WMIConfig/2002/State" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="Microsoft-Windows-OutOfBoxExperience" processorArchitecture="amd64" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS">
-            <DoNotOpenInitialConfigurationTasksAtLogon>true</DoNotOpenInitialConfigurationTasksAtLogon>
         </component>
         <component xmlns:wcm="http://schemas.microsoft.com/WMIConfig/2002/State" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="Microsoft-Windows-Security-SPP-UX" processorArchitecture="amd64" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS">
             <SkipAutoActivation>true</SkipAutoActivation>

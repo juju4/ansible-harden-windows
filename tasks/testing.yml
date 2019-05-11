@@ -16,27 +16,11 @@
         inherit: "{{ item.i }}"
         propagation: "{{ item.pr }}"
       with_items:
-        - { p: "c:\\opscode",
-            u: 'BUILTIN\Users',
-            r: 'Write,AppendData',
-            t: allow,
-            s: absent,
-            i: 'ContainerInherit, ObjectInherit',
-            pr: 'InheritOnly'
-          }
-        - { p: "c:\\opscode",
-            u: 'Authenticated Users',
-            r: 'Write,AppendData',
-            t: allow,
-            s: absent,
-            i: 'ContainerInherit, ObjectInherit',
-            pr: 'InheritOnly'
-          }
+        - { p: "c:\\opscode", u: 'BUILTIN\Users', r: 'Write,AppendData', t: allow, s: absent, i: 'ContainerInherit, ObjectInherit', pr: 'InheritOnly' }
+        - { p: "c:\\opscode", u: 'Authenticated Users', r: 'Write,AppendData', t: allow, s: absent, i: 'ContainerInherit, ObjectInherit', pr: 'InheritOnly' }
 
     - name: testing | run windows-baseline
-      win_command: >
-        c:\opscode\inspec\bin\inspec.bat exec https://github.com/juju4/windows-baseline
-          >{{ harden_win_log_dir }}\inspec.log
+      win_command: "c:\\opscode\\inspec\\bin\\inspec.bat exec https://github.com/juju4/windows-baseline >{{ harden_win_log_dir }}\\inspec.log"
       ignore_errors: true
 
     - name: testing | inspec results
@@ -49,13 +33,7 @@
 # https://blog.malwarebytes.com/security-world/technology/2017/11/when-you-shouldnt-trust-a-trusted-root-certificate/
 # FIXME! FATAL ERROR DURING FILE TRANSFER: ...
 #- name: Export trusted root certificates
-#  win_shell: >
-#    Get-ChildItem -Path cert:\currentuser\AuthRoot -Recurse |
-#      select Thumbprint, FriendlyName, Subject | ConvertTo-Html |
-#      Set-Content c:\users\public\desktop\certificates.html
-
-- include: testing-defender.yml
-  when: harden_win_testing_defender
+#  shell: Get-ChildItem -Path cert:\currentuser\AuthRoot -Recurse | select Thumbprint, FriendlyName, Subject | ConvertTo-Html | Set-Content c:\users\public\desktop\certificates.html
 
 - include: testing-uac.yml
   when: harden_win_testing_uac

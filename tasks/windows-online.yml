@@ -1,8 +1,6 @@
 ---
 
-- name: >
-    Disabling Microsoft account logon sign-in option, eg. logging in without having to use local credentials
-    and using microsoft online accounts
+- name: Disabling Microsoft account logon sign-in option, eg. logging in without having to use local credentials and using microsoft online accounts
   win_regedit:
     key: HKLM:\Software\Microsoft\PolicyManager\default\Settings\AllowYourAccount
     value: value

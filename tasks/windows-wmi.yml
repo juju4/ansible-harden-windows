@@ -8,9 +8,10 @@
   register: wmilogging
   changed_when: false
 #- debug: var=wmilogging
-
 - name: Enabling WMI Tracing
 #  raw: "Wevtutil.exe sl Microsoft-Windows-WMI-Activity/Trace /e:true"
   raw: "echo y | Wevtutil.exe sl Microsoft-Windows-WMI-Activity/Trace /e:true /ms:512000 /q"
-  when: '"enabled: false" in wmlogging.stdout'
+#  when: wmilogging.stdout.find('false') != -1
+  when: wmilogging.stdout.find("enabled{{ ':' }} false") != -1
   ignore_errors: true
+

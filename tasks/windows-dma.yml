@@ -4,14 +4,10 @@
 ## GPO only: https://technet.microsoft.com/en-us/library/bb530324.aspx
 #- block:
 #
-#  when: >
-#    ansible_os_family == "Windows" and
-#    ansible_distribution_version.split('.')[0]|int >= 6 and
-#    ansible_distribution_version.split('.')[0]|int < 10
+#  when: ansible_os_family == "Windows" and ansible_distribution_version.split('.')[0]|int >= 6 and ansible_distribution_version.split('.')[0]|int < 10
 
 - block:
-## "This mitigation only protects PCI-based buses, for example, ExpressCard, Thunderbolt, & some
-##  docking stations (PCIe based).  Older, non-PCI busses such as 1394 and CardBus are still vulnerable."
+    ## "This mitigation only protects PCI-based buses, for example, ExpressCard, Thunderbolt, & some docking stations (PCIe based).  Older, non-PCI busses such as 1394 and CardBus are still vulnerable."
     - name: Disable DMA
       win_regedit:
         key: HKLM:\SYSTEM\CurrentControlSet\Control\PnP\Pci
@@ -19,7 +15,4 @@
         datatype: dword
         data: 1
 
-  when: >
-    ansible_os_family == "Windows" and
-    ansible_distribution_version.split('.')[0] == '10' and
-    harden_win_disable_dma
+  when: ansible_os_family == "Windows" and ansible_distribution_version.split('.')[0] == '10' and harden_win_disable_dma

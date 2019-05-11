@@ -12,3 +12,4 @@
   win_template:
     src: mms.cfg.j2
     dest: 'c:\Windows\SysWow64\Macromed\Flash\mms.cfg'
+
