@@ -9,7 +9,7 @@ install:
   - pip install ansible ansible-lint
   - ansible --version
   - "{ echo '[defaults]'; echo 'roles_path = ../'; } >> ansible.cfg"
-  - "echo \"[test-kitchen]\nlocalhost\" > inventory"
+  - "echo \"localhost\" > inventory"
   - "[ -f get-dependencies.sh ] && sh -x get-dependencies.sh"
 
 script:

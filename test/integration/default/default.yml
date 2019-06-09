@@ -2,7 +2,6 @@
 
 - hosts: all
   become_method: runas
-#- hosts: test-kitchen
   vars:
     - harden_win_securityupdates: false
 #    - harden_win_services: false
