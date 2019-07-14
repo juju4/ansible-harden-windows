@@ -6,6 +6,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+- Github: rename tags to match semantic versioning: 0.7.0, 0.7.1, 0.8.0
+- Appveyor: use cygwin python36-cryptography
+- Appveyor: update ansible to 2.8.1/2.7.11/2.6.17
+- Travis: default to xenial and python3
+- more linting
+
 ## [0.9.0] - 2019-02-17
 
 ### Added
