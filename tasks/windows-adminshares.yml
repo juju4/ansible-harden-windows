@@ -11,6 +11,8 @@
     - { k: 'HKLM:\SYSTEM\CurrentControlSet\Services\LanManServer\Parameters', v: 'AutoShareServer', d: 0 }
     - { k: 'HKLM:\SYSTEM\CurrentControlSet\Control\Lsa', v: 'restrictanonymous', d: 1 }
 
+# OK https://ci.appveyor.com/project/juju4/ansible-harden-windows/builds/25835253
+# NOK https://ci.appveyor.com/project/juju4/ansible-harden-windows/builds/26122112/job/lbkffjihylphl9cq#L5430
 - name: Disable Windows Administrative shares - current session
   win_share:
     name: "{{ item }}"
@@ -21,3 +23,4 @@
     - "c$"
     - "d$"
     - "e$"
+  ignore_errors: true
