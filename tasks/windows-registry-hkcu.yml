@@ -38,4 +38,4 @@
     value: DisableCMD
     datatype: dword
     data: 1
-  when: harden_windows_disable_cmd
+  when: harden_windows_disable_cmd|bool

@@ -157,91 +157,91 @@
 ##      = SRP lock on %APPDATA%
 
 - include: windows-adminshares.yml
-  when: harden_win_disable_adminshares
+  when: harden_win_disable_adminshares|bool
 
 - include: windows-local-gpo.yml
-  when: harden_win_gpo_local is defined and harden_win_gpo_local
+  when: harden_win_gpo_local is defined and harden_win_gpo_local|bool
 
 - include: windows-nxlog.yml
-  when: harden_win_remotelogging is defined and harden_win_remotelogging
+  when: harden_win_remotelogging is defined and harden_win_remotelogging|bool
 
 - include: windows-vss.yml
   when: harden_win_vss is defined and harden_win_vss
 
 - include: windows-wmi-monitor.yml
-  when: harden_win_wmi_monitor is defined and harden_win_wmi_monitor
+  when: harden_win_wmi_monitor is defined and harden_win_wmi_monitor|bool
 
 - include: windows-netcease.yml
-  when: harden_win_netcease is defined and harden_win_netcease
+  when: harden_win_netcease is defined and harden_win_netcease|bool
 
 - include: windows-dnscrypt.yml
-  when: harden_win_simplednscrypt
+  when: harden_win_simplednscrypt|bool
 
 - include: windows-error-reporting.yml
-  when: harden_win_configure_errorreporting
+  when: harden_win_configure_errorreporting|bool
 
 - include: mbrfilter.yml
-  when: harden_win_mbrfilter
+  when: harden_win_mbrfilter|bool
 
 - include: windows-usb.yml
-  when: harden_win_restrict_usb
+  when: harden_win_restrict_usb|bool
 
 - include: windows10.yml
-  when: harden_windows_disable_win10cortana and ansible_distribution_major_version|int >= 10
+  when: harden_windows_disable_win10cortana|bool and ansible_distribution_major_version|int >= 10
 - include: windows-cortana.yml
-  when: harden_windows_disable_win10cortana and ansible_distribution_major_version|int >= 10
+  when: harden_windows_disable_win10cortana|bool and ansible_distribution_major_version|int >= 10
 
 - include: windows-dma.yml
-  when: harden_win_restrict_dma
+  when: harden_win_restrict_dma|bool
 
 - include: windows-certificates.yml
-  when: harden_win_certificates_review
+  when: harden_win_certificates_review|bool
 
 - include: windows-disallowrun.yml
-  when: harden_win_disallowrun
+  when: harden_win_disallowrun|bool
 
 - include: windows-feature.yml
 
 - include: windows-paging.yml
-  when: harden_win_paging
+  when: harden_win_paging|bool
 
 - include: windows-sticky-keys.yml
-  when: harden_win_stickykeys_disable
+  when: harden_win_stickykeys_disable|bool
 
 - include: windows-laps.yml
-  when: harden_win_laps_enable
+  when: harden_win_laps_enable|bool
 
 - include: windows-wef.yml
-  when: harden_win_wef_enable
+  when: harden_win_wef_enable|bool
 
 - include: passwd-filters.yml
-  when: harden_win_passwd_filters
+  when: harden_win_passwd_filters|bool
 
 - include: windows-acl.yml
-  when: not (ansible_env is defined and ansible_env.APPVEYOR is defined and ansible_env.APPVEYOR) and harden_win_acl
+  when: not (ansible_env is defined and ansible_env.APPVEYOR is defined and ansible_env.APPVEYOR) and harden_win_acl|bool
 
 - include: windows-samri.yml
-  when: harden_win_samri
+  when: harden_win_samri|bool
 
 - include: windows-deviceguard.yml
-  when: harden_win_deviceguard
+  when: harden_win_deviceguard|bool
 
 - include: windows-taskmanager.yml
-  when: harden_win_disable_taskmanager
+  when: harden_win_disable_taskmanager|bool
 
 - include: windows-defender.yml
-  when: harden_win_defender
+  when: harden_win_defender|bool
 
 - include: forcing-afterhours-user-logoffs.yml
-  when: harden_win_forcing_afterhours_logoff
+  when: harden_win_forcing_afterhours_logoff|bool
 
 - include: extras.yml
 
 - include: palantir-AutorunsToWinEventLog.yml
-  when: harden_win_palantir_AutorunsToWinEventLog
+  when: harden_win_palantir_AutorunsToWinEventLog|bool
 
 - include: dc-krgtbt-reset.yml
-  when: harden_win_Is_DC
+  when: harden_win_Is_DC|bool
 
 # last to allow creation of scheduled tasks before
 - include: windows-taskscheduler.yml
