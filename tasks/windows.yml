@@ -83,7 +83,9 @@
 ##  'C:\\ProgramData\\chocolatey'", "WARNING: It's very likely you will need to close and reopen your shell ", "
 ##  before you can use choco."], "failed": true, "msg": "Chocolatey bootstrap installation failed."}
 - name: Chocolatey installation
-  win_chocolatey: name=chocolatey state=present upgrade=no
+  win_chocolatey:
+    name: chocolatey
+    state: present
 
 #- name: Fix problem with Chocolatey .99 (https://github.com/ansible/ansible-modules-extras/issues/378)
 #  raw: Chocolatey feature enable -n allowGlobalConfirmation
