@@ -44,7 +44,7 @@
       changed_when: false
       ignore_errors: true
 
-  when: harden_win_testing_inspec
+  when: harden_win_testing_inspec|bool
 
 # https://blog.malwarebytes.com/security-world/technology/2017/11/when-you-shouldnt-trust-a-trusted-root-certificate/
 # FIXME! FATAL ERROR DURING FILE TRANSFER: ...
@@ -55,26 +55,26 @@
 #      Set-Content c:\users\public\desktop\certificates.html
 
 - include: testing-defender.yml
-  when: harden_win_testing_defender
+  when: harden_win_testing_defender|bool
 
 - include: testing-uac.yml
-  when: harden_win_testing_uac
+  when: harden_win_testing_uac|bool
 
 - include: testing-opf.yml
-  when: harden_win_testing_opf
+  when: harden_win_testing_opf|bool
 
 - include: testing-speculative.yml
-  when: harden_win_testing_speculative
+  when: harden_win_testing_speculative|bool
 
 - include: testing-intelme.yml
-  when: harden_win_testing_intelme
+  when: harden_win_testing_intelme|bool
 
 - include: testing-iad.yml
-  when: harden_win_testing_iad
+  when: harden_win_testing_iad|bool
 
 # keep last. if defender catches it, may need to restart to complete cleaning/have ansible working again
 - include: testing-mimikatz.yml
-  when: harden_win_testing_mimikatz
+  when: harden_win_testing_mimikatz|bool
 
 #- name: Remove user _test
 #  win_user:

@@ -15,4 +15,4 @@
 
 - name: Testing
   include: testing.yml
-  when: harden_win_testing
+  when: harden_win_testing|bool
