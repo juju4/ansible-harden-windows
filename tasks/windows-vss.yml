@@ -3,12 +3,12 @@
 
 - block:
     - name: list state of shadow volumes
-      raw: "vssadmin.exe list volumes"
+      win_command: "vssadmin.exe list volumes"
       changed_when: false
       register: vssvol
     - debug: var=vssvol
     - name: list state of shadowstorage
-      raw: "vssadmin.exe list shadowstorage"
+      win_command: "vssadmin.exe list shadowstorage"
       changed_when: false
       register: vssstor
       ignore_errors: true
@@ -18,8 +18,10 @@
     ##  but return 'invalid command' in some cases??? only on server?
     ## 'add' option not available on win10
     - name: enable shadow copy for c
-      raw: "vssadmin.exe add shadowstorage /for=c: /on=c: /maxsize=15%"
-      when: vssstor.stdout.find("Shadow Copy Storage volume{{ ':' }} (C{{ ':' }})") == -1 and ansible_distribution_major_version|int < 10
+      win_command: "vssadmin.exe add shadowstorage /for=c: /on=c: /maxsize=15%"
+      when:
+        - '"Shadow Copy Storage volume{{ ':' }} (C{{ ':' }})" not in vssstor.stdout'
+        - ansible_distribution_major_version|int < 10
       ignore_errors: true
 
   when: ansible_distribution_major_version|int < 10
