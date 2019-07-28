@@ -257,6 +257,7 @@
     - EnablePrefetcher
     - EnableSuperfetch
 
+## https://www.datadigitally.com/2019/06/enable-last-access-times-for-files-and.html
 ## https://technet.microsoft.com/en-us/library/cc959914.aspx
 - name: Ensure last access times for NTFS partitions is enabled
   win_regedit:

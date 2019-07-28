@@ -15,6 +15,10 @@ https://luke.geek.nz/Using-dsc-for-windows-hardening
 http://www.nsa.gov/ia/_files/app/Recommendations_for_Configuring_Adobe_Acrobat_Reader_XI_in_a_Windows_Environment.pdf
 Enhanced security and protected mode are turned on by default in ARXI, but they are not locked, meaning a user can disable them through the GUI. Protected view is not turned on by default.
 
+# Active Directory
+
+* https://lolware.net/2019/07/13/ad-security-with-pam.html
+
 # Domain Controller krbtgt password reset
 
 * https://cloudblogs.microsoft.com/microsoftsecure/2015/02/11/krbtgt-account-password-reset-scripts-now-available-for-customers/
