@@ -127,6 +127,12 @@
   raw: "Netsh interface ipv4 set global mldlevel=none"
   when: not ("none" in ipv4if.stdout)
 
+- name: Remove files
+  win_file:
+    dest: "{{ item }}"
+    state: absent
+  with_items: "{{ harden_win_remove_filelist }}"
+
 ## win_regedit: New in ansible version 2.0
 - include: windows-registry.yml
   when: harden_win_registry is defined and harden_win_registry

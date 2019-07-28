@@ -192,6 +192,13 @@ harden_win_disallowrun_list:
   - { v: "3", d: "cmd.exe" }
   - { v: "4", d: "mshta.exe" }
 
+# https://twitter.com/pmelson/status/1155138925960290304
+harden_win_remove_filelist:
+  - 'c:\Windows\system32\certutil.exe'
+  - 'c:\Windows\SysWOW64\certutil.exe'
+  - 'c:\Windows\system32\bitsadmin.exe'
+  - 'c:\Windows\SysWOW64\bitsadmin.exe'
+
 ## win_get_url missing checksum check
 harden_win_remotelogging: false
 harden_win_remotelogging_nxlog_url: 'https://nxlog.co/system/files/products/files/348/nxlog-ce-2.9.1716.msi'
