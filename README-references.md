@@ -18,6 +18,7 @@ Enhanced security and protected mode are turned on by default in ARXI, but they 
 # Active Directory
 
 * https://lolware.net/2019/07/13/ad-security-with-pam.html
+* https://github.com/PaulSec/awesome-windows-domain-hardening
 
 # Domain Controller krbtgt password reset
 
