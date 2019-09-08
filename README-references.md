@@ -3,8 +3,10 @@ References links for role tasks
 
 # General
 
+* https://www.ncsc.gov.uk/blog-post/windows-10-in-s-mode, Aug 2019
 * MVPDays - Hardening Windows Server - Orin Thomas, Jan 2019
 https://www.youtube.com/watch?v=me7QlDyEF7E
+* [EventList  the Baseline Event Analyzer, Aug 2018](https://miriamxyra.com/2018/08/28/eventlist-the-baseline-event-analyzer/)
 * Using PowerShell DSC for Windows Hardening, Jun 2018
 https://luke.geek.nz/Using-dsc-for-windows-hardening
 
@@ -19,6 +21,7 @@ Enhanced security and protected mode are turned on by default in ARXI, but they 
 
 * https://lolware.net/2019/07/13/ad-security-with-pam.html
 * https://github.com/PaulSec/awesome-windows-domain-hardening
+* [ADSVS v1.0 - Improving the security of Active Directory, Aug 2019](https://www.slideshare.net/HuyKha2/adsvs-v10-improving-the-security-of-active-directory)
 
 # Domain Controller krbtgt password reset
 
