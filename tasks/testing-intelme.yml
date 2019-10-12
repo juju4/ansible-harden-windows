@@ -1,6 +1,7 @@
 ---
 
 # Intel Q3’17 ME 6.x/7.x/8.x/9.x/10.x/11.x, SPS 4.0, and TXE 3.0 Security Review Cumulative Update
+# https://www.intel.com/content/www/us/en/security-center/advisory/intel-sa-00119.html
 # https://downloadcenter.intel.com/download/27150
 - name: Download Intel-SA-00086 Detection Tool
   win_get_url:

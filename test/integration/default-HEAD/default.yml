@@ -52,7 +52,7 @@
     - harden_win_testing_mimikatz: true
     - win_testing_msoffice: false
     - harden_win_testing_speculative: true
-    - harden_win_testing_intelme: true
+    - harden_win_testing_intelme: false
     - harden_win_testing_iad: true
     - harden_win_testing_iad_apply: false
     - harden_win_testing_detections: true
