@@ -31,45 +31,6 @@
         - 1
   when: nbtstate.results[0].stdout != "\r\r\n\r\r\n" and nbtstate.results[1].stdout != "\r\r\n\r\r\n"
 
-- name: disable Windows Script Host (1)
-  win_regedit:
-    key: HKLM:\SOFTWARE\Microsoft\Windows Script Host\Settings
-    value: Enabled
-    data: 0
-    datatype: dword
-- name: disable Windows Script Host (2)
-  win_regedit:
-    key: HKLM:\SOFTWARE\Microsoft\Windows Script Host\Settings
-    value: IgnoreUserSettings
-    data: 1
-    datatype: dword
-## not sure about this one?
-#- name: Enable SAFER -  Software Restrictions Policies block scripts
-#  win_regedit:
-#    key: HKLM:\SOFTWARE\Microsoft\Windows Script Host\Settings
-#    value: UseWinSAFER
-#    data: 0
-
-## FIXME! NOK
-## Note: HKCR only applies if HKCU doesn't exist. better enforcing with GPO
-- name: disable javascript execution by Windows Script Host (HKCR)
-  win_regedit:
-#    key: HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\FileExts\.hta
-    key: "{{ item }}"
-    data: "\"%windir%\\system32\\notepad.exe\" \"%1\""
-  with_items:
-    - "HKCR:\\htafile\\shell\\open\\command"
-    - "HKCR:\\VBSFile\\shell\\edit\\command"
-    - "HKCR:\\VBSFile\\shell\\open\\command"
-    - "HKCR:\\VBSFile\\shell\\open2\\command"
-    - "HKCR:\\VBEFile\\shell\\edit\\command"
-    - "HKCR:\\VBEFile\\shell\\open\\command"
-    - "HKCR:\\VBEFile\\shell\\open2\\command"
-    - "HKCR:\\JSFile\\shell\\open\\command"
-    - "HKCR:\\JSEFile\\shell\\open\\command"
-    - "HKCR:\\wshfile\\shell\\open\\command"
-    - "HKCR:\\scriptletfile\\shell\\open\\command"  ## default
-
 - name: Update file associations - HKCR
   win_regedit:
 #    key: HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\FileExts\.hta
@@ -660,6 +621,8 @@
     data: 1
 
 - include: dc-ldap-signing.yml
+
+- include: windows-wsh.yml
 
 - include: windows-wsus.yml
   when: harden_win_wsus_enable

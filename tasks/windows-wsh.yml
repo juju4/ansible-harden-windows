@@ -1,0 +1,54 @@
+---
+
+- name: disable Windows Script Host (1)
+  win_regedit:
+    key: HKLM:\SOFTWARE\Microsoft\Windows Script Host\Settings
+    value: Enabled
+    data: 0
+    datatype: dword
+  when: harden_win_disable_wsh
+
+- name: disable Windows Script Host (2)
+  win_regedit:
+    key: HKLM:\SOFTWARE\Microsoft\Windows Script Host\Settings
+    value: IgnoreUserSettings
+    data: 1
+    datatype: dword
+## not sure about this one?
+#- name: Enable SAFER -  Software Restrictions Policies block scripts
+#  win_regedit:
+#    key: HKLM:\SOFTWARE\Microsoft\Windows Script Host\Settings
+#    value: UseWinSAFER
+#    data: 0
+  when: harden_win_disable_wsh
+
+## FIXME! NOK
+## Note: HKCR only applies if HKCU doesn't exist. better enforcing with GPO
+- name: disable javascript execution by Windows Script Host (HKCR)
+  win_regedit:
+#    key: HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\FileExts\.hta
+    key: "{{ item }}"
+    data: "\"%windir%\\system32\\notepad.exe\" \"%1\""
+  with_items:
+    - "HKCR:\\htafile\\shell\\open\\command"
+    - "HKCR:\\VBSFile\\shell\\edit\\command"
+    - "HKCR:\\VBSFile\\shell\\open\\command"
+    - "HKCR:\\VBSFile\\shell\\open2\\command"
+    - "HKCR:\\VBEFile\\shell\\edit\\command"
+    - "HKCR:\\VBEFile\\shell\\open\\command"
+    - "HKCR:\\VBEFile\\shell\\open2\\command"
+    - "HKCR:\\JSFile\\shell\\open\\command"
+    - "HKCR:\\JSEFile\\shell\\open\\command"
+    - "HKCR:\\wshfile\\shell\\open\\command"
+    - "HKCR:\\scriptletfile\\shell\\open\\command"  ## default
+  when: harden_win_disable_wsh_assoc
+
+# Windows Scripting Host introduced signature enforcement in 2001...and virtually no one uses it (that I’ve ever seen) https://twitter.com/cglyer/status/1182343962092331010
+# https://www.itworld.com/article/2784534/vbscript---enforcing-the-use-of-digital-scripts.html
+# microsoft docs???
+- name: Enforce signed WSH only
+  win_regedit:
+    key: HKLM:\SOFTWARE\Microsoft\Windows Script Host\Settings
+    value: TrustPolicy
+    data: "{{ harden_win_wsh_trustpolicy | default(2) }}"
+    datatype: dword

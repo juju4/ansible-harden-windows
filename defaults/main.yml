@@ -79,6 +79,10 @@ harden_win_adobereader_v: 'DC'
 ## Reco Microsoft 4GB, https://support.microsoft.com/en-ca/kb/957662
 harden_win_eventlogs_maxsize: 315801600
 
+harden_win_disable_wsh: true
+harden_win_disable_wsh_assoc: true
+harden_win_wsh_trustpolicy: 2
+
 harden_win_InactivityTimeoutSecs: 900
 
 harden_win_mimikatz_mitigations: true
