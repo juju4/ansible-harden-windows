@@ -6,6 +6,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+- WSH: separate task file, TrustPolicy option to enforce signed
+- lint
+- external references
+
+### Removed
+- github.com/caseysmithrc/MimkatzCollider: repository 404
+
 ## [1.0.0] - 2019-07-20
 
 ### Changed
