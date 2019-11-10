@@ -14,6 +14,9 @@
     value: "(Default)"
     datatype: string
     data: "\"%windir%\\system32\\notepad.exe\" \"%1\""
+  become: yes
+  become_user: "{{ hkcu_user | default(omit) }}"
+  become_pass: "{{ hkcu_pass | default(omit) }}"
   with_items: "{{ harden_win_suspicious_ext }}"
 
 - name: disable suspicious executabled file extensions (HKCU)
@@ -22,6 +25,9 @@
     value: "a"
     datatype: string
     data: "\"%windir%\\system32\\notepad.exe\" \"%1\""
+  become: yes
+  become_user: "{{ hkcu_user | default(omit) }}"
+  become_pass: "{{ hkcu_pass | default(omit) }}"
   with_items: "{{ harden_win_suspicious_ext }}"
 
 - name: Update file associations - HKCU
@@ -30,6 +36,9 @@
     value: "(Default)"
     datatype: string
     data: "{{ item.path }}"
+  become: yes
+  become_user: "{{ hkcu_user | default(omit) }}"
+  become_pass: "{{ hkcu_pass | default(omit) }}"
   with_items: "{{ harden_win_fileassoc }}"
 
 - name: Disable CMD
@@ -38,4 +47,7 @@
     value: DisableCMD
     datatype: dword
     data: 1
+  become: yes
+  become_user: "{{ hkcu_user | default(omit) }}"
+  become_pass: "{{ hkcu_pass | default(omit) }}"
   when: harden_windows_disable_cmd|bool

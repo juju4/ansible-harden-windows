@@ -632,10 +632,7 @@
   when: harden_win_registry_hkcu_ansible_user
 # others
 - block:
-    - include: windows-registry-hkcu.yml
-      become: yes
-      become_user: "{{ outer_item.u }}"
-      become_pass: "{{ outer_item.p }}"
+    - include: "windows-registry-hkcu.yml hkcu_user={{ outer_item.u }} hkcu_pass={{ outer_item.p }}"
       with_items: "{{ harden_win_registry_hkcu_users | default([]) }}"
       loop_control:
         loop_var: outer_item
