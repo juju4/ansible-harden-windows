@@ -58,9 +58,6 @@
 # if Azure
     - harden_win_NtlmMinServerSec: 536870912
     - harden_win_mimikatz_LocalAccountTokenFilterPolicy0: false
-    - harden_win_registry_hkcu_users:
-      - { u: Administrator, p: '' }
-      - { u: vagrant, p: vagrant }
     - harden_win_testing_mimikatz: false
     - harden_win_testing_detections: false
   roles:

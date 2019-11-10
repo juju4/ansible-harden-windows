@@ -630,16 +630,3 @@
 # current user
 - include: windows-registry-hkcu.yml
   when: harden_win_registry_hkcu_ansible_user
-# others
-- block:
-    - include: windows-registry-hkcu.yml
-      become: yes
-      become_user: "{{ outer_item.u }}"
-      become_pass: "{{ outer_item.p }}"
-      with_items: "{{ harden_win_registry_hkcu_users | default([]) }}"
-      loop_control:
-        loop_var: outer_item
-  when: ansible_version.full is version_compare('2.5', '>=')
-- block:
-    - debug: msg="WARNING! Skipping windows-registry change per user as become/runas not fully functional before ansible 2.5"
-  when: ansible_version.full is version_compare('2.5', '<')
