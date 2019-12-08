@@ -7,7 +7,8 @@
 ## https://github.com/ryanries/PassFiltEx
 
 - name: check if OpenPasswordFilter archive is present
-  win_stat: path="{{ harden_win_temp_dir }}\\{{ opf_url | basename }}"
+  win_stat:
+    path: "{{ harden_win_temp_dir }}\\{{ opf_url | basename }}"
   register: opfdl
 - name: download OpenPasswordFilter
   win_get_url:
@@ -15,6 +16,8 @@
     dest: "{{ harden_win_temp_dir }}\\{{ opf_url | basename }}"
 ## FIXME! no checksum option, https://github.com/ansible/ansible-modules-core/issues/4901
   when: not opfdl.stat.exists
+  register: dl_result
+  until: dl_result is success
 
 - name: check if OpenPasswordFilter password list is present
   win_stat: path="c:\\windows\\system32\\opfmatch.txt"
@@ -24,6 +27,8 @@
     url: "{{ opf_passwd_list_url }}"
     dest: "c:\\windows\\system32\\opfmatch.txt"
   when: not opfpass.stat.exists
+  register: dl_result
+  until: dl_result is success
 
 - name: check if OpenPasswordFilter password list is present for partial match
   win_stat: path="c:\\windows\\system32\\opfconf.txt"
@@ -33,6 +38,8 @@
     url: "{{ opf_passwd_list_partial_url }}"
     dest: "c:\\windows\\system32\\opfconf.txt"
   when: not opfpass2.stat.exists
+  register: dl_result
+  until: dl_result is success
 
 - name: Uncompress OPF
   win_unzip:

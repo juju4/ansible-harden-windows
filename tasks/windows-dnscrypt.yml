@@ -1,7 +1,8 @@
 ---
 
 - name: check if dnscrypt archive is present
-  win_stat: path="{{ harden_win_temp_dir }}\\{{ harden_win_simplednscrypt_url | basename }}"
+  win_stat:
+    path: "{{ harden_win_temp_dir }}\\{{ harden_win_simplednscrypt_url | basename }}"
   register: dnscryptdl
 - name: Download dnscrypt
   win_get_url:
@@ -9,6 +10,8 @@
     dest: "{{ harden_win_temp_dir }}\\{{ harden_win_simplednscrypt_url | basename }}"
 ## FIXME! no checksum option, https://github.com/ansible/ansible-modules-core/issues/4901
   when: not dnscryptdl.stat.exists
+  register: dl_result
+  until: dl_result is success
 
 ## FIXME! not idempotent
 - name: Install dnscrypt

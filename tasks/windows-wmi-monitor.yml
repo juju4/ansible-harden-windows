@@ -9,6 +9,8 @@
     url: https://raw.githubusercontent.com/realparisi/WMI_Monitor/master/WMIMonitor.ps1
     dest: "{{ harden_win_temp_dir }}\\WMIMonitor.ps1"
   when: not wmimondl.stat.exists
+  register: dl_result
+  until: dl_result is success
 
 - name: Run WMIMonitor
   win_shell: "\"{{ harden_win_temp_dir }}\\WMIMonitor.ps1\""

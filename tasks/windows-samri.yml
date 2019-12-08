@@ -10,6 +10,8 @@
     dest: "{{ harden_win_temp_dir }}\\SAMRi10.zip"
 ## FIXME! no checksum option, https://github.com/ansible/ansible-modules-core/issues/4901
   when: not samridl.stat.exists
+  register: dl_result
+  until: dl_result is success
 
 - name: Uncompress SAMRi10
   win_unzip:

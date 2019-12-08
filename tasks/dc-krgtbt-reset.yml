@@ -7,6 +7,8 @@
   win_get_url:
     url: "https://gallery.technet.microsoft.com/Reset-the-krbtgt-account-581a9e51/file/142338/1/New-CtmADKrbtgtKeys.zip"
     dest: "{{ harden_win_temp_dir }}\\New-CtmADKrbtgtKeys.zip"
+  register: dl_result
+  until: dl_result is success
 
 - name: DC krgtbt | unarchive reset script
   win_unzip:

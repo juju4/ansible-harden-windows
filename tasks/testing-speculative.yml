@@ -29,6 +29,8 @@
   win_get_url:
     url: https://github.com/ionescu007/SpecuCheck/releases/download/v1.1.0/SpecuCheck.exe
     dest: "{{ harden_win_temp_dir }}\\SpecuCheck.exe"
+  register: dl_result
+  until: dl_result is success
 
 - name: Execute SpecuCheck
   win_command: "\"{{ harden_win_temp_dir }}\\SpecuCheck.exe\""
