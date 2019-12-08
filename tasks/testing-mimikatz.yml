@@ -33,7 +33,7 @@
 - name: testing | call mimikatz in javascript
   win_command: "cscript.exe {{ harden_win_temp_dir }}\\katz.js"
   ignore_errors: true
-  when: katzdl|succeeded
+  when: katzdl is succeeded
 
 # downgrade powershell
 # PowerShell Version 2 Command [Your Command Here]
