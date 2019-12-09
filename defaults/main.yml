@@ -212,7 +212,7 @@ harden_win_netcease: true
 harden_win_netcease_url: 'https://gallery.technet.microsoft.com/Net-Cease-Blocking-Net-1e8dcb5b/file/165596/1/NetCease.zip'
 
 harden_win_simplednscrypt: true
-harden_win_simplednscrypt_url: https://github.com/bitbeans/SimpleDnsCrypt/releases/download/0.4.7/SimpleDNSCrypt64.msi
+harden_win_simplednscrypt_url: https://github.com/bitbeans/SimpleDnsCrypt/releases/download/0.7.0/SimpleDNSCrypt64.msi
 
 ## Experimental
 harden_win_mbrfilter: false
