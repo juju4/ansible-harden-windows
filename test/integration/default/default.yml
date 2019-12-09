@@ -16,7 +16,7 @@
 #    - win_osquery: false
 #    - harden_win_certificates_review: false
 #    - harden_win_lsa_harden: true
-    - harden_win_mbrfilter: true
+#    - harden_win_mbrfilter: true
     - harden_win_restrict_usb: true
     - harden_win_remotelogging: false
     - win_firewall: false
