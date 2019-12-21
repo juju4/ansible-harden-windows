@@ -2,6 +2,8 @@
 # https://chrissanders.org/2017/11/forcing-attacker-decisions/
 # https://blogs.technet.microsoft.com/askds/2010/08/24/forcing-afterhours-user-logoffs/
 # https://technet.microsoft.com/en-us/library/jj852195(v=ws.11).aspx
+# https://social.technet.microsoft.com/Forums/en-US/292ed6a8-5752-4f96-9949-e3069caec82f/force-logoff-policy-2-hours-of-idle
+# https://www.ryadel.com/en/remote-desktop-session-time-limit-how-to-set-idle-timeout-in-windows-server-2012/
 # Review carefully where applicable to you: User endpoint, member server, DC server
 
 #- name: Add schedule task to notify users of afterhours logoffs
