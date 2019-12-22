@@ -16,5 +16,5 @@
 
 - name: testing | call densityscout
   win_command: >
-    \"{{ harden_win_temp_dir }}\\densityscout\\densityscout.exe\" -pe -p 0.1 -o {{ harden_win_log_dir }}\\densityscout-results.txt c:\Windows
+    \"{{ harden_win_temp_dir }}\densityscout\densityscout.exe\" -pe -p 0.1 -o {{ harden_win_log_dir }}\densityscout-results.txt c:\Windows
   ignore_errors: true
