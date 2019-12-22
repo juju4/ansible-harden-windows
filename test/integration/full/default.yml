@@ -2,7 +2,6 @@
 
 - hosts: all
   become_method: runas
-#- hosts: test-kitchen
   vars:
     - harden_win_securityupdates: false
 #    - harden_win_services: false
@@ -15,15 +14,16 @@
 #    - harden_win_netcease: false
 #    - harden_win_simplednscrypt: false
 #    - win_osquery: false
-    - win_osquery_enable_winevtx_logging: false
+#    - win_osquery_enable_winevtx_logging: false
 #    - harden_win_certificates_review: false
 #    - harden_win_lsa_harden: true
-    - harden_win_mbrfilter: true
+#    - harden_win_mbrfilter: true
     - harden_win_restrict_usb: true
     - harden_win_remotelogging: false
     - win_firewall: false
     - harden_win_configure_errorreporting: true
     - harden_win_restrict_dma: true
+    - harden_win_forcing_afterhours_logoff: true
 #    - harden_win_wef_enable: true
 #    - harden_win_wef_collector_server_user: ''
     - win_powershellmodules:
@@ -48,9 +48,9 @@
         - 'c:\windows\Microsoft.NET\Framework64\v4.0.30319\MSBuild.exe'
         - 'c:\windows\Microsoft.NET\Framework\v4.0.30319\regasm.exe'
         - 'c:\windows\Microsoft.NET\Framework64\v4.0.30319\regasm.exe'
-    - win_testing_applocker: false
     - harden_win_testing: true
     - harden_win_testing_inspec: true
+    - win_testing_applocker: false
     - harden_win_testing_uac: false
     - harden_win_testing_opf: false
     - harden_win_testing_privesc: false
