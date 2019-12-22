@@ -29,8 +29,7 @@
     dest: "{{ harden_win_temp_dir }}\\katz.js"
   ignore_errors: true
   register: katzdl
-  register: dl_result
-  until: dl_result is success
+  until: katzdl is success
 
 - name: testing | call mimikatz in javascript
   win_command: "cscript.exe {{ harden_win_temp_dir }}\\katz.js"
