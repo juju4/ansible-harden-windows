@@ -39,9 +39,9 @@
 # downgrade powershell
 # PowerShell Version 2 Command [Your Command Here]
 
-- name: Appveyor | Ensure wuserver is not disabled
+- name: Appveyor | Ensure wuauserv is not disabled
   win_service:
-    name: wuserver
+    name: wuauserv
     state: started
     start_mode: auto
   when: >
