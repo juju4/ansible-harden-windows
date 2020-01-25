@@ -46,6 +46,7 @@
     state: present
   # https://github.com/ansible/ansible/issues/59352
   become: yes
+  become_user: SYSTEM
   become_method: runas
 
 # pip module under windows?
