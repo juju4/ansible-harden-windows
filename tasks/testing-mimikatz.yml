@@ -39,6 +39,15 @@
 # downgrade powershell
 # PowerShell Version 2 Command [Your Command Here]
 
+- name: Appveyor | Ensure wuserver is not disabled
+  win_service:
+    name: wuserver
+    state: started
+    start_mode: auto
+  when: >
+    (ansible_env is defined and ansible_env.APPVEYOR is defined and ansible_env.APPVEYOR) or
+    ansible_user == 'winrm_test_user'
+
 # https://github.com/skelsec/pypykatz
 - name: testing | Ensure python is present
   win_chocolatey:
