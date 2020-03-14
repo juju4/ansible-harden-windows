@@ -119,6 +119,10 @@ PS> Get-ADComputer -Filter {OperatingSystem -Like “Windows Server*”} -Proper
 * https://isc.sans.edu/forums/diary/Mitigations+against+Mimikatz+Style+Attacks/24612/
 * https://docs.microsoft.com/en-us/windows-server/security/credentials-protection-and-management/configuring-additional-lsa-protection
 
+# PSExec
+
+* [This one weird trick blocks remote use of PSEXEC and similar tools by denying all rights to the SCM for NETWORK SID](https://twitter.com/JohnLaTwC/status/802218490404798464)
+
 # GPO
 
 * https://blogs.windows.com/msedgedev/2015/08/26/how-microsoft-edge-and-internet-explorer-11-on-windows-10-work-better-together-in-the-enterprise/#s4vAKTKvz328jwjY.97 Enterprise Mode Site List
