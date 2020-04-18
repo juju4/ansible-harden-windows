@@ -67,9 +67,9 @@
       "type":  "ansible",
       "playbook_file": "./playbook-azure.yml",
       "extra_arguments": [
-        "-v",
-        "--connection", "packer",
-        "--extra-vars", "ansible_shell_type=powershell ansible_shell_executable=None"
+        "-vvv",
+        "--connection", "winrm",
+        "--extra-vars", "ansible_user=packer ansible_password={{ .WinRMPassword }} ansible_shell_type=powershell ansible_shell_executable=None ansible_winrm_server_cert_validation=ignore"
       ]
     }
   ]
