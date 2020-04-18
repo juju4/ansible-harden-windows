@@ -18,7 +18,7 @@
 
       "cloud_environment_name": "AzurePublicCloud",
       "location": "eastus",
-      "vm_size": "Standard_D1",
+      "vm_size": "Standard_D1_v2",
 
       "managed_image_resource_group_name": "Testing",
       "managed_image_name": "juju4.harden-windows-win2016-{{isotime \"2006-01-02\"}}",
@@ -33,7 +33,9 @@
       "winrm_use_ssl": "true",
       "winrm_insecure": "true",
       "winrm_timeout": "3m",
-      "winrm_username": "packer"
+      "winrm_username": "packer",
+
+      "async_resourcegroup_delete": true
     }
   ],
   "provisioners": [
