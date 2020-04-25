@@ -66,6 +66,7 @@
     {
       "type":  "ansible",
       "playbook_file": "./playbook-azure.yml",
+      "use_proxy": false,
       "extra_arguments": [
         "-vvv",
         "--connection", "winrm",
