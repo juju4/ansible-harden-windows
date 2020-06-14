@@ -49,6 +49,16 @@ Enhanced security and protected mode are turned on by default in ARXI, but they 
   https://msdn.microsoft.com/en-us/windows/hardware/drivers/ifs/using-an-inf-file-to-uninstall-a-file-system-filter-driver
 * https://msdn.microsoft.com/en-us/windows/hardware/drivers/ifs/using-an-inf-file-to-install-a-file-system-filter-driver
 
+# (Group) Managed Service Accounts
+
+* [Attacking Active Directory Group Managed Service Accounts (GMSAs), May 2020](https://adsecurity.org/?p=4367)
+
+# Office
+
+* [Macro Security for Enterprise Defenders, Oct 2016](https://blog.reconinfosec.com/macro-security-for-enterprise-defenders/)
+* [How important are Excel macros for people who work in finance?Can they realistically be disabled without significantly burdening the user, and negatively impacting productivity?, May 2020 - THREAD](https://twitter.com/bp384r1/status/1265045688058032128)
+* Use Trusted Folders, Signed File if no dynamically-generated files
+
 # Testing speculative
 
 * https://support.microsoft.com/en-us/help/4072698/windows-server-guidance-to-protect-against-the-speculative-execution-s
@@ -59,6 +69,11 @@ Enhanced security and protected mode are turned on by default in ARXI, but they 
 * https://www.petri.com/disable_administrative_shares
 * https://social.technet.microsoft.com/Forums/windows/en-US/c9d6b1c2-1059-4a8a-a6bd-56cc34104faa/disable-administrator-share
 * https://social.technet.microsoft.com/Forums/windows/en-US/e56374b4-6132-4aae-ab6b-349e5d355575/disable-null-sessions-on-domain-controllers-and-member-servers
+
+# Defender
+
+* [You can now tell Windows Defender to compute file hashes for every exe scanned in the Windows 10 2004 update. Here is the GPO location: Computer Configurations\Administrative Templates\Windows Components\Microsoft Defender Antivirus\MpEngine\Enable file hash computation feature.](https://twitter.com/rootsecdev/status/1266592635306811392)
+* [Configure and validate Microsoft Defender Antivirus network connections](https://docs.microsoft.com/en-us/windows/security/threat-protection/microsoft-defender-antivirus/configure-network-connections-microsoft-defender-antivirus)
 
 # Deviceguard
 
@@ -118,6 +133,12 @@ PS> Get-ADComputer -Filter {OperatingSystem -Like “Windows Server*”} -Proper
 * https://technet.microsoft.com/en-us/library/dd835564(v=ws.10).aspx#BKMK_BuiltInAdmin
 * https://isc.sans.edu/forums/diary/Mitigations+against+Mimikatz+Style+Attacks/24612/
 * https://docs.microsoft.com/en-us/windows-server/security/credentials-protection-and-management/configuring-additional-lsa-protection
+* https://github.com/Flangvik/BetterSafetyKatz
+
+# Misc
+
+* [NETLOGON ERRORS DUE TO RPC MISMATCH BETWEEN WINDOWS CLIENTS AND DOMAIN CONTROLLERS, Apr 2019](https://blog.mamc-llc.com/2019/04/25/netlogon-errors-due-to-rpc-mismatch-between-windows-clients-and-domain-controllers/), https://twitter.com/SwiftOnSecurity/status/1264397903814111233
+  * Enforce authenticated RPC. RPC is a universal protocol within Windows and used for many things like WinRM, WMI, MMC tools, AD Group Policy processing, MS Exchange, etc.
 
 # PSExec
 
@@ -136,6 +157,14 @@ PS> Get-ADComputer -Filter {OperatingSystem -Like “Windows Server*”} -Proper
 * https://www.sans.org/reading-room/whitepapers/testing/passthehash-attacks-tools-and-mitigation-33283
 * https://iase.disa.mil/stigs/gpo/Pages/index.aspx
 * https://theitbros.com/allow-non-admins-install-printer-drivers-via-gpo/
+* https://docs.microsoft.com/en-us/windows/security/threat-protection/windows-security-baselines
+* https://techcommunity.microsoft.com/t5/microsoft-security-baselines/bg-p/Microsoft-Security-Baselines
+* https://docs.microsoft.com/en-us/windows-server/identity/securing-privileged-access/securing-privileged-access-reference-material
+* https://docs.microsoft.com/en-us/windows/security/threat-protection/windows-security-configuration-framework/level-5-enterprise-security
+* https://adsecurity.org/?p=3299
+* [PingCastle](https://www.pingcastle.com/)
+* [BloodHound](https://github.com/BloodHoundAD/BloodHound)
+* [Microsoft RAP/Audit service Security/Operations](https://services.premier.microsoft.com/assess?Culture=en-US&CultureAutoDetect=true)
 
 # RDP
 
@@ -181,6 +210,7 @@ PS> Get-ADComputer -Filter {OperatingSystem -Like “Windows Server*”} -Proper
 * https://www.stigviewer.com/stig/windows_8_8.1/2015-06-16/finding/V-21950
 * https://gnawgnu.blogspot.ca/2016/08/the-return-of-unchardenedpath-problems.html
 * https://technet.microsoft.com/en-us/library/security/ms16-075.aspx
+* [Beyond the Edge: How to Secure SMB Traffic in Windows ](https://techcommunity.microsoft.com/t5/itops-talk-blog/beyond-the-edge-how-to-secure-smb-traffic-in-windows/ba-p/1447159)
 
 # Sticky keys
 
