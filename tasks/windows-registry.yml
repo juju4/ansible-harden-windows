@@ -620,6 +620,13 @@
     datatype: dword
     data: 1
 
+- name: Disable remote management of Service Control Manager
+  win_regedit:
+    key: 'HKLM:\SYSTEM\CurrentControlSet\Control'
+    value: DisableRemoteScmEndpoints
+    datatype: dword
+    data: "{{ hardenwindows_DisableRemoteScmEndpoints | default(1) }}"
+
 - include: dc-ldap-signing.yml
 
 - include: windows-wsh.yml

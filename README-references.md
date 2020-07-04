@@ -142,7 +142,8 @@ PS> Get-ADComputer -Filter {OperatingSystem -Like “Windows Server*”} -Proper
 
 # PSExec
 
-* [This one weird trick blocks remote use of PSEXEC and similar tools by denying all rights to the SCM for NETWORK SID](https://twitter.com/JohnLaTwC/status/802218490404798464)
+* [This one weird trick blocks remote use of PSEXEC and similar tools by denying all rights to the SCM for NETWORK SID](https://twitter.com/JohnLaTwC/status/802218490404798464) - sdset
+* [Eliminate huge part of lateral movement scenarios with one command: "reg.exe add HKLM\SYSTEM\CurrentControlSet\Control /v DisableRemoteScmEndpoints /t REG_DWORD /d 1"It will make Service Control Manager deaf to remote management. Everything else works properly.](https://twitter.com/0gtweet/status/1260213942535757824)
 
 # GPO
 
