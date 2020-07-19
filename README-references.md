@@ -9,6 +9,8 @@ https://www.youtube.com/watch?v=me7QlDyEF7E
 * [EventList  the Baseline Event Analyzer, Aug 2018](https://miriamxyra.com/2018/08/28/eventlist-the-baseline-event-analyzer/)
 * Using PowerShell DSC for Windows Hardening, Jun 2018
 https://luke.geek.nz/Using-dsc-for-windows-hardening
+* [Breaking Typical Windows Hardening Implementations, May 2020](https://www.trustedsec.com/blog/breaking-typical-windows-hardening-implementations/)
+* [When using the prtsc key on Windows, taskhost/taskhostw will attempt to get read access to a non-existent file:➡️%windir%\System32\SnapShotBy creating a null byte file and auditing access, we can log any time a user has taken a screenshot via this key. Only works for this key](https://twitter.com/CyberRaiju/status/1281932169095479296)
 
 # Adobe reader
 
@@ -152,7 +154,7 @@ PS> Get-ADComputer -Filter {OperatingSystem -Like “Windows Server*”} -Proper
 * https://4sysops.com/archives/deny-and-allow-workstation-logons-with-group-policy/
 * https://www.reddit.com/r/sysadmin/comments/1yzjul/restricting_interactive_logon_but_allow_runas/
 * http://www.authlite.com/kb/allow-runas-but-block-interactive-logon/
-  * Remove Debug Privileges
+  * Remove Debug Privileges: [It's been two years since we removed SeDebugPrivilege from ALL of our users who have a 'need' for local administrator rights. (Via GPO)No complaints; extra work acknowledged by the adversary simulation team.Details: https://bit.ly/se-debug#BlueTeam #redteaming #Windows](https://twitter.com/duff22b/status/1281706058155581440), [Windows Privilege Abuse: Auditing, Detection, and Defense, Jan 2019](https://medium.com/palantir/windows-privilege-abuse-auditing-detection-and-defense-3078a403d74e)
 * https://technet.microsoft.com/en-us/library/dn221969(v=ws.11).aspx
 * https://blogs.msdn.microsoft.com/oldnewthing/20080314-00/?p=23113/
 * https://www.sans.org/reading-room/whitepapers/testing/passthehash-attacks-tools-and-mitigation-33283
