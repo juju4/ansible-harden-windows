@@ -627,6 +627,13 @@
     datatype: dword
     data: "{{ hardenwindows_DisableRemoteScmEndpoints | default(1) }}"
 
+- name: Configure AMSI to enable Authenticode and Windows Hardware Quality Labs (WHQL) signature checks
+  win_regedit:
+    key: 'HKLM:\SOFTWARE\Microsoft\AMSI'
+    value: FeatureBits
+    datatype: dword
+    data: "{{ hardenwindows_amsi_featurebits | default('0x2') }}"
+
 - include: dc-ldap-signing.yml
 
 - include: windows-wsh.yml

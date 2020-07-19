@@ -25,6 +25,10 @@ Enhanced security and protected mode are turned on by default in ARXI, but they 
 * https://github.com/PaulSec/awesome-windows-domain-hardening
 * [ADSVS v1.0 - Improving the security of Active Directory, Aug 2019](https://www.slideshare.net/HuyKha2/adsvs-v10-improving-the-security-of-active-directory)
 
+# AMSI
+
+* [Antimalware Scan Interface Provider for Persistence, Jul 2020](https://b4rtik.github.io/posts/antimalware-scan-interface-provider-for-persistence/)
+
 # Domain Controller krbtgt password reset
 
 * https://cloudblogs.microsoft.com/microsoftsecure/2015/02/11/krbtgt-account-password-reset-scripts-now-available-for-customers/
