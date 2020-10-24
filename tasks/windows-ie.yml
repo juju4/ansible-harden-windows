@@ -84,23 +84,23 @@
     datatype: "{{ item.t }}"
     data: "{{ item.d }}"
   with_items:
-    - { k: "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Internet Settings\Zones\3\140D",
+    - { k: 'HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Internet Settings\Zones\3\140D',
         v: "*",
         t: dword,
         d: 3
       }
     # Restrict JScript from executing scripts for emulated applications such as a 32-bit application running on a 64-bit device
-    - { k: "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Internet Settings\Zones\3\140D",
+    - { k: 'HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Internet Settings\Zones\3\140D',
         v: "EnableJScriptMitigation",
         t: dword,
         d: 1
       }
-    - { k: "HKLM:\SOFTWARE\WOW6432Node\Microsoft\MSXML30",
+    - { k: 'HKLM:\SOFTWARE\WOW6432Node\Microsoft\MSXML30',
         v: "EnableJScriptMitigation",
         t: dword,
         d: 1
       }
-    - { k: "HKLM:\SOFTWARE\WOW6432Node\Microsoft\MSXML60",
+    - { k: 'HKLM:\SOFTWARE\WOW6432Node\Microsoft\MSXML60',
         v: "EnableJScriptMitigation",
         t: dword,
         d: 1
