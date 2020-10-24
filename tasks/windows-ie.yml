@@ -75,3 +75,33 @@
       with_items:
         - { v: ProxyEnable, t: dword, d: 0 }
   when: not harden_win_ie_proxy|bool
+
+# https://support.microsoft.com/en-us/help/4586060/option-to-disable-jscript-execution
+- name: Disable JScript execution in Internet Explorer Internet Zone
+  win_regedit:
+    key: "{{ item.k }}"
+    value: "{{ item.v }}"
+    datatype: "{{ item.t }}"
+    data: "{{ item.d }}"
+  with_items:
+    - { k: "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Internet Settings\Zones\3\140D",
+        v: "*",
+        t: dword,
+        d: 3
+      }
+    # Restrict JScript from executing scripts for emulated applications such as a 32-bit application running on a 64-bit device
+    - { k: "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Internet Settings\Zones\3\140D",
+        v: "EnableJScriptMitigation",
+        t: dword,
+        d: 1
+      }
+    - { k: "HKLM:\SOFTWARE\WOW6432Node\Microsoft\MSXML30",
+        v: "EnableJScriptMitigation",
+        t: dword,
+        d: 1
+      }
+    - { k: "HKLM:\SOFTWARE\WOW6432Node\Microsoft\MSXML60",
+        v: "EnableJScriptMitigation",
+        t: dword,
+        d: 1
+      }
