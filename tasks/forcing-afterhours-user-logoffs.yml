@@ -6,19 +6,19 @@
 # https://www.ryadel.com/en/remote-desktop-session-time-limit-how-to-set-idle-timeout-in-windows-server-2012/
 # Review carefully where applicable to you: User endpoint, member server, DC server
 
-#- name: Add schedule task to notify users of afterhours logoffs
-#  win_scheduled_task:
-#    name: DisplayLogoffMessage
-#    description: Display a logoff warning to the user 15min before logoff
-#    actions:
-#      - path: cmd
-#         arguments: -opt1 -opt2
-#    triggers:
-#      - type: daily
-#        start_boundary: '2019-01-01T07:00:00'
-#    state: present
-#    enabled: yes
-#    username: "{{ harden_win_forcing_afterhours_logoff_user | default('Administrator') }}"
+# - name: Add schedule task to notify users of afterhours logoffs
+#   win_scheduled_task:
+#     name: DisplayLogoffMessage
+#     description: Display a logoff warning to the user 15min before logoff
+#     actions:
+#       - path: cmd
+#          arguments: -opt1 -opt2
+#     triggers:
+#       - type: daily
+#         start_boundary: '2019-01-01T07:00:00'
+#     state: present
+#     enabled: yes
+#     username: "{{ harden_win_forcing_afterhours_logoff_user | default('Administrator') }}"
 # FIXME! how to restrict case only if user is logged on.
 # FIXME! No display message option "Windows will logoff your session in 15 minutes. Please save your work."
 

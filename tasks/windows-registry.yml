@@ -17,14 +17,14 @@
   ignore_errors: true
 - block:
     - name: Disable Windows Netbios Name Service (NBT-NS)
-##  win_regedit:
-##  key: HKLM:\SYSTEM\CurrentControlSet\services\NetBT\Parameters\Interfaces\xxxGUIDxxx
-##    value: NetbiosOptions
-##    data: 2
-## FIXME! doesn't seem to work
-#  win_shell: >
-#    set-ItemProperty HKLM:SYSTEMCurrentControlSetservicesNetBTParametersInterfacestcpip* -Name NetbiosOptions -Value 2
-### This one is working fine
+      # win_regedit:
+      #   key: HKLM:\SYSTEM\CurrentControlSet\services\NetBT\Parameters\Interfaces\xxxGUIDxxx
+      #   value: NetbiosOptions
+      #   data: 2
+      ## FIXME! doesn't seem to work
+      # win_shell: >
+      #   set-ItemProperty HKLM:SYSTEMCurrentControlSetservicesNetBTParametersInterfacestcpip* -Name NetbiosOptions -Value 2
+      ## This one is working fine
       win_command: "wmic /interactive:off nicconfig where TcpipNetbiosOptions={{ item }} call SetTcpipNetbios 2"
       with_items:
         - 0
@@ -33,7 +33,6 @@
 
 - name: Update file associations - HKCR
   win_regedit:
-#    key: HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\FileExts\.hta
     key: "HKCR:\\{{ item.ftype }}\\shell\\open\\command"
     data: "{{ item.path }}"
   with_items: "{{ harden_win_fileassoc }}"
@@ -196,7 +195,7 @@
   with_items:
     - { v: NullSessionPipes, t: multistring, d: '', s: absent }
     - { v: RestrictNullSessAccess, t: dword, d: 1, s: present }
-# https://www.stigviewer.com/stig/windows_10/2016-06-24/finding/V-63723
+    # https://www.stigviewer.com/stig/windows_10/2016-06-24/finding/V-63723
     - { v: EnableSecuritySignature, t: dword, d: 1, s: present }
 
 - name: Limit number of cached logon accounts
@@ -237,19 +236,19 @@
     - { k: 'HKLM:\SYSTEM\CurrentControlSet\Control\SecurityProviders\SCHANNEL\Protocols\TLS 1.2\Client',
         v: 'DisabledByDefault',
         d: 0
-      }
+    }
     - { k: 'HKLM:\SYSTEM\CurrentControlSet\Control\SecurityProviders\SCHANNEL\Protocols\TLS 1.2\Client',
         v: 'Enabled',
         d: 1
-      }
+    }
     - { k: 'HKLM:\SYSTEM\CurrentControlSet\Control\SecurityProviders\SCHANNEL\Protocols\TLS 1.2\Server',
         v: 'DisabledByDefault',
         d: 0
-      }
+    }
     - { k: 'HKLM:\SYSTEM\CurrentControlSet\Control\SecurityProviders\SCHANNEL\Protocols\TLS 1.2\Server',
         v: 'Enabled',
         d: 1
-      }
+    }
 
 - name: Crypto | ensure SSL 2.0, 3.0 is disabled
   win_regedit:
@@ -261,35 +260,35 @@
     - { k: 'HKLM:\SYSTEM\CurrentControlSet\Control\SecurityProviders\SCHANNEL\Protocols\SSL 2.0\Client',
         v: 'DisabledByDefault',
         d: 0
-      }
+    }
     - { k: 'HKLM:\SYSTEM\CurrentControlSet\Control\SecurityProviders\SCHANNEL\Protocols\SSL 2.0\Client',
         v: 'Enabled',
         d: 0
-      }
+    }
     - { k: 'HKLM:\SYSTEM\CurrentControlSet\Control\SecurityProviders\SCHANNEL\Protocols\SSL 2.0\Server',
         v: 'DisabledByDefault',
         d: 0
-      }
+    }
     - { k: 'HKLM:\SYSTEM\CurrentControlSet\Control\SecurityProviders\SCHANNEL\Protocols\SSL 2.0\Server',
         v: 'Enabled',
         d: 0
-      }
+    }
     - { k: 'HKLM:\SYSTEM\CurrentControlSet\Control\SecurityProviders\SCHANNEL\Protocols\SSL 3.0\Client',
         v: 'DisabledByDefault',
         d: 0
-      }
+    }
     - { k: 'HKLM:\SYSTEM\CurrentControlSet\Control\SecurityProviders\SCHANNEL\Protocols\SSL 3.0\Client',
         v: 'Enabled',
         d: 0
-      }
+    }
     - { k: 'HKLM:\SYSTEM\CurrentControlSet\Control\SecurityProviders\SCHANNEL\Protocols\SSL 3.0\Server',
         v: 'DisabledByDefault',
         d: 0
-      }
+    }
     - { k: 'HKLM:\SYSTEM\CurrentControlSet\Control\SecurityProviders\SCHANNEL\Protocols\SSL 3.0\Server',
         v: 'Enabled',
         d: 0
-      }
+    }
 
 # https://www.stigviewer.com/stig/windows_10/2016-06-24/finding/V-63577
 - name: >
@@ -303,10 +302,10 @@
   with_items:
     - { v: '\\*\NETLOGON',
         d: "RequireMutualAuthentication=1,RequireIntegrity=1{% if harden_win_hardenedunc_requireprivacy %},RequirePrivacy=1{% endif %}"
-      }
+    }
     - { v: '\\*\SYSVOL',
         d: "RequireMutualAuthentication=1,RequireIntegrity=1{% if harden_win_hardenedunc_requireprivacy %},RequirePrivacy=1{% endif %}"
-      }
+    }
 
 # https://www.stigviewer.com/stig/windows_10/2015-11-30/finding/V-63545
 # https://www.stigviewer.com/stig/windows_10/2016-06-24/finding/V-63549

@@ -13,7 +13,7 @@
   win_file:
     path: "{{ item }}"
     state: directory
-#  raw: "mkdir {{ item }}"
+  # raw: "mkdir {{ item }}"
   with_items:
     - "{{ harden_win_temp_dir }}"
     - "{{ harden_win_log_dir }}"
@@ -36,7 +36,7 @@
         s: absent,
         i: 'ContainerInherit, ObjectInherit',
         pr: 'None'
-      }
+    }
     - { p: "{{ harden_win_temp_dir }}",
         u: 'Authenticated Users',
         r: 'ReadAndExecute,Write,AppendData',
@@ -44,7 +44,7 @@
         s: absent,
         i: 'ContainerInherit, ObjectInherit',
         pr: 'None'
-      }
+    }
     - { p: "{{ harden_win_log_dir }}",
         u: 'BUILTIN\Users',
         r: 'ReadAndExecute,Write,AppendData',
@@ -52,7 +52,7 @@
         s: absent,
         i: 'ContainerInherit, ObjectInherit',
         pr: 'None'
-      }
+    }
 
 ## FIXME! failing on second pass, https://groups.google.com/forum/#!topic/ansible-project/_ydkYXZibrM
 - name: Ensure user _test is present
@@ -87,35 +87,35 @@
     name: chocolatey
     state: present
 
-#- name: Fix problem with Chocolatey .99 (https://github.com/ansible/ansible-modules-extras/issues/378)
-#  raw: Chocolatey feature enable -n allowGlobalConfirmation
+# - name: Fix problem with Chocolatey .99 (https://github.com/ansible/ansible-modules-extras/issues/378)
+#   raw: Chocolatey feature enable -n allowGlobalConfirmation
 
 - name: Install packages
   win_chocolatey:
     name: "{{ item }}"
   with_items: "{{ harden_win_chocolateypkgs }}"
-## for package asking for reboot
+  ## for package asking for reboot
   ignore_errors: true
   tags:
     - packages
 
 ## FIXME!
-#- name: Ensure no users-writeable dir in general paths
-#  win_acl:
-#    path: "{{ item }}"
-#    user: Users
-#    rights: AppendData,WriteData,Write,FullControl
-#    type: allow
-#    state: absent
-#    inherit: ContainerInherit,ObjectInherit
-##    propagation: InheritOnly
-#    propagation: None
-#  win_command: "icacls \"{{ item }}\" /remove:g Users:(W)(AD)(WD) /T /inheritance:d"
-#  with_items:
-#    - 'c:\opscode\inspec'
-#    - 'c:\ProgramData'
-#    - "{{ harden_win_temp_dir }}"
-#    - "{{ harden_win_log_dir }}"
+# - name: Ensure no users-writeable dir in general paths
+#   win_acl:
+#     path: "{{ item }}"
+#     user: Users
+#     rights: AppendData,WriteData,Write,FullControl
+#     type: allow
+#     state: absent
+#     inherit: ContainerInherit,ObjectInherit
+##     propagation: InheritOnly
+#     propagation: None
+#   win_command: "icacls \"{{ item }}\" /remove:g Users:(W)(AD)(WD) /T /inheritance:d"
+#   with_items:
+#     - 'c:\opscode\inspec'
+#     - 'c:\ProgramData'
+#     - "{{ harden_win_temp_dir }}"
+#     - "{{ harden_win_log_dir }}"
 
 - name: check ipv4 interface status
   raw: "netsh interface ipv4 show global | findstr MLD | findstr Level"

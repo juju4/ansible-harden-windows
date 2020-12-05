@@ -7,16 +7,16 @@
 ## https://technet.microsoft.com/en-us/library/dd744582(v=ws.10).aspx (DISM)
 
 ## Note: output is localized...
-#- name: Get Windows feature state with DISM
-#  win_command: "Dism /online /get-features /format:table"
-#  changed_when: false
-#  ignore_errors: true
-#  register: winfeatures
-#- debug: var=winfeatures
+# - name: Get Windows feature state with DISM
+#   win_command: "Dism /online /get-features /format:table"
+#   changed_when: false
+#   ignore_errors: true
+#   register: winfeatures
+# - debug: var=winfeatures
 
 - name: Disable Windows Optional Feature
-#  win_shell: "Disable-WindowsOptionalFeature -FeatureName {{ item }} -Online"
-## FIXME! not idempotent
+  # win_shell: "Disable-WindowsOptionalFeature -FeatureName {{ item }} -Online"
+  ## FIXME! not idempotent
   win_command: "Dism /online /Disable-Feature /FeatureName:{{ item }} /NoRestart"
   with_items: "{{ harden_win_disable_winfeature }}"
   register: dism

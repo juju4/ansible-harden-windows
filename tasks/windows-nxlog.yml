@@ -8,7 +8,7 @@
   win_get_url:
     url: "{{ harden_win_remotelogging_nxlog_url }}"
     dest: "{{ harden_win_temp_dir }}\\{{ harden_win_remotelogging_nxlog_url | basename }}"
-## FIXME! no checksum option
+    # FIXME! no checksum option
   when: not nxlogdl.stat.exists
   register: dl_result
   until: dl_result is success
@@ -39,5 +39,5 @@
 ## https://github.com/SMAPPER/NXLog-AutoConfig
 ## http://www.systeen.com/2016/05/12/install-graylog-2-0-centos-7-collect-windows-logs/
 ## https://github.com/Graylog2/collector-sidecar/releases
-#"C:\Program Files (x86)\graylog\collector-sidecar\graylog-collector-sidecar.exe" -service install
-#"C:\Program Files (x86)\graylog\collector-sidecar\graylog-collector-sidecar.exe" -service start
+# "C:\Program Files (x86)\graylog\collector-sidecar\graylog-collector-sidecar.exe" -service install
+# "C:\Program Files (x86)\graylog\collector-sidecar\graylog-collector-sidecar.exe" -service start

@@ -17,15 +17,15 @@
 #    src: https://github.com/iadgov/Secure-Host-Baseline/archive/master.zip
 #    dest: "{{ harden_win_temp_dir }}/Secure-Host-Baseline-master.zip"
 
-#- name: Unsure file is unblocked
-#  win_shell: "Unblock-File -Path '.\Secure-Host-Baseline-master.zip'"
-#  args:
-#    chdir: "{{ harden_win_temp_dir }}"
+# - name: Unsure file is unblocked
+#   win_shell: "Unblock-File -Path '.\Secure-Host-Baseline-master.zip'"
+#   args:
+#     chdir: "{{ harden_win_temp_dir }}"
 
-#- name: Unarchive file
-#  win_unzip:
-#    src: "{{ harden_win_temp_dir }}/Secure-Host-Baseline-master.zip"
-#    dest: "{{ harden_win_temp_dir }}/Secure-Host-Baseline"
+# - name: Unarchive file
+#   win_unzip:
+#     src: "{{ harden_win_temp_dir }}/Secure-Host-Baseline-master.zip"
+#     dest: "{{ harden_win_temp_dir }}/Secure-Host-Baseline"
 
 - name: IAD | Apply policies
   win_shell: "{{ item }}"
@@ -57,4 +57,4 @@
 - name: IAD | count
   win_shell: "(get-content \"{{ harden_win_log_dir }}\\iad-log.txt\" | select-string -pattern \"{{ item }}\").length"
   changed_when: false
-  with_items: [ 'PASSED', 'WARNING', 'FAILED' ]
+  with_items: ['PASSED', 'WARNING', 'FAILED']

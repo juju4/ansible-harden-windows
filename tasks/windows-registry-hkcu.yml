@@ -7,10 +7,7 @@
 ## FIXME! NOK
 - name: disable suspicious executabled file extensions (HKCU)
   win_regedit:
-#    key: HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\FileExts\.hta
     key: "HKCU:\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\FileExts\\.{{ item }}"
-#    key: "HKLM:\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\FileExts\\.{{ item }}"    ## NOK
-#    key: "HKLM:\\Software\\Exts\\.{{ item }}"    ## NOK
     value: "(Default)"
     datatype: string
     data: "\"%windir%\\system32\\notepad.exe\" \"%1\""

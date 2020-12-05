@@ -23,7 +23,7 @@
             s: absent,
             i: 'ContainerInherit, ObjectInherit',
             pr: 'InheritOnly'
-          }
+        }
         - { p: "c:\\opscode",
             u: 'Authenticated Users',
             r: 'Write,AppendData',
@@ -31,7 +31,7 @@
             s: absent,
             i: 'ContainerInherit, ObjectInherit',
             pr: 'InheritOnly'
-          }
+        }
 
     - name: testing | run windows-baseline
       win_command: >
@@ -48,11 +48,11 @@
 
 # https://blog.malwarebytes.com/security-world/technology/2017/11/when-you-shouldnt-trust-a-trusted-root-certificate/
 # FIXME! FATAL ERROR DURING FILE TRANSFER: ...
-#- name: Export trusted root certificates
-#  win_shell: >
-#    Get-ChildItem -Path cert:\currentuser\AuthRoot -Recurse |
-#      select Thumbprint, FriendlyName, Subject | ConvertTo-Html |
-#      Set-Content c:\users\public\desktop\certificates.html
+# - name: Export trusted root certificates
+#   win_shell: >
+#     Get-ChildItem -Path cert:\currentuser\AuthRoot -Recurse |
+#       select Thumbprint, FriendlyName, Subject | ConvertTo-Html |
+#       Set-Content c:\users\public\desktop\certificates.html
 
 - include: testing-defender.yml
   when: harden_win_testing_defender|bool
@@ -79,7 +79,7 @@
 - include: testing-mimikatz.yml
   when: harden_win_testing_mimikatz|bool
 
-#- name: Remove user _test
-#  win_user:
-#    name: _test
-#    state: absent
+# - name: Remove user _test
+#   win_user:
+#     name: _test
+#     state: absent

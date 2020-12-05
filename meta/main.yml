@@ -4,18 +4,17 @@ galaxy_info:
   author: juju4
   description: Windows Hardening role
   license: BSD
-## win_regedit HKCR
   min_ansible_version: 2.1
   platforms:
-  - name: Windows
-    versions:
-     - 2012R2
+    - name: Windows
+      versions:
+        - 2012R2
   galaxy_tags:
     - system
     - security
 dependencies: []
-#dependencies:
-##  - juju4.win-firewall
+# dependencies:
+#  - juju4.win-firewall
 #  - juju4.win-eventlog
 #  - juju4.win-audit
 #  - juju4.win-powershell

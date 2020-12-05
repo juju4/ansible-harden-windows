@@ -14,19 +14,19 @@
     value: IgnoreUserSettings
     data: 1
     datatype: dword
-## not sure about this one?
-#- name: Enable SAFER -  Software Restrictions Policies block scripts
-#  win_regedit:
-#    key: HKLM:\SOFTWARE\Microsoft\Windows Script Host\Settings
-#    value: UseWinSAFER
-#    data: 0
   when: harden_win_disable_wsh
+
+## not sure about this one?
+# - name: Enable SAFER -  Software Restrictions Policies block scripts
+#   win_regedit:
+#     key: HKLM:\SOFTWARE\Microsoft\Windows Script Host\Settings
+#     value: UseWinSAFER
+#     data: 0
 
 ## FIXME! NOK
 ## Note: HKCR only applies if HKCU doesn't exist. better enforcing with GPO
 - name: disable javascript execution by Windows Script Host (HKCR)
   win_regedit:
-#    key: HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\FileExts\.hta
     key: "{{ item }}"
     data: "\"%windir%\\system32\\notepad.exe\" \"%1\""
   with_items:

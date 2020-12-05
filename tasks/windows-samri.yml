@@ -8,7 +8,7 @@
   win_get_url:
     url: "https://gallery.technet.microsoft.com/SAMRi10-Hardening-Remote-48d94b5b/file/165593/1/SAMRi10.zip"
     dest: "{{ harden_win_temp_dir }}\\SAMRi10.zip"
-## FIXME! no checksum option, https://github.com/ansible/ansible-modules-core/issues/4901
+    # FIXME! no checksum option, https://github.com/ansible/ansible-modules-core/issues/4901
   when: not samridl.stat.exists
   register: dl_result
   until: dl_result is success

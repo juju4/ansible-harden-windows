@@ -1,9 +1,9 @@
 ---
 
 - name: Ensure nuget dependency is present
-#  win_chocolatey:
-#    name: nuget.commandline
-#    state: present
+  # win_chocolatey:
+  #   name: nuget.commandline
+  #   state: present
   win_shell: "Install-PackageProvider -Name NuGet -MinimumVersion 2.8.5.201 -Force"
 
 - name: Temporarily trust PSGallery repository
@@ -11,9 +11,9 @@
 
 - name: retrieve Module SpeculationControl
   win_shell: "Install-Module SpeculationControl"
-#  win_psmodule:
-#    name: SpeculationControl
-#    state: present
+  # win_psmodule:
+  #   name: SpeculationControl
+  #   state: present
 
 - name: execute SpeculationControl
   win_shell: "Get-SpeculationControlSettings"

@@ -11,14 +11,14 @@ provisioner:
   name: ansible_playbook
   roles_path: ../
   hosts: all
-#  ansible_verbose: true
+  # ansible_verbose: true
   ansible_verbose: false
   ansible_verbosity: 3
   ansible_extra_flags: <%= ENV['ANSIBLE_EXTRA_FLAGS'] %>
 
 platforms:
-### http://kitchen.ci/blog/test-kitchen-windows-test-flight-with-vagrant/
-### FIXME! https://github.com/neillturner/kitchen-ansible/issues/131
+  ### http://kitchen.ci/blog/test-kitchen-windows-test-flight-with-vagrant/
+  ### FIXME! https://github.com/neillturner/kitchen-ansible/issues/131
   - name: ubuntu-16.04
     driver_plugin: vagrant
     driver_config:
@@ -27,20 +27,20 @@ platforms:
     transport:
       name: winrm
     driver:
-#      gui: false
+      # gui: false
       gui: true
 
 suites:
-#  - name: default
-#    run_list:
-#    attributes:
+  # - name: default
+  #   run_list:
+  #   attributes:
   - name: ansible
     run_list:
     attributes:
     driver_config:
       network:
-      - [ 'private_network', { ip: '172.28.128.6' } ]
-      - [ 'public_network', { bridge: 'eth0' }]
+        - ['private_network', { ip: '172.28.128.6' }]
+        - ['public_network', { bridge: 'eth0' }]
     includes:
       - ubuntu-16.04
     provisioner:
@@ -49,7 +49,7 @@ suites:
   - name: windows
     driver_config:
       network:
-      - [ 'private_network', { ip: '172.28.128.7' } ]
+        - ['private_network', { ip: '172.28.128.7' }]
     includes:
       - windows-2012r2
     provisioner:

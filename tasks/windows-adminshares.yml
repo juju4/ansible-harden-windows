@@ -17,7 +17,7 @@
   win_share:
     name: "{{ item }}"
     state: absent
-#  win_command: "net share {{ item }} /delete"
+  # win_command: "net share {{ item }} /delete"
   with_items:
     - "admin$"
     - "c$"

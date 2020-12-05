@@ -1,7 +1,7 @@
 ---
 
 ## Win server 2k8+
-#- include: windows-filescreening.yml
+# - include: windows-filescreening.yml
 
 ## https://docs.microsoft.com/en-us/windows/threat-protection/block-untrusted-fonts-in-enterprise
 ## Application and Service Logs/Microsoft/Windows/Win32k/Operational. Review Event ID 260
@@ -10,7 +10,7 @@
     key: HKLM:\SYSTEM\CurrentControlSet\Control\Session Manager\Kernel
     value: MitigationOptions
     data: 3000000000000
-#    data: 1000000000000
+    # data: 1000000000000
     datatype: qword
 
 # https://twitter.com/wdormann/status/962815557732102144
@@ -28,52 +28,52 @@
         v: 'Disabled',
         d: 1,
         t: dword
-      }
+    }
     - { k: 'HKCU:\Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager',
         v: 'SubscribedContent-338388Enabled',
         d: 0,
         t: dword
-      }
+    }
     - { k: 'HKCU:\Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager',
         v: 'SilentInstalledAppsEnabled',
         d: 0,
         t: dword
-      }
+    }
     - { k: 'HKCU:\Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager',
         v: 'SystemPaneSuggestionsEnabled',
         d: 0,
         t: dword
-      }
+    }
     - { k: 'HKCU:\Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager',
         v: 'ShowSyncProviderNotifications',
         d: 0,
         t: dword
-      }
+    }
     - { k: 'HKCU:\Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager',
         v: 'SoftLandingEnabled',
         d: 0,
         t: dword
-      }
+    }
     - { k: 'HKCU:\Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager',
         v: 'RotatingLockScreenEnabled',
         d: 0,
         t: dword
-      }
+    }
     - { k: 'HKCU:\Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager',
         v: 'RotatingLockScreenOverlayEnabled',
         d: 0,
         t: dword
-      }
+    }
     - { k: 'HKCU:\Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager',
         v: 'SubscribedContent-310093Enabled',
         d: 0,
         t: dword
-      }
+    }
     - { k: 'HKLM:\Software\Policies\Microsoft\Windows\CloudContent',
         v: 'DisableWindowsConsumerFeatures',
         d: 1,
         t: dword
-      }
+    }
 
 - include: tasks/process-mitigation.yml
   when: harden_win_exploitmitigation

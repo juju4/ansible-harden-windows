@@ -15,9 +15,9 @@
       args:
         creates: "{{ harden_win_gpo_log }}"
       ignore_errors: true
-## require Windows Script Host
-#  raw: "msiexec /qb /i c:\Program Files (x86)\Microsoft Security Compliance Manager\LGPO\LocalGPO.msi"
-#  raw: "csript c:\Program Files (x86)\LocalGPO\LocalGPO.wsf"
+      ## require Windows Script Host
+      #  raw: "msiexec /qb /i c:\Program Files (x86)\Microsoft Security Compliance Manager\LGPO\LocalGPO.msi"
+      #  raw: "csript c:\Program Files (x86)\LocalGPO\LocalGPO.wsf"
 
     - name: Check secedit log file
       win_shell: "Get-Content -Path {{ harden_win_gpo_log }}"
@@ -26,16 +26,16 @@
   when: harden_win_gpo_action == 'secedit'
 
 - block:
-# https://blogs.msdn.microsoft.com/powershell/2016/05/20/new-group-policy-cmdlets-for-nano-server/
+    # https://blogs.msdn.microsoft.com/powershell/2016/05/20/new-group-policy-cmdlets-for-nano-server/
     - name: load gpo configuration locally - Restore-SecurityPolicy
       win_shell: >
         Restore-SecurityPolicy -Path "{{ harden_win_temp_dir }}\{{ harden_win_gpo_inf | regex_replace('.j2$', '') }}"
   when: harden_win_gpo_action == 'ps'
 
 - block:
-# https://blogs.msdn.microsoft.com/powershell/2017/02/21/managing-security-settings-on-nano-server-with-dsc/
-# https://docs.ansible.com/ansible/latest/modules/win_dsc_module.html   2.4+
-# FIXME! 'Resource SecurityPolicyDSC not found' but in appveyor, loaded by win-powershell without error
+    # https://blogs.msdn.microsoft.com/powershell/2017/02/21/managing-security-settings-on-nano-server-with-dsc/
+    # https://docs.ansible.com/ansible/latest/modules/win_dsc_module.html   2.4+
+    # FIXME! 'Resource SecurityPolicyDSC not found' but in appveyor, loaded by win-powershell without error
     - name: load gpo configuration locally - DSC
       win_dsc:
         resource_name: SecurityPolicyDSC
@@ -46,7 +46,7 @@
   when: harden_win_gpo_action == 'dsc'
 
 - block:
-# https://docs.ansible.com/ansible/devel/modules/win_security_policy_module.html
+    # https://docs.ansible.com/ansible/devel/modules/win_security_policy_module.html
     - name: Disable Guest account
       win_security_policy:
         section: System Access

@@ -74,7 +74,7 @@
     datatype: dword
   with_items:
     - { value: bDisableTemporaryFileProtectedView, data: 0 }
-## For Outlook Office 2010+
+    ## For Outlook Office 2010+
     - { value: bEnableAlwaysOutlookAttachmentProtectedView, data: 0 }
 
 - name: Acrobat reader - Workflows

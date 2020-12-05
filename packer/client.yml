@@ -10,15 +10,15 @@
         - rdcman
         - 7zip
         - notepadplusplus
-#        - gitdesktop   ## package issue
-#        - tortoisegit
-#        - eclipse
-#        - visualstudio2017community
-#        - docker
-#        - docker-kitematic
-#        - libreoffice
-#        - skypeforbusiness
-#        - office365business
+        # - gitdesktop  ## package issue
+        # - tortoisegit
+        # - eclipse
+        # - visualstudio2017community
+        # - docker
+        # - docker-kitematic
+        # - libreoffice
+        # - skypeforbusiness
+        # - office365business
     - harden_win_applocker_policy: "applocker-basic.xml"
   roles:
     - juju4.harden-windows

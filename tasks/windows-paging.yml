@@ -8,11 +8,11 @@
     value: NtfsEncryptPagingFile
     data: 1
 
-#- name: Check encryppagingfile setting
-#  win_command: fsutil behavior query encryppagingfile
-#  changed_when: false
-#  register: encryppagingfile
+# - name: Check encryppagingfile setting
+#   win_command: fsutil behavior query encryppagingfile
+#   changed_when: false
+#   register: encryppagingfile
 
-#- name: Encrypts the memory paging file in the Windows operating system - fsutil
-#  win_command: fsutil behavior set encryppagingfile 1
-#  when: encryppagingfile.stdout == 0
+# - name: Encrypts the memory paging file in the Windows operating system - fsutil
+#   win_command: fsutil behavior set encryppagingfile 1
+#   when: encryppagingfile.stdout == 0

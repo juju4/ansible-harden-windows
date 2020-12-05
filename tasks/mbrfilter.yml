@@ -8,7 +8,7 @@
   win_get_url:
     url: "{{ harden_win_mbrfilter_url }}"
     dest: "{{ harden_win_temp_dir }}\\{{ harden_win_mbrfilter_url | basename }}"
-## FIXME! no checksum option, https://github.com/ansible/ansible-modules-core/issues/4901
+    # FIXME! no checksum option, https://github.com/ansible/ansible-modules-core/issues/4901
   when: not mbrfilterdl.stat.exists
   register: dl_result
   until: dl_result is success

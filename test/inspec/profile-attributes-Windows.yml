@@ -1,3 +1,4 @@
+---
 # not available/approved in chocolatey, https://chocolatey.org/packages/laps
 laps_present: false
 # CI/Appveyor

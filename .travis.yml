@@ -3,7 +3,7 @@ dist: xenial
 language: python
 
 before_install:
- - ln -s ansible-harden-windows ../juju4.harden-windows
+  - ln -s ansible-harden-windows ../juju4.harden-windows
 install:
   - sudo apt-get install libxml2-utils
   - pip install ansible ansible-lint
@@ -15,5 +15,5 @@ install:
 script:
   - "ansible-lint tasks/main.yml || true"
 
-# Check the role/playbook's syntax.
+  # Check the role/playbook's syntax.
   - "ansible-playbook -i inventory --syntax-check test/integration/default/default.yml"

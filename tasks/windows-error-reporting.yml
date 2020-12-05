@@ -14,20 +14,20 @@
     data: "{{ item.d }}"
     datatype: "{{ item.t }}"
   with_items:
-## To enable or disable WER
+    ## To enable or disable WER
     - { v: 'Disabled', d: '1', t: 'dword' }
-# 1 Parameters only (default win7), 2 All Data (default vista)
+    # 1 Parameters only (default win7), 2 All Data (default vista)
     - { v: 'ConfigureArchive', d: '1', t: 'dword' }
-# 1 Always Ask (default), 2 Parameters only, 3 Parameters and safe data, 4 All data
+    # 1 Always Ask (default), 2 Parameters only, 3 Parameters and safe data, 4 All data
     - { v: 'Consent\DefaultConsent', d: '2', t: 'dword' }
-#    - { v: 'CorporateWERDirectory', d: '', t: 'string' }
-#    - { v: 'CorporateWERPortNumber', d: '', t: 'dword' }
-#    - { v: 'CorporateWERServer', d: '', t: 'string' }
-#    - { v: 'CorporateWERUseAuthentication', d: '', t: 'dword' }
-#    - { v: 'CorporateWERUseSSL', d: '', t: 'dword' }
+    # - { v: 'CorporateWERDirectory', d: '', t: 'string' }
+    # - { v: 'CorporateWERPortNumber', d: '', t: 'dword' }
+    # - { v: 'CorporateWERServer', d: '', t: 'string' }
+    # - { v: 'CorporateWERUseAuthentication', d: '', t: 'dword' }
+    # - { v: 'CorporateWERUseSSL', d: '', t: 'dword' }
     - { v: 'DisableArchive', d: '0', t: 'dword' }
     - { v: 'DontShowUI', d: '1', t: 'dword' }
     - { v: 'DontSendAdditionalData', d: '1', t: 'dword' }
-#    - { v: 'ExcludedApplications\[Application Name]', d: '', t: 'string' }
+    # - { v: 'ExcludedApplications\[Application Name]', d: '', t: 'string' }
     - { v: 'ExcludedApplications\Keepass.exe', d: '', t: 'string' }
-#    - { v: '', d: '', t: '' }
+    # - { v: '', d: '', t: '' }

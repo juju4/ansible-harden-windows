@@ -2,7 +2,7 @@
 
 harden_win_networkpath: ''
 harden_win_networkdrive: ''
-#harden_win_temp_dir: 'c:\ansible\temp'
+# harden_win_temp_dir: 'c:\ansible\temp'
 # to avoid applocker block :)
 harden_win_temp_dir: 'c:\Program Files\ansible'
 harden_win_log_dir: 'c:\ProgramData\ansible\log'
@@ -13,9 +13,9 @@ harden_win_services: true
 harden_win_registry: true
 harden_win_registry_hkcu_ansible_user: true
 harden_win_gpo_local: true
-#harden_win_gpo_action: 'secedit'
-#harden_win_gpo_action: 'ps'
-#harden_win_gpo_action: 'dsc'
+# harden_win_gpo_action: 'secedit'
+# harden_win_gpo_action: 'ps'
+# harden_win_gpo_action: 'dsc'
 harden_win_gpo_action: 'security_policy'
 harden_win_gpo_inf: win7-computer-security.inf
 harden_win_gpo_db: "c:\\windows\\security\\database\\newdb.sdb"
@@ -37,33 +37,33 @@ harden_win_inf_SeTcbPrivilege: '*S-1-0-0'
 harden_win_inf_SeMachineAccountPrivilege: '*S-1-5-32-544'
 harden_win_inf_SeTrustedCredManAccessPrivilege: '*S-1-0-0'
 ## Warning: Removing administrators here might impact your ansible/winrm connection. Be cautious!
-#harden_win_inf_SeNetworkLogonRight: '*S-1-5-32-545,*S-1-5-32-544'
+# harden_win_inf_SeNetworkLogonRight: '*S-1-5-32-545,*S-1-5-32-544'
 harden_win_inf_SeNetworkLogonRight: '*S-1-0-0,*S-1-5-32-544'
-harden_win_inf_SeRemoteInteractiveLogonRight_list: [ 'Administrators' ]
-harden_win_inf_SeTcbPrivilege_list: [ 'Null SID' ]
-harden_win_inf_SeMachineAccountPrivilege_list: [ 'Administrators' ]
-harden_win_inf_SeTrustedCredManAccessPrivilege_list: [ 'Null SID' ]
-harden_win_inf_SeNetworkLogonRight_list: [ 'Administrators' ]
+harden_win_inf_SeRemoteInteractiveLogonRight_list: ['Administrators']
+harden_win_inf_SeTcbPrivilege_list: ['Null SID']
+harden_win_inf_SeMachineAccountPrivilege_list: ['Administrators']
+harden_win_inf_SeTrustedCredManAccessPrivilege_list: ['Null SID']
+harden_win_inf_SeNetworkLogonRight_list: ['Administrators']
 # https://www.stigviewer.com/stig/windows_10/2016-11-03/finding/V-63871
-#harden_win_inf_SeDenyNetworkLogonRight_list: [ 'Guests', 'Power Users', 'Local account', 'DOMAIN\Domain Admins', 'DOMAIN\Enterprise Admins' ]
-harden_win_inf_SeDenyNetworkLogonRight_list: [ 'Guests', 'Power Users' ]
+# harden_win_inf_SeDenyNetworkLogonRight_list: ['Guests', 'Power Users', 'Local account', 'DOMAIN\Domain Admins', 'DOMAIN\Enterprise Admins']
+harden_win_inf_SeDenyNetworkLogonRight_list: ['Guests', 'Power Users']
 # https://www.stigviewer.com/stig/windows_10/2016-11-03/finding/V-63865
-harden_win_inf_SeCreateSymbolicLinkPrivilege_list: [ 'Administrators' ]
-harden_win_inf_SeBatchLogonRight_list: [ 'Null SID' ]
+harden_win_inf_SeCreateSymbolicLinkPrivilege_list: ['Administrators']
+harden_win_inf_SeBatchLogonRight_list: ['Null SID']
 # https://www.stigviewer.com/stig/windows_10/2017-04-28/finding/V-63873
-#harden_win_inf_SeDenyBatchLogonRight_list: [ 'DOMAIN\Domain Admins', 'DOMAIN\Enterprise Admins' ]
+# harden_win_inf_SeDenyBatchLogonRight_list: ['DOMAIN\Domain Admins', 'DOMAIN\Enterprise Admins']
 harden_win_inf_SeDenyBatchLogonRight_list: []
 # https://www.stigviewer.com/stig/windows_7/2014-04-02/finding/V-26485
-#harden_win_inf_SeDenyInteractiveLogonRight_list: [ 'Guests', 'DOMAIN\Domain Admins', 'DOMAIN\Enterprise Admins' ]
-harden_win_inf_SeDenyInteractiveLogonRight_list: [ 'Guests' ]
+# harden_win_inf_SeDenyInteractiveLogonRight_list: ['Guests', 'DOMAIN\Domain Admins', 'DOMAIN\Enterprise Admins']
+harden_win_inf_SeDenyInteractiveLogonRight_list: ['Guests']
 # https://www.stigviewer.com/stig/windows_10/2015-11-30/finding/V-63879
-#harden_win_inf_SeDenyRemoteInteractiveLogonRight_list: [ 'Guests', 'DOMAIN\Domain Admins', 'DOMAIN\Enterprise Admins' ]
-harden_win_inf_SeDenyRemoteInteractiveLogonRight_list: [ 'Guests' ]
+# harden_win_inf_SeDenyRemoteInteractiveLogonRight_list: ['Guests', 'DOMAIN\Domain Admins', 'DOMAIN\Enterprise Admins']
+harden_win_inf_SeDenyRemoteInteractiveLogonRight_list: ['Guests']
 
 ## Note: this one corrupts win10 eval currently...
 harden_win_lsa_harden: false
 ## win7
-#harden_win_emet_path: 'c:\Program Files (x86)\EMET 5.5'
+# harden_win_emet_path: 'c:\Program Files (x86)\EMET 5.5'
 ## win10
 harden_win_emet_path: 'c:\Program Files\EMET 5.5'
 harden_win_emet_conf: "{{ harden_win_emet_path }}\\Deployment\\Protection Profiles\\Recommended Software.xml"
@@ -71,7 +71,7 @@ harden_win_vss: true
 harden_win_wmi_monitor: true
 harden_win_flash: true
 harden_win_adobereader: true
-#harden_win_adobereader_v: '11.0'
+# harden_win_adobereader_v: '11.0'
 harden_win_adobereader_v: 'DC'
 ## 300MB = 314572 (default in kb) = 315801600
 ## Reco Microsoft 4GB, https://support.microsoft.com/en-ca/kb/957662
@@ -101,10 +101,10 @@ harden_win_NtlmMinServerSec: 537395248
 # Azure might require (not enforcing NTLMv2) - http response error: 401 - invalid content type
 # https://groups.google.com/forum/#!searchin/packer-tool/azure-arm$3A$20http$20response$20error$3A$20401$20-$20invalid$20content$20type|sort:date/packer-tool/6kxeYOaBCS0/OeewenfPCQAJ
 # https://groups.google.com/forum/#!msg/packer-tool/sF3MBYHkvso/QMkn2bCaAwAJ
-#harden_win_NtlmMinServerSec: 536870912
+# harden_win_NtlmMinServerSec: 536870912
 
 # undefined or 8 would enable feature. empty would disable. possible issue with google cloud when enable.
-#harden_win_lsass_auditlevel: ''
+# harden_win_lsass_auditlevel: ''
 
 harden_win_deviceguard: false
 harden_win_deviceguard_policy: deviceguard-deny-cipolicy.xml
@@ -140,8 +140,8 @@ harden_win_stickykeys_disable: true
 harden_win_paging: true
 harden_win_defender: true
 harden_win_forcing_afterhours_logoff: false
-#harden_win_forcing_afterhours_logoff_time: '7.15pm'
-#harden_win_forcing_afterhours_logoff_user: 'Administrator'
+# harden_win_forcing_afterhours_logoff_time: '7.15pm'
+# harden_win_forcing_afterhours_logoff_user: 'Administrator'
 
 harden_win_wef_enable: false
 harden_win_wef_collector_server_user: 'DOMAIN\mycollector'
@@ -154,37 +154,37 @@ harden_win_laps_enable: true
 harden_win_laps_dc: false
 harden_win_rdp_enable: false
 ## https://blogs.technet.microsoft.com/askperf/2008/02/16/ws2008-network-level-authentication-and-encryption/ (4 fips, 3 high, 2 client-compatible)
-#harden_win_rdp_encryptionlevel: 2
+# harden_win_rdp_encryptionlevel: 2
 harden_win_rdp_encryptionlevel: 3
 
 ## FIXME! service issue + .net 3.5
 harden_win_passwd_filters: false
 opf_url: https://github.com/brockrob/OpenPasswordFilter/raw/master/OPF-alpha.zip
-#opf_url: https://github.com/amarkulo/OpenPasswordFilter/raw/master/x64.7z
+# opf_url: https://github.com/amarkulo/OpenPasswordFilter/raw/master/x64.7z
 ## dictionary to use either as full match or partial (pay attention to size vs performance import, or use SQL fork)
 opf_passwd_list_url: https://raw.githubusercontent.com/danielmiessler/SecLists/master/Passwords/10_million_password_list_top_1000.txt
 opf_passwd_list_partial_url: https://raw.githubusercontent.com/danielmiessler/SecLists/master/Passwords/10_million_password_list_top_1000.txt
 
 harden_win_chocolateypkgs:
-# http://windows.microsoft.com/en-us/windows/security-essentials-all-versions
-## FAIL since 4m: https://gist.github.com/choco-bot/85701f4e87e16efed5be
-#    - microsoftsecurityessentials
-## v5.5.2, oct 2016
-    - emet
-## v5.0, oct 2016
-    - powershell
-## for test
-#    - adobereader
-    - procexp
-#    - sysinternals
-#    - gmer
-#    - gpg4win
-#    - gpg4usb
-#    - osquery
-## monitoring?
-    - collectdwin
-## for testing
-    - git
+  # http://windows.microsoft.com/en-us/windows/security-essentials-all-versions
+  ## FAIL since 4m: https://gist.github.com/choco-bot/85701f4e87e16efed5be
+  # - microsoftsecurityessentials
+  ## v5.5.2, oct 2016
+  - emet
+  ## v5.0, oct 2016
+  - powershell
+  ## for test
+  # - adobereader
+  - procexp
+  # - sysinternals
+  # - gmer
+  # - gpg4win
+  # - gpg4usb
+  # - osquery
+  ## monitoring?
+  - collectdwin
+  ## for testing
+  - git
 
 ## per user/HKCU...
 harden_win_disallowrun: false
@@ -204,7 +204,7 @@ harden_win_remove_filelist:
 ## win_get_url missing checksum check
 harden_win_remotelogging: false
 harden_win_remotelogging_nxlog_url: 'https://nxlog.co/system/files/products/files/348/nxlog-ce-2.10.2150.msi'
-#harden_win_nxlog_conf:
+# harden_win_nxlog_conf:
 #  - { s: nxlog.conf }
 #  - { s: IIS.conf, d: "conf\\IIS.conf" }
 
@@ -223,54 +223,54 @@ harden_win_palantir_AutorunsToWinEventLog: false
 # Attack Surface Reduction, b1709+
 # action: Enabled, AuditMode, Disabled
 harden_win_asr_config:
-# Block executable content from email client and webmail
+  # Block executable content from email client and webmail
   - { ruleid: 'BE9BA2D9-53EA-4CDC-84E5-9B1EEEE46550', action: 'Enabled' }
-# Block Office applications from creating child processes
+  # Block Office applications from creating child processes
   - { ruleid: 'D4F940AB-401B-4EFC-AADC-AD5F3C50688A', action: 'Enabled' }
-# Block Office applications from creating executable content
+  # Block Office applications from creating executable content
   - { ruleid: '3B576869-A4EC-4529-8536-B80A7769E899', action: 'Enabled' }
-# Block Office applications from injecting into other processes
+  # Block Office applications from injecting into other processes
   - { ruleid: '75668C1F-73B5-4CF0-BB93-3ECF5CB7CC84', action: 'Enabled' }
-# Impede JavaScript and VBScript to launch executables
+  # Impede JavaScript and VBScript to launch executables
   - { ruleid: 'D3E037E1-3EB8-44C8-A917-57927947596D', action: 'Enabled' }
-# Block execution of potentially obfuscated scripts
+  # Block execution of potentially obfuscated scripts
   - { ruleid: '5BEB7EFE-FD9A-4556-801D-275E5FFC04CC', action: 'Enabled' }
-# Block Win32 imports from Macro code in Office
+  # Block Win32 imports from Macro code in Office
   - { ruleid: '92E97FA1-2EDF-4476-BDD6-9DD0B4DDDC7B', action: 'Enabled' }
 
 ## https://www.nccgroup.trust/uk/about-us/newsroom-and-events/blogs/2017/august/smuggling-hta-files-in-internet-exploreredge/
 harden_win_suspicious_ext:
-    - hta
-    - vbe
-    - vbs
-    - VBE
-## https://isc.sans.edu/diary/Controlling+JavaScript+Malware+Before+it+Runs/21171
-    - js
-    - jse
-    - sct
-    - wsc
-    - wsf
-    - wsh
-    - pif
-#    - bat
-    - jar
-# https://posts.specterops.io/the-tale-of-settingcontent-ms-files-f1ea253e4d39
-    - SettingContent-ms
-# https://1337red.wordpress.com/using-a-scf-file-to-gather-hashes/
-    - scf
+  - hta
+  - vbe
+  - vbs
+  - VBE
+  # https://isc.sans.edu/diary/Controlling+JavaScript+Malware+Before+it+Runs/21171
+  - js
+  - jse
+  - sct
+  - wsc
+  - wsf
+  - wsh
+  - pif
+  # - bat
+  - jar
+  # https://posts.specterops.io/the-tale-of-settingcontent-ms-files-f1ea253e4d39
+  - SettingContent-ms
+  # https://1337red.wordpress.com/using-a-scf-file-to-gather-hashes/
+  - scf
 harden_win_fileassoc:
   - { ext: .pdf, ftype: pdffile, path: '"C:\Program Files (x86)\Google\Chrome\Application\chrome.exe" "%1"' }
 
 ## https://support.microsoft.com/en-us/help/2696547/how-to-enable-and-disable-smbv1,-smbv2,-and-smbv3-in-windows-vista,-windows-server-2008,-windows-7,-windows-server-2008-r2,-windows-8,-and-windows-server-2012
 harden_win_disable_smb_proto:
-    - SMB1
-#    - SMB2
+  - SMB1
+  # - SMB2
 
 ## Windows features managed by DISM
 harden_win_disable_winfeature:
   - SMB1Protocol
   - MicrosoftWindowsPowerShellV2
-#  - MicrosoftWindowsPowerShellV2Root
+  # - MicrosoftWindowsPowerShellV2Root
 
 # +RequirePrivacy: requires Win8/2010+/Samba4.1+ (SMBv3).
 #   https://support.microsoft.com/en-ca/help/3000483/ms15-011-vulnerability-in-group-policy-could-allow-remote-code-executi
@@ -528,7 +528,7 @@ harden_win_certificates_removed:
 
 harden_win_extra_reg:
   - directory_prompt.reg
-#  - directory_prompt_git.reg
+  # - directory_prompt_git.reg
   - run-no-uac.reg
 
 harden_win_wsus_enable: true
