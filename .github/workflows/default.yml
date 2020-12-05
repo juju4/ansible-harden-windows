@@ -33,11 +33,11 @@ jobs:
           python-version: '3.x'
       - name: Install dependencies
         run: |
-          python --version
-          python -c "import ssl; print(ssl.OPENSSL_VERSION)"
-          python -c 'import ssl; ssl.PROTOCOL_TLSv1_2'
-          python -m pip install --upgrade pip
-          pip install ansible-lint flake8 yamllint
+          python3 --version
+          python3 -c "import ssl; print(ssl.OPENSSL_VERSION)"
+          python3 -c 'import ssl; ssl.PROTOCOL_TLSv1_2'
+          python3 -m pip install --upgrade pip
+          pip3 install ansible-lint flake8 yamllint
           ansible --version
           cd $GITHUB_WORKSPACE/juju4.harden-windows
           [ -f get-dependencies.sh ] && sh -x get-dependencies.sh
