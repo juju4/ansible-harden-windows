@@ -1,0 +1,74 @@
+---
+name: AnsibleCI
+
+on:
+  push:
+  pull_request:
+  schedule:  # run weekly, every Tuesday 04:00
+    - cron: '0 4 * * 2'
+
+defaults:
+  run:
+    shell: wsl-bash {0}
+
+jobs:
+  build:
+
+    runs-on: windows-2019
+    strategy:
+      fail-fast: false
+      max-parallel: 4
+    env:
+      ANSIBLE_CALLBACK_WHITELIST: profile_tasks
+
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          path: juju4.harden-windows
+
+      - uses: Vampire/setup-wsl@v1
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.x'
+      - name: Install dependencies
+        run: |
+          python3 --version
+          python3 -c "import ssl; print(ssl.OPENSSL_VERSION)"
+          python3 -c 'import ssl; ssl.PROTOCOL_TLSv1_2'
+          python3 -m pip install --upgrade pip
+          pip3 install ansible-lint flake8 yamllint
+          ansible --version
+          cd $GITHUB_WORKSPACE/juju4.harden-windows
+          [ -f get-dependencies.sh ] && sh -x get-dependencies.sh
+          { echo '[defaults]'; echo 'callback_whitelist = profile_tasks, timer'; echo 'roles_path = ../'; echo 'ansible_python_interpreter: /usr/bin/python3'; } >> ansible.cfg
+      - name: yamllint
+        run: |
+          pwd
+          find .
+          cd $GITHUB_WORKSPACE/juju4.harden-windows && yamllint .
+      - name: ansible-lint
+        run: |
+          cd $GITHUB_WORKSPACE/juju4.harden-windows && ansible-lint
+      - name: run test
+        run: |
+          cd $GITHUB_WORKSPACE/juju4.harden-windows && ansible-playbook -i localhost, --connection=local --become -vvv test/integration/default/default.yml
+        env:
+          PY_COLORS: '1'
+          ANSIBLE_FORCE_COLOR: '1'
+      - name: idempotency run
+        run: |
+          cd $GITHUB_WORKSPACE/juju4.harden-windows && ansible-playbook -i localhost, --connection=local --become -vvv test/integration/default/default.yml | tee /tmp/idempotency.log | grep -q 'changed=0.*failed=0'  && (echo 'Idempotence test: pass' && exit 0)  || (echo 'Idempotence test: fail' && cat /tmp/idempotency.log && exit 1)
+      - name: After script
+        run: |
+          Get-ChildItem -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\FileExts\.hta" -Recurse
+          Get-PSDrive -PSProvider Registry
+          New-PSDrive -Name HKCR -PSProvider Registry -Root Registry::HKEY_CLASSES_ROOT
+          Get-ChildItem -Path "HKCR:\htafile\shell\open\command" -Recurse
+          Get-Content -Path C:\windows\Logs\CBS\CBS.log
+          Get-ChildItem -Path "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\ProfileList"
+          New-PSDrive -Name HKU -PSProvider Registry -Root Registry::HKEY_USERS
+          Get-ChildItem -Path "HKU:\*\Software\Microsoft\Windows\CurrentVersion\Explorer\FileExts\.hta" -Recurse
+          Get-ChildItem -Path "HKLM:\SYSTEM\CurrentControlSet\Control\SecurityProviders\SCHANNEL\Protocols\SSL 2.0\Server"
+        shell: pwsh
+        continue-on-error: true
