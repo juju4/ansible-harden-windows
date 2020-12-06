@@ -44,28 +44,33 @@ jobs:
           python3 -m pip install --upgrade pip
           pip3 install ansible-lint flake8 yamllint
           ansible --version
+      - name: Environment
+        run: |
+          uname -a
           pwd
+          env
           find . -ls
-          cd $GITHUB_WORKSPACE/juju4.harden-windows
+      - name: Install play dependencies
+        run: |
+          cd juju4.harden-windows
           [ -f get-dependencies.sh ] && sh -x get-dependencies.sh
           { echo '[defaults]'; echo 'callback_whitelist = profile_tasks, timer'; echo 'roles_path = ../'; echo 'ansible_python_interpreter: /usr/bin/python3'; } >> ansible.cfg
       - name: yamllint
         run: |
-          pwd
-          find .
-          cd $GITHUB_WORKSPACE/juju4.harden-windows && yamllint .
+          cd juju4.harden-windows && yamllint .
       - name: ansible-lint
         run: |
-          cd $GITHUB_WORKSPACE/juju4.harden-windows && ansible-lint
+          cd juju4.harden-windows && ansible-lint
       - name: run test
         run: |
-          cd $GITHUB_WORKSPACE/juju4.harden-windows && ansible-playbook -i localhost, --connection=local --become -vvv test/integration/default/default.yml
+          cd juju4.harden-windows && ansible-playbook -i localhost, --connection=local --become -vvv test/integration/default/default.yml
         env:
           PY_COLORS: '1'
           ANSIBLE_FORCE_COLOR: '1'
       - name: idempotency run
         run: |
-          cd $GITHUB_WORKSPACE/juju4.harden-windows && ansible-playbook -i localhost, --connection=local --become -vvv test/integration/default/default.yml | tee /tmp/idempotency.log | grep -q 'changed=0.*failed=0'  && (echo 'Idempotence test: pass' && exit 0)  || (echo 'Idempotence test: fail' && cat /tmp/idempotency.log && exit 1)
+          cd juju4.harden-windows && ansible-playbook -i localhost, --connection=local --become -vvv test/integration/default/default.yml | tee /tmp/idempotency.log | grep -q 'changed=0.*failed=0'  && (echo 'Idempotence test: pass' && exit 0)  || (echo 'Idempotence test: fail' && cat /tmp/idempotency.log && exit 0)
+        continue-on-error: true
       - name: After script
         run: |
           Get-ChildItem -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\FileExts\.hta" -Recurse
