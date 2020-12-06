@@ -3,8 +3,8 @@
 
 umask 022
 
-rolesdir=$(dirname $0)/..
-[ $APPVEYOR -o $CI ] && rolesdir=/etc/ansible/roles
+rolesdir="$(dirname $0)/.."
+[ $APPVEYOR -o $CI ] && rolesdir="/etc/ansible/roles"
 
 [ ! -d $rolesdir/juju4.win-firewall ] && git clone https://github.com/juju4/ansible-win-firewall $rolesdir/juju4.win-firewall
 [ ! -d $rolesdir/juju4.win-eventlog ] && git clone https://github.com/juju4/ansible-win-eventlog $rolesdir/juju4.win-eventlog
