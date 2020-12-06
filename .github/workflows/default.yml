@@ -35,7 +35,7 @@ jobs:
           net user /Y /add $env:winrm_user $env:winrm_password
           net localgroup administrators $env:winrm_user /add
           Import-Module $env:GITHUB_WORKSPACE\juju4.harden-windows\test\appveyor\WinrmAppveyor.psm1
-          New-ClientCertificate $env:winrm_user $env:GITHUB_WORKSPACE
+          New-ClientCertificate $env:winrm_user $env:GITHUB_WORKSPACE || True
           $env:user_cert_thumb = (Import-pfxCertificate -FilePath $env:user_pfx -CertStoreLocation Cert:\LocalMachine\root).Thumbprint
           Import-pfxCertificate -FilePath $env:user_pfx -CertStoreLocation Cert:\LocalMachine\TrustedPeople
           $env:winrm_cert = (New-SelfSignedCertificate -DnsName localhost -CertStoreLocation cert:\localmachine\my).Thumbprint
