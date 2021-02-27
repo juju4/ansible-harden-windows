@@ -6,6 +6,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+- Github Action - Work In Progress
+- IE - disable legacy jscript engine
+
+### Changed
+- lint
+
+## [1.2.0] - 2020-07-19
+
+### Added
+- AMSI registry setting
+- disable remote management of Service Control Manager
+- References
+
 ## [1.1.0] - 2020-02-01
 
 ### Changed
