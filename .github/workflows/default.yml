@@ -45,6 +45,8 @@ jobs:
           ($pwd).path
           echo "localhost ansible_user=$env:winrm_user ansible_password=$env:winrm_password ansible_connection=winrm" | Out-File -FilePath juju4.harden-windows\inventory
           Get-ChildItem -Path c:\
+          dir WSMan:\localhost\Client
+          dir WSMan:\localhost\Service
         shell: pwsh
       - name: Test winrm
         run: |
