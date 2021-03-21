@@ -83,13 +83,13 @@ jobs:
           cat ansible.cfg
       - name: run test
         run: |
-          cd juju4.harden-windows && ansible-playbook -i localhost, -vvv test/integration/default/default.yml
+          cd juju4.harden-windows && ansible-playbook -i inventory -vvv test/integration/default/default.yml
         env:
           PY_COLORS: '1'
           ANSIBLE_FORCE_COLOR: '1'
       - name: idempotency run
         run: |
-          cd juju4.harden-windows && ansible-playbook -i localhost, -vvv test/integration/default/default.yml | tee /tmp/idempotency.log | grep -q 'changed=0.*failed=0'  && (echo 'Idempotence test: pass' && exit 0)  || (echo 'Idempotence test: fail' && cat /tmp/idempotency.log && exit 0)
+          cd juju4.harden-windows && ansible-playbook -i inventory -vvv test/integration/default/default.yml | tee /tmp/idempotency.log | grep -q 'changed=0.*failed=0'  && (echo 'Idempotence test: pass' && exit 0)  || (echo 'Idempotence test: fail' && cat /tmp/idempotency.log && exit 0)
         continue-on-error: true
       - name: After script
         run: |
