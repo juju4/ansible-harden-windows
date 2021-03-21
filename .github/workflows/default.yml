@@ -62,6 +62,7 @@ jobs:
           python3 -c "import ssl; print(ssl.OPENSSL_VERSION)"
           python3 -c 'import ssl; ssl.PROTOCOL_TLSv1_2'
           python3 -m pip install --upgrade pip
+          pip3 install pywinrm
           pip3 install ansible-lint flake8 yamllint ansible
           ansible --version
           cat juju4.harden-windows/inventory
