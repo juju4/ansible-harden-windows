@@ -75,9 +75,11 @@ jobs:
           ls /mnt
       - name: Install play dependencies
         run: |
+          cp -R /mnt/d/a/ansible-harden-windows/ansible-harden-windows/juju4.harden-windows /etc/ansible/roles/juju4.harden-windows
           cd juju4.harden-windows
           # [ -f get-dependencies.sh ] && sh -x get-dependencies.sh
           { echo '[defaults]'; echo 'callback_whitelist = profile_tasks, timer'; echo 'roles_path = ../'; echo 'ansible_python_interpreter: /usr/bin/python3'; } >> ansible.cfg
+          cat ansible.cfg
       - name: run test
         run: |
           cd juju4.harden-windows && ansible-playbook -i localhost, --connection=local --become -vvv test/integration/default/default.yml
