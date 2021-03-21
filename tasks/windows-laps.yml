@@ -11,13 +11,13 @@
 - name: Install LAPS - targeted computer
   win_package:
     path: "{{ harden_win_temp_dir }}\\LAPS.x64.msi"
-    wait: true
+    wait_for_children: true
     # To hide software in Programs and Features Control panel view, use msiexec parameter ARPSYSTEMCOMPONENT=1:
     arguments: '/quiet /qn ARPSYSTEMCOMPONENT=1'
 - name: DC | Install LAPS
   win_package:
     path: "{{ harden_win_temp_dir }}\\LAPS.x64.msi"
-    wait: true
+    wait_for_children: true
     # silent install of CSE and all management tools
     arguments: '/qn ADDLOCAL=CSE,Management,Management.UI,Management.PS,Management.ADMX'
 

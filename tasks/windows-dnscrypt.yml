@@ -18,4 +18,4 @@
   win_package:
     path: "{{ harden_win_temp_dir }}\\{{ harden_win_simplednscrypt_url | basename }}"
     state: present
-    wait: true
+    wait_for_children: true
