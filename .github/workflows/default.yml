@@ -46,6 +46,13 @@ jobs:
           echo "localhost ansible_user=$env:winrm_user ansible_password=$env:winrm_password ansible_connection=winrm" | Out-File -FilePath juju4.harden-windows\inventory
           Get-ChildItem -Path c:\
         shell: pwsh
+      - name: Test winrm
+        run: |
+          Test-WSMan
+          winrm identify -r:http://localhost:5985 -auth:basic -u:$env:winrm_user -p:$env:winrm_password -encoding:utf-8
+          winrm identify -r:https://localhost:5986 -auth:basic -u:$env:winrm_user -p:$env:winrm_password -encoding:utf-8
+        shell: pwsh
+        continue-on-error: true
       - uses: Vampire/setup-wsl@v1
         with:
           distribution: Ubuntu-20.04
@@ -82,6 +89,9 @@ jobs:
           # [ -f get-dependencies.sh ] && sh -x get-dependencies.sh
           { echo '[defaults]'; echo 'callback_whitelist = profile_tasks, timer'; echo 'roles_path = ../'; echo 'ansible_python_interpreter: /usr/bin/python3'; } >> ansible.cfg
           cat ansible.cfg
+      - name: Ansible win_ping
+        run: |
+          ansible -i inventory -m win_ping -vvv localhost
       - name: run test
         run: |
           cd juju4.harden-windows && ansible-playbook -i inventory -vvv test/integration/default/default.yml
