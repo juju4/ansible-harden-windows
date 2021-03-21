@@ -76,7 +76,7 @@ jobs:
       - name: Install play dependencies
         run: |
           cd juju4.harden-windows
-          [ -f get-dependencies.sh ] && sh -x get-dependencies.sh
+          # [ -f get-dependencies.sh ] && sh -x get-dependencies.sh
           { echo '[defaults]'; echo 'callback_whitelist = profile_tasks, timer'; echo 'roles_path = ../'; echo 'ansible_python_interpreter: /usr/bin/python3'; } >> ansible.cfg
       - name: yamllint
         run: |
