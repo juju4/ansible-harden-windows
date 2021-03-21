@@ -1,5 +1,5 @@
 ---
-name: AnsibleCI
+name: lint
 
 on:
   push:
