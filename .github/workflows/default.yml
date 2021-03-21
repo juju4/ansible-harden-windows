@@ -91,6 +91,7 @@ jobs:
           cat ansible.cfg
       - name: Ansible win_ping
         run: |
+          cd juju4.harden-windows
           ansible -i inventory -m win_ping -vvv localhost
       - name: run test
         run: |
