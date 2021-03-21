@@ -75,6 +75,7 @@ jobs:
           ls /mnt
       - name: Install play dependencies
         run: |
+          mkdir -p /etc/ansible/roles
           cp -R /mnt/d/a/ansible-harden-windows/ansible-harden-windows/juju4.harden-windows /etc/ansible/roles/juju4.harden-windows
           cd juju4.harden-windows
           # [ -f get-dependencies.sh ] && sh -x get-dependencies.sh
