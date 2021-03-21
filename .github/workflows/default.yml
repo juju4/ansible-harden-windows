@@ -78,12 +78,6 @@ jobs:
           cd juju4.harden-windows
           # [ -f get-dependencies.sh ] && sh -x get-dependencies.sh
           { echo '[defaults]'; echo 'callback_whitelist = profile_tasks, timer'; echo 'roles_path = ../'; echo 'ansible_python_interpreter: /usr/bin/python3'; } >> ansible.cfg
-      - name: yamllint
-        run: |
-          cd juju4.harden-windows && yamllint .
-      - name: ansible-lint
-        run: |
-          cd juju4.harden-windows && ansible-lint
       - name: run test
         run: |
           cd juju4.harden-windows && ansible-playbook -i localhost, --connection=local --become -vvv test/integration/default/default.yml
