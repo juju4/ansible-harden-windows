@@ -137,15 +137,15 @@ for:
       - cmd: cinst -y notepadplusplus
 
 on_failure:
-  - ps: |
-      Get-Content -Path C:\windows\TEMP\chocolatey\KB3035131.Install.evt
-      True
-  - ps: |
-      Get-Content -Path C:\windows\Logs\CBS\CBS.log
-      True
-  - ps: |
-      Get-Content -Path C:\ProgramData\chocolatey\logs\chocolatey.log
-      True
+  # - ps: |
+  #     Get-Content -Path C:\windows\TEMP\chocolatey\KB3035131.Install.evt
+  #     True
+  # - ps: |
+  #     Get-Content -Path C:\windows\Logs\CBS\CBS.log
+  #     True
+  # - ps: |
+  #     Get-Content -Path C:\ProgramData\chocolatey\logs\chocolatey.log
+  #     True
   # - ps: Get-ChildItem -Recurse -Path "c:\Program Files\ansible"
   - ps: |
       Get-WinEvent -LogName 'Microsoft-Windows-AppLocker/EXE and DLL' | Where { $_.ID -eq 8004 }
