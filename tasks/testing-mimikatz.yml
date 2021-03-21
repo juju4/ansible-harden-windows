@@ -66,5 +66,5 @@
   ignore_errors: true
 
 - name: testing | run pypykatz
-  command: "pypykatz live lsa"
+  command: "pypykatz live lsa"  # noqa no-changed-when
   ignore_errors: true

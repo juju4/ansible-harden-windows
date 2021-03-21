@@ -6,13 +6,15 @@
       win_command: "vssadmin.exe list volumes"
       changed_when: false
       register: vssvol
-    - debug: var=vssvol
+    - name: Debug | vssvol output
+      debug: var=vssvol
     - name: list state of shadowstorage
       win_command: "vssadmin.exe list shadowstorage"
       changed_when: false
       register: vssstor
       ignore_errors: true
-    - debug: var=vssstor
+    - name: Debug | vssstor output
+      debug: var=vssstor
 
     ## https://technet.microsoft.com/en-us/library/cc788051(v=ws.11).aspx
     ##  but return 'invalid command' in some cases??? only on server?

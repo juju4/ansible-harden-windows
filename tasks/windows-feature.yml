@@ -21,4 +21,5 @@
   with_items: "{{ harden_win_disable_winfeature }}"
   register: dism
   failed_when: "'The operation completed successfully' not in dism.stdout"
-- debug: var=dism
+- name: Debug | dism output
+  debug: var=dism

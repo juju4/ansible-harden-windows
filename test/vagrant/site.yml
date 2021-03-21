@@ -67,4 +67,5 @@
     - juju4.win-aptsimulator
     - juju4.win-atomic-red-team
   tasks:
-    - win_ping:
+    - name: Check host is accessible
+      win_ping:

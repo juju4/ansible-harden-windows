@@ -24,5 +24,6 @@
   ignore_errors: true
   changed_when: false
 
-- debug: var=intel.stdout_lines
+- name: Debug | intel output
+  debug: var=intel.stdout_lines
   when: intel is defined and "'This system is vulnerable' in intel.stdout"

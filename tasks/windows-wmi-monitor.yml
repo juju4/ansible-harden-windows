@@ -17,4 +17,5 @@
   register: wmiout
   ignore_errors: true
 
-- debug: var=wmiout
+- name: Debug | wmiout
+  debug: var=wmiout

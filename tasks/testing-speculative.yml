@@ -19,7 +19,8 @@
   win_shell: "Get-SpeculationControlSettings"
   register: speculation
 
-- debug: var=speculation
+- name: Debug | speculation
+  debug: var=speculation
 
 - name: untrust PSGallery repository
   win_shell: Set-PSRepository -Name PSGallery -InstallationPolicy Untrusted
@@ -40,4 +41,5 @@
   async: 60
   poll: 5
 
-- debug: var=specucheck.stdout_lines
+- name: Debug | specucheck output
+  debug: var=specucheck.stdout_lines

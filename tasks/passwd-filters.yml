@@ -94,8 +94,10 @@
   set_fact:
     NotifPackages: >
       "{{ reg1.stdout | regex_replace('^\\s+Notification Packages\\s+REG_MULTI_SZ\\s+(.*)\\r\\n$', '\\1') }}"
-- debug: var=reg1.stdout_lines
-- debug: var=NotifPackages
+- name: Debug | reg1 output
+  debug: var=reg1.stdout_lines
+- name: Debug | NotifPackages
+  debug: var=NotifPackages
 
 - name: Enable Password filters
   win_regedit:

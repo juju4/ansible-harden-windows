@@ -16,6 +16,6 @@
   tasks:
     - name: install jump box toolset
       win_chocolatey:
-        name: "{{ item}}"
+        name: "{{ item }}"
         state: present
       with_items: "{{ jumpbox_tools }}"
