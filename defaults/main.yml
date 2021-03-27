@@ -69,7 +69,7 @@ harden_win_emet_path: 'c:\Program Files\EMET 5.5'
 harden_win_emet_conf: "{{ harden_win_emet_path }}\\Deployment\\Protection Profiles\\Recommended Software.xml"
 harden_win_vss: true
 harden_win_wmi_monitor: true
-harden_win_flash: true
+harden_win_flash: false
 harden_win_adobereader: true
 # harden_win_adobereader_v: '11.0'
 harden_win_adobereader_v: 'DC'
