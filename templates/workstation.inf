@@ -9,25 +9,25 @@
 ; Revision History
 ; 0000  -	Original
 ; May 2001 - SNAC version 1.01a
-; November 2001 - 
-;	Changed the line "RequireLogonToChangePassword = 1" to 
-;	"RequireLogonToChangePassword = 0" under the [System Access] 
+; November 2001 -
+;	Changed the line "RequireLogonToChangePassword = 1" to
+;	"RequireLogonToChangePassword = 0" under the [System Access]
 ;	section. This line is an artifact from Windows NT 4.0 templates and could have
 ;	adverse effects on a user's ability to change password at first logon. If you have
-;	experienced this problem, please reapply this corrected inf file, or, via a 
+;	experienced this problem, please reapply this corrected inf file, or, via a
 ;	text editor, create and apply an inf file with only the following lines:
 ;	[Unicode]
 ;	Unicode=yes
 ;	[System Access]
 ;	RequireLogonToChangePassword = 0
 
-;	
+;
 ;	NOTE: This setting does NOT appear when the template file is viewed graphically in
 ;	the MMC.
 ;
 ; July 2002 -
-;	In the Registry section, corrected the 
-;	MACHINE\System\CurrentControlSet\Control\Wmi\Security to grant Administrators Full 
+;	In the Registry section, corrected the
+;	MACHINE\System\CurrentControlSet\Control\Wmi\Security to grant Administrators Full
 ;	Control on the key and subkeys
 ;
 ;  Nov. 2002 -

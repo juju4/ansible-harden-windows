@@ -160,4 +160,3 @@ Infosec community is GREAT!
 ## License
 
 BSD 2-clause
-

@@ -27,5 +27,3 @@ powershell -Command "$command = \"Write-Host 'My voice is my passport, verify me
 powershell -Command "invoke-command -scriptblock {Write-Host \"My voice is my passport, verify me.\"}"
 powershell -Command "Get-Content .\runme.ps1 | Invoke-Expression"
 PowerShell.exe -ExecutionPolicy Bypass -File .\runme.ps1
-
-

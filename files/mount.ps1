@@ -2,4 +2,3 @@
 param([string]$share)
 $share | Out-File c:\ansible-test\debug.txt
 New-PSDrive -Name "K" -PSProvider FileSystem -Root "$share" -Persist
-

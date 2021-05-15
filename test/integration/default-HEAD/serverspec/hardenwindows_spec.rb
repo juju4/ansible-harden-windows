@@ -60,4 +60,3 @@ describe command('& "ftype htafile"') do
   its(:stdout) { should match /notepad.exe/ }
   its(:stdout) { should_not match /mshta.exe/ }
 end
-
