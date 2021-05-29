@@ -1,5 +1,14 @@
-.vagrant
+# https://github.com/github/gitignore/blob/master/Global/Vagrant.gitignore
+.vagrant/
+
+# Log files (if you are creating logs in debug mode, uncomment this)
+# *.log
+
+# Ansible
 *.retry
+# Kitchen
+.kitchen
+inspec.lock
 # https://github.com/github/gitignore/blob/master/Global/Vim.gitignore
 # Swap
 [._]*.s[a-v][a-z]
@@ -9,12 +18,15 @@
 
 # Session
 Session.vim
+Sessionx.vim
 
 # Temporary
 .netrwhist
 *~
 # Auto-generated tag files
 tags
+# Persistent undo
+[._]*.un~
 # https://github.com/github/gitignore/blob/master/Python.gitignore
 # Byte-compiled / optimized / DLL files
 __pycache__/
@@ -129,7 +141,6 @@ venv.bak/
 # Icon must end with two \r
 Icon
 
-
 # Thumbnails
 ._*
 
@@ -187,3 +198,38 @@ $RECYCLE.BIN/
 *.lnk
 # https://github.com/github/gitignore/blob/master/Global/GPG.gitignore
 secring.*
+# https://github.com/github/gitignore/blob/master/community/OpenSSL.gitignore
+# OpenSSL-related files best not committed
+
+## Certificate Authority
+*.ca
+
+## Certificate
+*.crt
+
+## Certificate Sign Request
+*.csr
+
+## Certificate
+*.der
+
+## Key database file
+*.kdb
+
+## OSCP request data
+*.org
+
+## PKCS #12
+*.p12
+
+## PEM-encoded certificate data
+*.pem
+
+## Random number seed
+*.rnd
+
+## SSLeay data
+*.ssleay
+
+## S/MIME message
+*.smime
