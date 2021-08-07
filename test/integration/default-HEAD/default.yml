@@ -5,7 +5,6 @@
   vars:
     - harden_win_palantir_AutorunsToWinEventLog_version: HEAD
     - harden_win_securityupdates: false
-    # - harden_win_services: false
     # - harden_win_registry: false
     # - harden_win_gpo_local: true
     # - harden_win_inf_MinimumPasswordLength: 6
