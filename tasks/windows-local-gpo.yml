@@ -14,7 +14,7 @@
           /db {{ harden_win_gpo_db }} /log {{ harden_win_gpo_log }} /verbose
       args:
         creates: "{{ harden_win_gpo_log }}"
-      ignore_errors: true
+      failed_when: false
       ## require Windows Script Host
       #  raw: "msiexec /qb /i c:\Program Files (x86)\Microsoft Security Compliance Manager\LGPO\LocalGPO.msi"
       #  raw: "csript c:\Program Files (x86)\LocalGPO\LocalGPO.wsf"
@@ -22,7 +22,7 @@
     - name: Check secedit log file
       win_shell: "Get-Content -Path {{ harden_win_gpo_log }}"
       changed_when: false
-      ignore_errors: true
+      failed_when: false
   when: harden_win_gpo_action == 'secedit'
 
 - block:

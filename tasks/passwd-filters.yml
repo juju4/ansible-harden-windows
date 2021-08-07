@@ -72,7 +72,7 @@
       -BinaryPathName c:\\windows\\system32\\OPFService.exe
       -Description "OpenPasswordFilter service to prevent dictionary passwords"
       -StartupType Automatic
-  ignore_errors: true
+  failed_when: false
 
 ## FIXME! error 'SHIM_GOTO_CONTROLPANEL'
 ##    https://support.microsoft.com/en-us/help/2715633/shim-errors-for-the--net-framework-version-and-platform-support

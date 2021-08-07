@@ -14,7 +14,7 @@
     - 1
   register: nbtstate
   changed_when: false
-  ignore_errors: true
+  failed_when: false
 - block:
     - name: Disable Windows Netbios Name Service (NBT-NS)
       # win_regedit:
@@ -96,7 +96,7 @@
     Get-ItemPropertyValue
       -Path 'HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Image File Execution Options\powershell.exe'
       -Name MitigationOptions
-  ignore_errors: true
+  failed_when: false
   changed_when: false
 - name: Enable Exploit protection mitigation for powershell.exe
   win_regedit:

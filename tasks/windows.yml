@@ -17,7 +17,7 @@
   with_items:
     - "{{ harden_win_temp_dir }}"
     - "{{ harden_win_log_dir }}"
-  ignore_errors: true
+  failed_when: false
 
 - name: Restrict permissions for ansible directories
   win_acl:
@@ -95,7 +95,7 @@
     name: "{{ item }}"
   with_items: "{{ harden_win_chocolateypkgs }}"
   ## for package asking for reboot
-  ignore_errors: true
+  failed_when: false
   tags:
     - packages
 
@@ -121,7 +121,7 @@
   raw: "netsh interface ipv4 show global | findstr MLD | findstr Level"
   register: ipv4if
   changed_when: false
-  ignore_errors: true
+  failed_when: false
 
 - name: Disable IGMP on ipv4 interface
   raw: "Netsh interface ipv4 set global mldlevel=none"

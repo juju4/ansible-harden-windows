@@ -14,4 +14,4 @@
   # raw: "Wevtutil.exe sl Microsoft-Windows-WMI-Activity/Trace /e:true"
   raw: "echo y | Wevtutil.exe sl Microsoft-Windows-WMI-Activity/Trace /e:true /ms:512000 /q"
   when: '"enabled: false" in wmilogging.stdout'
-  ignore_errors: true
+  failed_when: false

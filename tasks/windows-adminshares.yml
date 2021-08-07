@@ -23,4 +23,4 @@
     - "c$"
     - "d$"
     - "e$"
-  ignore_errors: true
+  failed_when: false

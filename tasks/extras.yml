@@ -11,4 +11,4 @@
   win_regmerge:
     path: "{{ harden_win_temp_dir }}\\{{ item }}"
   with_items: "{{ harden_win_extra_reg }}"
-  ignore_errors: true
+  failed_when: false

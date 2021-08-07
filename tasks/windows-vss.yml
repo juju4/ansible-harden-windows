@@ -12,7 +12,7 @@
       win_command: "vssadmin.exe list shadowstorage"
       changed_when: false
       register: vssstor
-      ignore_errors: true
+      failed_when: false
     - name: Debug | vssstor output
       debug: var=vssstor
 
@@ -24,7 +24,7 @@
       when:
         - '"Shadow Copy Storage volume: (C:)" not in vssstor.stdout'
         - ansible_distribution_major_version|int < 10
-      ignore_errors: true
+      failed_when: false
 
   when: ansible_distribution_major_version|int < 10
 
@@ -49,7 +49,7 @@
     enable: yes
     state: present
     user: SYSTEM
-  ignore_errors: true
+  failed_when: false
 #  when: ansible_distribution_major_version|int < 10
 
 - name: Remove access permission vssadmin.exe

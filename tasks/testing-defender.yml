@@ -13,8 +13,8 @@
 
 - name: Check Defender status
   win_shell: Get-MpComputerStatus
-  ignore_errors: true
+  failed_when: false
 
 - name: Check signatures set
   win_shell: "(Get-MpThreatCatalog).ThreatName | Group { $_.Split(':')[0] } | Sort Count -Descending"
-  ignore_errors: true
+  failed_when: false

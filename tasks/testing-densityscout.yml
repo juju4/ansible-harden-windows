@@ -4,7 +4,7 @@
   win_get_url:
     url: https://www.cert.at/media/files/downloads/software/densityscout/files/densityscout_build_45_windows.zip
     dest: "{{ harden_win_temp_dir }}\\densityscout.zip"
-  ignore_errors: true
+  failed_when: false
   register: dl_result
   until: dl_result is success
 
@@ -17,4 +17,4 @@
 - name: testing | call densityscout
   win_command: >
     \"{{ harden_win_temp_dir }}\densityscout\densityscout.exe\" -pe -p 0.1 -o {{ harden_win_log_dir }}\densityscout-results.txt c:\Windows
-  ignore_errors: true
+  failed_when: false
