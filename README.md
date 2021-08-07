@@ -1,6 +1,3 @@
-[![Build Status - Master](https://travis-ci.com/juju4/ansible-harden-windows.svg?branch=master)](https://travis-ci.com/juju4/ansible-harden-windows)
-[![Build Status - Devel](https://travis-ci.com/juju4/ansible-harden-windows.svg?branch=devel)](https://travis-ci.com/juju4/ansible-harden-windows/branches)(Syntax Only)
-
 [![Appveyor - Master](https://ci.appveyor.com/api/projects/status/kkr0w77mu5rrm014?svg=true)](https://ci.appveyor.com/project/juju4/ansible-harden-windows)
 ![Appveyor - Devel](https://ci.appveyor.com/api/projects/status/kkr0w77mu5rrm014/branch/devel?svg=true)
 
