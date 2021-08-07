@@ -1,0 +1,27 @@
+---
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.0.0
+    hooks:
+      - id: check-yaml
+      - id: end-of-file-fixer
+        exclude: 'files/patch-*'
+      - id: trailing-whitespace
+        exclude: 'files/patch-*'
+      - id: check-added-large-files
+      - id: check-json
+      - id: detect-private-key
+      - id: check-case-conflict
+      - id: double-quote-string-fixer
+      - id: requirements-txt-fixer
+  - repo: https://github.com/ansible-community/ansible-lint.git
+    rev: v5.0.11
+    hooks:
+      - id: ansible-lint
+        files: \.(yaml|yml)$
+#  - repo: git@github.com:Yelp/detect-secrets
+#    rev: v1.1.0
+#    hooks:
+#      - id: detect-secrets
+#        args: ['--baseline', '.secrets.baseline']
+#        exclude: .*/tests/.*
