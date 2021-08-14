@@ -43,7 +43,7 @@ jobs:
           New-WinrmUserCertificateMapping $env:user_cert_thumb
           Write-Host $env:PATH
           ($pwd).path
-          echo "localhost ansible_user=$env:winrm_user ansible_password=$env:winrm_password ansible_connection=winrm" | Out-File -FilePath juju4.harden-windows\inventory
+          echo "localhost ansible_user=$env:winrm_user ansible_password=$env:winrm_password ansible_connection=winrm ansible_winrm_server_cert_validation=ignore" | Out-File -FilePath juju4.harden-windows\inventory
           Get-ChildItem -Path c:\
         shell: pwsh
       - name: Check winrm config
