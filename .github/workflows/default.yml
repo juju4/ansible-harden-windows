@@ -105,6 +105,7 @@ jobs:
       - name: Set inventory for winrm http
         run: |
           echo "localhost ansible_user=$env:winrm_user ansible_password=$env:winrm_password ansible_connection=winrm ansible_winrm_scheme=http" | Out-File -FilePath juju4.harden-windows\inventory
+          Set-Item -Path WSMan:\localhost\Service\AllowUnencrypted -Value $true
         shell: pwsh
       - name: Ansible win_ping http
         run: |
