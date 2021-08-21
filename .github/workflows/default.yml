@@ -54,6 +54,13 @@ jobs:
           winrm get http://schemas.microsoft.com/wbem/wsman/1/config
           Get-ChildItem wsman:\localhost\Listener
         shell: pwsh
+      # Caution: The LocalAccountTokenFilterPolicy entry disables user account control (UAC) remote restrictions for all users of all affected computers. Consider the implications of this setting carefully before changing the policy”
+      # http://www.harmj0y.net/blog/redteaming/pass-the-hash-is-dead-long-live-localaccounttokenfilterpolicy/
+      - name: Set LocalAccountTokenFilterPolicy 1
+        run: |
+          Get-ChildItem -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System\LocalAccountTokenFilterPolicy"
+          Set-ItemProperty Path HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System -Name LocalAccountTokenFilterPolicy -Value 1 -Type DWord
+        shell: pwsh
       - name: Test winrm
         run: |
           Test-WSMan
