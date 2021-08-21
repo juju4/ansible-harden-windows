@@ -74,7 +74,7 @@ install:
   - ps: Write-Host $env:PATH
   - ps: ($pwd).path
   - ps: |
-      Get-ChildItem -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System\LocalAccountTokenFilterPolicy"
+      Get-ChildItem -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System"
   # setup ansible
   - cmd: "%CYG_SETUP% -qgnNdO -l %CYG_CACHE% -R %CYG_ROOT% -s http://cygwin.mirror.constant.com -P libssl-devel -P python2-devel -P python3-devel -P curl -P python-jinja -P python-crypto -P python-openssl -P python-setuptools -P git -P libffi-devel -P libcrypt-devel -P openssl-devel -P python36-cryptography"
   - cmd: "%CYG_BASH% -lc 'openssl version'"
