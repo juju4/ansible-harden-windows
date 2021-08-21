@@ -9,9 +9,27 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - Github Action - Work In Progress
 - IE - disable legacy jscript engine
+- repository: pre-commit config
 
 ### Changed
-- lint
+- appveyor: update ansible pypi to 4.3.0/3.4.0
+- repository: gitignore, lint
+
+### Removed
+- travis-ci
+
+## [1.3.0] - 2020-03-27
+
+### Added
+- Github Action - Work In Progress
+- IE - disable legacy jscript engine
+
+### Changed
+- defaults: harden flash off - to remove as Flash EOL
+- github action: lint as separated workflow
+- appveyor: update ansible pypi to 2.10.7/2.9.19/3.1.0, enforce cryptography 3.3.2 (no rust)
+- repository: lint
+- s/travis-ci.org/travis-ci.com/
 
 ## [1.2.0] - 2020-07-19
 
