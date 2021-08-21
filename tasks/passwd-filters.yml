@@ -90,19 +90,19 @@
     findstr REG_MULTI_SZ
   changed_when: false
   register: reg1
-- name: Set NotifPackages
+- name: Set notification_packages
   set_fact:
-    NotifPackages: >
+    notification_packages: >
       "{{ reg1.stdout | regex_replace('^\\s+Notification Packages\\s+REG_MULTI_SZ\\s+(.*)\\r\\n$', '\\1') }}"
 - name: Debug | reg1 output
   debug: var=reg1.stdout_lines
-- name: Debug | NotifPackages
-  debug: var=NotifPackages
+- name: Debug | notification_packages
+  debug: var=notification_packages
 
 - name: Enable Password filters
   win_regedit:
     key: HKLM:\SYSTEM\CurrentControlSet\Control\Lsa
     value: Notification Packages
     datatype: multistring
-    data: "{{ NotifPackages }}\\0OpenPasswordFilter"
-  when: not "'OpenPasswordFilter' in NotifPackages"
+    data: "{{ notification_packages }}\\0OpenPasswordFilter"
+  when: not "'OpenPasswordFilter' in notification_packages"

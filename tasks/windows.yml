@@ -63,6 +63,7 @@
     groups:
       - Users
   when: harden_win_testing
+  no_log: true
 
 ## [WARNING]: Module invocation had junk after the JSON data:
 - name: Install all security/critical updates
