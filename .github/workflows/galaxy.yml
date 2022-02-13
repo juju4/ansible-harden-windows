@@ -1,0 +1,27 @@
+---
+name: Ansible Galaxy release
+
+on:
+  release:
+    types: [created, edited, published, released]
+  push:
+    tags:
+      - '*'
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@v2
+        with:
+          path: juju4.harden_windows
+  release:
+    runs-on: ubuntu-latest
+    needs:
+      - build
+    steps:
+      - name: galaxy
+        uses: robertdebock/galaxy-action@1.1.1
+        with:
+          galaxy_api_key: ${{ secrets.galaxy_api_key }}
+          path: juju4.harden_windows
