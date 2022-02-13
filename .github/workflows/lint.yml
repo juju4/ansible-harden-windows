@@ -29,7 +29,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
         with:
-          path: juju4.harden-windows
+          path: juju4.harden_windows
       - uses: Vampire/setup-wsl@v1
         with:
           distribution: Ubuntu-20.04
@@ -58,12 +58,12 @@ jobs:
           ls /mnt
       - name: Install play dependencies
         run: |
-          cd juju4.harden-windows
+          cd juju4.harden_windows
           # [ -f get-dependencies.sh ] && sh -x get-dependencies.sh
           { echo '[defaults]'; echo 'callbacks_enabled = profile_tasks, timer'; echo 'roles_path = ../'; echo 'ansible_python_interpreter: /usr/bin/python3'; } >> ansible.cfg
       - name: yamllint
         run: |
-          cd juju4.harden-windows && yamllint .
+          cd juju4.harden_windows && yamllint .
       - name: ansible-lint
         run: |
-          cd juju4.harden-windows && ansible-lint
+          cd juju4.harden_windows && ansible-lint

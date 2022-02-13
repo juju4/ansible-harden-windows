@@ -29,7 +29,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
         with:
-          path: juju4.harden-windows
+          path: juju4.harden_windows
       - name: Setup Winrm
         run: |
           $ErrorActionPreference = 'SilentlyContinue'
@@ -43,7 +43,7 @@ jobs:
           New-WinrmUserCertificateMapping $env:user_cert_thumb
           Write-Host $env:PATH
           ($pwd).path
-          echo "localhost ansible_user=$env:winrm_user ansible_password=$env:winrm_password ansible_connection=winrm ansible_winrm_server_cert_validation=ignore" | Out-File -FilePath juju4.harden-windows\inventory
+          echo "localhost ansible_user=$env:winrm_user ansible_password=$env:winrm_password ansible_connection=winrm ansible_winrm_server_cert_validation=ignore" | Out-File -FilePath juju4.harden_windows\inventory
           Get-ChildItem -Path c:\
         shell: pwsh
       - name: Check winrm config
@@ -86,7 +86,7 @@ jobs:
           pip3 install pywinrm
           pip3 install ansible-lint flake8 yamllint ansible
           ansible --version
-          cat juju4.harden-windows/inventory
+          cat juju4.harden_windows/inventory
       - name: Environment
         run: |
           uname -a
@@ -98,34 +98,34 @@ jobs:
       - name: Install play dependencies
         run: |
           mkdir -p /etc/ansible/roles
-          cp -R /mnt/d/a/ansible-harden-windows/ansible-harden-windows/juju4.harden-windows /etc/ansible/roles/juju4.harden-windows
-          cd juju4.harden-windows
+          cp -R /mnt/d/a/ansible-harden-windows/ansible-harden-windows/juju4.harden_windows /etc/ansible/roles/juju4.harden_windows
+          cd juju4.harden_windows
           # [ -f get-dependencies.sh ] && sh -x get-dependencies.sh
           { echo '[defaults]'; echo 'callbacks_enabled = profile_tasks, timer'; echo 'roles_path = ../'; echo 'ansible_python_interpreter: /usr/bin/python3'; } >> ansible.cfg
           cat ansible.cfg
       - name: Ansible win_ping
         run: |
-          cd juju4.harden-windows
+          cd juju4.harden_windows
           ansible -i inventory -m win_ping -vvv localhost
         continue-on-error: true
       - name: Set inventory for winrm http
         run: |
-          echo "localhost ansible_user=$env:winrm_user ansible_password=$env:winrm_password ansible_connection=winrm ansible_winrm_scheme=http" | Out-File -FilePath juju4.harden-windows\inventory
+          echo "localhost ansible_user=$env:winrm_user ansible_password=$env:winrm_password ansible_connection=winrm ansible_winrm_scheme=http" | Out-File -FilePath juju4.harden_windows\inventory
           Set-Item -Path WSMan:\localhost\Service\AllowUnencrypted -Value $true
         shell: pwsh
       - name: Ansible win_ping http
         run: |
-          cd juju4.harden-windows
+          cd juju4.harden_windows
           ansible -i inventory -m win_ping -vvv localhost
       - name: run test
         run: |
-          cd juju4.harden-windows && ansible-playbook -i inventory -vvv test/integration/default/default.yml
+          cd juju4.harden_windows && ansible-playbook -i inventory -vvv test/integration/default/default.yml
         env:
           PY_COLORS: '1'
           ANSIBLE_FORCE_COLOR: '1'
       - name: idempotency run
         run: |
-          cd juju4.harden-windows && ansible-playbook -i inventory -vvv test/integration/default/default.yml | tee /tmp/idempotency.log | grep -q 'changed=0.*failed=0'  && (echo 'Idempotence test: pass' && exit 0)  || (echo 'Idempotence test: fail' && cat /tmp/idempotency.log && exit 0)
+          cd juju4.harden_windows && ansible-playbook -i inventory -vvv test/integration/default/default.yml | tee /tmp/idempotency.log | grep -q 'changed=0.*failed=0'  && (echo 'Idempotence test: pass' && exit 0)  || (echo 'Idempotence test: fail' && cat /tmp/idempotency.log && exit 0)
         continue-on-error: true
       - name: After script
         run: |

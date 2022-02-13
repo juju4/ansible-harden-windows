@@ -18,6 +18,7 @@ rolesdir="$(dirname $0)/.."
 [ ! -d $rolesdir/juju4.win-atomic-red-team ] && git clone https://github.com/juju4/ansible-win-atomic-red-team $rolesdir/juju4.win-atomic-red-team
 [ ! -d $rolesdir/juju4.win-osquery ] && git clone https://github.com/juju4/ansible-win-osquery $rolesdir/juju4.win-osquery
 [ ! -d $rolesdir/juju4.win-ad-monitor ] && git clone https://github.com/juju4/ansible-win-ad-monitor $rolesdir/juju4.win-ad-monitor
+[ ! -d $rolesdir/juju4.harden_windows ] && git clone https://github.com/juju4/ansible-harden-windows $rolesdir/juju4.harden_windows
 
 ## don't stop build on this script return code
 true
