@@ -70,7 +70,7 @@
     - juju4.win-services
     - juju4.win-sysmon
     - juju4.win-osquery
-    - juju4.harden-windows
+    - juju4.harden_windows
     # - juju4.win-ad-monitor
     # - juju4.win-aptsimulator
     # - juju4.win-atomic-red-team

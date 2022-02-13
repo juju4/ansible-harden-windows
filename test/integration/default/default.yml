@@ -60,4 +60,4 @@
     # - harden_win_testing_mimikatz: false
     # - harden_win_testing_detections: false
   roles:
-    - juju4.harden-windows
+    - juju4.harden_windows
