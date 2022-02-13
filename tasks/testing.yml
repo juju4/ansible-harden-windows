@@ -54,29 +54,29 @@
 #       select Thumbprint, FriendlyName, Subject | ConvertTo-Html |
 #       Set-Content c:\users\public\desktop\certificates.html
 
-- include: testing-defender.yml
+- import_tasks: testing-defender.yml
   when: harden_win_testing_defender|bool
 
-- include: testing-uac.yml
+- import_tasks: testing-uac.yml
   when: harden_win_testing_uac|bool
 
-- include: testing-opf.yml
+- import_tasks: testing-opf.yml
   when: harden_win_testing_opf|bool
 
-- include: testing-speculative.yml
+- import_tasks: testing-speculative.yml
   when: harden_win_testing_speculative|bool
 
-- include: testing-intelme.yml
+- import_tasks: testing-intelme.yml
   when: harden_win_testing_intelme|bool
 
-- include: testing-iad.yml
+- import_tasks: testing-iad.yml
   when: harden_win_testing_iad|bool
 
-- include: testing-densityscout.yml
+- import_tasks: testing-densityscout.yml
   when: harden_win_testing_densityscout|bool
 
 # keep last. if defender catches it, may need to restart to complete cleaning/have ansible working again
-- include: testing-mimikatz.yml
+- import_tasks: testing-mimikatz.yml
   when: harden_win_testing_mimikatz|bool
 
 # - name: Remove user _test

@@ -135,24 +135,24 @@
   with_items: "{{ harden_win_remove_filelist }}"
 
 ## win_regedit: New in ansible version 2.0
-- include: windows-registry.yml
+- import_tasks: windows-registry.yml
   when: harden_win_registry is defined and harden_win_registry
   tags:
     - registry
 
-- include: windows-ie.yml
-- include: windows-smb.yml
-- include: windows-wmi.yml
-- include: windows-online.yml
-- include: windows-ipv6.yml
-- include: windows-rdp.yml
+- import_tasks: windows-ie.yml
+- import_tasks: windows-smb.yml
+- import_tasks: windows-wmi.yml
+- import_tasks: windows-online.yml
+- import_tasks: windows-ipv6.yml
+- import_tasks: windows-rdp.yml
 
-- include: windows-emet.yml
+- import_tasks: windows-emet.yml
   when: harden_win_emet_conf|string
 
-- include: adobereader.yml
+- import_tasks: adobereader.yml
   when: harden_win_adobereader is defined and harden_win_adobereader
-- include: windows-flash.yml
+- import_tasks: windows-flash.yml
   when: harden_win_flash is defined and harden_win_flash
 
 ## PECaptureSvc, https://isc.sans.edu/forums/diary/Hunting+for+Executable+Code+in+Windows+Environments/20745/
@@ -163,92 +163,92 @@
 ## https://blog.brankovucinec.com/2014/10/24/use-software-restriction-policies-to-block-viruses-and-malware/
 ##      = SRP lock on %APPDATA%
 
-- include: windows-adminshares.yml
+- import_tasks: windows-adminshares.yml
   when: harden_win_disable_adminshares|bool
 
-- include: windows-local-gpo.yml
+- import_tasks: windows-local-gpo.yml
   when: harden_win_gpo_local is defined and harden_win_gpo_local|bool
 
-- include: windows-nxlog.yml
+- import_tasks: windows-nxlog.yml
   when: harden_win_remotelogging is defined and harden_win_remotelogging|bool
 
-- include: windows-vss.yml
+- import_tasks: windows-vss.yml
   when: harden_win_vss is defined and harden_win_vss
 
-- include: windows-wmi-monitor.yml
+- import_tasks: windows-wmi-monitor.yml
   when: harden_win_wmi_monitor is defined and harden_win_wmi_monitor|bool
 
-- include: windows-netcease.yml
+- import_tasks: windows-netcease.yml
   when: harden_win_netcease is defined and harden_win_netcease|bool
 
-- include: windows-dnscrypt.yml
+- import_tasks: windows-dnscrypt.yml
   when: harden_win_simplednscrypt|bool
 
-- include: windows-error-reporting.yml
+- import_tasks: windows-error-reporting.yml
   when: harden_win_configure_errorreporting|bool
 
-- include: mbrfilter.yml
+- import_tasks: mbrfilter.yml
   when: harden_win_mbrfilter|bool
 
-- include: windows-usb.yml
+- import_tasks: windows-usb.yml
   when: harden_win_restrict_usb|bool
 
-- include: windows10.yml
+- import_tasks: windows10.yml
   when: harden_windows_disable_win10cortana|bool and ansible_distribution_major_version|int >= 10
-- include: windows-cortana.yml
+- import_tasks: windows-cortana.yml
   when: harden_windows_disable_win10cortana|bool and ansible_distribution_major_version|int >= 10
 
-- include: windows-dma.yml
+- import_tasks: windows-dma.yml
   when: harden_win_restrict_dma|bool
 
-- include: windows-certificates.yml
+- import_tasks: windows-certificates.yml
   when: harden_win_certificates_review|bool
 
-- include: windows-disallowrun.yml
+- import_tasks: windows-disallowrun.yml
   when: harden_win_disallowrun|bool
 
-- include: windows-feature.yml
+- import_tasks: windows-feature.yml
 
-- include: windows-paging.yml
+- import_tasks: windows-paging.yml
   when: harden_win_paging|bool
 
-- include: windows-sticky-keys.yml
+- import_tasks: windows-sticky-keys.yml
   when: harden_win_stickykeys_disable|bool
 
-- include: windows-laps.yml
+- import_tasks: windows-laps.yml
   when: harden_win_laps_enable|bool
 
-- include: windows-wef.yml
+- import_tasks: windows-wef.yml
   when: harden_win_wef_enable|bool
 
-- include: passwd-filters.yml
+- import_tasks: passwd-filters.yml
   when: harden_win_passwd_filters|bool
 
-- include: windows-acl.yml
+- import_tasks: windows-acl.yml
   when: not (ansible_env is defined and ansible_env.APPVEYOR is defined and ansible_env.APPVEYOR) and harden_win_acl|bool
 
-- include: windows-samri.yml
+- import_tasks: windows-samri.yml
   when: harden_win_samri|bool
 
-- include: windows-deviceguard.yml
+- import_tasks: windows-deviceguard.yml
   when: harden_win_deviceguard|bool
 
-- include: windows-taskmanager.yml
+- import_tasks: windows-taskmanager.yml
   when: harden_win_disable_taskmanager|bool
 
-- include: windows-defender.yml
+- import_tasks: windows-defender.yml
   when: harden_win_defender|bool
 
-- include: forcing-afterhours-user-logoffs.yml
+- import_tasks: forcing-afterhours-user-logoffs.yml
   when: harden_win_forcing_afterhours_logoff|bool
 
-- include: extras.yml
+- import_tasks: extras.yml
 
-- include: palantir-AutorunsToWinEventLog.yml
+- import_tasks: palantir-AutorunsToWinEventLog.yml
   when: harden_win_palantir_AutorunsToWinEventLog|bool
 
-- include: dc-krgtbt-reset.yml
+- import_tasks: dc-krgtbt-reset.yml
   when: harden_win_Is_DC|bool
 
 # last to allow creation of scheduled tasks before
-- include: windows-taskscheduler.yml
+- import_tasks: windows-taskscheduler.yml

@@ -30,4 +30,4 @@
     data: "{{ harden_win_rdp_encryptionlevel }}"
     datatype: dword
 
-- include: windows-rdp-restricted.yml
+- import_tasks: windows-rdp-restricted.yml

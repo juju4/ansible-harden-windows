@@ -52,7 +52,7 @@
     data: 0
     datatype: dword
 
-- include: wpad-disable.yml
+- import_tasks: wpad-disable.yml
   when: harden_windows_disable_wpad is defined and harden_windows_disable_wpad
 
 - name: Win7/KB2871997 | trigger the clearing of any credentials of logged off users after 30 seconds
@@ -70,7 +70,7 @@
     datatype: dword
     data: 1
 
-- include: windows-mimikatz.yml
+- import_tasks: windows-mimikatz.yml
   when: harden_win_mimikatz_mitigations
 
 ## https://technet.microsoft.com/en-us/library/cc960646.aspx
@@ -633,13 +633,13 @@
     datatype: dword
     data: "{{ hardenwindows_amsi_featurebits | default('0x2') }}"
 
-- include: dc-ldap-signing.yml
+- import_tasks: dc-ldap-signing.yml
 
-- include: windows-wsh.yml
+- import_tasks: windows-wsh.yml
 
-- include: windows-wsus.yml
+- import_tasks: windows-wsus.yml
   when: harden_win_wsus_enable
 
 # current user
-- include: windows-registry-hkcu.yml
+- import_tasks: windows-registry-hkcu.yml
   when: harden_win_registry_hkcu_ansible_user

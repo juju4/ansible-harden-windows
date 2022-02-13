@@ -1,7 +1,7 @@
 ---
 
 ## Win server 2k8+
-# - include: windows-filescreening.yml
+# - import_tasks: windows-filescreening.yml
 
 ## https://docs.microsoft.com/en-us/windows/threat-protection/block-untrusted-fonts-in-enterprise
 ## Application and Service Logs/Microsoft/Windows/Win32k/Operational. Review Event ID 260
@@ -75,5 +75,5 @@
         t: dword
     }
 
-- include: tasks/process-mitigation.yml
+- import_tasks: tasks/process-mitigation.yml
   when: harden_win_exploitmitigation
