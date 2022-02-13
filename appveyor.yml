@@ -19,7 +19,7 @@ environment:
 
   matrix:
     - SUITE: default
-      ANSIBLE_VERSION: 4.3.0
+      ANSIBLE_VERSION: 5.3.0
       ANSIBLE_EXTRA_VARS:
       TARGET: cygwin64
       CYG_ROOT: C:\cygwin64
@@ -27,7 +27,7 @@ environment:
       CYG_CACHE: C:\cygwin64\var\cache\setup
       CYG_BASH: C:\cygwin64\bin\sh
     - SUITE: default
-      ANSIBLE_VERSION: 3.4.0
+      ANSIBLE_VERSION: 4.10.0
       ANSIBLE_EXTRA_VARS:
       TARGET: cygwin64
       CYG_ROOT: C:\cygwin64
@@ -35,7 +35,7 @@ environment:
       CYG_CACHE: C:\cygwin64\var\cache\setup
       CYG_BASH: C:\cygwin64\bin\sh
     - SUITE: default-HEAD
-      ANSIBLE_VERSION: 4.3.0
+      ANSIBLE_VERSION: 5.3.0
       ANSIBLE_EXTRA_VARS:
       TARGET: cygwin64
       CYG_ROOT: C:\cygwin64
@@ -43,7 +43,7 @@ environment:
       CYG_CACHE: C:\cygwin64\var\cache\setup
       CYG_BASH: C:\cygwin64\bin\sh
     - SUITE: full
-      ANSIBLE_VERSION: 3.4.0
+      ANSIBLE_VERSION: 5.3.0
       ANSIBLE_EXTRA_VARS:
       TARGET: cygwin64
       CYG_ROOT: C:\cygwin64
