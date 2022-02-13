@@ -147,9 +147,6 @@
 - import_tasks: windows-ipv6.yml
 - import_tasks: windows-rdp.yml
 
-- import_tasks: windows-emet.yml
-  when: harden_win_emet_conf|string
-
 - import_tasks: adobereader.yml
   when: harden_win_adobereader is defined and harden_win_adobereader
 - import_tasks: windows-flash.yml

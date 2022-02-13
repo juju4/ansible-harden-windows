@@ -61,11 +61,6 @@ harden_win_inf_SeDenyRemoteInteractiveLogonRight_list: ['Guests']
 
 ## Note: this one corrupts win10 eval currently...
 harden_win_lsa_harden: false
-## win7
-# harden_win_emet_path: 'c:\Program Files (x86)\EMET 5.5'
-## win10
-harden_win_emet_path: 'c:\Program Files\EMET 5.5'
-harden_win_emet_conf: "{{ harden_win_emet_path }}\\Deployment\\Protection Profiles\\Recommended Software.xml"
 harden_win_vss: true
 harden_win_wmi_monitor: true
 harden_win_flash: false
@@ -168,8 +163,6 @@ harden_win_chocolateypkgs:
   # http://windows.microsoft.com/en-us/windows/security-essentials-all-versions
   ## FAIL since 4m: https://gist.github.com/choco-bot/85701f4e87e16efed5be
   # - microsoftsecurityessentials
-  ## v5.5.2, oct 2016
-  - emet
   ## v5.0, oct 2016
   - powershell
   ## for test

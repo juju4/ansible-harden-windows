@@ -26,10 +26,6 @@ describe file('c:/windows') do
   it { should_not be_writable.by('Everyone') }
 end
 
-describe package('EMET') do
-  it { should be_installed}
-end
-
 describe port(139) do
   it { should be_listening }
 end
