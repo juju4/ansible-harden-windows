@@ -19,7 +19,7 @@ jobs:
       fail-fast: false
       max-parallel: 4
     env:
-      ANSIBLE_CALLBACK_WHITELIST: profile_tasks
+      ANSIBLE_CALLBACKS_ENABLED: profile_tasks
       winrm_user: winrm_test_user
       winrm_password: WinRM_test_Pass@w0rd1
       user_cert: c:\ansible-harden-windows\user.pem
@@ -101,7 +101,7 @@ jobs:
           cp -R /mnt/d/a/ansible-harden-windows/ansible-harden-windows/juju4.harden-windows /etc/ansible/roles/juju4.harden-windows
           cd juju4.harden-windows
           # [ -f get-dependencies.sh ] && sh -x get-dependencies.sh
-          { echo '[defaults]'; echo 'callback_whitelist = profile_tasks, timer'; echo 'roles_path = ../'; echo 'ansible_python_interpreter: /usr/bin/python3'; } >> ansible.cfg
+          { echo '[defaults]'; echo 'callbacks_enabled = profile_tasks, timer'; echo 'roles_path = ../'; echo 'ansible_python_interpreter: /usr/bin/python3'; } >> ansible.cfg
           cat ansible.cfg
       - name: Ansible win_ping
         run: |
