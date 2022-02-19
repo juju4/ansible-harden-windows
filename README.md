@@ -1,5 +1,5 @@
-[![Appveyor - Master](https://ci.appveyor.com/api/projects/status/kkr0w77mu5rrm014?svg=true)](https://ci.appveyor.com/project/juju4/ansible-harden-windows)
-![Appveyor - Devel](https://ci.appveyor.com/api/projects/status/kkr0w77mu5rrm014/branch/devel?svg=true)
+[![Appveyor - Master](https://ci.appveyor.com/api/projects/status/kkr0w77mu5rrm014/branch/master?svg=true)](https://ci.appveyor.com/project/juju4/ansible-harden-windows/branch/master)
+[![Appveyor - Devel](https://ci.appveyor.com/api/projects/status/kkr0w77mu5rrm014/branch/devel?svg=true)](https://ci.appveyor.com/project/juju4/ansible-harden-windows/branch/devel)
 
 # Windows harden ansible role
 
