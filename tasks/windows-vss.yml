@@ -14,7 +14,7 @@
       register: vssstor
       failed_when: false
     - name: Debug | vssstor output
-      debug: var=vssstor
+      ansible.builtin.debug: var=vssstor
 
     ## https://technet.microsoft.com/en-us/library/cc788051(v=ws.11).aspx
     ##  but return 'invalid command' in some cases??? only on server?
