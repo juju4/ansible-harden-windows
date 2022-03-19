@@ -25,5 +25,5 @@
   changed_when: false
 
 - name: Debug | intel output
-  debug: var=intel.stdout_lines
+  ansible.builtin.debug: var=intel.stdout_lines
   when: intel is defined and "'This system is vulnerable' in intel.stdout"

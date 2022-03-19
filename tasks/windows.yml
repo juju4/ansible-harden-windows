@@ -119,13 +119,13 @@
 #     - "{{ harden_win_log_dir }}"
 
 - name: check ipv4 interface status
-  raw: "netsh interface ipv4 show global | findstr MLD | findstr Level"
+  ansible.builtin.raw: "netsh interface ipv4 show global | findstr MLD | findstr Level"
   register: ipv4if
   changed_when: false
   failed_when: false
 
 - name: Disable IGMP on ipv4 interface
-  raw: "Netsh interface ipv4 set global mldlevel=none"
+  ansible.builtin.raw: "Netsh interface ipv4 set global mldlevel=none"
   when: not ("none" in ipv4if.stdout)
 
 - name: Remove files

@@ -22,7 +22,7 @@
     - "{{ harden_win_temp_dir }}\\New-KrbtgtKeys-2.ps1"
 
 - name: DC krgtbt | review reset script
-  replace:
+  ansible.builtin.replace:
     dest: "{{ harden_win_temp_dir }}\\New-KrbtgtKeys-{{ item }}.ps1"
     regexp: '^\$modeOfOperationNr = Read-Host'
     replace: '$modeOfOperationNr = {{ item }}'

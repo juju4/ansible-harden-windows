@@ -25,4 +25,4 @@
         {{ harden_win_temp_dir }}\\mbrfilter\\64\\mbrfilter.sys
 
 - name: WARNING
-  debug: msg="WARNING! Talos Mbrfilter - You will need to reboot for driver to be effective."
+  ansible.builtin.debug: msg="WARNING! Talos Mbrfilter - You will need to reboot for driver to be effective."

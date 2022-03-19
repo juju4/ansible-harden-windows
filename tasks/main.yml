@@ -1,12 +1,12 @@
 ---
 
 - name: Appveyor environment variables
-  include_vars: appveyor.yml
+  ansible.builtin.include_vars: appveyor.yml
   when: >
     (ansible_env is defined and ansible_env.APPVEYOR is defined and ansible_env.APPVEYOR) or
     (ansible_user is defined and ansible_user == 'winrm_test_user')
 - name: Vagrant environment variables
-  include_vars: vagrant.yml
+  ansible.builtin.include_vars: vagrant.yml
   when: ansible_user == 'vagrant'
 
 - name: Windows | Harden

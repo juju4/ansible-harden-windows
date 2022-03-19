@@ -18,4 +18,4 @@
   ignore_errors: true
 
 - name: Debug | wmiout
-  debug: var=wmiout
+  ansible.builtin.debug: var=wmiout

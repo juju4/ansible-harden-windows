@@ -27,4 +27,4 @@
   win_shell: "\"{{ harden_win_temp_dir }}\\Remove-TrustedRootCA.ps1\""
   register: removetrusted
 - name: Debug | removetrusted
-  debug: var=removetrusted
+  ansible.builtin.debug: var=removetrusted

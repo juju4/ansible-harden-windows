@@ -60,11 +60,11 @@
 
 # pip module under windows?
 - name: testing | install pypykatz
-  pip:
+  ansible.builtin.pip:
     name: pypykatz
     state: present
   failed_when: false
 
 - name: testing | run pypykatz
-  command: "pypykatz live lsa"  # noqa no-changed-when
+  ansible.builtin.command: "pypykatz live lsa"  # noqa no-changed-when
   failed_when: false

@@ -134,7 +134,7 @@
         action: set
 
     - name: Update SeNetworkLogonRight users list if testing
-      set_fact:  # noqa var-naming
+      ansible.builtin.set_fact:  # noqa var-naming
         harden_win_inf_SeNetworkLogonRight_list: "{{ harden_win_inf_SeNetworkLogonRight_list }} + [ '_test' ]"
       when: harden_win_testing
     - name: Set account to log on using the network logon type

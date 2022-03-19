@@ -7,7 +7,7 @@
       changed_when: false
       register: vssvol
     - name: Debug | vssvol output
-      debug: var=vssvol
+      ansible.builtin.debug: var=vssvol
     - name: list state of shadowstorage
       win_command: "vssadmin.exe list shadowstorage"
       changed_when: false

@@ -20,7 +20,7 @@
   register: speculation
 
 - name: Debug | speculation
-  debug: var=speculation
+  ansible.builtin.debug: var=speculation
 
 - name: untrust PSGallery repository
   win_shell: Set-PSRepository -Name PSGallery -InstallationPolicy Untrusted
@@ -42,4 +42,4 @@
   poll: 5
 
 - name: Debug | specucheck output
-  debug: var=specucheck.stdout_lines
+  ansible.builtin.debug: var=specucheck.stdout_lines

@@ -22,4 +22,4 @@
   register: dism
   failed_when: "'The operation completed successfully' not in dism.stdout"
 - name: Debug | dism output
-  debug: var=dism
+  ansible.builtin.debug: var=dism
