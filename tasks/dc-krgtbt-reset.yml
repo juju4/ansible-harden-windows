@@ -2,34 +2,30 @@
 
 # Schedule each month: Information mode on 1st day, simulation on 2nd day, reset mode on 3rd, second reset on 4th
 
+# https://github.com/microsoft/New-KrbtgtKeys.ps1
 # No checksums options
 - name: DC krgtbt | download reset script
   win_get_url:
-    url: "https://gallery.technet.microsoft.com/Reset-the-krbtgt-account-581a9e51/file/142338/1/New-CtmADKrbtgtKeys.zip"
-    dest: "{{ harden_win_temp_dir }}\\New-CtmADKrbtgtKeys.zip"
+    url: "https://raw.githubusercontent.com/microsoft/New-KrbtgtKeys.ps1/master/New-KrbtgtKeys.ps1"
+    dest: "{{ harden_win_temp_dir }}\\New-KrbtgtKeys.ps1"
   register: dl_result
   until: dl_result is success
-
-- name: DC krgtbt | unarchive reset script
-  win_unzip:
-    src: "{{ harden_win_temp_dir }}\\New-CtmADKrbtgtKeys.zip"
-    dest: "{{ harden_win_temp_dir }}\\New-CtmADKrbtgtKeys"
 
 # upstream script is interactive
 
 - name: DC krgtbt | duplicate reset script to be non-interactive
   win_copy:
-    src: "{{ harden_win_temp_dir }}\\New-CtmADKrbtgtKeys\\New-CtmADKrbtgtKeys.ps1"
+    src: "{{ harden_win_temp_dir }}\\New-KrbtgtKeys.ps1"
     dest: "{{ item }}"
   with_items:
-    - "{{ harden_win_temp_dir }}\\New-CtmADKrbtgtKeys\\New-CtmADKrbtgtKeys-1.ps1"
-    - "{{ harden_win_temp_dir }}\\New-CtmADKrbtgtKeys\\New-CtmADKrbtgtKeys-2.ps1"
+    - "{{ harden_win_temp_dir }}\\New-KrbtgtKeys-1.ps1"
+    - "{{ harden_win_temp_dir }}\\New-KrbtgtKeys-2.ps1"
 
 - name: DC krgtbt | review reset script
   replace:
-    dest: "{{ harden_win_temp_dir }}\\New-CtmADKrbtgtKeys\\New-CtmADKrbtgtKeys-{{ item }}.ps1"
-    regexp: '-Value \(Read-Host \$MenuPrompt\)$'
-    replace: '-Value {{ item }}'
+    dest: "{{ harden_win_temp_dir }}\\New-KrbtgtKeys-{{ item }}.ps1"
+    regexp: '^\$modeOfOperationNr = Read-Host'
+    replace: '$modeOfOperationNr = {{ item }}'
   with_items:
     - 1
     - 2
@@ -42,7 +38,7 @@
       - path: C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe
         arguments: >
           -ExecutionPolicy Unrestricted -NonInteractive
-          -File {{ harden_win_log_dir }}\\New-CtmADKrbtgtKeys\\New-CtmADKrbtgtKeys-1.ps1
+          -File {{ harden_win_log_dir }}\\New-KrbtgtKeys-1.ps1
           >{{ harden_win_log_dir }}\\reset-krgtbt-1.log
     triggers:
       - type: weekly
@@ -59,7 +55,7 @@
       - path: C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe
         arguments: >
           -ExecutionPolicy Unrestricted -NonInteractive
-          -File {{ harden_win_log_dir }}\\New-CtmADKrbtgtKeys\\New-CtmADKrbtgtKeys-2.ps1
+          -File {{ harden_win_log_dir }}\\New-KrbtgtKeys-2.ps1
             >{{ harden_win_log_dir }}\\reset-krgtbt-2.log
     triggers:
       - type: weekly
