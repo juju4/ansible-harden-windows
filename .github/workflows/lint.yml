@@ -4,38 +4,22 @@ name: lint
 on:
   push:
   pull_request:
-  schedule:  # run weekly, every Tuesday 04:00
-    - cron: '0 4 * * 2'
-
-defaults:
-  run:
-    shell: wsl-bash {0}
 
 jobs:
   build:
 
-    runs-on: windows-2019
+    runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       max-parallel: 4
     env:
       ANSIBLE_CALLBACKS_ENABLED: profile_tasks
-      winrm_user: winrm_test_user
-      winrm_password: WinRM_test_Pass@w0rd1
-      user_cert: c:\ansible-harden-windows\user.pem
-      user_key: c:\ansible-harden-windows\key.pem
-      user_pfx: c:\ansible-harden-windows\user.pfx
+      ANSIBLE_EXTRA_VARS: ""
 
     steps:
       - uses: actions/checkout@v2
         with:
           path: juju4.harden_windows
-      - uses: Vampire/setup-wsl@v1
-        with:
-          distribution: Ubuntu-20.04
-          additional-packages:
-            python3
-            python3-pip
       - name: Set up Python
         uses: actions/setup-python@v2
         with:
@@ -60,7 +44,8 @@ jobs:
         run: |
           cd juju4.harden_windows
           # [ -f get-dependencies.sh ] && sh -x get-dependencies.sh
-          { echo '[defaults]'; echo 'callbacks_enabled = profile_tasks, timer'; echo 'roles_path = ../'; echo 'ansible_python_interpreter: /usr/bin/python3'; } >> ansible.cfg
+          [ -f molecule/default/requirements.yml ] && ansible-galaxy install -r molecule/default/requirements.yml
+          { echo '[defaults]'; echo 'callbacks_enabled = profile_tasks, timer'; echo 'roles_path = ../:/home/runner/.ansible/roles'; echo 'ansible_python_interpreter: /usr/bin/python3'; } >> ansible.cfg
       - name: yamllint
         run: |
           cd juju4.harden_windows && yamllint .
