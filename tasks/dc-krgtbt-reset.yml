@@ -17,6 +17,7 @@
   win_copy:
     src: "{{ harden_win_temp_dir }}\\New-KrbtgtKeys.ps1"
     dest: "{{ item }}"
+    remote_src: yes
   with_items:
     - "{{ harden_win_temp_dir }}\\New-KrbtgtKeys-1.ps1"
     - "{{ harden_win_temp_dir }}\\New-KrbtgtKeys-2.ps1"
