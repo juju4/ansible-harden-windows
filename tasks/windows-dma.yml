@@ -9,7 +9,8 @@
 #     ansible_distribution_version.split('.')[0]|int >= 6 and
 #     ansible_distribution_version.split('.')[0]|int < 10
 
-- block:
+- name: Win10
+  block:
     ## "This mitigation only protects PCI-based buses, for example, ExpressCard, Thunderbolt, & some
     ##  docking stations (PCIe based).  Older, non-PCI busses such as 1394 and CardBus are still vulnerable."
     - name: Disable DMA

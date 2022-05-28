@@ -7,7 +7,8 @@
 
 ## Windows Server 2003, Windows Server 2003 R2, Windows Server 2003 with SP1, Windows Server 2003 with SP2
 ## https://technet.microsoft.com/en-ca/library/cc776625%28v=ws.10%29.aspx
-- block:
+- name: secedit
+  block:
     - name: load gpo configuration locally - secedit
       win_command: >
         secedit /configure /cfg {{ harden_win_temp_dir }}\{{ harden_win_gpo_inf | regex_replace('.j2$', '') }}
@@ -25,14 +26,16 @@
       failed_when: false
   when: harden_win_gpo_action == 'secedit'
 
-- block:
+- name: powershell
+  block:
     # https://blogs.msdn.microsoft.com/powershell/2016/05/20/new-group-policy-cmdlets-for-nano-server/
     - name: load gpo configuration locally - Restore-SecurityPolicy
       win_shell: >
         Restore-SecurityPolicy -Path "{{ harden_win_temp_dir }}\{{ harden_win_gpo_inf | regex_replace('.j2$', '') }}"
   when: harden_win_gpo_action == 'ps'
 
-- block:
+- name: DSC
+  block:
     # https://blogs.msdn.microsoft.com/powershell/2017/02/21/managing-security-settings-on-nano-server-with-dsc/
     # https://docs.ansible.com/ansible/latest/modules/win_dsc_module.html   2.4+
     # FIXME! 'Resource SecurityPolicyDSC not found' but in appveyor, loaded by win-powershell without error
@@ -45,7 +48,8 @@
         IsSingleInstance: "Yes"
   when: harden_win_gpo_action == 'dsc'
 
-- block:
+- name: security policy
+  block:
     # https://docs.ansible.com/ansible/devel/modules/win_security_policy_module.html
     - name: Disable Guest account
       win_security_policy:

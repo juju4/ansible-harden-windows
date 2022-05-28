@@ -1,6 +1,7 @@
 ---
 
-- block:
+- name: Inspec
+  block:
     - name: testing | Ensure inspec is present
       win_chocolatey:
         name: inspec

@@ -5,7 +5,7 @@ exclude_paths:
   - .kitchen*
   - test/inspec/
   - appveyor.yml
+warn_list:
+  - load-failure
 skip_list:
-  - '106'  # Role name {} does not match ``^[a-z][a-z0-9_]+$`` pattern'
-  - '204'  # Lines should be no longer than 160 chars'
   - var-naming

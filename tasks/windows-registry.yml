@@ -15,7 +15,8 @@
   register: nbtstate
   changed_when: false
   failed_when: false
-- block:
+- name: NBT-NS
+  block:
     - name: Disable Windows Netbios Name Service (NBT-NS)
       # win_regedit:
       #   key: HKLM:\SYSTEM\CurrentControlSet\services\NetBT\Parameters\Interfaces\xxxGUIDxxx
