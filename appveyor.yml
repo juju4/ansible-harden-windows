@@ -83,12 +83,11 @@ install:
       (New-Object Net.WebClient).DownloadFile('https://cygwin.com/setup-x86.exe', $exePath)
   # install cygwin
   - cmd: |
-     "C:\cygwin\setup-x86.exe" -qnNdO -R C:/cygwin -s http://cygwin.mirror.constant.com -l C:/cygwin/var/cache/setup -P mingw64-i686-gcc-g++ -P mingw64-x86_64-gcc-g++ -P gcc-g++ -P autoconf -P automake -P bison -P libtool -P make -P python2 -P python -P python38 -P gettext-devel -P intltool -P libiconv -P pkg-config -P wget -P curl
+     "C:\cygwin\setup-x86.exe" -qnNdO -R C:/cygwin -s http://cygwin.mirror.constant.com -l C:/cygwin/var/cache/setup -P mingw64-i686-gcc-g++ -P mingw64-x86_64-gcc-g++ -P gcc-g++ -P autoconf -P automake -P bison -P libtool -P make -P python2 -P python -P python38 -P gettext-devel -P intltool -P libiconv -P pkg-config -P wget -P curl -P libssl-devel -P python3-devel -P python-jinja -P python-crypto -P python-openssl -P python-setuptools -P git -P libffi-devel -P libcrypt-devel -P openssl-devel -P python38-cryptography"
       C:\Cygwin\bin\bash -lc true
       C:\cygwin\bin\cygcheck -c | C:\cygwin\bin\grep cygwin
       C:\cygwin\bin\gcc --version
   # setup ansible
-  - cmd: "%CYG_SETUP% -qgnNdO -l %CYG_CACHE% -R %CYG_ROOT% -s http://cygwin.mirror.constant.com -P libssl-devel -P python2-devel -P python3-devel -P curl -P python-jinja -P python-crypto -P python-openssl -P python-setuptools -P git -P libffi-devel -P libcrypt-devel -P openssl-devel -P python36-cryptography"
   - cmd: "%CYG_BASH% -lc 'openssl version'"
   - cmd: "%CYG_BASH% -lc 'uname -a'"
   - cmd: "%CYG_BASH% -lc 'python -m ensurepip'"
