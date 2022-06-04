@@ -233,6 +233,9 @@
 - import_tasks: windows-taskmanager.yml
   when: harden_win_disable_taskmanager|bool
 
+- import_tasks: windows-msdt.yml
+  when: harden_win_disable_msdt|bool
+
 - import_tasks: windows-defender.yml
   when: harden_win_defender|bool
 

@@ -136,6 +136,7 @@ harden_win_defender: true
 harden_win_forcing_afterhours_logoff: false
 # harden_win_forcing_afterhours_logoff_time: '7.15pm'
 # harden_win_forcing_afterhours_logoff_user: 'Administrator'
+harden_win_disable_msdt: true
 
 harden_win_wef_enable: false
 harden_win_wef_collector_server_user: 'DOMAIN\mycollector'
@@ -250,6 +251,9 @@ harden_win_suspicious_ext:
   - SettingContent-ms
   # https://1337red.wordpress.com/using-a-scf-file-to-gather-hashes/
   - scf
+  # https://doublepulsar.com/follina-a-microsoft-office-code-execution-vulnerability-1a47fce5629e
+  # https://www.huntress.com/blog/microsoft-office-remote-code-execution-follina-msdt-bug
+  - ms-msdt
 harden_win_fileassoc:
   - { ext: .pdf, ftype: pdffile, path: '"C:\Program Files (x86)\Google\Chrome\Application\chrome.exe" "%1"' }
 

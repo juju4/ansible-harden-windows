@@ -1,0 +1,28 @@
+---
+
+# https://twitter.com/gentilkiwi/status/1531384447219781634
+# or GPO: Computer Configuration > Administrative templates > System > Troubleshooting and Diagnostics > Scripted Diagnostics
+# https://admx.help/?Category=Windows_10_2016&Policy=Microsoft.Policies.ScriptedDiagnostics::ScriptedDiagnosticsExecutionPolicy
+- name: Disable Scripted Diagnostics - ms-msdt CVE-2022-30190
+  ansible.windows.win_regedit:
+    path: HKLM:\Software\Policies\Microsoft\Windows\ScriptedDiagnostics
+    name: EnableDiagnostics
+    data: 0
+    type: dword
+
+# https://www.stigviewer.com/stig/windows_7/2014-04-02/finding/V-21967
+# https://admx.help/?Category=Windows_10_2016&Policy=Microsoft.Policies.ScriptedDiagnostics::BetterWhenConnected
+- name: Prevent Microsoft Support Diagnostic Tool (MSDT) interactive communication with Microsoft.
+  ansible.windows.win_regedit:
+    path: HKLM:\Software\Policies\Microsoft\Windows\ScriptedDiagnosticsProvider\Policy
+    name: DisableQueryRemoteServer
+    data: 0
+    type: dword
+
+# https://admx.help/?Category=Windows_10_2016&Policy=Microsoft.Policies.MSDT::WdiScenarioExecutionPolicy
+- name: Disable msdt data gathering
+  ansible.windows.win_regedit:
+    path: HKLM:\Software\Policies\Microsoft\Windows\WDI\{C295FBBA-FD47-46ac-8BEE-B1715EC634E5}
+    name: ScenarioExecutionEnabled
+    data: 0
+    type: dword
