@@ -90,6 +90,7 @@ install:
   # setup ansible
   - cmd: "%CYG_BASH% -lc 'openssl version'"
   - cmd: "%CYG_BASH% -lc 'uname -a'"
+  - cmd: "%CYG_BASH% -lc 'python3 --version'"
   - cmd: "%CYG_BASH% -lc 'python3 -m ensurepip'"
   - cmd: "%CYG_BASH% -lc 'python3 -m pip install --upgrade pip'"
   - cmd: "%CYG_BASH% -lc 'python3 -m pip install cryptography==3.3.2'"
