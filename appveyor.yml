@@ -86,6 +86,10 @@ install:
      "C:\cygwin\setup-x86.exe" -qnNdO -R C:/cygwin -s http://cygwin.mirror.constant.com -l C:/cygwin/var/cache/setup -P mingw64-i686-gcc-g++ -P mingw64-x86_64-gcc-g++ -P gcc-g++ -P autoconf -P automake -P bison -P libtool -P make -P python38 -P gettext-devel -P intltool -P libiconv -P pkg-config -P wget -P curl -P libssl-devel -P python38-devel -P python38-jinja2 -P python38-crypto -P python38-openssl -P python38-setuptools -P git -P libffi6 -P libffi-devel -P libcrypt-devel -P openssl-devel -P python38-cryptography -P python38-cffi"
       C:\Cygwin\bin\bash -lc true
       C:\cygwin\bin\cygcheck -c
+      C:\cygwin\bin\cygcheck -l python38-devel
+      C:\cygwin\bin\cygcheck -l python38-cffi
+      C:\cygwin\bin\cygcheck -l libffi6
+      C:\cygwin\bin\cygcheck -l libffi6-devel
       C:\cygwin\bin\gcc --version
   # setup ansible
   - cmd: "%CYG_BASH% -lc 'openssl version'"
