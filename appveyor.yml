@@ -94,7 +94,7 @@ install:
   - cmd: "%CYG_BASH% -lc 'python3.8 -m ensurepip'"
   - cmd: "%CYG_BASH% -lc 'python3.8 -m pip install --upgrade pip'"
   - cmd: "%CYG_BASH% -lc 'python3.8 -m pip freeze'"
-  - cmd: "%CYG_BASH% -lc 'find /usr/include/python3.8/ -name Python.h -ls'"
+  - cmd: "%CYG_BASH% -lc 'find /usr/include/ -iname Python.h -ls'"
   - cmd: "%CYG_BASH% -lc 'python3.8 -m pip install cryptography==3.3.2'"
   - cmd: "%CYG_BASH% -lc 'python3.8 -m pip install pywinrm'"
   - cmd: "%CYG_BASH% -lc 'python3.8 -m pip install ansible==%ANSIBLE_VERSION%'"
