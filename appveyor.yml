@@ -89,7 +89,7 @@ install:
       C:\cygwin\bin\cygcheck -l python38-devel
       C:\cygwin\bin\cygcheck -l python38-cffi
       C:\cygwin\bin\cygcheck -l libffi6
-      C:\cygwin\bin\cygcheck -l libffi6-devel
+      C:\cygwin\bin\cygcheck -l libffi-devel
       C:\cygwin\bin\gcc --version
   # setup ansible
   - cmd: "%CYG_BASH% -lc 'openssl version'"
