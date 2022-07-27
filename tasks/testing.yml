@@ -18,7 +18,7 @@
         propagation: "{{ item.pr }}"
       with_items:
         - { p: "c:\\opscode",
-            u: 'BUILTIN\Users',
+            u: "{{ windows_group_builtin_user }}",
             r: 'Write,AppendData',
             t: allow,
             s: absent,
@@ -26,7 +26,7 @@
             pr: 'InheritOnly'
         }
         - { p: "c:\\opscode",
-            u: 'Authenticated Users',
+            u: "{{ windows_group_authenticated_users }}",
             r: 'Write,AppendData',
             t: allow,
             s: absent,

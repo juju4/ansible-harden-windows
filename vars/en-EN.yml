@@ -1,0 +1,20 @@
+---
+windows_feature_dism_output: The operation completed successfully
+windows_feature_dism_status: "Status : Deactivated"
+
+windows_mld_level: Level
+
+windows_all_application_packages: ALL APPLICATION PACKAGES
+
+windows_local_gpo_administrators: Administrators
+
+windows_user_administrator: Administrator
+windows_user_guest: Guest
+windows_user_creator_owner: CREATOR OWNER
+
+windows_group_guests: Guests
+windows_group_power_users: Power Users
+windows_group_users: Users
+windows_group_system: SYSTEM
+windows_group_builtin_user: BUILTIN\{{ windows_group_users }}
+windows_group_authenticated_users: Authenticated Users
