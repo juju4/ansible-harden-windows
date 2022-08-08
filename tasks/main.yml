@@ -1,14 +1,14 @@
 ---
 
-- name: Get system language # would return en-EN or de-DE
+- name: Get system language   # would return en-EN or de-DE
   ansible.windows.win_powershell:
     script: |
-      (Get-CimInstance -ClassName Win32_OperatingSystem).MUILanguages | Select-Object -Index 0 
+      (Get-CimInstance -ClassName Win32_OperatingSystem).MUILanguages | Select-Object -Index 0
   register: system_language
   tags: get_system_language
 
 - name: Include language-specific variables.
-  include_vars: "{{ system_language }}.yml"
+  ansible.builtin.include_vars: "{{ system_language }}.yml"
 
 - name: Appveyor environment variables
   ansible.builtin.include_vars: appveyor.yml

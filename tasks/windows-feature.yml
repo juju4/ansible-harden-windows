@@ -15,7 +15,7 @@
   win_command: "Dism /online /Disable-Feature /FeatureName:{{ item }} /NoRestart"
   with_items: "{{ harden_win_disable_winfeature }}"
   register: dism
-  when: "'{{ windows_feature_dism_status }}' not in dism_state.results[idx].stdout"
+  when: "windows_feature_dism_status not in dism_state.results[idx].stdout"
   failed_when: "'{{ windows_feature_dism_output }}' not in dism.stdout"
   loop_control:
     index_var: idx
