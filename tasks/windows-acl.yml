@@ -11,28 +11,28 @@
     inherit: "{{ item.i }}"
     propagation: "{{ item.p }}"
   with_items:
-    - { u: 'Administrators',
+    - { u: '{{ windows_local_gpo_administrators }}',
         r: 'FullControl',
         t: 'allow',
         i: 'ContainerInherit, ObjectInherit',
         p: 'InheritOnly',
         s: present
     }
-    - { u: 'SYSTEM',
+    - { u: '{{ windows_group_system }}',
         r: 'FullControl',
         t: 'allow',
         i: 'ContainerInherit, ObjectInherit',
         p: 'InheritOnly',
         s: present
     }
-    - { u: 'Users',
+    - { u: '{{ windows_group_users }}',
         r: 'ReadAndExecute',
         t: 'allow',
         i: 'ContainerInherit, ObjectInherit',
         p: 'InheritOnly',
         s: present
     }
-    - { u: 'Authenticated Users',
+    - { u: '{{ windows_group_authenticated_users }}',
         r: 'Modify',
         t: 'allow',
         i: 'ContainerInherit, ObjectInherit',
@@ -46,7 +46,7 @@
     #     p: 'NoPropagateInherit',
     #     s: present
     # }
-    - { u: 'Users',
+    - { u: '{{ windows_group_users }}',
         r: 'CreateDirectories, AppendData',
         t: 'allow',
         i: 'None',
@@ -67,8 +67,8 @@
 #     propagation: "{{ item.p }}"
 #   with_items:
 #     # Special?
-#     - { u: 'Administrators', r: 'FullControl', t: 'allow', i: 'ContainerInherit, ObjectInherit', p: 'InheritOnly' }
-#     - { u: 'SYSTEM', r: 'FullControl', t: 'allow', i: 'ContainerInherit, ObjectInherit', p: 'InheritOnly' }
+#     - { u: '{{ windows_local_gpo_administrators }}', r: 'FullControl', t: 'allow', i: 'ContainerInherit, ObjectInherit', p: 'InheritOnly' }
+#     - { u: '{{ windows_group_system }}', r: 'FullControl', t: 'allow', i: 'ContainerInherit, ObjectInherit', p: 'InheritOnly' }
 
 - name: Permissions for registry hive must conform to minimum requirements. - HKLM\Software
   win_acl:
@@ -81,16 +81,16 @@
     propagation: "{{ item.p }}"
   with_items:
     # Special?
-    - { u: 'Administrators', r: 'FullControl', t: 'allow', i: 'ContainerInherit, ObjectInherit', p: 'InheritOnly' }
-    - { u: 'SYSTEM', r: 'FullControl', t: 'allow', i: 'ContainerInherit, ObjectInherit', p: 'InheritOnly' }
-    - { u: 'CREATOR OWNER', r: 'FullControl', t: 'allow', i: 'ContainerInherit, ObjectInherit', p: 'InheritOnly' }
-    - { u: 'ALL APPLICATION PACKAGES',
+    - { u: '{{ windows_local_gpo_administrators }}', r: 'FullControl', t: 'allow', i: 'ContainerInherit, ObjectInherit', p: 'InheritOnly' }
+    - { u: '{{ windows_group_system }}', r: 'FullControl', t: 'allow', i: 'ContainerInherit, ObjectInherit', p: 'InheritOnly' }
+    - { u: '{{ windows_user_creator_owner }}', r: 'FullControl', t: 'allow', i: 'ContainerInherit, ObjectInherit', p: 'InheritOnly' }
+    - { u: '{{ windows_all_application_packages }}',
         r: 'QueryValues,EnumerateSubKeys,Notify,ReadPermissions',
         t: 'allow',
         i: 'ContainerInherit, ObjectInherit',
         p: 'InheritOnly'
     }
-    - { u: 'Users',
+    - { u: '{{ windows_group_users }}',
         r: 'QueryValues,EnumerateSubKeys,Notify,ReadPermissions',
         t: 'allow',
         i: 'ContainerInherit, ObjectInherit',
@@ -108,16 +108,16 @@
     propagation: "{{ item.p }}"
   with_items:
     # Special?
-    - { u: 'Administrators', r: 'FullControl', t: 'allow', i: 'ContainerInherit, ObjectInherit', p: 'InheritOnly' }
-    - { u: 'SYSTEM', r: 'FullControl', t: 'allow', i: 'ContainerInherit, ObjectInherit', p: 'InheritOnly' }
-    - { u: 'CREATOR OWNER', r: 'FullControl', t: 'allow', i: 'ContainerInherit, ObjectInherit', p: 'InheritOnly' }
-    - { u: 'ALL APPLICATION PACKAGES',
+    - { u: '{{ windows_local_gpo_administrators }}', r: 'FullControl', t: 'allow', i: 'ContainerInherit, ObjectInherit', p: 'InheritOnly' }
+    - { u: '{{ windows_group_system }}', r: 'FullControl', t: 'allow', i: 'ContainerInherit, ObjectInherit', p: 'InheritOnly' }
+    - { u: '{{ windows_user_creator_owner }}', r: 'FullControl', t: 'allow', i: 'ContainerInherit, ObjectInherit', p: 'InheritOnly' }
+    - { u: '{{ windows_all_application_packages }}',
         r: 'QueryValues,EnumerateSubKeys,Notify,ReadPermissions',
         t: 'allow',
         i: 'ContainerInherit, ObjectInherit',
         p: 'InheritOnly'
     }
-    - { u: 'Users',
+    - { u: '{{ windows_group_users }}',
         r: 'QueryValues,EnumerateSubKeys,Notify,ReadPermissions',
         t: 'allow',
         i: 'ContainerInherit, ObjectInherit',

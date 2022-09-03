@@ -6,20 +6,16 @@
 ## https://docs.microsoft.com/en-us/windows-hardware/manufacture/desktop/dism-global-options-for-command-line-syntax
 ## https://technet.microsoft.com/en-us/library/dd744582(v=ws.10).aspx (DISM)
 
-## Note: output is localized...
-# - name: Get Windows feature state with DISM
-#   win_command: "Dism /online /get-features /format:table"
-#   changed_when: false
-#   ignore_errors: true
-#   register: winfeatures
-# - debug: var=winfeatures
+- name: Get status of feature
+  win_command: Dism /online /Get-FeatureInfo /FeatureName:{{ item }}
+  with_items: "{{ harden_win_disable_winfeature }}"
+  register: dism_state
 
 - name: Disable Windows Optional Feature
-  # win_shell: "Disable-WindowsOptionalFeature -FeatureName {{ item }} -Online"
-  ## FIXME! not idempotent
   win_command: "Dism /online /Disable-Feature /FeatureName:{{ item }} /NoRestart"
   with_items: "{{ harden_win_disable_winfeature }}"
   register: dism
-  failed_when: "'The operation completed successfully' not in dism.stdout"
-- name: Debug | dism output
-  ansible.builtin.debug: var=dism
+  when: "windows_feature_dism_status not in dism_state.results[idx].stdout"
+  failed_when: "'{{ windows_feature_dism_output }}' not in dism.stdout"
+  loop_control:
+    index_var: idx
