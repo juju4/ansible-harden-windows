@@ -115,14 +115,14 @@
       win_user_right:
         name: SeTakeOwnershipPrivilege
         users:
-          - Administrators
+          - "{{ windows_local_gpo_administrators }}"
         action: set
 
     - name: Replace the entries of Deny log on locally
       win_user_right:
         name: SeDenyInteractiveLogonRight
         users:
-          - Guest
+          - "{{ windows_user_guest }}"
         action: set
 
     - name: Set account to log on remotely using the interactive logon type.

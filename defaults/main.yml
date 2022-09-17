@@ -38,26 +38,26 @@ harden_win_inf_SeTrustedCredManAccessPrivilege: '*S-1-0-0'
 ## Warning: Removing administrators here might impact your ansible/winrm connection. Be cautious!
 # harden_win_inf_SeNetworkLogonRight: '*S-1-5-32-545,*S-1-5-32-544'
 harden_win_inf_SeNetworkLogonRight: '*S-1-0-0,*S-1-5-32-544'
-harden_win_inf_SeRemoteInteractiveLogonRight_list: ['Administrators']
+harden_win_inf_SeRemoteInteractiveLogonRight_list: ['{{ windows_local_gpo_administrators }}']
 harden_win_inf_SeTcbPrivilege_list: ['Null SID']
-harden_win_inf_SeMachineAccountPrivilege_list: ['Administrators']
+harden_win_inf_SeMachineAccountPrivilege_list: ['{{ windows_local_gpo_administrators }}']
 harden_win_inf_SeTrustedCredManAccessPrivilege_list: ['Null SID']
-harden_win_inf_SeNetworkLogonRight_list: ['Administrators']
+harden_win_inf_SeNetworkLogonRight_list: ['{{ windows_local_gpo_administrators }}']
 # https://www.stigviewer.com/stig/windows_10/2016-11-03/finding/V-63871
 # harden_win_inf_SeDenyNetworkLogonRight_list: ['Guests', 'Power Users', 'Local account', 'DOMAIN\Domain Admins', 'DOMAIN\Enterprise Admins']
-harden_win_inf_SeDenyNetworkLogonRight_list: ['Guests', 'Power Users']
+harden_win_inf_SeDenyNetworkLogonRight_list: ['{{ windows_group_guests }}', '{{ windows_group_power_users }}']
 # https://www.stigviewer.com/stig/windows_10/2016-11-03/finding/V-63865
-harden_win_inf_SeCreateSymbolicLinkPrivilege_list: ['Administrators']
+harden_win_inf_SeCreateSymbolicLinkPrivilege_list: ['{{ windows_local_gpo_administrators }}']
 harden_win_inf_SeBatchLogonRight_list: ['Null SID']
 # https://www.stigviewer.com/stig/windows_10/2017-04-28/finding/V-63873
 # harden_win_inf_SeDenyBatchLogonRight_list: ['DOMAIN\Domain Admins', 'DOMAIN\Enterprise Admins']
 harden_win_inf_SeDenyBatchLogonRight_list: []
 # https://www.stigviewer.com/stig/windows_7/2014-04-02/finding/V-26485
 # harden_win_inf_SeDenyInteractiveLogonRight_list: ['Guests', 'DOMAIN\Domain Admins', 'DOMAIN\Enterprise Admins']
-harden_win_inf_SeDenyInteractiveLogonRight_list: ['Guests']
+harden_win_inf_SeDenyInteractiveLogonRight_list: ['{{ windows_group_guests }}']
 # https://www.stigviewer.com/stig/windows_10/2015-11-30/finding/V-63879
 # harden_win_inf_SeDenyRemoteInteractiveLogonRight_list: ['Guests', 'DOMAIN\Domain Admins', 'DOMAIN\Enterprise Admins']
-harden_win_inf_SeDenyRemoteInteractiveLogonRight_list: ['Guests']
+harden_win_inf_SeDenyRemoteInteractiveLogonRight_list: ['{{ windows_group_guests }}']
 
 ## Note: this one corrupts win10 eval currently...
 harden_win_lsa_harden: false
@@ -135,7 +135,7 @@ harden_win_paging: true
 harden_win_defender: true
 harden_win_forcing_afterhours_logoff: false
 # harden_win_forcing_afterhours_logoff_time: '7.15pm'
-# harden_win_forcing_afterhours_logoff_user: 'Administrator'
+# harden_win_forcing_afterhours_logoff_user: '{{ windows_user_administrator }}'
 harden_win_disable_msdt: true
 
 harden_win_wef_enable: false

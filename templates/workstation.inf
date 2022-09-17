@@ -91,7 +91,7 @@ Revision=1
 [File Security]
 ;"%SystemDrive%\",0,"D:AR(A;OICI;GA;;;BA)(A;OICI;GA;;;SY)(A;OICIIO;GA;;;CO)(A;CIOI;GRGX;;;BU)(A;CI;0x00000004;;;BU)(A;CIIO;0x00000002;;;BU)(A;;GRGX;;;WD)"
 ;1="%SystemDrive%\", 0, "D:AR(A;OICI;FA;;;BA)(A;OICIIO;FA;;;CO)(A;OICI;FA;;;SY)(A;OICI;0x1200a9;;;AU)"
-;2="%SystemDrive%\documents and settings\all users\menu démarrer\programmes", 2, "D:AR(A;OICI;FA;;;LA)(A;OICI;FA;;;BA)(A;OICI;FA;;;SY)(A;OICI;DTSDWDWO;;;WD)(A;OICI;0x1200a9;;;AU)"
+;2="%SystemDrive%\documents and settings\all users\menu dï¿½marrer\programmes", 2, "D:AR(A;OICI;FA;;;LA)(A;OICI;FA;;;BA)(A;OICI;FA;;;SY)(A;OICI;DTSDWDWO;;;WD)(A;OICI;0x1200a9;;;AU)"
 ;3="%SystemDrive%\winnt", 0, "D:AR(A;OICI;FA;;;LA)(A;OICI;FA;;;BA)(A;OICIIO;0x1301bf;;;CO)(A;OICIIO;FA;;;CO)(A;OICI;FA;;;SY)(A;OICI;SD;;;WD)(A;OICI;0x1200a9;;;AU)"
 ;!"%SystemDrive%\Program Files\Resource Pro Kit",2,"D:PAR(A;OICI;FA;;;BA)(A;OICI;FA;;;SY)"
 "%SystemRoot%\security",2,"D:PAR(A;OICI;FA;;;BA)(A;OICIIO;FA;;;CO)(A;OICI;FA;;;SY)"
@@ -151,4 +151,4 @@ Revision=1
 "%SystemDirectory%\secedit.exe",2,"D:PAR(A;OICI;FA;;;BA)(A;OICI;FA;;;SY)"
 "%SystemRoot%\Debug\UserMode",0,"D:PAR(A;OICI;FA;;;BA)(A;OICI;FA;;;SY)(A;;CCDCWP;;;BU)(A;OIIO;DCLC;;;BU)"
 "%SystemDrive%\Documents and Settings\All Users",0,"D:PAR(A;OICI;FA;;;BA)(A;OICI;FA;;;SY)(A;OICI;0x1200a9;;;BU)"
-"%SystemDrive%\documents and settings\all users\menu démarrer\programmes", 2, "D:AR(A;OICI;FA;;;LA)(A;OICI;FA;;;BA)(A;OICI;FA;;;SY)(A;OICI;DTSDWDWO;;;WD)(A;OICI;0x1200a9;;;AU)"
+"%SystemDrive%\documents and settings\all users\menu dÃ©marrer\programmes", 2, "D:AR(A;OICI;FA;;;LA)(A;OICI;FA;;;BA)(A;OICI;FA;;;SY)(A;OICI;DTSDWDWO;;;WD)(A;OICI;0x1200a9;;;AU)"

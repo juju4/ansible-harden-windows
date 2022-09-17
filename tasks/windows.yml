@@ -30,7 +30,7 @@
     propagation: "{{ item.pr }}"
   with_items:
     - { p: "{{ harden_win_temp_dir }}",
-        u: 'BUILTIN\Users',
+        u: "{{ windows_group_builtin_user }}",
         r: 'ReadAndExecute,Write,AppendData',
         t: allow,
         s: absent,
@@ -38,7 +38,7 @@
         pr: 'None'
     }
     - { p: "{{ harden_win_temp_dir }}",
-        u: 'Authenticated Users',
+        u: "{{ windows_authenticated_users }}",
         r: 'ReadAndExecute,Write,AppendData',
         t: allow,
         s: absent,
@@ -46,7 +46,7 @@
         pr: 'None'
     }
     - { p: "{{ harden_win_log_dir }}",
-        u: 'BUILTIN\Users',
+        u: "{{ windows_group_builtin_user }}",
         r: 'ReadAndExecute,Write,AppendData',
         t: allow,
         s: absent,
@@ -118,8 +118,8 @@
 #     - "{{ harden_win_temp_dir }}"
 #     - "{{ harden_win_log_dir }}"
 
-- name: Check ipv4 interface status
-  ansible.builtin.raw: "netsh interface ipv4 show global | findstr MLD | findstr Level"
+- name: check ipv4 interface status
+  ansible.builtin.raw: "netsh interface ipv4 show global | findstr MLD | findstr {{ windows_mld_level }}"
   register: ipv4if
   changed_when: false
   failed_when: false

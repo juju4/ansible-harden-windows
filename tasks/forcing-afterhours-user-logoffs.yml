@@ -18,7 +18,7 @@
 #         start_boundary: '2019-01-01T07:00:00'
 #     state: present
 #     enabled: yes
-#     username: "{{ harden_win_forcing_afterhours_logoff_user | default('Administrator') }}"
+#     username: "{{ harden_win_forcing_afterhours_logoff_user | default('{{ windows_user_administrator }}') }}"
 # FIXME! how to restrict case only if user is logged on.
 # FIXME! No display message option "Windows will logoff your session in 15 minutes. Please save your work."
 
@@ -33,4 +33,4 @@
         start_boundary: "{{ harden_win_forcing_afterhours_logoff_time | default('2019-01-01T07:15:00') }}"
     state: present
     enabled: yes
-    username: "{{ harden_win_forcing_afterhours_logoff_user | default('Administrator') }}"
+    username: "{{ harden_win_forcing_afterhours_logoff_user | default('{{ windows_user_administrator }}') }}"
