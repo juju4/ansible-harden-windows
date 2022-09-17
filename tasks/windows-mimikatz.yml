@@ -15,7 +15,7 @@
     datatype: dword
 
 ## default: 0
-- name: enabled User Account Control - Admin Approval Mode for the built-in Administrator account
+- name: Enabled User Account Control - Admin Approval Mode for the built-in Administrator account
   win_regedit:
     key: HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System
     value: FilterAdministratorToken

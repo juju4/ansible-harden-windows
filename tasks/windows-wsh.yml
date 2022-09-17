@@ -1,6 +1,6 @@
 ---
 
-- name: disable Windows Script Host (1)
+- name: Disable Windows Script Host (1)
   win_regedit:
     key: HKLM:\SOFTWARE\Microsoft\Windows Script Host\Settings
     value: Enabled
@@ -8,7 +8,7 @@
     datatype: dword
   when: harden_win_disable_wsh
 
-- name: disable Windows Script Host (2)
+- name: Disable Windows Script Host (2)
   win_regedit:
     key: HKLM:\SOFTWARE\Microsoft\Windows Script Host\Settings
     value: IgnoreUserSettings
@@ -25,7 +25,7 @@
 
 ## FIXME! NOK
 ## Note: HKCR only applies if HKCU doesn't exist. better enforcing with GPO
-- name: disable javascript execution by Windows Script Host (HKCR)
+- name: Disable javascript execution by Windows Script Host (HKCR)
   win_regedit:
     key: "{{ item }}"
     data: "\"%windir%\\system32\\notepad.exe\" \"%1\""

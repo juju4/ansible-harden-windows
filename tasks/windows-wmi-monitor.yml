@@ -1,7 +1,7 @@
 ---
 
 ## FIXME! no checksum option
-- name: check if WMI_Monitor archive is present
+- name: Check if WMI_Monitor archive is present
   win_stat: path="{{ harden_win_temp_dir }}\\WMIMonitor.ps1"
   register: wmimondl
 - name: Download WMI_Monitor

@@ -1,10 +1,10 @@
 ---
 
-- name: retrieve windows-event-forwarding from github
+- name: Retrieve windows-event-forwarding from github
   ansible.builtin.git:
     repo: 'https://github.com/palantir/windows-event-forwarding.git'
     dest: "{{ harden_win_temp_dir }}\\windows-event-forwarding"
     version: "{{ harden_win_palantir_AutorunsToWinEventLog_version | default('d07506ed3d9814521407f92af91768bcb2346028') }}"
 
-- name: install AutorunsToWinEventLog
+- name: Install AutorunsToWinEventLog
   win_shell: "{{ harden_win_temp_dir }}/windows-event-forwarding/AutorunsToWinEventLog/Install.ps1"

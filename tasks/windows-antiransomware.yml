@@ -11,7 +11,7 @@
   until: dl_result is success
 
 ## http://www.freeforensics.org/2016/04/a-deeper-explanation-of-how-ransomware_5.html
-- name: create junction to make ransomware loop
+- name: Create junction to make ransomware loop
   win_command: >
     mklink /j $ "C:\Users\Kari"
   args:

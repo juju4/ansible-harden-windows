@@ -9,20 +9,20 @@
 - name: Temporarily trust PSGallery repository
   win_shell: Set-PSRepository -Name PSGallery -InstallationPolicy Trusted
 
-- name: retrieve Module SpeculationControl
+- name: Retrieve Module SpeculationControl
   win_shell: "Install-Module SpeculationControl"
   # win_psmodule:
   #   name: SpeculationControl
   #   state: present
 
-- name: execute SpeculationControl
+- name: Execute SpeculationControl
   win_shell: "Get-SpeculationControlSettings"
   register: speculation
 
 - name: Debug | speculation
   ansible.builtin.debug: var=speculation
 
-- name: untrust PSGallery repository
+- name: Untrust PSGallery repository
   win_shell: Set-PSRepository -Name PSGallery -InstallationPolicy Untrusted
 
 # https://github.com/ionescu007/SpecuCheck

@@ -5,7 +5,7 @@
 ## \HKEY_CLASSES_ROOT\Software\Microsoft\Windows\CurrentVersion\Explorer\FileExts
 ## Partially covered if Windows Script Host is disabled
 ## FIXME! NOK
-- name: disable suspicious executabled file extensions (HKCU)
+- name: Disable suspicious executabled file extensions (HKCU)
   win_regedit:
     key: "HKCU:\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\FileExts\\.{{ item }}"
     value: "(Default)"
@@ -13,7 +13,7 @@
     data: "\"%windir%\\system32\\notepad.exe\" \"%1\""
   with_items: "{{ harden_win_suspicious_ext }}"
 
-- name: disable suspicious executabled file extensions (HKCU)
+- name: Disable suspicious executabled file extensions (HKCU)
   win_regedit:
     key: "HKCU:\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\FileExts\\.{{ item }}\\OpenWithList"
     value: "a"
@@ -35,4 +35,4 @@
     value: DisableCMD
     datatype: dword
     data: 1
-  when: harden_windows_disable_cmd|bool
+  when: harden_windows_disable_cmd | bool

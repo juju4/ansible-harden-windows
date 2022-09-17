@@ -1,7 +1,7 @@
 ---
 # https://gallery.technet.microsoft.com/SAMRi10-Hardening-Remote-48d94b5b
 
-- name: check if SAMRi10 archive is present
+- name: Check if SAMRi10 archive is present
   win_stat: path="{{ harden_win_temp_dir }}\\SAMRi10.zip"
   register: samridl
 - name: Download SAMRi10

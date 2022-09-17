@@ -3,7 +3,7 @@
 ## http://securityaffairs.co/wordpress/52271/hacking/netcease-tool.html
 ## https://gallery.technet.microsoft.com/Net-Cease-Blocking-Net-1e8dcb5b
 
-- name: check if netcease archive is present
+- name: Check if netcease archive is present
   win_stat:
     path: "{{ harden_win_temp_dir }}\\{{ harden_win_netcease_url | basename }}"
   register: netceasedl

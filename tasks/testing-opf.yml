@@ -1,6 +1,6 @@
 ---
 
-- name: try to use trivial passwords
+- name: Try to use trivial passwords
   win_command: "net user _test {{ item }}"
   with_items:
     - passwd

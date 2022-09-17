@@ -2,7 +2,7 @@
 
 - name: Inspec
   block:
-    - name: testing | Ensure inspec is present
+    - name: Testing | Ensure inspec is present
       win_chocolatey:
         name: inspec
         state: present
@@ -34,7 +34,7 @@
             pr: 'InheritOnly'
         }
 
-    - name: testing | run windows-baseline
+    - name: Testing | run windows-baseline
       win_command: >
         c:\opscode\inspec\bin\inspec.bat exec https://github.com/juju4/windows-baseline
           >{{ harden_win_log_dir }}\inspec.log
@@ -42,12 +42,12 @@
       environment:
         CHEF_LICENSE: accept-no-persist
 
-    - name: testing | inspec results
+    - name: Testing | inspec results
       win_shell: "Get-Content -Path \"{{ harden_win_log_dir }}\\inspec.log\""
       changed_when: false
       failed_when: false
 
-  when: harden_win_testing_inspec|bool
+  when: harden_win_testing_inspec | bool
 
 # https://blog.malwarebytes.com/security-world/technology/2017/11/when-you-shouldnt-trust-a-trusted-root-certificate/
 # FIXME! FATAL ERROR DURING FILE TRANSFER: ...
@@ -58,29 +58,29 @@
 #       Set-Content c:\users\public\desktop\certificates.html
 
 - import_tasks: testing-defender.yml
-  when: harden_win_testing_defender|bool
+  when: harden_win_testing_defender | bool
 
 - import_tasks: testing-uac.yml
-  when: harden_win_testing_uac|bool
+  when: harden_win_testing_uac | bool
 
 - import_tasks: testing-opf.yml
-  when: harden_win_testing_opf|bool
+  when: harden_win_testing_opf | bool
 
 - import_tasks: testing-speculative.yml
-  when: harden_win_testing_speculative|bool
+  when: harden_win_testing_speculative | bool
 
 - import_tasks: testing-intelme.yml
-  when: harden_win_testing_intelme|bool
+  when: harden_win_testing_intelme | bool
 
 - import_tasks: testing-iad.yml
-  when: harden_win_testing_iad|bool
+  when: harden_win_testing_iad | bool
 
 - import_tasks: testing-densityscout.yml
-  when: harden_win_testing_densityscout|bool
+  when: harden_win_testing_densityscout | bool
 
 # keep last. if defender catches it, may need to restart to complete cleaning/have ansible working again
 - import_tasks: testing-mimikatz.yml
-  when: harden_win_testing_mimikatz|bool
+  when: harden_win_testing_mimikatz | bool
 
 # - name: Remove user _test
 #   win_user:

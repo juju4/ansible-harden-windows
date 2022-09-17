@@ -18,7 +18,7 @@
 
 # - win_shell: "dir cert:\\ -rec | where Subject -match 'Superfish' | Remove-Item"
 
-- name: set script to remove Root CA
+- name: Set script to remove Root CA
   win_template:
     src: Remove-TrustedRootCA.ps1.j2
     dest: "{{ harden_win_temp_dir }}\\Remove-TrustedRootCA.ps1"

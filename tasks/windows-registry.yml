@@ -92,7 +92,7 @@
     data: "{{ harden_win_lsass_auditlevel | default(8) }}"
   when: harden_win_lsass_auditlevel is not defined or harden_win_lsass_auditlevel
 
-- name: check Exploit protection mitigation for powershell.exe
+- name: Check Exploit protection mitigation for powershell.exe
   win_shell: >
     Get-ItemPropertyValue
       -Path 'HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Image File Execution Options\powershell.exe'

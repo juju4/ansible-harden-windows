@@ -1,13 +1,13 @@
 ---
 
-- name: disable wpad - HKCU
+- name: Disable wpad - HKCU
   win_regedit:
     key: HKCU:\Software\Microsoft\Windows\CurrentVersion\Internet Settings\Wpad
     value: WpadOverride
     datatype: dword
     data: 1
 
-- name: disable wpad - HKLM
+- name: Disable wpad - HKLM
   win_regedit:
     key: HKLM:\Software\Microsoft\Windows\CurrentVersion\Internet Settings\Wpad
     value: WpadOverride

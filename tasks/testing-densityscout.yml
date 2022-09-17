@@ -1,6 +1,6 @@
 ---
 
-- name: testing | download cert.at densityscout
+- name: Testing | download cert.at densityscout
   win_get_url:
     url: https://www.cert.at/media/files/downloads/software/densityscout/files/densityscout_build_45_windows.zip
     dest: "{{ harden_win_temp_dir }}\\densityscout.zip"
@@ -8,13 +8,13 @@
   register: dl_result
   until: dl_result is success
 
-- name: testing | Unarchive densityscout
+- name: Testing | Unarchive densityscout
   win_unzip:
     src: "{{ harden_win_temp_dir }}\\densityscout.zip"
     dest: "{{ harden_win_temp_dir }}\\densityscout"
     creates: "{{ harden_win_temp_dir }}\\densityscout\\densityscout.exe"
 
-- name: testing | call densityscout
+- name: Testing | call densityscout
   win_command: >
     \"{{ harden_win_temp_dir }}\densityscout\densityscout.exe\" -pe -p 0.1 -o {{ harden_win_log_dir }}\densityscout-results.txt c:\Windows
   failed_when: false

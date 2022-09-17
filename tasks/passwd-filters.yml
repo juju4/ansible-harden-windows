@@ -6,11 +6,11 @@
 ## https://jacksonvd.com/checking-for-breached-passwords-in-active-directory/
 ## https://github.com/ryanries/PassFiltEx
 
-- name: check if OpenPasswordFilter archive is present
+- name: Check if OpenPasswordFilter archive is present
   win_stat:
     path: "{{ harden_win_temp_dir }}\\{{ opf_url | basename }}"
   register: opfdl
-- name: download OpenPasswordFilter
+- name: Download OpenPasswordFilter
   win_get_url:
     url: "{{ opf_url }}"
     dest: "{{ harden_win_temp_dir }}\\{{ opf_url | basename }}"
@@ -19,10 +19,10 @@
   register: dl_result
   until: dl_result is success
 
-- name: check if OpenPasswordFilter password list is present
+- name: Check if OpenPasswordFilter password list is present
   win_stat: path="c:\\windows\\system32\\opfmatch.txt"
   register: opfpass
-- name: download password list
+- name: Download password list
   win_get_url:
     url: "{{ opf_passwd_list_url }}"
     dest: "c:\\windows\\system32\\opfmatch.txt"
@@ -30,10 +30,10 @@
   register: dl_result
   until: dl_result is success
 
-- name: check if OpenPasswordFilter password list is present for partial match
+- name: Check if OpenPasswordFilter password list is present for partial match
   win_stat: path="c:\\windows\\system32\\opfconf.txt"
   register: opfpass2
-- name: download password list for partial match
+- name: Download password list for partial match
   win_get_url:
     url: "{{ opf_passwd_list_partial_url }}"
     dest: "c:\\windows\\system32\\opfconf.txt"
@@ -61,7 +61,7 @@
     - "OpenPasswordFilter.dll"
     - "OPFService.exe"
 
-- name: create OPF service
+- name: Create OPF service
   # win_service:
   #   name: OpenPasswordFilter
   #   path: "c:\\windows\\system32\\OPFService.exe"
@@ -84,7 +84,7 @@
     state: started
 
 ## ws2016: initial value = 'rassfm\0scecli'
-- name: retrieving Notification registry value
+- name: Retrieving Notification registry value
   win_shell: >
     reg query "HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Control\\Lsa" /v "Notification Packages" |
     findstr REG_MULTI_SZ

@@ -1,6 +1,6 @@
 ---
 
-- name: check if mbrfilter archive is present
+- name: Check if mbrfilter archive is present
   win_stat:
     path: "{{ harden_win_temp_dir }}\\{{ harden_win_mbrfilter_url | basename }}"
   register: mbrfilterdl

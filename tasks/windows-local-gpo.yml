@@ -1,15 +1,15 @@
 ---
 
-- name: copy gpo template to target computer
+- name: Copy gpo template to target computer
   win_template:
     src: "{{ harden_win_gpo_inf }}"
     dest: "{{ harden_win_temp_dir }}\\{{ harden_win_gpo_inf | regex_replace('.j2$', '') }}"
 
 ## Windows Server 2003, Windows Server 2003 R2, Windows Server 2003 with SP1, Windows Server 2003 with SP2
 ## https://technet.microsoft.com/en-ca/library/cc776625%28v=ws.10%29.aspx
-- name: secedit
+- name: Secedit
   block:
-    - name: load gpo configuration locally - secedit
+    - name: Load gpo configuration locally - secedit
       win_command: >
         secedit /configure /cfg {{ harden_win_temp_dir }}\{{ harden_win_gpo_inf | regex_replace('.j2$', '') }}
           /db {{ harden_win_gpo_db }} /log {{ harden_win_gpo_log }} /verbose
@@ -26,10 +26,10 @@
       failed_when: false
   when: harden_win_gpo_action == 'secedit'
 
-- name: powershell
+- name: Powershell
   block:
     # https://blogs.msdn.microsoft.com/powershell/2016/05/20/new-group-policy-cmdlets-for-nano-server/
-    - name: load gpo configuration locally - Restore-SecurityPolicy
+    - name: Load gpo configuration locally - Restore-SecurityPolicy
       win_shell: >
         Restore-SecurityPolicy -Path "{{ harden_win_temp_dir }}\{{ harden_win_gpo_inf | regex_replace('.j2$', '') }}"
   when: harden_win_gpo_action == 'ps'
@@ -39,7 +39,7 @@
     # https://blogs.msdn.microsoft.com/powershell/2017/02/21/managing-security-settings-on-nano-server-with-dsc/
     # https://docs.ansible.com/ansible/latest/modules/win_dsc_module.html   2.4+
     # FIXME! 'Resource SecurityPolicyDSC not found' but in appveyor, loaded by win-powershell without error
-    - name: load gpo configuration locally - DSC
+    - name: Load gpo configuration locally - DSC
       win_dsc:
         resource_name: SecurityPolicyDSC
         Ensure: Present
@@ -48,7 +48,7 @@
         IsSingleInstance: "Yes"
   when: harden_win_gpo_action == 'dsc'
 
-- name: security policy
+- name: Security policy
   block:
     # https://docs.ansible.com/ansible/devel/modules/win_security_policy_module.html
     - name: Disable Guest account
@@ -118,7 +118,7 @@
           - Administrators
         action: set
 
-    - name: replace the entries of Deny log on locally
+    - name: Replace the entries of Deny log on locally
       win_user_right:
         name: SeDenyInteractiveLogonRight
         users:
@@ -171,25 +171,25 @@
         users: "{{ harden_win_inf_SeCreateSymbolicLinkPrivilege_list }}"
         action: set
 
-    - name: add account to Log on as a service
+    - name: Add account to Log on as a service
       win_user_right:
         name: SeBatchLogonRight
         users: "{{ harden_win_inf_SeBatchLogonRight_list }}"
         action: set
 
-    - name: add account to Deny log on as a batch job
+    - name: Add account to Deny log on as a batch job
       win_user_right:
         name: SeDenyBatchLogonRight
         users: "{{ harden_win_inf_SeDenyBatchLogonRight_list }}"
         action: set
 
-    - name: add account to Deny log on locally
+    - name: Add account to Deny log on locally
       win_user_right:
         name: SeDenyInteractiveLogonRight
         users: "{{ harden_win_inf_SeDenyInteractiveLogonRight_list }}"
         action: set
 
-    - name: add account to Deny log on through Remote Desktop Services
+    - name: Add account to Deny log on through Remote Desktop Services
       win_user_right:
         name: SeDenyRemoteInteractiveLogonRight
         users: "{{ harden_win_inf_SeDenyRemoteInteractiveLogonRight_list }}"

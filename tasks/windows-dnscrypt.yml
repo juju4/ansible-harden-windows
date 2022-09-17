@@ -1,6 +1,6 @@
 ---
 
-- name: check if dnscrypt archive is present
+- name: Check if dnscrypt archive is present
   win_stat:
     path: "{{ harden_win_temp_dir }}\\{{ harden_win_simplednscrypt_url | basename }}"
   register: dnscryptdl
