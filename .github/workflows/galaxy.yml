@@ -21,7 +21,7 @@ jobs:
       - build
     steps:
       - name: galaxy
-        uses: robertdebock/galaxy-action@1.1.1
+        uses: robertdebock/galaxy-action@1.2.1
         with:
           galaxy_api_key: ${{ secrets.galaxy_api_key }}
           path: juju4.harden_windows
