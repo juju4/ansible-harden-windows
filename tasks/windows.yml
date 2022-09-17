@@ -118,7 +118,7 @@
 #     - "{{ harden_win_temp_dir }}"
 #     - "{{ harden_win_log_dir }}"
 
-- name: check ipv4 interface status
+- name: Check ipv4 interface status
   ansible.builtin.raw: "netsh interface ipv4 show global | findstr MLD | findstr {{ windows_mld_level }}"
   register: ipv4if
   changed_when: false
