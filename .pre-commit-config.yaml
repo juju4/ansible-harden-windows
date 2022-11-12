@@ -14,6 +14,17 @@ repos:
       - id: check-case-conflict
       - id: double-quote-string-fixer
       - id: requirements-txt-fixer
+  - repo: https://github.com/codespell-project/codespell
+    rev: v2.2.1
+    hooks:
+      - id: codespell
+        args: [-I, .codespellignore]
+        exclude: >
+          (?x)^(
+            templates/workstation.inf|
+            defaults/main.yml|
+            vars/de-DE.yml
+          )$
   - repo: https://github.com/ansible-community/ansible-lint.git
     rev: v6.8.6
     hooks:

@@ -4,6 +4,7 @@ name: lint
 on:
   push:
   pull_request:
+  workflow_dispatch:
 
 jobs:
   build:
@@ -15,11 +16,12 @@ jobs:
     env:
       ANSIBLE_CALLBACKS_ENABLED: profile_tasks
       ANSIBLE_EXTRA_VARS: ""
+      ANSIBLE_ROLE: juju4.harden_windows
 
     steps:
       - uses: actions/checkout@v2
         with:
-          path: juju4.harden_windows
+          path: ${{ env.ANSIBLE_ROLE }}
       - name: Set up Python
         uses: actions/setup-python@v2
         with:
@@ -32,6 +34,19 @@ jobs:
           python3 -m pip install --upgrade pip
           pip3 install ansible-lint flake8 yamllint ansible
           ansible --version
+          cd $GITHUB_WORKSPACE/$ANSIBLE_ROLE
+          [ -f molecule/default/requirements.yml ] && ansible-galaxy install -r molecule/default/requirements.yml
+          { echo '[defaults]'; echo 'callbacks_enabled = profile_tasks, timer'; echo 'roles_path = ../'; echo 'ansible_python_interpreter: /usr/bin/python3'; } >> ansible.cfg
+      - name: Fetch central settings repository
+        run: |
+          export settings_repo="https://raw.githubusercontent.com/juju4/ansible-ci-settings/main"
+          cd $GITHUB_WORKSPACE/$ANSIBLE_ROLE
+          set -x
+          curl -o requirements.txt "$settings_repo/requirements.txt"
+          curl -o .ansible-lint "$settings_repo/.ansible-lint"
+          curl -o .yamllint "$settings_repo/.yamllint"
+          pip install -r requirements.txt
+        continue-on-error: true
       - name: Environment
         run: |
           uname -a
@@ -40,15 +55,17 @@ jobs:
           find . -ls
           ls /
           ls /mnt
-      - name: Install play dependencies
-        run: |
-          cd juju4.harden_windows
-          # [ -f get-dependencies.sh ] && sh -x get-dependencies.sh
-          [ -f molecule/default/requirements.yml ] && ansible-galaxy install -r molecule/default/requirements.yml
-          { echo '[defaults]'; echo 'callbacks_enabled = profile_tasks, timer'; echo 'roles_path = ../:/home/runner/.ansible/roles'; echo 'ansible_python_interpreter: /usr/bin/python3'; } >> ansible.cfg
+      - uses: codespell-project/actions-codespell@master
+        with:
+          ignore_words_file: ${{ env.ANSIBLE_ROLE }}/.codespellignore
+          skip: .git,templates/workstation.inf,defaults/main.yml,vars/de-DE.yml
+          path: ${{ env.ANSIBLE_ROLE }}
+        if: ${{ always() }}
       - name: yamllint
         run: |
-          cd juju4.harden_windows && yamllint .
+          cd $GITHUB_WORKSPACE/$ANSIBLE_ROLE && yamllint .
+        if: ${{ always() }}
       - name: ansible-lint
         run: |
-          cd juju4.harden_windows && ansible-lint
+          cd $GITHUB_WORKSPACE/$ANSIBLE_ROLE && ansible-lint
+        if: ${{ always() }}
