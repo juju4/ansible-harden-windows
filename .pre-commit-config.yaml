@@ -15,7 +15,7 @@ repos:
       - id: double-quote-string-fixer
       - id: requirements-txt-fixer
   - repo: https://github.com/ansible-community/ansible-lint.git
-    rev: v6.5.2
+    rev: v6.8.6
     hooks:
       - id: ansible-lint
         files: \.(yaml|yml)$
