@@ -23,7 +23,7 @@
     datatype: dword
 
 ## default: does not exist
-- name: Ensure Local admininistrators are filtered against Pass-The-Hash
+- name: Ensure Local administrators are filtered against Pass-The-Hash
   ansible.windows.win_regedit:
     key: HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System
     value: LocalAccountTokenFilterPolicy

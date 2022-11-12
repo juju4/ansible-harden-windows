@@ -189,7 +189,7 @@ DOCUMENTATION = '''
       scp_if_ssh:
         default: smart
         description:
-          - "Prefered method to use when transfering files over ssh"
+          - "Preferred method to use when transferring files over ssh"
           - When set to smart, Ansible will try them until one succeeds or they all fail
           - If set to True, it will force 'scp', if False it will use 'sftp'
         env: [{name: ANSIBLE_SCP_IF_SSH}]

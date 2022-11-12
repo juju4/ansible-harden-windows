@@ -265,7 +265,7 @@ PS> Get-ADComputer -Filter {OperatingSystem -Like “Windows Server*”} -Proper
 # Windows 10
 
 * https://twitter.com/dwizzzleMSFT/status/853079695520284674
-  If you instal Windows 10 1703 and enable HVCI we now also enable kCFG.  Kernel mode exploits are
+  If you install Windows 10 1703 and enable HVCI we now also enable kCFG.  Kernel mode exploits are
   subject to control flow integrity in Win10
 * https://docs.microsoft.com/en-us/windows/device-security/device-guard/deploy-device-guard-enable-virtualization-based-security
 * https://docs.microsoft.com/en-us/windows/device-security/device-guard/deploy-code-integrity-policies-steps

@@ -16,7 +16,7 @@
     harden_win_disable_dma
   block:
     ## "This mitigation only protects PCI-based buses, for example, ExpressCard, Thunderbolt, & some
-    ##  docking stations (PCIe based).  Older, non-PCI busses such as 1394 and CardBus are still vulnerable."
+    ##  docking stations (PCIe based).  Older, non-PCI buses such as 1394 and CardBus are still vulnerable."
     - name: Disable DMA
       ansible.windows.win_regedit:
         key: HKLM:\SYSTEM\CurrentControlSet\Control\PnP\Pci
