@@ -2,7 +2,7 @@
 
 # https://support.microsoft.com/en-us/help/555480
 - name: TaskManager | Disable globally
-  win_regedit:
+  ansible.windows.win_regedit:
     key: HKLM:\SOFTWARE\Policies\Microsoft\Windows\Task Scheduler5.0
     value: "{{ item.v }}"
     data: "{{ item.d }}"
@@ -12,7 +12,7 @@
     - { k: 'HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon', v: DisableCAD, d: 1 }
 
 - name: TaskManager | Disable for current user
-  win_regedit:
+  ansible.windows.win_regedit:
     key: "{{ item.k }}"
     value: "{{ item.v }}"
     data: "{{ item.d }}"

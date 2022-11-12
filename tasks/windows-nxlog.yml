@@ -1,11 +1,11 @@
 ---
 
 - name: Check if Nxlog archive already downloaded
-  win_stat:
+  ansible.windows.win_stat:
     path: "{{ harden_win_temp_dir }}\\{{ harden_win_remotelogging_nxlog_url | basename }}"
   register: nxlogdl
 - name: Download NXLog CE
-  win_get_url:
+  ansible.windows.win_get_url:
     url: "{{ harden_win_remotelogging_nxlog_url }}"
     dest: "{{ harden_win_temp_dir }}\\{{ harden_win_remotelogging_nxlog_url | basename }}"
     # FIXME! no checksum option
@@ -14,23 +14,23 @@
   until: dl_result is success
 
 - name: Install NXLog CE
-  win_package:
+  ansible.windows.win_package:
     path: "{{ harden_win_temp_dir }}\\{{ harden_win_remotelogging_nxlog_url | basename }}"
     wait_for_children: true
 
 - name: Configure NXLog CE
-  win_template:
+  ansible.windows.win_template:
     src: "{{ item.s }}.j2"
     dest: "c:\\Program Files (x86)\\nxlog\\{{ item.d | default(item.s | basename) }}"
   with_items: "{{ harden_win_nxlog_conf | default([]) }}"
 
 - name: Validate NXLog CE configuration
-  win_command: >
+  ansible.windows.win_command: >
     "c:\Program Files (x86)\nxlog\nxlog.exe" -c "c:\Program Files (x86)\nxlog\conf\nxlog.conf" -v
   changed_when: false
 
 - name: Ensure nxlog service is enabled and started
-  win_service:
+  ansible.windows.win_service:
     name: nxlog
     state: started
     start_mode: auto

@@ -1,4 +1,4 @@
 ---
 
 - name: Check windows dir permissions
-  win_command: "accesschk.exe -d -w paranoid C:\\Windows\\*"
+  ansible.windows.win_command: "accesschk.exe -d -w paranoid C:\\Windows\\*"

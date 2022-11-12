@@ -7,7 +7,7 @@
 # Review carefully where applicable to you: User endpoint, member server, DC server
 
 # - name: Add schedule task to notify users of afterhours logoffs
-#   win_scheduled_task:
+#   ansible.windows.win_scheduled_task:
 #     name: DisplayLogoffMessage
 #     description: Display a logoff warning to the user 15min before logoff
 #     actions:
@@ -23,7 +23,7 @@
 # FIXME! No display message option "Windows will logoff your session in 15 minutes. Please save your work."
 
 - name: Add schedule task to force afterhours logoffs
-  win_scheduled_task:
+  community.windows.win_scheduled_task:
     name: ForceAfterHoursLogoff
     description: Afterhours logoff
     actions:

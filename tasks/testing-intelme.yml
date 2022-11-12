@@ -4,20 +4,20 @@
 # https://www.intel.com/content/www/us/en/security-center/advisory/intel-sa-00119.html
 # https://downloadcenter.intel.com/download/27150
 - name: Download Intel-SA-00086 Detection Tool
-  win_get_url:
+  ansible.windows.win_get_url:
     url: https://downloadmirror.intel.com/27150/eng/SA00086_Windows.zip
     dest: "{{ harden_win_temp_dir }}\\SA00086_Windows.zip"
   register: dl_result
   until: dl_result is success
 
 - name: Unarchive Intel-SA-00086 Detection Tool
-  win_unzip:
+  community.windows.win_unzip:
     src: "{{ harden_win_temp_dir }}\\SA00086_Windows.zip"
     dest: "{{ harden_win_temp_dir }}\\SA00086_Windows"
     creates: "{{ harden_win_temp_dir }}\\SA00086_Windows\\DiscoveryTool\\Intel-SA-00086-console.exe"
 
 - name: Execute Intel-SA-00086 Detection Tool
-  win_command: >
+  ansible.windows.win_command: >
     "{{ harden_win_temp_dir }}\\SA00086_Windows\\DiscoveryTool\\Intel-SA-00086-console.exe" -n
       -f "{{ harden_win_log_dir }}\\Intel-SA-00086-results-{{ ansible_date_time.iso8601 }}.xml"
   register: intel
@@ -25,5 +25,6 @@
   changed_when: false
 
 - name: Debug | intel output
-  ansible.builtin.debug: var=intel.stdout_lines
+  ansible.builtin.debug:
+    var: intel.stdout_lines
   when: intel is defined and "'This system is vulnerable' in intel.stdout"

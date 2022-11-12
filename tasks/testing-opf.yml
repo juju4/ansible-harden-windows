@@ -1,7 +1,7 @@
 ---
 
 - name: Try to use trivial passwords
-  win_command: "net user _test {{ item }}"
+  ansible.windows.win_command: "net user _test {{ item }}"
   with_items:
     - passwd
     - 123123123

@@ -4,37 +4,38 @@
   # win_chocolatey:
   #   name: nuget.commandline
   #   state: present
-  win_shell: "Install-PackageProvider -Name NuGet -MinimumVersion 2.8.5.201 -Force"
+  ansible.windows.win_shell: "Install-PackageProvider -Name NuGet -MinimumVersion 2.8.5.201 -Force"
 
 - name: Temporarily trust PSGallery repository
-  win_shell: Set-PSRepository -Name PSGallery -InstallationPolicy Trusted
+  ansible.windows.win_shell: Set-PSRepository -Name PSGallery -InstallationPolicy Trusted
 
 - name: Retrieve Module SpeculationControl
-  win_shell: "Install-Module SpeculationControl"
+  ansible.windows.win_shell: "Install-Module SpeculationControl"
   # win_psmodule:
   #   name: SpeculationControl
   #   state: present
 
 - name: Execute SpeculationControl
-  win_shell: "Get-SpeculationControlSettings"
+  ansible.windows.win_shell: "Get-SpeculationControlSettings"
   register: speculation
 
 - name: Debug | speculation
-  ansible.builtin.debug: var=speculation
+  ansible.builtin.debug:
+    var: speculation
 
 - name: Untrust PSGallery repository
-  win_shell: Set-PSRepository -Name PSGallery -InstallationPolicy Untrusted
+  ansible.windows.win_shell: Set-PSRepository -Name PSGallery -InstallationPolicy Untrusted
 
 # https://github.com/ionescu007/SpecuCheck
 - name: Download SpecuCheck
-  win_get_url:
+  ansible.windows.win_get_url:
     url: https://github.com/ionescu007/SpecuCheck/releases/download/v1.1.0/SpecuCheck.exe
     dest: "{{ harden_win_temp_dir }}\\SpecuCheck.exe"
   register: dl_result
   until: dl_result is success
 
 - name: Execute SpecuCheck
-  win_command: "\"{{ harden_win_temp_dir }}\\SpecuCheck.exe\""
+  ansible.windows.win_command: "\"{{ harden_win_temp_dir }}\\SpecuCheck.exe\""
   register: specucheck
   ignore_errors: true
   changed_when: false
@@ -42,4 +43,5 @@
   poll: 5
 
 - name: Debug | specucheck output
-  ansible.builtin.debug: var=specucheck.stdout_lines
+  ansible.builtin.debug:
+    var: specucheck.stdout_lines

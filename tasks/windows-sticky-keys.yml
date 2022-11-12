@@ -2,7 +2,7 @@
 
 # default: 510
 - name: Disable Sticky Keys (per user)
-  win_regedit:
+  ansible.windows.win_regedit:
     key: HKCU:\Control Panel\Accessibility\StickyKeys
     value: Flags
     data: 506

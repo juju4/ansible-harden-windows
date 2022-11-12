@@ -2,27 +2,27 @@
 
 ## https://www.microsoft.com/en-us/download/details.aspx?id=46899
 - name: Download LAPS
-  win_get_url:
+  ansible.windows.win_get_url:
     url: 'https://download.microsoft.com/download/C/7/A/C7AAD914-A8A6-4904-88A1-29E657445D03/LAPS.x64.msi'
     dest: "{{ harden_win_temp_dir }}\\LAPS.x64.msi"
   register: dl_result
   until: dl_result is success
 
 - name: Install LAPS - targeted computer
-  win_package:
+  ansible.windows.win_package:
     path: "{{ harden_win_temp_dir }}\\LAPS.x64.msi"
     wait_for_children: true
     # To hide software in Programs and Features Control panel view, use msiexec parameter ARPSYSTEMCOMPONENT=1:
     arguments: '/quiet /qn ARPSYSTEMCOMPONENT=1'
 - name: DC | Install LAPS
-  win_package:
+  ansible.windows.win_package:
     path: "{{ harden_win_temp_dir }}\\LAPS.x64.msi"
     wait_for_children: true
     # silent install of CSE and all management tools
     arguments: '/qn ADDLOCAL=CSE,Management,Management.UI,Management.PS,Management.ADMX'
 
 - name: DC | add LAPS to AD schema
-  win_shell: |
+  ansible.windows.win_shell: |
     Import-Module AdmPwd.PS
     Update-AdmPwdADSchema
     Set-AdmPwdAuditing -OrgUnit $OU-of-Computers-to-Audit -AuditedPrincipals:$Group-to-Audit
@@ -31,7 +31,7 @@
 ## https://4sysops.com/archives/part-2-faqs-for-microsoft-local-administrator-password-solution-laps/
 ## 0 (the default) to log errors only, 1 to log errors and warnings, and 2 for verbose logging.
 - name: Enable Errors and Warning logging
-  win_regedit:
+  ansible.windows.win_regedit:
     key: 'HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\GPExtensions\{D76B9641-3288-4f75-942D-087DE603E3EA}'
     value: ExtensionDebugLevel
     data: 2

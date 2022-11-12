@@ -1,11 +1,11 @@
 ---
 
 - name: Check if mbrfilter archive is present
-  win_stat:
+  ansible.windows.win_stat:
     path: "{{ harden_win_temp_dir }}\\{{ harden_win_mbrfilter_url | basename }}"
   register: mbrfilterdl
 - name: Download mbrfilter
-  win_get_url:
+  ansible.windows.win_get_url:
     url: "{{ harden_win_mbrfilter_url }}"
     dest: "{{ harden_win_temp_dir }}\\{{ harden_win_mbrfilter_url | basename }}"
     # FIXME! no checksum option, https://github.com/ansible/ansible-modules-core/issues/4901
@@ -14,15 +14,16 @@
   until: dl_result is success
 
 - name: Uncompress mbrfilter
-  win_unzip:
+  community.windows.win_unzip:
     src: "{{ harden_win_temp_dir }}\\{{ harden_win_mbrfilter_url | basename }}"
     dest: "{{ harden_win_temp_dir }}\\mbrfilter"
     creates: "{{ harden_win_temp_dir }}\\mbrfilter\\64\\mbrfilter.sys"
 
 - name: Install mbrfilter driver
-  win_command: >
+  ansible.windows.win_command: >
     RUNDLL32.EXE SETUPAPI.DLL,InstallHinfSection DefaultInstall 132
         {{ harden_win_temp_dir }}\\mbrfilter\\64\\mbrfilter.sys
 
 - name: WARNING
-  ansible.builtin.debug: msg="WARNING! Talos Mbrfilter - You will need to reboot for driver to be effective."
+  ansible.builtin.debug:
+    msg: "WARNING! Talos Mbrfilter - You will need to reboot for driver to be effective."

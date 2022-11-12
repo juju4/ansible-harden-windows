@@ -3,14 +3,14 @@
 - name: >
     Disabling Microsoft account logon sign-in option, eg. logging in without having to use local credentials
     and using microsoft online accounts
-  win_regedit:
+  ansible.windows.win_regedit:
     key: HKLM:\Software\Microsoft\PolicyManager\default\Settings\AllowYourAccount
     value: value
     data: 0
     datatype: dword
 
 - name: Disable Windows Store - Ensure Turn off Automatic Download and Install ofupdates is set to Disabled
-  win_regedit:
+  ansible.windows.win_regedit:
     key: HKLM:\Software\Policies\Microsoft\WindowsStore
     value: "{{ item.v }}"
     data: "{{ item.d }}"
@@ -20,7 +20,7 @@
     - { v: 'DisableOSUpgrade', d: 1 }
 
 - name: Disable indexing encrypted files
-  win_regedit:
+  ansible.windows.win_regedit:
     key: HKLM:\Software\Policies\Microsoft\Windows\Windows Search
     value: AllowIndexingEncryptedStoresOrItems
     data: 0

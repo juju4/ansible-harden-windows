@@ -10,7 +10,7 @@
 # - command: certutil -dcinfo deleteBad
 # - command: certutil -dcinfo superfish
 # - name: remove certificates from Windows Certificate store
-#   win_shell: "dir cert:\ -rec | where Subject -match '{{ item }}' | Remove-Item"
+#   ansible.windows.win_shell: "dir cert:\ -rec | where Subject -match '{{ item }}' | Remove-Item"
 #   with_items: "{{ harden_win_certificates_removed }}"
 
 ## certmgr.msc
@@ -19,12 +19,13 @@
 # - win_shell: "dir cert:\\ -rec | where Subject -match 'Superfish' | Remove-Item"
 
 - name: Set script to remove Root CA
-  win_template:
+  ansible.windows.win_template:
     src: Remove-TrustedRootCA.ps1.j2
     dest: "{{ harden_win_temp_dir }}\\Remove-TrustedRootCA.ps1"
 
 - name: Remove some TrustedRootCA
-  win_shell: "\"{{ harden_win_temp_dir }}\\Remove-TrustedRootCA.ps1\""
+  ansible.windows.win_shell: "\"{{ harden_win_temp_dir }}\\Remove-TrustedRootCA.ps1\""
   register: removetrusted
 - name: Debug | removetrusted
-  ansible.builtin.debug: var=removetrusted
+  ansible.builtin.debug:
+    var: removetrusted

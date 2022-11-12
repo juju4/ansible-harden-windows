@@ -1,7 +1,7 @@
 ---
 
 - name: Disable Windows Administrative shares - registry
-  win_regedit:
+  ansible.windows.win_regedit:
     key: "{{ item.k }}"
     value: "{{ item.v }}"
     data: "{{ item.d }}"
@@ -14,7 +14,7 @@
 # OK https://ci.appveyor.com/project/juju4/ansible-harden-windows/builds/25835253
 # NOK https://ci.appveyor.com/project/juju4/ansible-harden-windows/builds/26122112/job/lbkffjihylphl9cq#L5430
 - name: Disable Windows Administrative shares - current session
-  win_share:
+  ansible.windows.win_share:
     name: "{{ item }}"
     state: absent
   # win_command: "net share {{ item }} /delete"

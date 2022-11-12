@@ -10,7 +10,7 @@
 # http://iase.disa.mil/stigs/Pages/stig-viewing-guidance.aspx
 
 - name: Create ansible directories
-  win_file:
+  ansible.windows.win_file:
     path: "{{ item }}"
     state: directory
   # raw: "mkdir {{ item }}"
@@ -20,7 +20,7 @@
   failed_when: false
 
 - name: Restrict permissions for ansible directories
-  win_acl:
+  ansible.windows.win_acl:
     path: "{{ item.p }}"
     user: "{{ item.u }}"
     rights: "{{ item.r }}"
@@ -56,7 +56,7 @@
 
 ## FIXME! failing on second pass, https://groups.google.com/forum/#!topic/ansible-project/_ydkYXZibrM
 - name: Ensure user _test is present
-  win_user:
+  ansible.windows.win_user:
     name: _test
     password: "{{ harden_win_test_password }}"
     state: present
@@ -67,7 +67,7 @@
 
 ## [WARNING]: Module invocation had junk after the JSON data:
 - name: Install all security/critical updates
-  win_updates:
+  ansible.windows.win_updates:
     category: SecurityUpdates
     logPath: "{{ harden_win_temp_dir }}\\ansible-updates.log"
   when: harden_win_securityupdates is defined and harden_win_securityupdates
@@ -84,7 +84,7 @@
 ##  'C:\\ProgramData\\chocolatey'", "WARNING: It's very likely you will need to close and reopen your shell ", "
 ##  before you can use choco."], "failed": true, "msg": "Chocolatey bootstrap installation failed."}
 - name: Chocolatey installation
-  win_chocolatey:
+  chocolatey.chocolatey.win_chocolatey:
     name: chocolatey
     state: present
 
@@ -92,7 +92,7 @@
 #   raw: Chocolatey feature enable -n allowGlobalConfirmation
 
 - name: Install packages
-  win_chocolatey:
+  chocolatey.chocolatey.win_chocolatey:
     name: "{{ item }}"
   with_items: "{{ harden_win_chocolateypkgs }}"
   ## for package asking for reboot
@@ -102,7 +102,7 @@
 
 ## FIXME!
 # - name: Ensure no users-writeable dir in general paths
-#   win_acl:
+#   ansible.windows.win_acl:
 #     path: "{{ item }}"
 #     user: Users
 #     rights: AppendData,WriteData,Write,FullControl
@@ -111,7 +111,7 @@
 #     inherit: ContainerInherit,ObjectInherit
 ##     propagation: InheritOnly
 #     propagation: None
-#   win_command: "icacls \"{{ item }}\" /remove:g Users:(W)(AD)(WD) /T /inheritance:d"
+#   ansible.windows.win_command: "icacls \"{{ item }}\" /remove:g Users:(W)(AD)(WD) /T /inheritance:d"
 #   with_items:
 #     - 'c:\opscode\inspec'
 #     - 'c:\ProgramData'
@@ -129,27 +129,36 @@
   when: not ("none" in ipv4if.stdout)
 
 - name: Remove files
-  win_file:
+  ansible.windows.win_file:
     dest: "{{ item }}"
     state: absent
   with_items: "{{ harden_win_remove_filelist }}"
 
 ## win_regedit: New in ansible version 2.0
-- import_tasks: windows-registry.yml
+- name: Import windows-registry
+  ansible.builtin.import_tasks: windows-registry.yml
   when: harden_win_registry is defined and harden_win_registry
   tags:
     - registry
 
-- import_tasks: windows-ie.yml
-- import_tasks: windows-smb.yml
-- import_tasks: windows-wmi.yml
-- import_tasks: windows-online.yml
-- import_tasks: windows-ipv6.yml
-- import_tasks: windows-rdp.yml
+- name: Import windows-ie
+  ansible.builtin.import_tasks: windows-ie.yml
+- name: Import windows-smb
+  ansible.builtin.import_tasks: windows-smb.yml
+- name: Import windows-wmi
+  ansible.builtin.import_tasks: windows-wmi.yml
+- name: Import windows-online
+  ansible.builtin.import_tasks: windows-online.yml
+- name: Import windows-ipv6
+  ansible.builtin.import_tasks: windows-ipv6.yml
+- name: Import windows-rdp
+  ansible.builtin.import_tasks: windows-rdp.yml
 
-- import_tasks: adobereader.yml
+- name: Import adobreader
+  ansible.builtin.import_tasks: adobereader.yml
   when: harden_win_adobereader is defined and harden_win_adobereader
-- import_tasks: windows-flash.yml
+- name: Import windows-flash
+  ansible.builtin.import_tasks: windows-flash.yml
   when: harden_win_flash is defined and harden_win_flash
 
 ## PECaptureSvc, https://isc.sans.edu/forums/diary/Hunting+for+Executable+Code+in+Windows+Environments/20745/
@@ -160,95 +169,127 @@
 ## https://blog.brankovucinec.com/2014/10/24/use-software-restriction-policies-to-block-viruses-and-malware/
 ##      = SRP lock on %APPDATA%
 
-- import_tasks: windows-adminshares.yml
+- name: Import windows-adminshares
+  ansible.builtin.import_tasks: windows-adminshares.yml
   when: harden_win_disable_adminshares|bool
 
-- import_tasks: windows-local-gpo.yml
+- name: Import windows-local-gpo
+  ansible.builtin.import_tasks: windows-local-gpo.yml
   when: harden_win_gpo_local is defined and harden_win_gpo_local|bool
 
-- import_tasks: windows-nxlog.yml
+- name: Import windows-nxlog
+  ansible.builtin.import_tasks: windows-nxlog.yml
   when: harden_win_remotelogging is defined and harden_win_remotelogging|bool
 
-- import_tasks: windows-vss.yml
+- name: Import windows-vss
+  ansible.builtin.import_tasks: windows-vss.yml
   when: harden_win_vss is defined and harden_win_vss
 
-- import_tasks: windows-wmi-monitor.yml
+- name: Import windows-wmi-monitor
+  ansible.builtin.import_tasks: windows-wmi-monitor.yml
   when: harden_win_wmi_monitor is defined and harden_win_wmi_monitor|bool
 
-- import_tasks: windows-netcease.yml
+- name: Import windows-netcease
+  ansible.builtin.import_tasks: windows-netcease.yml
   when: harden_win_netcease is defined and harden_win_netcease|bool
 
-- import_tasks: windows-dnscrypt.yml
+- name: Import windows-dnscrypt
+  ansible.builtin.import_tasks: windows-dnscrypt.yml
   when: harden_win_simplednscrypt|bool
 
-- import_tasks: windows-error-reporting.yml
+- name: Import windows-error-reporting
+  ansible.builtin.import_tasks: windows-error-reporting.yml
   when: harden_win_configure_errorreporting|bool
 
-- import_tasks: mbrfilter.yml
+- name: Import mbrfilter
+  ansible.builtin.import_tasks: mbrfilter.yml
   when: harden_win_mbrfilter|bool
 
-- import_tasks: windows-usb.yml
+- name: Import windows-usb
+  ansible.builtin.import_tasks: windows-usb.yml
   when: harden_win_restrict_usb|bool
 
-- import_tasks: windows10.yml
+- name: Import windows10
+  ansible.builtin.import_tasks: windows10.yml
   when: harden_windows_disable_win10cortana|bool and ansible_distribution_major_version|int >= 10
-- import_tasks: windows-cortana.yml
+- name: Import windows-cortana
+  ansible.builtin.import_tasks: windows-cortana.yml
   when: harden_windows_disable_win10cortana|bool and ansible_distribution_major_version|int >= 10
 
-- import_tasks: windows-dma.yml
+- name: Import windows-dma
+  ansible.builtin.import_tasks: windows-dma.yml
   when: harden_win_restrict_dma|bool
 
-- import_tasks: windows-certificates.yml
+- name: Import windows-certificates
+  ansible.builtin.import_tasks: windows-certificates.yml
   when: harden_win_certificates_review|bool
 
-- import_tasks: windows-disallowrun.yml
+- name: Import windows-disallowrun
+  ansible.builtin.import_tasks: windows-disallowrun.yml
   when: harden_win_disallowrun|bool
 
-- import_tasks: windows-feature.yml
+- name: Import windows-feature
+  ansible.builtin.import_tasks: windows-feature.yml
 
-- import_tasks: windows-paging.yml
+- name: Import windows-paging
+  ansible.builtin.import_tasks: windows-paging.yml
   when: harden_win_paging|bool
 
-- import_tasks: windows-sticky-keys.yml
+- name: Import windows-sticky-keys
+  ansible.builtin.import_tasks: windows-sticky-keys.yml
   when: harden_win_stickykeys_disable|bool
 
-- import_tasks: windows-laps.yml
+- name: Import windows-laps
+  ansible.builtin.import_tasks: windows-laps.yml
   when: harden_win_laps_enable|bool
 
-- import_tasks: windows-wef.yml
+- name: Import windows-wef
+  ansible.builtin.import_tasks: windows-wef.yml
   when: harden_win_wef_enable|bool
 
-- import_tasks: passwd-filters.yml
+- name: Import passwd-filters
+  ansible.builtin.import_tasks: passwd-filters.yml
   when: harden_win_passwd_filters|bool
 
-- import_tasks: windows-acl.yml
+- name: Import windows-acl
+  ansible.builtin.import_tasks: windows-acl.yml
   when: not (ansible_env is defined and ansible_env.APPVEYOR is defined and ansible_env.APPVEYOR) and harden_win_acl|bool
 
-- import_tasks: windows-samri.yml
+- name: Import windows-smari
+  ansible.builtin.import_tasks: windows-samri.yml
   when: harden_win_samri|bool
 
-- import_tasks: windows-deviceguard.yml
+- name: Import windows-deviceguard
+  ansible.builtin.import_tasks: windows-deviceguard.yml
   when: harden_win_deviceguard|bool
 
-- import_tasks: windows-taskmanager.yml
+- name: Import windows-taskmanager
+  ansible.builtin.import_tasks: windows-taskmanager.yml
   when: harden_win_disable_taskmanager|bool
 
-- import_tasks: windows-msdt.yml
+- name: Import windows-msdt
+  ansible.builtin.import_tasks: windows-msdt.yml
   when: harden_win_disable_msdt|bool
 
-- import_tasks: windows-defender.yml
+- name: Import windows-defender
+  ansible.builtin.import_tasks: windows-defender.yml
   when: harden_win_defender|bool
 
-- import_tasks: forcing-afterhours-user-logoffs.yml
+- name: Import forcing-afterhours-user-logoffs
+  ansible.builtin.import_tasks: forcing-afterhours-user-logoffs.yml
   when: harden_win_forcing_afterhours_logoff|bool
 
-- import_tasks: extras.yml
+- name: Import extras
+  ansible.builtin.import_tasks: extras.yml
 
-- import_tasks: palantir-AutorunsToWinEventLog.yml
+- name: Import palantir-AutorunsToZinEventLog
+  ansible.builtin.import_tasks: palantir-AutorunsToWinEventLog.yml
   when: harden_win_palantir_AutorunsToWinEventLog|bool
 
-- import_tasks: dc-krgtbt-reset.yml
+- name: Import dc-krgtbt-reset
+  ansible.builtin.import_tasks: dc-krgtbt-reset.yml
   when: harden_win_Is_DC|bool
 
 # last to allow creation of scheduled tasks before
-- import_tasks: windows-taskscheduler.yml
+- name: Import windows-taskscheduler
+  ansible.builtin.import_tasks: windows-taskscheduler.yml

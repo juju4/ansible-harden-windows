@@ -2,35 +2,36 @@
 # https://www.bleepingcomputer.com/news/security/why-everyone-should-disable-vssadmin-exe-now/
 
 - name: Win10-
+  when: ansible_distribution_major_version | int < 10
   block:
     - name: List state of shadow volumes
-      win_command: "vssadmin.exe list volumes"
+      ansible.windows.win_command: "vssadmin.exe list volumes"
       changed_when: false
       register: vssvol
     - name: Debug | vssvol output
-      ansible.builtin.debug: var=vssvol
+      ansible.builtin.debug:
+        var: vssvol
     - name: List state of shadowstorage
-      win_command: "vssadmin.exe list shadowstorage"
+      ansible.windows.win_command: "vssadmin.exe list shadowstorage"
       changed_when: false
       register: vssstor
       failed_when: false
     - name: Debug | vssstor output
-      ansible.builtin.debug: var=vssstor
+      ansible.builtin.debug:
+        var: vssstor
 
     ## https://technet.microsoft.com/en-us/library/cc788051(v=ws.11).aspx
     ##  but return 'invalid command' in some cases??? only on server?
     ## 'add' option not available on win10
     - name: Enable shadow copy for c
-      win_command: "vssadmin.exe add shadowstorage /for=c: /on=c: /maxsize=15%"
+      ansible.windows.win_command: "vssadmin.exe add shadowstorage /for=c: /on=c: /maxsize=15%"
       when:
         - '"Shadow Copy Storage volume: (C:)" not in vssstor.stdout'
         - ansible_distribution_major_version | int < 10
       failed_when: false
 
-  when: ansible_distribution_major_version | int < 10
-
 - name: Ensure VSS service enabled
-  win_service:
+  ansible.windows.win_service:
     name: "VSS"
     start_mode: auto
     state: started
@@ -38,7 +39,7 @@
 ## FIXME! UnicodeDecodeError: 'ascii' codec can't decode byte 0xc3 in position 139: ordinal not in range(128)
 ## FIXME! win10: not idempotent
 - name: Schedule regular shadow copy
-  win_scheduled_task:
+  community.windows.win_scheduled_task:
     name: "VSS_Snapshot"
     description: "Take daily shadow copy for c"
     actions:
@@ -54,7 +55,7 @@
 #  when: ansible_distribution_major_version | int < 10
 
 - name: Remove access permission vssadmin.exe
-  win_acl:
+  ansible.windows.win_acl:
     path: C:\Windows\system32\vssadmin.exe
     user: Everyone
     type: deny

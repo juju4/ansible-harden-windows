@@ -1,5 +1,5 @@
 ---
 
 - name: Win10 | Remove Cortana package
-  win_shell: "Get-AppxPackage -Name Microsoft.Windows.Cortana | Remove-AppxPackage"
+  ansible.windows.win_shell: "Get-AppxPackage -Name Microsoft.Windows.Cortana | Remove-AppxPackage"
   failed_when: false

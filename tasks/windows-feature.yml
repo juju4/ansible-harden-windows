@@ -7,12 +7,12 @@
 ## https://technet.microsoft.com/en-us/library/dd744582(v=ws.10).aspx (DISM)
 
 - name: Get status of feature
-  win_command: Dism /online /Get-FeatureInfo /FeatureName:{{ item }}
+  ansible.windows.win_command: Dism /online /Get-FeatureInfo /FeatureName:{{ item }}
   with_items: "{{ harden_win_disable_winfeature }}"
   register: dism_state
 
 - name: Disable Windows Optional Feature
-  win_command: "Dism /online /Disable-Feature /FeatureName:{{ item }} /NoRestart"
+  ansible.windows.win_command: "Dism /online /Disable-Feature /FeatureName:{{ item }} /NoRestart"
   with_items: "{{ harden_win_disable_winfeature }}"
   register: dism
   when: "windows_feature_dism_status not in dism_state.results[idx].stdout"

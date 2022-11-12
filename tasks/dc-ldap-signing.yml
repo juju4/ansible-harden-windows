@@ -1,7 +1,7 @@
 ---
 
 - name: DC | Enable LDAP diagnostics
-  win_regedit:
+  ansible.windows.win_regedit:
     key: HKLM:\SYSTEM\CurrentControlSet\Services\NTDS\Diagnostics
     value: "16 LDAP Interface Events"
     data: 2
@@ -9,7 +9,7 @@
   when: harden_win_dc_ldap_diag
 
 - name: DC | Enforce LDAP signing
-  win_regedit:
+  ansible.windows.win_regedit:
     key: HKLM:\SYSTEM\CurrentControlSet\Services\NTDS\Parameters
     value: ldapserverintegrity
     data: 2

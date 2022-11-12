@@ -3,7 +3,7 @@
 ## FIXME! not idempotent
 
 - name: Win | FeatureLockDown Acrobat reader
-  win_regedit:
+  ansible.windows.win_regedit:
     key: HKLM:\SOFTWARE\Policies\Adobe\Acrobat Reader\{{ harden_win_adobereader_v }}\FeatureLockDown
     value: "{{ item.value }}"
     data: "{{ item.data }}"
@@ -30,7 +30,7 @@
     - { value: bEnable3D, data: 0 }
 
 - name: FeatureLockDown Acrobat reader - 64bits
-  win_regedit:
+  ansible.windows.win_regedit:
     key: HKLM:\SOFTWARE\Wow6432Node\Policies\Adobe\Acrobat Reader\{{ harden_win_adobereader_v }}\FeatureLockDown
     value: "{{ item.value }}"
     data: "{{ item.data }}"
@@ -57,7 +57,7 @@
     - { value: bEnable3D, data: 0 }
 
 - name: Acrobat reader - cDefaultLaunchAttachmentPerms
-  win_regedit:
+  ansible.windows.win_regedit:
     key: HKLM:\SOFTWARE\Policies\Adobe\Acrobat Reader\{{ harden_win_adobereader_v }}\FeatureLockDown\cDefaultLaunchAttachmentPerms
     value: "{{ item.value }}"
     data: "{{ item.data }}"
@@ -67,7 +67,7 @@
     - { value: "tBuiltInPermList", data: "version:1|.docx:2|.xls:2|.exe:3|.hs:3", datatype: string }
 
 - name: Acrobat reader - TrustManager
-  win_regedit:
+  ansible.windows.win_regedit:
     key: HKCU:\Software\Adobe\Acrobat Reader\{{ harden_win_adobereader_v }}\TrustManager
     value: "{{ item.value }}"
     data: "{{ item.data }}"
@@ -78,7 +78,7 @@
     - { value: bEnableAlwaysOutlookAttachmentProtectedView, data: 0 }
 
 - name: Acrobat reader - Workflows
-  win_regedit:
+  ansible.windows.win_regedit:
     key: HKCU:\Software\Adobe\Acrobat Reader\{{ harden_win_adobereader_v }}\Workflows
     value: "{{ item.value }}"
     data: "{{ item.data }}"
@@ -91,7 +91,7 @@
     - { value: bEnableDocCtrInit, data: 0 }
 
 - name: Acrobat reader - cCloud
-  win_regedit:
+  ansible.windows.win_regedit:
     key: HKLM:\SOFTWARE\Policies\Adobe\Acrobat Reader\{{ harden_win_adobereader_v }}\cCloud
     value: "{{ item.value }}"
     data: "{{ item.data }}"
@@ -100,7 +100,7 @@
     - { value: bDisableADCFileStore, data: 1 }
 
 - name: Acrobat reader - cServices
-  win_regedit:
+  ansible.windows.win_regedit:
     key: HKLM:\SOFTWARE\Policies\Adobe\Acrobat Reader\{{ harden_win_adobereader_v }}\cServices
     value: "{{ item.value }}"
     data: "{{ item.data }}"
@@ -109,7 +109,7 @@
     - { value: bEnableSignPane, data: 1 }
 
 - name: Acrobat reader - cWebmailProfiles
-  win_regedit:
+  ansible.windows.win_regedit:
     key: HKLM:\SOFTWARE\Policies\Adobe\Acrobat Reader\{{ harden_win_adobereader_v }}\cWebmailProfiles
     value: "{{ item.value }}"
     data: "{{ item.data }}"
@@ -120,7 +120,7 @@
 ## Logging ?
 ## https://www.adobe.com/devnet-docs/acrobatetk/tools/AppSec/protectedmode.html
 - name: Acrobat reader - Privileged
-  win_regedit:
+  ansible.windows.win_regedit:
     key: HKLM:\SOFTWARE\Policies\Adobe\Acrobat Reader\{{ harden_win_adobereader_v }}\Privileged
     value: "{{ item.value }}"
     data: "{{ item.data }}"

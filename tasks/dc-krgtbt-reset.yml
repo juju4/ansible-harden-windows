@@ -5,7 +5,7 @@
 # https://github.com/microsoft/New-KrbtgtKeys.ps1
 # No checksums options
 - name: DC krgtbt | download reset script
-  win_get_url:
+  ansible.windows.win_get_url:
     url: "https://raw.githubusercontent.com/microsoft/New-KrbtgtKeys.ps1/master/New-KrbtgtKeys.ps1"
     dest: "{{ harden_win_temp_dir }}\\New-KrbtgtKeys.ps1"
   register: dl_result
@@ -14,7 +14,7 @@
 # upstream script is interactive
 
 - name: DC krgtbt | duplicate reset script to be non-interactive
-  win_copy:
+  ansible.windows.win_copy:
     src: "{{ harden_win_temp_dir }}\\New-KrbtgtKeys.ps1"
     dest: "{{ item }}"
     remote_src: yes
@@ -32,7 +32,7 @@
     - 2
 
 - name: DC krgtbt | Scheduled task Information
-  win_scheduled_task:
+  community.windows.win_scheduled_task:
     name: Monthly-Security-Reset-krgtbt-1
     description: Run krgtbt reset - informational mode
     actions:
@@ -49,7 +49,7 @@
     username: SYSTEM
 
 - name: DC krgtbt | Scheduled task Simulation
-  win_scheduled_task:
+  community.windows.win_scheduled_task:
     name: Monthly-Security-Reset-krgtbt-2
     description: Run krgtbt reset - simulation mode
     actions:

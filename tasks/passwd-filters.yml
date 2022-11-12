@@ -7,11 +7,11 @@
 ## https://github.com/ryanries/PassFiltEx
 
 - name: Check if OpenPasswordFilter archive is present
-  win_stat:
+  ansible.windows.win_stat:
     path: "{{ harden_win_temp_dir }}\\{{ opf_url | basename }}"
   register: opfdl
 - name: Download OpenPasswordFilter
-  win_get_url:
+  ansible.windows.win_get_url:
     url: "{{ opf_url }}"
     dest: "{{ harden_win_temp_dir }}\\{{ opf_url | basename }}"
     # FIXME! no checksum option, https://github.com/ansible/ansible-modules-core/issues/4901
@@ -20,10 +20,11 @@
   until: dl_result is success
 
 - name: Check if OpenPasswordFilter password list is present
-  win_stat: path="c:\\windows\\system32\\opfmatch.txt"
+  ansible.windows.win_stat:
+    path: "c:\\windows\\system32\\opfmatch.txt"
   register: opfpass
 - name: Download password list
-  win_get_url:
+  ansible.windows.win_get_url:
     url: "{{ opf_passwd_list_url }}"
     dest: "c:\\windows\\system32\\opfmatch.txt"
   when: not opfpass.stat.exists
@@ -31,10 +32,11 @@
   until: dl_result is success
 
 - name: Check if OpenPasswordFilter password list is present for partial match
-  win_stat: path="c:\\windows\\system32\\opfconf.txt"
+  ansible.windows.win_stat:
+    path: "c:\\windows\\system32\\opfconf.txt"
   register: opfpass2
 - name: Download password list for partial match
-  win_get_url:
+  ansible.windows.win_get_url:
     url: "{{ opf_passwd_list_partial_url }}"
     dest: "c:\\windows\\system32\\opfconf.txt"
   when: not opfpass2.stat.exists
@@ -42,7 +44,7 @@
   until: dl_result is success
 
 - name: Uncompress OPF
-  win_unzip:
+  community.windows.win_unzip:
     src: "{{ harden_win_temp_dir }}\\{{ opf_url | basename }}"
     dest: "{{ harden_win_temp_dir }}\\opf"
     creates: "{{ harden_win_temp_dir }}\\opf\\OpenPasswordFilter.dll"
@@ -54,7 +56,7 @@
   #   src: "{{ harden_win_temp_dir }}\\opf\\{{ item }}"
   #   dest: "c:\\windows\\system32\\{{ item }}"
   #   remote_src: true
-  win_shell: "Copy-Item {{ harden_win_temp_dir }}\\opf\\x64\\{{ item }} c:\\windows\\system32\\{{ item }}"
+  ansible.windows.win_shell: "Copy-Item {{ harden_win_temp_dir }}\\opf\\x64\\{{ item }} c:\\windows\\system32\\{{ item }}"
   args:
     creates: "c:\\windows\\system32\\{{ item }}"
   with_items:
@@ -67,7 +69,7 @@
   #   path: "c:\\windows\\system32\\OPFService.exe"
   #   start_mode: auto
   #   state: started
-  win_shell: >
+  ansible.windows.win_shell: >
     New-Service -Name OpenPasswordFilter
       -BinaryPathName c:\\windows\\system32\\OPFService.exe
       -Description "OpenPasswordFilter service to prevent dictionary passwords"
@@ -79,13 +81,13 @@
 ##  NOK ws2016: without or with .Net Framework 3.5
 ##  NOK amarkulo, ws2016: service started and stopped. no error message
 - name: Ensure OPF service is started
-  win_service:
+  ansible.windows.win_service:
     name: OpenPasswordFilter
     state: started
 
 ## ws2016: initial value = 'rassfm\0scecli'
 - name: Retrieving Notification registry value
-  win_shell: >
+  ansible.windows.win_shell: >
     reg query "HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Control\\Lsa" /v "Notification Packages" |
     findstr REG_MULTI_SZ
   changed_when: false
@@ -95,12 +97,14 @@
     notification_packages: >
       "{{ reg1.stdout | regex_replace('^\\s+Notification Packages\\s+REG_MULTI_SZ\\s+(.*)\\r\\n$', '\\1') }}"
 - name: Debug | reg1 output
-  ansible.builtin.debug: var=reg1.stdout_lines
+  ansible.builtin.debug:
+    var: reg1.stdout_lines
 - name: Debug | notification_packages
-  ansible.builtin.debug: var=notification_packages
+  ansible.builtin.debug:
+    var: notification_packages
 
 - name: Enable Password filters
-  win_regedit:
+  ansible.windows.win_regedit:
     key: HKLM:\SYSTEM\CurrentControlSet\Control\Lsa
     value: Notification Packages
     datatype: multistring

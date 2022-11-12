@@ -1,12 +1,12 @@
 ---
 
 ## Win server 2k8+
-# - import_tasks: windows-filescreening.yml
+# - ansible.builtin.import_tasks: windows-filescreening.yml
 
 ## https://docs.microsoft.com/en-us/windows/threat-protection/block-untrusted-fonts-in-enterprise
 ## Application and Service Logs/Microsoft/Windows/Win32k/Operational. Review Event ID 260
 - name: Win10 | Block Untrusted Fonts - Audit mode
-  win_regedit:
+  ansible.windows.win_regedit:
     key: HKLM:\SYSTEM\CurrentControlSet\Control\Session Manager\Kernel
     value: MitigationOptions
     data: 3000000000000
@@ -18,7 +18,7 @@
 # https://winaero.com/blog/disable-ads-windows-10/
 # https://twitter.com/Barnacules/status/1185783977941983233
 - name: Win10 | Disabling Windows 10 automatic installation of 3rd-party foistware
-  win_regedit:
+  ansible.windows.win_regedit:
     key: "{{ item.k }}"
     value: "{{ item.v }}"
     data: "{{ item.d }}"
@@ -75,5 +75,6 @@
         t: dword
     }
 
-- import_tasks: tasks/process-mitigation.yml
+- name: Import process-mitigation
+  ansible.builtin.import_tasks: process-mitigation.yml
   when: harden_win_exploitmitigation

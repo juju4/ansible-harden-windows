@@ -20,9 +20,9 @@
   when: ansible_user == 'vagrant'
 
 - name: Windows | Harden
-  import_tasks: windows.yml
+  ansible.builtin.import_tasks: windows.yml
   when: ansible_os_family == "Windows"
 
 - name: Testing
-  import_tasks: testing.yml
+  ansible.builtin.import_tasks: testing.yml
   when: harden_win_testing|bool

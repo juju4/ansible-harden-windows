@@ -8,7 +8,7 @@
 ## https://isc.sans.edu/forums/diary/Windows+Error+Reporting+DFIR+Benefits+and+Privacy+Concerns/22536/
 
 - name: Configure Windows Error Reporting
-  win_regedit:
+  ansible.windows.win_regedit:
     key: HKLM:\SOFTWARE\Microsoft\Windows\Windows Error Reporting
     value: "{{ item.v }}"
     data: "{{ item.d }}"

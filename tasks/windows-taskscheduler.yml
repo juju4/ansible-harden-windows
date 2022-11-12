@@ -4,7 +4,7 @@
 
 # eventually, allow creation at provisioning and just execution after
 - name: TaskScheduler | Disable DragAndDrop, TaskCreation, TaskDeletion globally
-  win_regedit:
+  ansible.windows.win_regedit:
     key: HKLM:\SOFTWARE\Policies\Microsoft\Windows\Task Scheduler5.0
     value: "{{ item.v }}"
     data: "{{ item.d }}"
@@ -15,7 +15,7 @@
     - { v: 'Task Deletion', d: "{{ harden_win_disable_taskscheduler | ternary(1, 0) }}" }
 
 - name: TaskScheduler | Disable execution globally
-  win_regedit:
+  ansible.windows.win_regedit:
     key: HKLM:\SOFTWARE\Policies\Microsoft\Windows\Task Scheduler5.0
     value: "{{ item.v }}"
     data: "{{ item.d }}"
@@ -25,7 +25,7 @@
 
 # https://cert.ssi.gouv.fr/alerte/CERTFR-2018-ALE-009/
 - name: TaskScheduler | Disable by ACL
-  win_command: >
+  ansible.windows.win_command: >
     cacls c:\Windows\Tasks
     /S:"D:PAI(D;OICI;DCLC;;;WD)(A;;0x1200ab;;;AU)(A;;FA;;;BA)(A;OICIIO;GA;;;BA)(A;;FA;;;SY)(A;OICIIO;GA;;;SY)(A;OICIIO;GA;;;CO)"
   when: harden_win_disable_taskscheduler_by_acl

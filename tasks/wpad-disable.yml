@@ -1,14 +1,14 @@
 ---
 
 - name: Disable wpad - HKCU
-  win_regedit:
+  ansible.windows.win_regedit:
     key: HKCU:\Software\Microsoft\Windows\CurrentVersion\Internet Settings\Wpad
     value: WpadOverride
     datatype: dword
     data: 1
 
 - name: Disable wpad - HKLM
-  win_regedit:
+  ansible.windows.win_regedit:
     key: HKLM:\Software\Microsoft\Windows\CurrentVersion\Internet Settings\Wpad
     value: WpadOverride
     datatype: dword

@@ -1,7 +1,7 @@
 ---
 
 - name: Disable Older SMB
-  win_regedit:
+  ansible.windows.win_regedit:
     key: HKLM:\SYSTEM\CurrentControlSet\Services\LanmanServer\Parameters
     value: "{{ item }}"
     datatype: dword
@@ -9,14 +9,14 @@
   with_items: "{{ harden_win_disable_smb_proto }}"
 
 - name: Enable SmbServerNameHardeningLevel - SPN validation
-  win_regedit:
+  ansible.windows.win_regedit:
     key: HKLM:\System\CurrentControlSet\Services\LanManServer\Parameters
     value: SmbServerNameHardeningLevel
     datatype: dword
     data: 1
 
 - name: Enable requiresecuritysignature - SMB signature
-  win_regedit:
+  ansible.windows.win_regedit:
     key: HKLM:\System\CurrentControlSet\Services\LanManServer\Parameters
     value: requiresecuritysignature
     datatype: dword
@@ -24,7 +24,7 @@
 
 ## FIXME! ansible 2.3+: https://github.com/ansible/ansible/issues/18885
 - name: Prevent Anonymous Shares Access
-  win_regedit:
+  ansible.windows.win_regedit:
     key: HKLM:\System\CurrentControlSet\Services\LanManServer\Parameters
     value: NullSessionShares
     datatype: multistring

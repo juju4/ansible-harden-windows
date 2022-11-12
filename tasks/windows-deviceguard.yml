@@ -1,12 +1,12 @@
 ---
 
 - name: Upload deviceguard policy
-  win_template:
+  ansible.windows.win_template:
     src: "{{ harden_win_deviceguard_policy }}.j2"
     dest: "{{ harden_win_temp_dir }}\\{{ harden_win_deviceguard_policy | win_basename }}"
 
 - name: Load deviceguard policy
-  win_shell: "{{ item }}"
+  ansible.windows.win_shell: "{{ item }}"
   with_items:
     - "New-CIPolicy -FilePath
         \"{{ harden_win_temp_dir }}\\{{ harden_win_deviceguard_policy | win_basename }}\"
@@ -14,4 +14,4 @@
     - "ConvertFrom-CIPolicy
         \"{{ harden_win_temp_dir }}\\{{ harden_win_deviceguard_policy | win_basename }}\"
         \"{{ harden_win_temp_dir }}\\{{ harden_win_deviceguard_policy | win_basename }}.bin\""
-#  win_shell: "Merge-CIPolicy {{ harden_win_temp_dir }}\\{{ harden_win_deviceguard_policy | win_basename }}"
+#  ansible.windows.win_shell: "Merge-CIPolicy {{ harden_win_temp_dir }}\\{{ harden_win_deviceguard_policy | win_basename }}"

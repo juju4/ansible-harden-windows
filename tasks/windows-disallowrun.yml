@@ -2,14 +2,14 @@
 ## https://technet.microsoft.com/en-us/library/cc960900.aspx
 
 - name: Enable DisallowRun
-  win_regedit:
+  ansible.windows.win_regedit:
     key: HKCU:\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer
     value: DisallowRun
     datatype: dword
     data: 1
 
 - name: DisallowRun identified applications
-  win_regedit:
+  ansible.windows.win_regedit:
     key: HKCU:\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer\DisallowRun
     value: "{{ item.v }}"
     datatype: dword

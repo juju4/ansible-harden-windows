@@ -1,16 +1,17 @@
 ---
 
 - name: Copy gpo template to target computer
-  win_template:
+  ansible.windows.win_template:
     src: "{{ harden_win_gpo_inf }}"
     dest: "{{ harden_win_temp_dir }}\\{{ harden_win_gpo_inf | regex_replace('.j2$', '') }}"
 
 ## Windows Server 2003, Windows Server 2003 R2, Windows Server 2003 with SP1, Windows Server 2003 with SP2
 ## https://technet.microsoft.com/en-ca/library/cc776625%28v=ws.10%29.aspx
 - name: Secedit
+  when: harden_win_gpo_action == 'secedit'
   block:
     - name: Load gpo configuration locally - secedit
-      win_command: >
+      ansible.windows.win_command: >
         secedit /configure /cfg {{ harden_win_temp_dir }}\{{ harden_win_gpo_inf | regex_replace('.j2$', '') }}
           /db {{ harden_win_gpo_db }} /log {{ harden_win_gpo_log }} /verbose
       args:
@@ -21,118 +22,118 @@
       #  raw: "csript c:\Program Files (x86)\LocalGPO\LocalGPO.wsf"
 
     - name: Check secedit log file
-      win_shell: "Get-Content -Path {{ harden_win_gpo_log }}"
+      ansible.windows.win_shell: "Get-Content -Path {{ harden_win_gpo_log }}"
       changed_when: false
       failed_when: false
-  when: harden_win_gpo_action == 'secedit'
 
 - name: Powershell
+  when: harden_win_gpo_action == 'ps'
   block:
     # https://blogs.msdn.microsoft.com/powershell/2016/05/20/new-group-policy-cmdlets-for-nano-server/
     - name: Load gpo configuration locally - Restore-SecurityPolicy
-      win_shell: >
+      ansible.windows.win_shell: >
         Restore-SecurityPolicy -Path "{{ harden_win_temp_dir }}\{{ harden_win_gpo_inf | regex_replace('.j2$', '') }}"
-  when: harden_win_gpo_action == 'ps'
 
 - name: DSC
+  when: harden_win_gpo_action == 'dsc'
   block:
     # https://blogs.msdn.microsoft.com/powershell/2017/02/21/managing-security-settings-on-nano-server-with-dsc/
     # https://docs.ansible.com/ansible/latest/modules/win_dsc_module.html   2.4+
     # FIXME! 'Resource SecurityPolicyDSC not found' but in appveyor, loaded by win-powershell without error
     - name: Load gpo configuration locally - DSC
-      win_dsc:
+      ansible.windows.win_dsc:
         resource_name: SecurityPolicyDSC
         Ensure: Present
         Name: SecurityTemplate
         Path: "{{ harden_win_temp_dir }}\\{{ harden_win_gpo_inf | regex_replace('.j2$', '') }}"
         IsSingleInstance: "Yes"
-  when: harden_win_gpo_action == 'dsc'
 
 - name: Security policy
+  when: harden_win_gpo_action == 'security_policy'
   block:
     # https://docs.ansible.com/ansible/devel/modules/win_security_policy_module.html
     - name: Disable Guest account
-      win_security_policy:
+      community.windows.win_security_policy:
         section: System Access
         key: EnableGuestAccount
         value: 0
 
     - name: Disable LSAAnonymousNameLookup
-      win_security_policy:
+      community.windows.win_security_policy:
         section: System Access
         key: LSAAnonymousNameLookup
         value: 0
 
     - name: Set MinimumPasswordAge
-      win_security_policy:
+      community.windows.win_security_policy:
         section: System Access
         key: MinimumPasswordAge
         value: "{{ harden_win_inf_MinimumPasswordAge }}"
 
     - name: Set MaximumPasswordAge
-      win_security_policy:
+      community.windows.win_security_policy:
         section: System Access
         key: MaximumPasswordAge
         value: "{{ harden_win_inf_MaximumPasswordAge }}"
 
     - name: Set MinimumPasswordLength
-      win_security_policy:
+      community.windows.win_security_policy:
         section: System Access
         key: MinimumPasswordLength
         value: "{{ harden_win_inf_MinimumPasswordLength }}"
 
     - name: Set PasswordComplexity
-      win_security_policy:
+      community.windows.win_security_policy:
         section: System Access
         key: PasswordComplexity
         value: "{{ harden_win_inf_PasswordComplexity }}"
 
     - name: Set PasswordHistorySize
-      win_security_policy:
+      community.windows.win_security_policy:
         section: System Access
         key: PasswordHistorySize
         value: "{{ harden_win_inf_PasswordHistorySize }}"
 
     - name: Set LockoutBadCount
-      win_security_policy:
+      community.windows.win_security_policy:
         section: System Access
         key: LockoutBadCount
         value: "{{ harden_win_inf_LockoutBadCount }}"
 
     - name: Set ResetLockoutCount
-      win_security_policy:
+      community.windows.win_security_policy:
         section: System Access
         key: ResetLockoutCount
         value: "{{ harden_win_inf_ResetLockoutCount }}"
 
     - name: Set LockoutDuration
-      win_security_policy:
+      community.windows.win_security_policy:
         section: System Access
         key: LockoutDuration
         value: "{{ harden_win_inf_LockoutDuration }}"
 
     - name: Set Take ownership of files or other objects
-      win_user_right:
+      ansible.windows.win_user_right:
         name: SeTakeOwnershipPrivilege
         users:
           - "{{ windows_local_gpo_administrators }}"
         action: set
 
     - name: Replace the entries of Deny log on locally
-      win_user_right:
+      ansible.windows.win_user_right:
         name: SeDenyInteractiveLogonRight
         users:
           - "{{ windows_user_guest }}"
         action: set
 
     - name: Set account to log on remotely using the interactive logon type.
-      win_user_right:
+      ansible.windows.win_user_right:
         name: SeRemoteInteractiveLogonRight
         users: "{{ harden_win_inf_SeRemoteInteractiveLogonRight_list }}"
         action: set
 
     - name: Set account to log on remotely using the interactive logon type.
-      win_user_right:
+      ansible.windows.win_user_right:
         name: SeTrustedCredManAccessPrivilege
         users: "{{ harden_win_inf_SeTrustedCredManAccessPrivilege_list }}"
         action: set
@@ -142,60 +143,58 @@
         harden_win_inf_SeNetworkLogonRight_list: "{{ harden_win_inf_SeNetworkLogonRight_list }} + [ '_test' ]"
       when: harden_win_testing
     - name: Set account to log on using the network logon type
-      win_user_right:
+      ansible.windows.win_user_right:
         name: SeNetworkLogonRight
         users: "{{ harden_win_inf_SeNetworkLogonRight_list }}"
         action: set
 
     - name: Set Explicitly denies an account the right to log on using the network logon type.
-      win_user_right:
+      ansible.windows.win_user_right:
         name: SeDenyNetworkLogonRight
         users: "{{ harden_win_inf_SeDenyNetworkLogonRight_list }}"
         action: set
 
     - name: Set Act as part of the operating system
-      win_user_right:
+      ansible.windows.win_user_right:
         name: SeTcbPrivilege
         users: "{{ harden_win_inf_SeTcbPrivilege_list }}"
         action: set
 
     - name: Set Add workstations to domain
-      win_user_right:
+      ansible.windows.win_user_right:
         name: SeMachineAccountPrivilege
         users: "{{ harden_win_inf_SeMachineAccountPrivilege_list }}"
         action: set
 
     - name: Set Create symbolic links
-      win_user_right:
+      ansible.windows.win_user_right:
         name: SeCreateSymbolicLinkPrivilege
         users: "{{ harden_win_inf_SeCreateSymbolicLinkPrivilege_list }}"
         action: set
 
     - name: Add account to Log on as a service
-      win_user_right:
+      ansible.windows.win_user_right:
         name: SeBatchLogonRight
         users: "{{ harden_win_inf_SeBatchLogonRight_list }}"
         action: set
 
     - name: Add account to Deny log on as a batch job
-      win_user_right:
+      ansible.windows.win_user_right:
         name: SeDenyBatchLogonRight
         users: "{{ harden_win_inf_SeDenyBatchLogonRight_list }}"
         action: set
 
     - name: Add account to Deny log on locally
-      win_user_right:
+      ansible.windows.win_user_right:
         name: SeDenyInteractiveLogonRight
         users: "{{ harden_win_inf_SeDenyInteractiveLogonRight_list }}"
         action: set
 
     - name: Add account to Deny log on through Remote Desktop Services
-      win_user_right:
+      ansible.windows.win_user_right:
         name: SeDenyRemoteInteractiveLogonRight
         users: "{{ harden_win_inf_SeDenyRemoteInteractiveLogonRight_list }}"
         action: set
-
-  when: harden_win_gpo_action == 'security_policy'
 
 ## Microsoft Security Compliance Manager, https://technet.microsoft.com/library/cc677002.aspx
 ## https://technet.microsoft.com/en-us/library/jj966254%28v=ws.11%29.aspx

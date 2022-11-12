@@ -7,4 +7,4 @@
     version: "{{ harden_win_palantir_AutorunsToWinEventLog_version | default('d07506ed3d9814521407f92af91768bcb2346028') }}"
 
 - name: Install AutorunsToWinEventLog
-  win_shell: "{{ harden_win_temp_dir }}/windows-event-forwarding/AutorunsToWinEventLog/Install.ps1"
+  ansible.windows.win_shell: "{{ harden_win_temp_dir }}/windows-event-forwarding/AutorunsToWinEventLog/Install.ps1"

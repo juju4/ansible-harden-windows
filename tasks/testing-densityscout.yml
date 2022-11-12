@@ -1,7 +1,7 @@
 ---
 
 - name: Testing | download cert.at densityscout
-  win_get_url:
+  ansible.windows.win_get_url:
     url: https://www.cert.at/media/files/downloads/software/densityscout/files/densityscout_build_45_windows.zip
     dest: "{{ harden_win_temp_dir }}\\densityscout.zip"
   failed_when: false
@@ -9,12 +9,12 @@
   until: dl_result is success
 
 - name: Testing | Unarchive densityscout
-  win_unzip:
+  community.windows.win_unzip:
     src: "{{ harden_win_temp_dir }}\\densityscout.zip"
     dest: "{{ harden_win_temp_dir }}\\densityscout"
     creates: "{{ harden_win_temp_dir }}\\densityscout\\densityscout.exe"
 
 - name: Testing | call densityscout
-  win_command: >
+  ansible.windows.win_command: >
     \"{{ harden_win_temp_dir }}\densityscout\densityscout.exe\" -pe -p 0.1 -o {{ harden_win_log_dir }}\densityscout-results.txt c:\Windows
   failed_when: false

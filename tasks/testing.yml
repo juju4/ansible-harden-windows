@@ -1,14 +1,15 @@
 ---
 
 - name: Inspec
+  when: harden_win_testing_inspec | bool
   block:
     - name: Testing | Ensure inspec is present
-      win_chocolatey:
+      chocolatey.chocolatey.win_chocolatey:
         name: inspec
         state: present
 
     - name: Restrict permissions for inspec directories
-      win_acl:
+      ansible.windows.win_acl:
         path: "{{ item.p }}"
         user: "{{ item.u }}"
         rights: "{{ item.r }}"
@@ -35,7 +36,7 @@
         }
 
     - name: Testing | run windows-baseline
-      win_command: >
+      ansible.windows.win_command: >
         c:\opscode\inspec\bin\inspec.bat exec https://github.com/juju4/windows-baseline
           >{{ harden_win_log_dir }}\inspec.log
       failed_when: false
@@ -43,46 +44,52 @@
         CHEF_LICENSE: accept-no-persist
 
     - name: Testing | inspec results
-      win_shell: "Get-Content -Path \"{{ harden_win_log_dir }}\\inspec.log\""
+      ansible.windows.win_shell: "Get-Content -Path \"{{ harden_win_log_dir }}\\inspec.log\""
       changed_when: false
       failed_when: false
-
-  when: harden_win_testing_inspec | bool
 
 # https://blog.malwarebytes.com/security-world/technology/2017/11/when-you-shouldnt-trust-a-trusted-root-certificate/
 # FIXME! FATAL ERROR DURING FILE TRANSFER: ...
 # - name: Export trusted root certificates
-#   win_shell: >
+#   ansible.windows.win_shell: >
 #     Get-ChildItem -Path cert:\currentuser\AuthRoot -Recurse |
 #       select Thumbprint, FriendlyName, Subject | ConvertTo-Html |
 #       Set-Content c:\users\public\desktop\certificates.html
 
-- import_tasks: testing-defender.yml
+- name: Import testing-defender
+  ansible.builtin.import_tasks: testing-defender.yml
   when: harden_win_testing_defender | bool
 
-- import_tasks: testing-uac.yml
+- name: Import testing-uac
+  ansible.builtin.import_tasks: testing-uac.yml
   when: harden_win_testing_uac | bool
 
-- import_tasks: testing-opf.yml
+- name: Import testing-opf
+  ansible.builtin.import_tasks: testing-opf.yml
   when: harden_win_testing_opf | bool
 
-- import_tasks: testing-speculative.yml
+- name: Import testing-speculative
+  ansible.builtin.import_tasks: testing-speculative.yml
   when: harden_win_testing_speculative | bool
 
-- import_tasks: testing-intelme.yml
+- name: Import testing-intelme
+  ansible.builtin.import_tasks: testing-intelme.yml
   when: harden_win_testing_intelme | bool
 
-- import_tasks: testing-iad.yml
+- name: Import testing-iad
+  ansible.builtin.import_tasks: testing-iad.yml
   when: harden_win_testing_iad | bool
 
-- import_tasks: testing-densityscout.yml
+- name: Import testing-densityscout
+  ansible.builtin.import_tasks: testing-densityscout.yml
   when: harden_win_testing_densityscout | bool
 
 # keep last. if defender catches it, may need to restart to complete cleaning/have ansible working again
-- import_tasks: testing-mimikatz.yml
+- name: Import testing-mimikatz
+  ansible.builtin.import_tasks: testing-mimikatz.yml
   when: harden_win_testing_mimikatz | bool
 
 # - name: Remove user _test
-#   win_user:
+#   ansible.windows.win_user:
 #     name: _test
 #     state: absent

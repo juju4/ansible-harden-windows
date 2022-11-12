@@ -6,6 +6,7 @@ exclude_paths:
   - test/inspec/
   - appveyor.yml
 warn_list:
+  - experimental
   - load-failure
   - syntax-check
 skip_list:

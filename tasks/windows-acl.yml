@@ -2,7 +2,7 @@
 
 # https://www.stigviewer.com/stig/windows_10/2016-11-03/finding/V-63373
 - name: Permissions for system files and directories must conform to minimum requirements. - C
-  win_acl:
+  ansible.windows.win_acl:
     path: C:\
     user: "{{ item.u }}"
     rights: "{{ item.r }}"
@@ -57,7 +57,7 @@
 # https://www.stigviewer.com/stig/windows_10/2015-11-30/finding/V-63593
 # FIXME!
 # - name: Permissions for registry hive must conform to minimum requirements. - HKLM\Security
-#   win_acl:
+#   ansible.windows.win_acl:
 #     path: HKLM:\SECURITY
 #     user: "{{ item.u }}"
 #     rights: "{{ item.r }}"
@@ -71,7 +71,7 @@
 #     - { u: '{{ windows_group_system }}', r: 'FullControl', t: 'allow', i: 'ContainerInherit, ObjectInherit', p: 'InheritOnly' }
 
 - name: Permissions for registry hive must conform to minimum requirements. - HKLM\Software
-  win_acl:
+  ansible.windows.win_acl:
     path: HKLM:\SOFTWARE
     user: "{{ item.u }}"
     rights: "{{ item.r }}"
@@ -98,7 +98,7 @@
     }
 
 - name: Permissions for registry hive must conform to minimum requirements. - HKLM\System
-  win_acl:
+  ansible.windows.win_acl:
     path: HKLM:\SYSTEM
     user: "{{ item.u }}"
     rights: "{{ item.r }}"

@@ -1,7 +1,7 @@
 ---
 
 - name: Disable Remote Desktop
-  win_regedit:
+  ansible.windows.win_regedit:
     key: 'HKLM:\System\CurrentControlSet\Control\Terminal Server'
     value: fDenyTSConnections
     data: 1
@@ -10,24 +10,25 @@
 
 # https://www.stigviewer.com/stig/windows_10/2016-11-03/finding/V-63737
 - name: RDP must require secure RPC communications
-  win_regedit:
+  ansible.windows.win_regedit:
     key: 'HKLM:\SOFTWARE\Policies\Microsoft\Windows NT\Terminal Services'
     value: fEncryptRPCTraffic
     data: 1
     datatype: dword
 
 - name: Enforce Secure RDP connection (default ws2016)
-  win_regedit:
+  ansible.windows.win_regedit:
     key: 'HKLM:\System\CurrentControlSet\Control\Terminal Server\WinStations\RDP-Tcp'
     value: UserAuthentication
     data: 1
     datatype: dword
 
 - name: Enforce Secure RDP connection
-  win_regedit:
+  ansible.windows.win_regedit:
     key: 'HKLM:\System\CurrentControlSet\Control\Terminal Server\WinStations\RDP-Tcp'
     value: MinEncryptionLevel
     data: "{{ harden_win_rdp_encryptionlevel }}"
     datatype: dword
 
-- import_tasks: windows-rdp-restricted.yml
+- name: Import windows-rdp-restricted
+  ansible.builtin.import_tasks: windows-rdp-restricted.yml

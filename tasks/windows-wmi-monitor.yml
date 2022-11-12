@@ -2,10 +2,11 @@
 
 ## FIXME! no checksum option
 - name: Check if WMI_Monitor archive is present
-  win_stat: path="{{ harden_win_temp_dir }}\\WMIMonitor.ps1"
+  ansible.windows.win_stat:
+    path: "{{ harden_win_temp_dir }}\\WMIMonitor.ps1"
   register: wmimondl
 - name: Download WMI_Monitor
-  win_get_url:
+  ansible.windows.win_get_url:
     url: https://raw.githubusercontent.com/realparisi/WMI_Monitor/master/WMIMonitor.ps1
     dest: "{{ harden_win_temp_dir }}\\WMIMonitor.ps1"
   when: not wmimondl.stat.exists
@@ -13,9 +14,10 @@
   until: dl_result is success
 
 - name: Run WMIMonitor
-  win_shell: "\"{{ harden_win_temp_dir }}\\WMIMonitor.ps1\""
+  ansible.windows.win_shell: "\"{{ harden_win_temp_dir }}\\WMIMonitor.ps1\""
   register: wmiout
   ignore_errors: true
 
 - name: Debug | wmiout
-  ansible.builtin.debug: var=wmiout
+  ansible.builtin.debug:
+    var: wmiout

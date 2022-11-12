@@ -2,7 +2,7 @@
 
 # 0x11 - Disable IPv6 on nontunnel interfaces (except the loopback) and on IPv6 tunnel interface
 - name: Disable Non-native IPv6 (Tunnels)
-  win_regedit:
+  ansible.windows.win_regedit:
     key: HKLM:\SYSTEM\CurrentControlSet\Services\Tcpip6\Parameters
     name: DisabledComponents
     data: 17

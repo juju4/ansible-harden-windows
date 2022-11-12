@@ -1,7 +1,7 @@
 ---
 
 - name: Set powershell.exe process mitigation
-  win_shell: Set-ProcessMitigation -Name powershell.exe -Enable DEP, EmulateAtlThunks, AuditDynamicCode, EnableExportAddressFilter
+  ansible.windows.win_shell: Set-ProcessMitigation -Name powershell.exe -Enable DEP, EmulateAtlThunks, AuditDynamicCode, EnableExportAddressFilter
 
 - name: Check powershell.exe process mitigation
-  win_shell: Get-ProcessMitigation -Name powershell.exe
+  ansible.windows.win_shell: Get-ProcessMitigation -Name powershell.exe
