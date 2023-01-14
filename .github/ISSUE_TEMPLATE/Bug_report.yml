@@ -1,0 +1,101 @@
+---
+name: Bug report
+description: You're having technical issues
+title: "Bug: "
+labels: ["bug", "triage needed"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to report this issue.
+
+        Few Troubleshooting resources to help
+        * [Tech Support Cheat Sheet, xkcd](https://xkcd.com/627/)
+        * [Software Problem Solving Cheat Sheet, nextron-systems](https://www.nextron-systems.com/2018/06/10/software-problem-solving-cheat-sheet/)
+  - type: textarea
+    id: prerequisites
+    attributes:
+      label: Prerequisites
+      value: |
+        <!-- If the following boxes are not ALL checked, your issue is likely to be closed -->
+
+        - [ ] Ensure no duplicate issue
+        - [ ] Using an up-to-date latest release or tag
+        - [ ] Tested an up-to-date latest HEAD
+        - [ ] Collected play logs on verbose mode aka `ansible-playbook -vvv playbook.yml`. Redact any sensitive information.
+        - [ ] Ensuring using latest stable underlying software (ansible, operating systems...)
+    validations:
+      required: true
+  - type: textarea
+    id: environment
+    attributes:
+      label: Your Environment
+      value: |
+        <!--- Include as many relevant details about the environment you experienced the bug in -->
+        * Version used:
+        * Server type and version:
+        * Operating System and version:
+        * Link to your project:
+    validations:
+      required: true
+  - type: textarea
+    id: expected-behavior
+    attributes:
+      label: Expected behavior
+    validations:
+      required: true
+  - type: textarea
+    id: actual-behavior
+    attributes:
+      label: Actual behavior
+    validations:
+      required: true
+  - type: textarea
+    id: steps-to-reproduce
+    attributes:
+      label: Steps to reproduce
+      description: Please be as thorough as possible.
+    validations:
+      required: true
+  - type: textarea
+    id: solution
+    attributes:
+      label: Possible Solution (Not obligatory)
+      description: Suggest a reason for the bug or how to fix it.
+    validations:
+      required: false
+  - type: textarea
+    id: context
+    attributes:
+      label: More context
+      description: Suggest a reason for the bug or how to fix it.
+      value: |
+        <!--- How has this issue affected you? What are you trying to accomplish? -->
+        <!--- Did you make any changes to the boilerplate after cloning it? -->
+        <!--- Providing context helps us come up with a solution that is most useful in the real world -->
+    validations:
+      required: false
+  - type: textarea
+    id: logs
+    attributes:
+      label: Relevant log output
+      description: Please copy and paste any relevant log output. This will be automatically formatted into code, so no need for backticks.
+      render: shell
+  - type: textarea
+    id: extra-attachments
+    attributes:
+      label: Extra attachments
+      description: Please add any other relevant attachments such as screenshots, log files, etc. here.
+  - type: checkboxes
+    id: terms
+    attributes:
+      label: Code of Conduct
+      description: By submitting this issue, you agree to follow our [Code of Conduct](https://www.contributor-covenant.org/version/2/1/code_of_conduct.html)
+      options:
+        - label: I agree to follow this project's Code of Conduct
+          required: true
+# <!-- Template Reference -->
+# https://docs.github.com/en/communities/using-templates-to-encourage-useful-issues-and-pull-requests/configuring-issue-templates-for-your-repository
+# https://github.com/stevemao/github-issue-templates/blob/master/bugs-only/ISSUE_TEMPLATE.md
+# https://www.talater.com/open-source-templates/#/page/1
+# https://github.com/MISP/MISP/tree/2.4/.github/ISSUE_TEMPLATE

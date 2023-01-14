@@ -1,0 +1,52 @@
+---
+name: Feature request
+description: You're having an idea to improve this project
+title: "Feature request: "
+labels: ["feature request", "triage needed"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to share your idea.
+  - type: textarea
+    id: description
+    attributes:
+      label: Detailed Description
+      description: Provide a detailed description of the change or addition you are proposing.
+    validations:
+      required: true
+  - type: textarea
+    id: context
+    attributes:
+      label: More context
+      description: Suggest a reason for the bug or how to fix it.
+      value: |
+        <!--- Why is this change important to you? How would you use it? -->
+        <!--- How can it benefit other users? -->
+    validations:
+      required: false
+  - type: textarea
+    id: implementation
+    attributes:
+      label: Possible Implementation
+      description: Not obligatory, but suggest an idea for implementing addition or change.
+    validations:
+      required: false
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Describe alternatives you've considered
+      placeholder: A clear and concise description of any alternative solutions or features you've considered.
+  - type: checkboxes
+    id: terms
+    attributes:
+      label: Code of Conduct
+      description: By submitting this issue, you agree to follow our [Code of Conduct](https://www.contributor-covenant.org/version/2/1/code_of_conduct.html)
+      options:
+        - label: I agree to follow this project's Code of Conduct
+          required: true
+# <!-- Template Reference -->
+# https://docs.github.com/en/communities/using-templates-to-encourage-useful-issues-and-pull-requests/configuring-issue-templates-for-your-repository
+# https://github.com/stevemao/github-issue-templates/blob/master/bugs-only/ISSUE_TEMPLATE.md
+# https://www.talater.com/open-source-templates/#/page/98
+# https://github.com/MISP/MISP/tree/2.4/.github/ISSUE_TEMPLATE
