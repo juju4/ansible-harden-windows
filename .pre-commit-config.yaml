@@ -1,7 +1,7 @@
 ---
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v4.3.0
+    rev: v4.4.0
     hooks:
       - id: check-yaml
       - id: end-of-file-fixer
@@ -15,7 +15,7 @@ repos:
       - id: double-quote-string-fixer
       - id: requirements-txt-fixer
   - repo: https://github.com/codespell-project/codespell
-    rev: v2.2.1
+    rev: v2.2.2
     hooks:
       - id: codespell
         args: [-I, .codespellignore]
@@ -26,11 +26,11 @@ repos:
             vars/de-DE.yml
           )$
   - repo: https://github.com/ansible-community/ansible-lint.git
-    rev: v6.8.6
+    rev: v6.10.2
     hooks:
       - id: ansible-lint
         files: \.(yaml|yml)$
-#  - repo: git@github.com:Yelp/detect-secrets
+#  - repo: https://github.com/Yelp/detect-secrets
 #    rev: v1.1.0
 #    hooks:
 #      - id: detect-secrets
