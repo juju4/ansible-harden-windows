@@ -68,7 +68,7 @@ jobs:
           winrm identify -r:https://localhost:5986 -auth:basic -u:$env:winrm_user -p:$env:winrm_password -encoding:utf-8
         shell: pwsh
         continue-on-error: true
-      - uses: Vampire/setup-wsl@v1
+      - uses: Vampire/setup-wsl@v2
         with:
           distribution: Ubuntu-20.04
           additional-packages:
