@@ -124,7 +124,7 @@
   changed_when: false
   failed_when: false
 
-- name: Disable IGMP on ipv4 interface
+- name: Disable IGMP on ipv4 interface  # noqa no-changed-when
   ansible.builtin.raw: "Netsh interface ipv4 set global mldlevel=none"
   when: not ("none" in ipv4if.stdout)
 

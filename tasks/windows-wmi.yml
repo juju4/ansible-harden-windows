@@ -10,7 +10,7 @@
 
 # - debug: var=wmilogging
 
-- name: Enabling WMI Tracing
+- name: Enabling WMI Tracing  # noqa no-changed-when
   # ansible.builtin.raw: "Wevtutil.exe sl Microsoft-Windows-WMI-Activity/Trace /e:true"
   ansible.builtin.raw: "echo y | Wevtutil.exe sl Microsoft-Windows-WMI-Activity/Trace /e:true /ms:512000 /q"
   when: '"enabled: false" in wmilogging.stdout'

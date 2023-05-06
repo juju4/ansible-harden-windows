@@ -1,11 +1,12 @@
 ---
 
-- hosts: all
+- name: Test vagrant playbook
+  hosts: all
   roles:
-    - juju4.harden-windows
+    - juju4.harden_windows
   tasks:
-    - name: promote current server as Domain Controller
-      win_domain_controller:
+    - name: Promote current server as Domain Controller
+      ansible.windows.win_domain_controller:
         dns_domain_name: ansible.vagrant
         domain_admin_user: testguy@ansible.vagrant
         domain_admin_password: password123!
@@ -13,8 +14,8 @@
         state: domain_controller
         log_path: c:\ansible_win_domain_controller.txt
       register: dcpromo
-    - name: Reboot upon promotion
-      raw: shutdown /r
+    - name: Reboot upon promotion  # noqa no-changed-when
+      ansible.builtin.raw: shutdown /r
       when: dcpromo.reboot_required
       async: 0
       poll: 0
