@@ -44,7 +44,7 @@ jobs:
           cd $GITHUB_WORKSPACE/$ANSIBLE_ROLE
           set -x
           curl -o requirements.txt "$settings_repo/requirements.txt"
-          curl -o .ansible-lint "$settings_repo/.ansible-lint"
+          # curl -o .ansible-lint "$settings_repo/.ansible-lint"
           curl -o .yamllint "$settings_repo/.yamllint"
           pip install -r requirements.txt
         continue-on-error: true
