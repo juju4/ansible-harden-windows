@@ -15,7 +15,7 @@ repos:
       - id: double-quote-string-fixer
       - id: requirements-txt-fixer
   - repo: https://github.com/codespell-project/codespell
-    rev: v2.2.2
+    rev: v2.2.5
     hooks:
       - id: codespell
         args: [-I, .codespellignore]
@@ -26,7 +26,7 @@ repos:
             vars/de-DE.yml
           )$
   - repo: https://github.com/ansible-community/ansible-lint.git
-    rev: v6.10.2
+    rev: v6.17.2
     hooks:
       - id: ansible-lint
         files: \.(yaml|yml)$
