@@ -56,7 +56,7 @@
   # https://github.com/ansible/ansible/issues/59352
   become: yes
   become_user: SYSTEM
-  become_method: runas
+  become_method: ansible.builtin.runas
 
 # pip module under windows?
 - name: Testing | install pypykatz

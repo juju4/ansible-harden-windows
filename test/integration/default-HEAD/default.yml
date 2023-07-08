@@ -2,7 +2,7 @@
 
 - name: Test Integration playbook
   hosts: all
-  become_method: runas
+  become_method: ansible.builtin.runas
   vars:
     harden_win_palantir_AutorunsToWinEventLog_version: HEAD
     harden_win_securityupdates: false

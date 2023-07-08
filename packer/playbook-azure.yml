@@ -2,7 +2,7 @@
 
 - name: Azure harden_windows playbook
   hosts: all
-  become_method: runas
+  become_method: ansible.builtin.runas
   vars:
     harden_win_securityupdates: false
     # harden_win_registry: false
