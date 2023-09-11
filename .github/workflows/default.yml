@@ -28,7 +28,7 @@ jobs:
       user_pfx: c:\ansible-harden-windows\user.pfx
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           path: juju4.harden_windows
       - name: Setup Winrm
