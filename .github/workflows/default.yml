@@ -1,5 +1,5 @@
 ---
-name: AnsibleCI
+name: default-win
 
 on:
   push:
@@ -14,7 +14,7 @@ defaults:
 jobs:
   build:
 
-    runs-on: windows-2019
+    runs-on: windows-2022
     continue-on-error: true
     strategy:
       fail-fast: false
@@ -70,26 +70,34 @@ jobs:
         continue-on-error: true
       - uses: Vampire/setup-wsl@v5
         with:
-          distribution: Ubuntu-20.04
+          distribution: Ubuntu-24.04
           additional-packages:
             python3
             python3-pip
+            python3-dev
+            git
+            libffi-dev
+            libssl-dev
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: '3.x'
       - name: Install dependencies
         run: |
+          set -x
           python3 --version
           python3 -c "import ssl; print(ssl.OPENSSL_VERSION)"
           python3 -c 'import ssl; ssl.PROTOCOL_TLSv1_2'
-          python3 -m pip install --upgrade pip
-          pip3 install pywinrm
-          pip3 install ansible-lint flake8 yamllint ansible
+          python3 -m venv venv-ansible
+          . venv-ansible/bin/activate
+          pip install --upgrade pip
+          pip install pywinrm
+          pip install ansible-lint flake8 yamllint ansible
           ansible --version
           cat juju4.harden_windows/inventory
       - name: Environment
         run: |
+          set -x
           uname -a
           pwd
           env
@@ -98,6 +106,7 @@ jobs:
           ls /mnt
       - name: Install play dependencies
         run: |
+          set -x
           mkdir -p /etc/ansible/roles
           cp -R /mnt/d/a/ansible-harden-windows/ansible-harden-windows/juju4.harden_windows /etc/ansible/roles/juju4.harden_windows
           cd juju4.harden_windows
@@ -106,6 +115,8 @@ jobs:
           cat ansible.cfg
       - name: Ansible win_ping
         run: |
+          set -x
+          . venv-ansible/bin/activate
           cd juju4.harden_windows
           ansible -i inventory -m win_ping -vvv localhost
         continue-on-error: true
@@ -116,16 +127,22 @@ jobs:
         shell: pwsh
       - name: Ansible win_ping http
         run: |
+          set -x
+          . venv-ansible/bin/activate
           cd juju4.harden_windows
           ansible -i inventory -m win_ping -vvv localhost
       - name: run test
         run: |
+          set -x
+          . venv-ansible/bin/activate
           cd juju4.harden_windows && ansible-playbook -i inventory -vvv test/integration/default/default.yml
         env:
           PY_COLORS: '1'
           ANSIBLE_FORCE_COLOR: '1'
       - name: idempotency run
         run: |
+          set -x
+          . venv-ansible/bin/activate
           cd juju4.harden_windows && ansible-playbook -i inventory -vvv test/integration/default/default.yml | tee /tmp/idempotency.log | grep -q 'changed=0.*failed=0'  && (echo 'Idempotence test: pass' && exit 0)  || (echo 'Idempotence test: fail' && cat /tmp/idempotency.log && exit 0)
         continue-on-error: true
       - name: After script
