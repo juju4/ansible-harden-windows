@@ -1,0 +1,29 @@
+---
+name: Galaxy-NG Roles Import
+
+on:
+  release:
+    types: [created, edited, published, released]
+  push:
+    tags:
+      - '*'
+
+permissions: {}
+
+jobs:
+  build:
+    name: Galaxy Role Importer
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 'Checkout git repo'
+        uses: actions/checkout@v4
+        with:
+          submodules: true
+          fetch-depth: 0
+
+      - name: 'Release on galaxy'
+        uses: ansible-actions/ansible-galaxy-action@5bef64f19d7facfb25b37b414482c7164d639639
+        with:
+          galaxy_api_key: ${{ secrets.galaxy_api_key }}
+          galaxy_version: 'main'
