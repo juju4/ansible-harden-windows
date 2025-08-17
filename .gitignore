@@ -233,3 +233,4 @@ secring.*
 
 ## S/MIME message
 *.smime
+.ansible
