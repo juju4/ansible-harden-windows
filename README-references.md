@@ -229,7 +229,7 @@ PS> Get-ADComputer -Filter {OperatingSystem -Like “Windows Server*”} -Proper
   + Enable or disable Network Bridge with Group Policy
         Local Computer Policy, Computer Configuration, Administrative Templates, Network, and Network Connections.
         Prohibit installation and configuration of Network Bridge on your DNS domain network
-* https://technet.microsoft.com/en-us/library/cc732103(v=ws.10).aspx
+* [Enable or disable Network Bridge with Group Policy, 2012](https://technet.microsoft.com/en-us/library/cc732103(v=ws.10).aspx)
 * https://docs.microsoft.com/en-us/previous-versions/windows/it-pro/windows-server-2012-R2-and-2012/jj679890(v=ws.11)
   + Enable or disable Internet Connection Sharing with Group Policy
         Local Computer Policy, Computer Configuration, Administrative Templates, Network, and Network Connections.
@@ -244,6 +244,7 @@ PS> Get-ADComputer -Filter {OperatingSystem -Like “Windows Server*”} -Proper
 * https://apple.slashdot.org/story/16/09/07/2048237/modified-usb-ethernet-adapter-can-steal-windows-and-mac-credentials
 * http://arstechnica.com/security/2016/11/meet-poisontap-the-5-tool-that-ransacks-password-protected-computers/
 * https://support.microsoft.com/en-ca/help/2516445/blocking-the-sbp-2-driver-and-thunderbolt-controllers-to-reduce-1394-d
+* https://docs.nxlog.co/integrate/windows-usb-auditing.html, default eventid 10000, 20001, 24576
 
 3rd party tool
 * https://www.elevenpaths.com/labstools/latch-usb-monitor/
@@ -251,6 +252,8 @@ PS> Get-ADComputer -Filter {OperatingSystem -Like “Windows Server*”} -Proper
 * http://www.binisoft.org/download/usbc4setup.exe
 * https://github.com/pmsosa/duckhunt
 * https://beamgun.io/
+* https://github.com/Neo23x0/Raccine
+* https://www.nirsoft.net/utils/usb_log_view.html
 
 # WEF
 
