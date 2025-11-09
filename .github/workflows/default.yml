@@ -14,7 +14,7 @@ defaults:
 jobs:
   build:
 
-    runs-on: windows-2022
+    runs-on: windows-2025
     continue-on-error: true
     strategy:
       fail-fast: false
