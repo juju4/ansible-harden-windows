@@ -6,7 +6,7 @@
     - juju4.harden_windows
   tasks:
     - name: Promote current server as Domain Controller
-      ansible.windows.win_domain_controller:
+      microsoft.ad.domain_controller:
         dns_domain_name: ansible.vagrant
         domain_admin_user: testguy@ansible.vagrant
         domain_admin_password: password123!
