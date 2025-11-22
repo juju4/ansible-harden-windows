@@ -1,11 +1,17 @@
 ---
-name: default-win
+name: default-win-monthly
 
 on:
-  push:
-  pull_request:
-  # schedule:  # run weekly, every Tuesday 04:00
-  #   - cron: '0 4 * * 2'
+  workflow_dispatch:
+  schedule:  # run on the 15th of the month at 01:00 UTC
+    - cron: '0 1 15 * *'
+  merge_group:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.head_ref }}
+  cancel-in-progress: true
+
+permissions: {}
 
 defaults:
   run:
@@ -14,13 +20,16 @@ defaults:
 jobs:
   build:
 
-    runs-on: windows-2022
+    permissions:
+      contents: read
+    runs-on: windows-latest
     continue-on-error: true
     strategy:
       fail-fast: false
-      max-parallel: 4
+      max-parallel: 2
     env:
       ANSIBLE_CALLBACKS_ENABLED: profile_tasks
+      ANSIBLE_ROLE: juju4.harden_windows
       winrm_user: winrm_test_user
       winrm_password: WinRM_test_Pass@w0rd1
       user_cert: c:\ansible-harden-windows\user.pem
@@ -28,9 +37,10 @@ jobs:
       user_pfx: c:\ansible-harden-windows\user.pfx
 
     steps:
-      - uses: actions/checkout@v5
+      - name: Checkout code
+        uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8  # tag=v5.0.0
         with:
-          path: juju4.harden_windows
+          path: ${{ env.ANSIBLE_ROLE }}
       - name: Setup Winrm
         run: |
           $ErrorActionPreference = 'SilentlyContinue'
