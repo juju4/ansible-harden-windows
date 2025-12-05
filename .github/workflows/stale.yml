@@ -11,7 +11,7 @@ jobs:
       pull-requests: write
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/stale@fad0de84e50d1aba7b0236cdaf0ea98a43286849
+      - uses: actions/stale@5611b9defa6b7799a950489b00163db69f7a3ece
         with:
           stale-issue-message: 'This issue is stale because it has been open 30 days with no activity. Remove stale label or comment or this will be closed in 5 days.'
           days-before-stale: 30
