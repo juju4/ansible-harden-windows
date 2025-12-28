@@ -2,7 +2,7 @@
 # https://www.bleepingcomputer.com/news/security/why-everyone-should-disable-vssadmin-exe-now/
 
 - name: Win10-
-  when: ansible_distribution_major_version | int < 10
+  when: ansible_facts['distribution_major_version'] | int < 10
   block:
     - name: List state of shadow volumes
       ansible.windows.win_command: "vssadmin.exe list volumes"
@@ -27,7 +27,7 @@
       ansible.windows.win_command: "vssadmin.exe add shadowstorage /for=c: /on=c: /maxsize=15%"
       when:
         - '"Shadow Copy Storage volume: (C:)" not in vssstor.stdout'
-        - ansible_distribution_major_version | int < 10
+        - ansible_facts['distribution_major_version'] | int < 10
       failed_when: false
 
 - name: Ensure VSS service enabled
@@ -52,7 +52,7 @@
     state: present
     user: SYSTEM
   failed_when: false
-#  when: ansible_distribution_major_version | int < 10
+#  when: ansible_facts['distribution_major_version'] | int < 10
 
 - name: Remove access permission vssadmin.exe
   ansible.windows.win_acl:
@@ -61,4 +61,4 @@
     type: deny
     rights: ExecuteFile,Read,Write,Modify
     state: present
-  when: ansible_distribution_major_version | int >= 10
+  when: ansible_facts['distribution_major_version'] | int >= 10

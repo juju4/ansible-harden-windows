@@ -45,8 +45,8 @@
     state: started
     start_mode: auto
   when: >
-    (ansible_env is defined and ansible_env.APPVEYOR is defined and ansible_env.APPVEYOR) or
-    ansible_user == 'winrm_test_user'
+    (ansible_facts['env'] is defined and ansible_facts['env']['APPVEYOR'] is defined and ansible_facts['env']['APPVEYOR']) or
+    ansible_facts['user'] == 'winrm_test_user'
 
 # https://github.com/skelsec/pypykatz
 - name: Testing | Ensure python is present

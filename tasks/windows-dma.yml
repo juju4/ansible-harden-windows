@@ -5,14 +5,14 @@
 # - block:
 #
 #   when: >
-#     ansible_os_family == "Windows" and
-#     ansible_distribution_version.split('.')[0]|int >= 6 and
-#     ansible_distribution_version.split('.')[0]|int < 10
+#     ansible_facts['os_family'] == "Windows" and
+#     ansible_facts['distribution_major_version']|int >= 6 and
+#     ansible_facts['distribution_major_version']|int < 10
 
 - name: Win10
   when: >
-    ansible_os_family == "Windows" and
-    ansible_distribution_version.split('.')[0] == '10' and
+    ansible_facts['os_family'] == "Windows" and
+    ansible_facts['distribution_major_version'] == '10' and
     harden_win_disable_dma
   block:
     ## "This mitigation only protects PCI-based buses, for example, ExpressCard, Thunderbolt, & some

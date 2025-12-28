@@ -211,10 +211,10 @@
 
 - name: Import windows10
   ansible.builtin.import_tasks: windows10.yml
-  when: harden_windows_disable_win10cortana|bool and ansible_distribution_major_version|int >= 10
+  when: harden_windows_disable_win10cortana|bool and ansible_facts['distribution_major_version']|int >= 10
 - name: Import windows-cortana
   ansible.builtin.import_tasks: windows-cortana.yml
-  when: harden_windows_disable_win10cortana|bool and ansible_distribution_major_version|int >= 10
+  when: harden_windows_disable_win10cortana|bool and ansible_facts['distribution_major_version']|int >= 10
 
 - name: Import windows-dma
   ansible.builtin.import_tasks: windows-dma.yml
@@ -253,7 +253,7 @@
 
 - name: Import windows-acl
   ansible.builtin.import_tasks: windows-acl.yml
-  when: not (ansible_env is defined and ansible_env.APPVEYOR is defined and ansible_env.APPVEYOR) and harden_win_acl|bool
+  when: not (ansible_facts['env'] is defined and ansible_facts['env']['APPVEYOR'] is defined and ansible_facts['env']['APPVEYOR']) and harden_win_acl|bool
 
 - name: Import windows-smari
   ansible.builtin.import_tasks: windows-samri.yml
