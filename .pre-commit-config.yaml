@@ -26,7 +26,7 @@ repos:
             vars/de-DE.yml
           )$
   - repo: https://github.com/ansible-community/ansible-lint.git
-    rev: v26.1.0
+    rev: v26.1.1
     hooks:
       - id: ansible-lint
         files: \.(yaml|yml)$
