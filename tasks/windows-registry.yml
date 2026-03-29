@@ -636,6 +636,16 @@
     datatype: dword
     data: "{{ hardenwindows_amsi_featurebits | default('0x2') }}"
 
+- name: Prevent Automatic Mounting
+  ansible.windows.win_regedit:
+    key: "{{ item }}"
+    value: ProgrammaticAccessOnly
+    datatype: string
+    data: ""
+  loop:
+    - 'HKLM:\SOFTWARE\Classes\Windows.IsoFile\shell\mount'
+    - 'HKLM:\SOFTWARE\Classes\Windows.VhdFile\shell\mount'
+
 - name: Import dc-ldap-signing
   ansible.builtin.import_tasks: dc-ldap-signing.yml
 

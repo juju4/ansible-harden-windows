@@ -254,6 +254,10 @@ harden_win_suspicious_ext:
   # https://doublepulsar.com/follina-a-microsoft-office-code-execution-vulnerability-1a47fce5629e
   # https://www.huntress.com/blog/microsoft-office-remote-code-execution-follina-msdt-bug
   - ms-msdt
+  # normal users don't need double-click those
+  - iso
+  - vhd
+  - vhdx
 harden_win_fileassoc:
   - { ext: .pdf, ftype: pdffile, path: '"C:\Program Files (x86)\Google\Chrome\Application\chrome.exe" "%1"' }
 
@@ -267,6 +271,7 @@ harden_win_disable_winfeature:
   - SMB1Protocol
   - MicrosoftWindowsPowerShellV2
   # - MicrosoftWindowsPowerShellV2Root
+  - QuickAssist
 
 # +RequirePrivacy: requires Win8/2010+/Samba4.1+ (SMBv3).
 #   https://support.microsoft.com/en-ca/help/3000483/ms15-011-vulnerability-in-group-policy-could-allow-remote-code-executi
