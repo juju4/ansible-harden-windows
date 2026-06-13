@@ -198,6 +198,7 @@ PS> Get-ADComputer -Filter {OperatingSystem -Like “Windows Server*”} -Proper
 * file association
   * https://bluesoul.me/2016/05/12/use-gpo-to-change-the-default-behavior-of-potentially-malicious-file-extensions/
   * Partially covered if Windows Script Host is disabled
+  * [My Favourite Security-focused GPO: Stopping Script Execution with File Associations, Nov 2024](https://kostas-ts.medium.com/my-favourite-security-focused-gpo-stopping-script-execution-with-file-associations-59a05b6d181e)
 * msiexec
   * https://blogs.technet.microsoft.com/fdcc/2011/01/24/alwaysinstallelevated-is-equivalent-to-granting-administrative-rights/
   * https://msdn.microsoft.com/en-us/library/windows/desktop/aa367561(v=vs.85).aspx
