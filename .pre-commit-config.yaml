@@ -30,6 +30,8 @@ repos:
     hooks:
       - id: ansible-lint
         files: \.(yaml|yml)$
+        additional_dependencies:
+          - ansible
 #  - repo: https://github.com/Yelp/detect-secrets
 #    rev: v1.1.0
 #    hooks:
