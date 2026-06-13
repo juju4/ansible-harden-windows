@@ -258,6 +258,15 @@ harden_win_suspicious_ext:
   - iso
   - vhd
   - vhdx
+  # https://infosec.exchange/@wdormann/116533862391306228
+  - url
+  # https://kostas-ts.medium.com/my-favourite-security-focused-gpo-stopping-script-execution-with-file-associations-59a05b6d181e
+  - shs
+  - shb
+  - cmd
+  - ps1
+  - cab
+  - appx
 harden_win_fileassoc:
   - { ext: .pdf, ftype: pdffile, path: '"C:\Program Files (x86)\Google\Chrome\Application\chrome.exe" "%1"' }
 
