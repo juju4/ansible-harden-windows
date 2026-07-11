@@ -13,6 +13,7 @@ https://luke.geek.nz/Using-dsc-for-windows-hardening
 * [When using the prtsc key on Windows, taskhost/taskhostw will attempt to get read access to a non-existent file:➡️%windir%\System32\SnapShotBy creating a null byte file and auditing access, we can log any time a user has taken a screenshot via this key. Only works for this key](https://twitter.com/CyberRaiju/status/1281932169095479296)
 * <https://github.com/HotCakeX/Harden-Windows-Security>, <https://github.com/HotCakeX/Harden-Windows-Security/wiki>
 * [Addressing Initial Access, Mar 2026](https://www.huntress.com/blog/addressing-initial-access)
+* [ClickFix Fixes Ranked, May 2025](https://taggart-tech.com/clickfix/)
 
 # Adobe reader
 
